@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Context>
+  <ToolTipType Name="CuiGreatPersonTT">
+    <Grid ID="BG" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" AutoSize="1" InnerPadding="25,25" InnerOffset="10,10" Color="255,255,255,255" Anchor="C,T">
+      <Label ID="Label"   Anchor="C,T" Style="FontFlair16" Color="5,29,51,255" String="Great Writer"/>
+      <Grid  ID="Divider" Anchor="C,T" Size="150,6" Offset="0,16" Style="DividerGrid" Color="5,29,51,255"/>
+      <Stack ID="ProgressStack" Offset="0,30" StackGrowth="Down" Hidden="0" Anchor="C,T" StackPadding="2">
+      </Stack>
+    </Grid>	
+  </ToolTipType>
+
+  <Instance Name="CuiRecruitInstance">
+    <Container ID="Top"            Anchor="C,T" Size="256,44">
+      <Grid    ID="YouBacking"     Anchor="C,C" Size="parent,parent" Style="Divider6Grid" Color="5,29,51,60" Hidden="1"/>
+      <Label   ID="Country"        Anchor="L,C" Offset="40,-9" Style="FontNormal12"	ColorSet="GreatPeopleCS" Color="5,29,51,255" TruncateWidth="200" />
+      <Label   ID="Point"          Anchor="L,C" Offset="40,3"  Style="FontNormal12"	ColorSet="GreatPeopleCS" Color="5,29,51,255" String="???? ( -?? / +?? )"/>
+      <Label   ID="TurnsRemaining" Anchor="R,C" Offset="0,-4"  Style="FontNormal12"	ColorSet="GreatPeopleCS" Color="5,29,51,255" String="?? more turns"/>
+      <Bar     ID="ProgressBar"    Anchor="L,C" Size="parent-42,6" Offset="40,13" FGColor="5,29,51,255" BGColor="5,29,51,128" Percent="0.5"/>
+      <Image   ID="CivIconBacking" Anchor="L,C" Size="30,30" Offset="2,0" Texture="CircleBacking30">
+        <Image ID="CivIcon"        Anchor="C,C" Size="30,30" Texture="CivSymbols30"/>
+        <Image ID="YouIndicator"   Anchor="C,C" Size="40,40" Texture="Controls_CircleRim40" Color="Happiness" Hidden="1"/>
+      </Image>
+    </Container>
+  </Instance>
+</Context>

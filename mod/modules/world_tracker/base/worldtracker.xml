@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Context>
+
+  <Include File="CivicUnlockIcon"/>
+
+  <Grid ID="TrackerHeading" ConsumeMouseOver="1" Offset="-15,24" Size="215,54" Texture="Tracker_Header" SliceCorner="15,27" SliceTextureSize="61,54" Color="255,255,255,200" Hidden="1"/>
+  <Grid ID="TrackerHeadingCollapsed" ConsumeMouseOver="1" Offset="-15,24" Size="215,54" Texture="Tracker_HeaderCollapsed" SliceCorner="11,27" SliceTextureSize="61,54" Color="255,255,255,200" Hidden="1"/>
+  <CheckBox ID="ToggleAllButton" ConsumeMouseOver="1" Offset="158,44" ButtonSize="35,35" ButtonTexture="Controls_CheckboxCircle" CheckTexture="Controls_CheckboxCircle" CheckSize="35,35" CheckTextureOffset="0,35" Style="FontNormal16" NoStateChange="1" ToolTip="LOC_WORLDTRACKER_HIDE_TEXT"/>
+
+  <AlphaAnim ID="WorldTrackerAlpha" AlphaBegin="0" AlphaEnd="1" Speed="3" Cycle="Once" Function="OutQuint" Stopped="0">
+    <SlideAnim ID="WorldTrackerSlide" Start="0,-100" EndOffset="0,100" Function="OutQuint" Speed="3" Cycle="Once" Stopped="0">
+      <Stack ID="PanelStack" StackGrowth="Down" Offset="0,75" ConsumeMouseOver="1">
+        <Box ID="WorldTrackerHeader" Color="40,35,25,230" Size="296,auto" AutoSizePadding="0,2">
+          <Box Color="143,122,82,200" Anchor="L,B" Size="parent-1,2">
+            <Box Color="0,0,0,200" Anchor="L,T" Size="parent-1,1" AnchorSide="I,O"/>
+          </Box>
+          <Image Texture="Controls_GradientSmall" Size="parent,20" Color="0,0,0,255" Anchor="L,T"/>
+          <Label ID="WorldTracker" Anchor="C,C" Offset="0,0" String="{LOC_WORLD_TRACKER_HEADER:upper}" WrapWidth="Parent-40" Align="Center" Style="FontFlair16" Color2="143,122,82,255" Color0="106,93,69,230" SmallCaps="20" SmallCapsLeading="0" SmallCapsType="EveryWord" KerningAdjustment="0" />
+          <GridButton ID="ToggleDropdownButton" Anchor="L,C" Offset="1,-2" Size="25,25" Texture="Controls_ButtonControl_Brown" SliceCorner="10,10" SliceSize="1,1" SliceTextureSize="24,24" StateOffsetIncrement="0,24" ToolTip="LOC_WORLDTRACKER_ENABLE_TEXT">
+            <Image Size="20,17" Texture="Controls_MenuIcon" Anchor="C,C" Color="157,132,87"/>
+          </GridButton>
+          <Grid Texture="Controls_SeparatorAngled" TextureSize="14,6" Anchor="L,T" Size="parent,6" SliceCorner="6,4" AnchorSide="I,O" Offset="0,-2"/>
+        </Box>
+
+        <Box ID="EmptyPanel" Color="40,35,25,230" Size="296,auto" AutoSizePadding="0,5" Hidden="1" ConsumeMouseOver="1">
+          <Image Texture="Controls_GradientSmall" Size="parent,50" Color="0,0,0,200" Anchor="L,T"/>
+          <Grid Anchor="C,C" Size="parent-10,auto" InnerPadding="40,30" Texture="Controls_DecoFrame" SliceCorner="20,19" SliceSize="1,1" SliceTextureSize="40,38" Color="143,122,82,100" MinSize="40,38">
+            <Label Anchor="C,C" String="LOC_WORLD_TRACKER_EMPTY" Style="FontNormal14" Color="143,122,82,255" WrapWidth="parent-50"/>
+          </Grid>
+          <Box Color="143,122,82,200" Anchor="L,B" Size="parent-1,2">
+            <Box Color="0,0,0,200" Anchor="L,T" Size="parent,1" AnchorSide="I,O"/>
+            <Box Color="0,0,0,200" Anchor="L,B" Size="parent,1" AnchorSide="I,O"/>
+          </Box>
+        </Box>
+
+        <Container ID="ChatPanel" Size="300,99" Offset="0,0">
+          <LuaContext FileName="ChatPanel"/>
+        </Container>
+
+        <Container ID="TutorialGoals" Size="300,106" Offset="-2,0">
+          <LuaContext FileName="TutorialGoals" Hidden="1" />
+        </Container>
+      </Stack>
+    </SlideAnim>
+  </AlphaAnim>
+
+  <ScrollPanel ID="DropdownScroll" Offset="15,98" Size="parent,500" Vertical="1">
+    <SlideAnim ID="DropdownAnim" Start="0,-490" EndOffset="0,480" Function="OutQuint" Speed="3" Cycle="Once" Stopped="1">
+      <Grid ID="DropdownGrid" Offset="0,-25" Size="auto,auto" Texture="Tracker_OptionsBacking" SliceCorner="55,61" SliceSize="1,1" SliceTextureSize="121,119" ConsumeAllMouse="1" MinSize="121,119" AutoSizePadding="0,15">
+        <Stack Anchor="L,T" Offset="25,40" StackGrowth="Right" StackPadding="25">
+          <Stack Anchor="L,T" StackGrowth="Bottom" StackPadding="5">
+            <Container ID="ResearchCheckButton" Size="auto,auto" Anchor="R,T">
+              <CheckBox ID="ResearchCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_HIDE_RESEARCH_PANEL" WrapWidth="180" Align="Right"/>
+            </Container>
+            <Container ID="CivicsCheckButton" Size="auto,auto" Anchor="R,T">
+              <CheckBox ID="CivicsCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_HIDE_CIVICS_PANEL" WrapWidth="180" Align="Right"/>
+            </Container>
+
+            <Container ID="GossipCheckButton" Size="auto,auto" Anchor="R,T">
+              <CheckBox ID="GossipLogCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_GOSSIP_LOG" WrapWidth="180" Align="Right"/>
+            </Container>
+
+            <Container ID="CombatCheckButton" Size="auto,auto" Anchor="R,T">
+              <CheckBox ID="CombatLogCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_COMBAT_LOG" WrapWidth="180" Align="Right"/>
+            </Container>
+            <Container ID="ChatCheckButton" Size="auto,auto" Anchor="R,T">
+              <CheckBox ID="ChatCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_HIDE_CHAT_PANEL" WrapWidth="180" Align="Right"/>
+            </Container>
+          </Stack>
+
+          <Stack Anchor="L,T" StackGrowth="Bottom" StackPadding="5">
+            <Container ID="TechReminderButton" Size="auto,auto" Anchor="R,T">
+              <CheckBox ID="TechReminderCheck" Anchor="R,T" ToolTip="LOC_CUI_WT_TECH_REMINDER_TOOLTIP" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_REMINDER" WrapWidth="180" Align="Right"/>
+            </Container>
+
+            <Container ID="CivicsReminderButton" Size="auto,auto" Anchor="R,T">
+              <CheckBox ID="CivicsReminderCheck" Anchor="R,T" ToolTip="LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_REMINDER" WrapWidth="180" Align="Right"/>
+            </Container>
+
+            <Container ID="GossipPersistButton" Size="auto,auto" Anchor="R,T">
+              <CheckBox ID="GossipPersistCheck" Anchor="R,T" ToolTip="LOC_CUI_WT_GLOG_PERSIST_TOOLTIP" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_PERSIST" Align="Right"/>
+            </Container>
+
+            <Container ID="CombatPersistButton" Size="auto,auto" Anchor="R,T">
+              <CheckBox ID="CombatPersistCheck" Anchor="R,T" ToolTip="LOC_CUI_WT_CLOG_PERSIST_TOOLTIP" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_PERSIST" Align="Right"/>
+            </Container>
+          </Stack>
+
+          <Container Size="5,50"/>
+        </Stack>
+      </Grid>
+    </SlideAnim>
+  </ScrollPanel>
+
+
+  <!-- ================================================================== -->
+  <!--	INSTANCES																			  									-->
+  <!--	Used by TechAndCivicSupport.lua																		-->
+  <!-- ================================================================== -->
+
+  <Include File="WorldTrackerCivic"/>
+  <Include File="WorldTrackerResearch"/>
+
+
+  <!-- CUI: Instances for Combat and Gossip Logs -->
+  <Instance Name="GossipLogInstance">
+    <Grid ID="MainPanel" Size="296,82" ConsumeMouseOver="0">
+      <Box ID="LogPanel" Anchor="C,T" Offset="0,0" Size="296,78" Color="40,35,25,230">
+        <GridButton ID="TitleButton" Size="parent,28" Style="MainMenuSquareButton">
+          <Image Anchor="L,C" Size="16,16" Offset="15,1" IconSize="16" Icon="ICON_POLICY"/>
+          <Label Anchor="L,C" Offset="45,2" Style="PanelHeaderText" String="LOC_CUI_WT_GOSSIP_LOG"/>
+          <Label ID="NewLogNumber" Anchor="L,C" Offset="240,1" Style="FontFlair16" Color0="150,150,150,255"/>
+        </GridButton>
+        <ScrollPanel ID="ScrollPanel" Offset="0,30" Vertical="1" Size="260,parent-32">
+          <ScrollBar Anchor="R,C" Offset="20,0" AnchorSide="O,I" Style="ScrollVerticalBar" Color="80,69,48">
+            <Thumb Style="ScrollThumb" Color="80,69,48"/>
+          </ScrollBar>
+          <Stack ID="LogStack" Offset="20,-6" StackGrowth="Top"/>
+        </ScrollPanel>
+        <Grid ID="ButtomDivider" Texture="Controls_SeparatorAngled" TextureSize="14,6" Anchor="L,B" Size="parent,6" SliceCorner="6,4" AnchorSide="I,O" Offset="0,0"/>
+      </Box>
+    </Grid>
+  </Instance>
+
+  <Instance Name="CombatLogInstance">
+    <Grid ID="MainPanel" Size="296,82" ConsumeMouseOver="0">
+      <Box ID="LogPanel" Anchor="C,T" Offset="0,0" Size="296,78" Color="40,35,25,230">
+        <GridButton ID="TitleButton" Size="parent,28" Style="MainMenuSquareButton">
+          <Image Anchor="L,C" Size="16,16" Offset="15,1" IconSize="16" Icon="ICON_STRENGTH"/>
+          <Label Anchor="L,C" Offset="45,2" Style="PanelHeaderText" String="LOC_CUI_WT_COMBAT_LOG"/>
+          <Label ID="NewLogNumber" Anchor="L,C" Offset="240,1" Style="FontFlair16" Color0="150,150,150,255"/>
+        </GridButton>
+        <ScrollPanel ID="ScrollPanel" Offset="0,30" Vertical="1" Size="260,parent-32">
+          <ScrollBar Anchor="R,C" Offset="20,0" AnchorSide="O,I" Style="ScrollVerticalBar" Color="80,69,48">
+            <Thumb Style="ScrollThumb" Color="80,69,48"/>
+          </ScrollBar>
+          <Stack ID="LogStack" Offset="20,-6" StackGrowth="Top"/>
+        </ScrollPanel>
+        <Grid ID="ButtomDivider" Texture="Controls_SeparatorAngled" TextureSize="14,6" Anchor="L,B" Size="parent,6" SliceCorner="6,4" AnchorSide="I,O" Offset="0,0"/>
+      </Box>
+    </Grid>
+  </Instance>
+
+  <Instance Name="LogInstance">
+    <Container ID="LogRoot" Offset="0,9" Anchor="L,C" Size="280,28">
+      <Label ID="String" Anchor="L,C" WrapWidth="250" Color1="0,0,0,150" Style="FontNormal12" WrapWidth="250"/>
+      <Box ID="Divider" Anchor="L,B" Offset="-10,-5" Size="265,1" Color="255,255,255,35"/>
+    </Container>
+  </Instance>
+
+</Context>

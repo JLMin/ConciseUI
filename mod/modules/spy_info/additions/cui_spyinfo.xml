@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Cui Spy Info, eudaimonia, 3/11/2019 -->
+
+<Context>
+  <Grid      ID="CuiSpyInfo" Style="SubContainerSmall2" Size="48,24">
+    <Stack   ID="SpyStack" Anchor="L,C" Offset="0,4" StackGrowth="Right">
+      <Image ID="SpyIcon"  Size="22,22" Offset="0,-3" Anchor="C,C"         Icon="ICON_UNIT_SPY"     ConsumeMouse="0" />
+      <Label ID="SpyAvailable"          Offset="0,2"  Style="FontNormal14" ColorSet="TopBarValueCS" String="?"	WrapWidth="45" />
+      <Label                            Offset="0,2"  Style="FontNormal14" ColorSet="TopBarValueCS" String="/"	WrapWidth="45" />
+      <Label ID="SpyCapacity"           Offset="0,2"  Style="FontNormal14" ColorSet="TopBarValueCS" String="?"	WrapWidth="45" />
+    </Stack>
+  </Grid>
+</Context>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Cui Civilizaiton Assistant, eudaimonia, 3/31/2019 -->
+
+<Context>
+  <Container ID="CuiAssistant" Size="68,68" Anchor="L,B" Offset="10,-6">
+    
+    <Image ID="WonderTrackIcon" Size="65,66" Anchor="L,C" Texture="ActionPanel_Notification.dds">
+      <Image ID="WonderIcon"    Size="40,40" Anchor="C,C" Offset="-2,-1"/>
+    </Image>
+
+    <Button  ID="AssistantButton" Size="68,68" Offset="56,0" ConsumeAllMouse="1">
+      <Image                    Size="68,68" Anchor="C,C" Texture="Controls_CircleBacking68"/>
+      <Image                    Size="64,62" Anchor="C,C" Texture="Diplomacy_YouIndicator"/>
+      <Image                    Size="64,64" Anchor="C,C" Texture="Advisors64"/>
+      <Image   ID="MsgGrid"                  Anchor="R,B" Offset="-1,-6" Texture="ActionPanel_Badge">
+        <Label ID="MsgCount"    Size="22,22" Anchor="C,C" Offset="4,4" Style="FontFlair14" String="[ICON_CheckmarkBlue]"/>
+      </Image>
+    </Button>
+
+    <Stack ID="VictoryButtonStack" Offset="135,-4" Anchor="L,T" StackGrowth="Right" />
+
+    <Grid ID="AssistantOptions" Anchor="L,T" AnchorSide="I,O" Size="220,150" Offset="-10,-10" Texture="Tracker_OptionsBacking.dds" SliceCorner="55,61" SliceSize="1,1" SliceTextureSize="121,119" ConsumeAllMouse="1" Hidden="1">
+      <Label Anchor="C,T" String="{LOC_OPTIONS:upper}" Offset="-6,10" Style="FontFlair16" Color0="106,93,69,255" Color1="0,0,0,150" Color2="146,133,109,255" FontStyle="Glow" SmallCaps="20" SmallCapsLeading="0" SmallCapsType="EveryWord" KerningAdjustment="0"/>
+      
+      <Stack ID="OptionStack" Anchor="L,T" Offset="0,34" StackGrowth="Bottom" Offset="30,0" StackPadding="1" >
+        <CheckBox ID="SurplusResource" IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_CUI_CA_SURPLUS_RESOUCES_OPT"   Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
+        <CheckBox ID="MakePeace"       IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_DIPLOACTION_MAKE_PEACE_NAME"   Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
+        <CheckBox ID="OpenBorders"     IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_DIPLOACTION_OPEN_BORDERS_NAME" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
+        <CheckBox ID="TradeRoutes"     IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_TOP_PANEL_TRADE_ROUTES"        Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
+        <CheckBox ID="WonderTrack"     IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_HUD_CITY_WONDERS"              Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
+      </Stack>
+      
+      <Stack ID="VictoryStack" Anchor="L,T" Offset="0,34" StackGrowth="Bottom" Offset="30,0" StackPadding="1" >
+        <CheckBox ID="SCIENCE"         IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_SCIENCE_NAME"          Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
+        <CheckBox ID="CULTURE"         IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_CULTURE_NAME"          Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
+        <CheckBox ID="DOMINATION"      IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_DOMINATION_NAME"       Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
+        <CheckBox ID="RELIGION"        IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_RELIGIOUS_NAME"        Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
+        <CheckBox ID="DIPLOMATIC"      IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_DIPLOMATIC_NAME"       Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
+      </Stack>
+      
+    </Grid>
+  </Container>
+  
+  <ToolTipType Name="CuiAssistantTT">
+    <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
+      <Stack StackGrowth="Bottom" StackPadding="28" Offset="0,4">
+        <Grid ID="ResourceGrid" Size="auto,auto">
+          <Label                      Anchor="L,T"                Style="FontNormal14" Color="0,0,0,255"  String="[ICON_GOLDLARGE]" />
+          <Label ID="ResourceTitle"   Anchor="L,T" Offset="24,-2" Style="FontFlair16" Color="5,29,51,255" String="LOC_CUI_CA_SURPLUS_RESOUCES" />
+          <Stack ID="ResourceStack"                Offset="0,10"  StackGrowth="Right"  WrapWidth="300" WrapGrowth="Down" StackPadding="1" />
+        </Grid>
+        <Grid ID="MakePeaceGrid" Size="auto,auto">
+          <Label                      Anchor="L,T"                Style="FontNormal14" Color="0,0,0,255"  String="[ICON_MAKE_PEACE]" />
+          <Label ID="MakePeaceTitle"  Anchor="L,T" Offset="24,-4" Style="FontFlair16" Color="5,29,51,255" String="LOC_DIPLOACTION_MAKE_PEACE_NAME" />
+          <Stack ID="MakePeaceStack"               Offset="0,18"  StackGrowth="Right"  WrapWidth="300" WrapGrowth="Down" StackPadding="10" />
+        </Grid>
+        <Grid ID="OpenBorderGrid" Size="auto,auto">
+          <Label                      Anchor="L,T"                Style="FontNormal14" Color="0,0,0,255"  String="[ICON_OPEN_BORDERS]" />
+          <Label ID="OpenBorderTitle" Anchor="L,T" Offset="24,-4" Style="FontFlair16" Color="5,29,51,255" String="LOC_DIPLOACTION_OPEN_BORDERS_NAME" />
+          <Stack ID="OpenBorderStack"              Offset="0,18"  StackGrowth="Right"  WrapWidth="300" WrapGrowth="Down" StackPadding="8" />
+        </Grid>
+        <Grid ID="TradeRouteGrid" Size="auto,auto">
+          <Label                      Anchor="L,T"                Style="FontNormal14" Color="0,0,0,255"  String="[ICON_TOURISMLARGE]" />
+          <Label ID="TradeRouteTitle" Anchor="L,T" Offset="24,-2" Style="FontFlair16" Color="5,29,51,255" String="LOC_TOP_PANEL_TRADE_ROUTES" />
+          <Stack ID="TradeRouteStack"              Offset="0,18"  StackGrowth="Right"  WrapWidth="300" WrapGrowth="Down" StackPadding="10" />
+        </Grid>
+      </Stack>
+    </Grid>
+  </ToolTipType>
+
+  <ToolTipType Name="CuiWonderTT">
+    <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
+      <Stack ID="MainStack" StackGrowth="Right" StackPadding="10">
+        <Stack ID="WonderIconStack" StackGrowth="Right" WrapWidth="370" WrapGrowth="Down" StackPadding="8"/> 
+        <Box   ID="VerticalDivider" Size="2,2" Color="200,200,200,200"/>
+        <Stack ID="ColorIndicatorStack" Offset="0,4" StackGrowth="Bottom" StackPadding="6"/>
+      </Stack>
+    </Grid>
+  </ToolTipType>
+  
+  <ToolTipType Name="CuiVictoryTT">
+    <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
+      <Label ID="Title"   Anchor="C,T" Style="FontFlair16" Color="5,29,51,255" String="Victory"/>
+      <Grid  ID="Divider" Anchor="C,T" Size="150,6" Offset="0,16" Style="DividerGrid" Color="5,29,51,255"/>
+      <Stack ID="VictoryLeaderStack" StackGrowth="Bottom" StackPadding="6" Offset="0,30"/>
+    </Grid>
+  </ToolTipType>
+  
+  <Container ID="ResourceInstanceContainer" Hidden="1"/>
+  <Instance Name="ResourceInstance">
+    <Grid ID="Top" Size="38,58" Anchor="L,T">
+      <Image ID="Icon" StretchMode="None" Size="36,36" Anchor="C,C" />
+      <Grid  ID="Backing" Anchor="C,B" Offset="0,-2" Size="30,16" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16" >
+        <Label ID="Text"  Anchor="C,C" Offset="0,0"  Size="38,18" Style="FontNormal12" Color="Black" String="10"/>
+      </Grid>
+    </Grid>
+  </Instance>
+  
+  <Container ID="LeaderInstanceContainer" Hidden="1"/>
+  <Instance Name="LeaderInstance">
+    <Grid ID="Top" Size="45,45" Anchor="L,T">
+      <Image ID="Icon" Size="45,45" Texture="Leaders45"/>
+    </Grid>
+  </Instance>
+  
+  <Container ID="LeaderArrowInstanceContainer" Hidden="1"/>
+  <Instance Name="LeaderArrowInstance">
+    <Grid ID="Top" Size="65,45" Anchor="L,T">
+      <Image ID="Icon"                  Size="45,45" Texture="Leaders45"/>
+      <Image ID="OpenTo"   Anchor="R,T" Size="20,19" Offset="0,3" Color="Green" FlipX="1" Texture="TradeOverview_Benefactor"/>
+      <Image ID="OpenFrom" Anchor="R,B" Size="20,19" Offset="0,3" Color="Red"   FlipX="0" Texture="TradeOverview_Benefactor"/>
+    </Grid>
+  </Instance>
+
+  <Container ID="WonderInstanceContainer" Hidden="1"/>
+  <Instance Name="WonderInstance">
+    <Grid ID="Top" Size="32,40" Anchor="L,T">
+      <Image ID="Icon"   Size="32,32" Anchor="C,T" Color="254,254,230" Texture="MapPins24"/>
+      <Box   ID="Back"   Size="26,6"  Anchor="C,T" Color="Black" Offset="0,32">
+        <Box ID="Color1" Size="19,4"  Anchor="L,C" Color="Clear" Offset="1,0"/>
+        <Box ID="Color2" Size="4,4"   Anchor="L,C" Color="Clear" Offset="21,0"/>
+      </Box>
+    </Grid>
+  </Instance>
+
+  <Container ID="ColorInstanceContainer" Hidden="1"/>
+  <Instance Name="ColorInstance">
+    <Grid ID="Top" Size="auto,auto" Anchor="L,T">
+      <Box   ID="Back"   Size="26,6" Anchor="L,C" Color="Black">
+        <Box ID="Color1" Size="19,4" Anchor="L,C" Color="Clear" Offset="1,0"/>
+        <Box ID="Color2" Size="4,4"  Anchor="L,C" Color="Clear" Offset="21,0"/>
+      </Box>
+      <Label ID="CivName"  Style="FontNormal12" Offset="30,0"	ColorSet="GreatPeopleCS" Color="5,29,51,255"/>
+    </Grid>
+  </Instance>
+  
+  <Container ID="VictoryIconInstanceContainer" Hidden="1"/>
+  <Instance Name="VictoryIconInstance">
+    <Grid ID="Top" Size="64,80" Anchor="L,T">
+      <Image ID="VictoryIcon" Anchor="C,T" Size="64,64" Texture="Victories64"/>
+      <Grid Anchor="C,B" Size="38,16" Offset="0,2" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
+        <Label ID="Text" Anchor="C,C" Size="38,16" Style="FontNormal14" Color="White" String="#1"/>
+      </Grid>
+    </Grid>
+  </Instance>
+  
+  <Container ID="VictoryLeaderInstanceContainer" Hidden="1"/>
+  <Instance Name="VictoryLeaderInstance">
+    <Grid ID="Top" Size="auto,auto" Anchor="L,T">
+      <Grid ID="LeaderIcon" Size="auto,auto" Anchor="L,C">
+        <Image Texture="Controls_CircleBacking45" Size="51,51" Anchor="C,C" Offset="0,1"/>
+        <Image ID="YouIndicator" Hidden="1" Size="55,53" Texture="Diplomacy_YouIndicator45" Anchor="C,C"/>
+        <Image ID="Icon" Anchor="C,C" Size="45,45" Texture="Leaders45" />
+      </Grid>
+      <Label ID="UnMet"  Anchor="L,C" Offset="60,0"   Style="FontNormal14" Color="Black" String="LOC_WORLD_RANKING_UNMET_PLAYER" Hidden="1"/>
+      <Label ID="State1" Anchor="L,C" Offset="60,-10" Style="FontNormal14" Color="Black"/>
+      <Label ID="State2" Anchor="L,C" Offset="60,10"  Style="FontNormal14" Color="Black"/>
+    </Grid>
+  </Instance>
+
+</Context>

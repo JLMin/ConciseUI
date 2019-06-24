@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Cui Unit List Button, eudaimonia, 3/31/2019 -->
+
+<Context>
+  <Instance Name="CuiUnitList">
+    <Button ID="UnitListButton" Anchor="L,C" Size="49,49" Texture="LaunchBar_Hook_GovernmentButton" Style="ButtonNormalText" StateOffsetIncrement="0,49">
+      <Image Anchor="C,C" Size="35,35" IconSize="35" Icon="ICON_STAT_UNITS"/>
+    </Button>
+  </Instance>
+</Context>
