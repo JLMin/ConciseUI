@@ -17,6 +17,7 @@ local g_MapIcons				:table = {};
 local m_kUntouchedPlots			:table = {};	-- Used to prevent multiple calls to mess with animation start for a plot change
 local m_isShowResources			:boolean = UserConfiguration.ShowMapResources();
 local m_isShowRecommendations	:boolean = true;
+local m_kSettlerTooltip			:table = {};	-- Table of controls for custom tooltip access.
 
 local m_techsThatUnlockResources : table = {};
 local m_civicsThatUnlockResources : table = {};
@@ -127,7 +128,7 @@ function SetResourceIcon( pInstance:table, pPlot, type, state)
       local tValidImprovements:table = {}
       for row in GameInfo.Improvement_ValidResources() do
         if (row.ResourceType == resourceType) then
-          if( GameInfo.Terrains[terrainType].TerrainType   == "TERRAIN_COAST") then
+					if( terrainType == "TERRAIN_COAST") then
             if ("DOMAIN_SEA" == GameInfo.Improvements[ row.ImprovementType].Domain) then
               table.insert(tValidImprovements, row.ImprovementType);
             elseif ("DOMAIN_LAND" == GameInfo.Improvements[ row.ImprovementType].Domain) then
@@ -591,20 +592,7 @@ function OnUserOptionsActivated()
   RestoreResourceIconState();
 end
 
-----------------------------------------------------------------
--- Handle the UI shutting down.
-function OnShutdown()
-  g_MapIcons = {};
-  g_InstanceManager:DestroyInstances();
-end
 
--- ===========================================================================
-function OnContextInitialize(bHotload : boolean)
-  -- The context just loaded, is it a hotload?
-  if (bHotload == true) then
-    Rebuild();
-  end
-end
 
 -- ===========================================================================
 function OnBeginWonderReveal()
@@ -665,27 +653,93 @@ function ClearSettlementRecommendations()
 end
 
 -- ===========================================================================
+--	Create icons for recommended plot locations to settle.
+-- ===========================================================================
 function AddSettlementRecommendations()
-  local pLocalPlayer:table = Players[Game.GetLocalPlayer()];
-  if pLocalPlayer then
-    local pGrandAI:table = pLocalPlayer:GetGrandStrategicAI();
-    if pGrandAI then
-      local pSettlementRecommendations:table = pGrandAI:GetSettlementRecommendations();
-      for key,value in pairs(pSettlementRecommendations) do
-        local pRecommendedPlotInstance = GetInstanceAt(value.SettlingLocation);
+	
+	local localPlayerID:number = Game.GetLocalPlayer();
+	if localPlayerID == -1 or localPlayerID == 1000 then 
+		return;
+	end
+	local pLocalPlayer:table = Players[localPlayerID];
+	if pLocalPlayer == nil then
+		UI.DataAssert("Could not obtain a player object to make settler recommendations for player id: ",localPlayerID);
+		return;
+	end
+	
+	local pGrandAI:table = pLocalPlayer:GetGrandStrategicAI();
+	if pGrandAI == nil then
+		-- Would there be a case where the grand strategic AI does not exist? (If so TODO: add assert).
+		return;
+	end
+		
+	local NUM_RECOMMENDATIONS :number = 5;
+	local pSettlementRecommendations :table = pGrandAI:GetSettlementRecommendations( NUM_RECOMMENDATIONS );
+	for _,kRecommendation in pairs(pSettlementRecommendations) do		
 
-        -- Update icon
-        pRecommendedPlotInstance.ImprovementRecommendationIcon:TrySetIcon("ICON_UNITOPERATION_FOUND_CITY", 256);
+		local uiInstance :table = GetInstanceAt(kRecommendation.SettlingLocation);		
+		uiInstance.ImprovementRecommendationIcon:TrySetIcon( "ICON_UNITOPERATION_FOUND_CITY", 256 );		-- Update icon
 
-        -- Update tooltip
-        pRecommendedPlotInstance.ImprovementRecommendationIcon:SetToolTipString(Locale.Lookup("LOC_TOOLTIP_SETTLEMENT_RECOMMENDATION"));
+		local numReasons :number = kRecommendation.NumReasons;
 
-        -- Show recommendation and add to list for clean up later
-        pRecommendedPlotInstance.ImprovementRecommendationBackground:SetHide(false);
-        table.insert(m_RecommendedSettlementPlots, value.SettlingLocation);
-      end
-    end
-  end
+		-- Use a simple string if available, otherwise assume it's detailed info.
+		if kRecommendation.SettlingTooltip or (numReasons < 1) then
+			uiInstance.ImprovementRecommendationIcon:ClearToolTipCallback();	-- Remove previously set callback
+			uiInstance.ImprovementRecommendationIcon:SetToolTipType(nil);		-- Back to default tooltip.
+			if kRecommendation.SettlingTooltip then
+				uiInstance.ImprovementRecommendationIcon:SetToolTipString(kRecommendation.SettlingTooltip);
+			else
+				uiInstance.ImprovementRecommendationIcon:SetToolTipString(Locale.Lookup("LOC_TOOLTIP_SETTLEMENT_RECOMMENDATION"));
+			
+			end
+		else
+			-- Update custom tooltip
+			uiInstance.ImprovementRecommendationIcon:SetToolTipType("SettlerRecommendationTooltip");
+			uiInstance.ImprovementRecommendationIcon:SetToolTipCallback(
+				function() 
+				
+					-- Don't rebuild tooltip everyframe, only if it's for a different plot.
+					if m_kSettlerTooltip["SettlingLocation"] == kRecommendation.SettlingLocation then
+						return;
+					end
+					m_kSettlerTooltip["SettlingLocation"] = kRecommendation.SettlingLocation;	-- Save last plot shown/
+					m_kSettlerTooltip.RecommendationStack:DestroyAllChildren();
+				
+					-- Obtain info and sort so good items show first.					
+					local kTips	:table = {};
+					for i=0,numReasons-1,1 do		-- C++ style 0 to n-1
+						local title		:string = kRecommendation["SettleTitle"..tostring(i)];
+						local details	:string = kRecommendation["SettleExplanation"..tostring(i)];
+						local isPositive:boolean = kRecommendation["SettlePositive"..tostring(i)];
+					
+						local insertAt	:number = 0;
+						if isPositive == false then
+							insertAt = table.count(kTips);
+						end
+						table.insert( kTips, insertAt, {
+							title=title,
+							details=details,
+							isPositive=isPositive
+						});
+					end
+				
+					-- Build actual UI elements.
+					for _,kTip in ipairs(kTips)	do
+						local uiRow	 :table = {};
+						ContextPtr:BuildInstanceForControl( "RecommendationInstance", uiRow, m_kSettlerTooltip.RecommendationStack );
+					
+						uiRow.Title:SetText( Locale.Lookup(kTip.title) );
+						uiRow.Explanation:SetText( Locale.Lookup(kTip.details) );
+						uiRow.Icon:SetIcon( kTip.isPositive and "ICON_THUMBS_UP" or "ICON_THUMBS_DOWN");
+					end
+				end
+			);
+		end
+
+		-- Show recommendation and add to list for clean up later
+		uiInstance.ImprovementRecommendationBackground:SetHide(false);
+		table.insert(m_RecommendedSettlementPlots, kRecommendation.SettlingLocation);
+	end
 end
 
 -- ===========================================================================
@@ -708,6 +762,45 @@ function OnUnitSelectionChanged(player, unitId, locationX, locationY, locationZ,
       AddSettlementRecommendations();
     end
   end
+end
+
+-- ===========================================================================
+--	UI Callback
+--	Handle the UI shutting down.
+-- ===========================================================================
+function OnShutdown()
+	Events.BeginWonderReveal.Remove( OnBeginWonderReveal );
+	Events.CityAddedToMap.Remove(OnCityAddedToMap);
+	Events.CivicCompleted.Remove(OnCivicCompleted);
+	Events.EndWonderReveal.Remove( OnEndWonderReveal );
+	Events.LocalPlayerChanged.Remove(OnLocalPlayerChanged);
+	Events.PlotMarkerChanged.Remove(OnPlotMarkersChanged);
+	Events.PlotVisibilityChanged.Remove(OnPlotVisibilityChanged);
+	Events.ResearchCompleted.Remove(OnResearchCompleted);
+	Events.ResourceVisibilityChanged.Remove(OnResourceVisibilityChanged);
+	Events.ResourceAddedToMap.Remove(OnResourceChanged);
+	Events.ResourceRemovedFromMap.Remove(OnResourceRemovedFromMap);
+	Events.UserOptionChanged.Remove(OnUserOptionChanged);
+	Events.UserOptionsActivated.Remove( OnUserOptionsActivated );
+	Events.UnitSelectionChanged.Remove( OnUnitSelectionChanged );
+
+	g_MapIcons = {};
+	g_InstanceManager:DestroyInstances();
+end
+
+-- ===========================================================================
+function LateInitialize()
+	TTManager:GetTypeControlTable("SettlerRecommendationTooltip", m_kSettlerTooltip);
+end
+
+-- ===========================================================================
+--	UI Callback
+-- ===========================================================================
+function OnInit( bHotload:boolean )	
+	if bHotload then		
+		Rebuild();
+	end
+	LateInitialize();	
 end
 
 -- CUI =======================================================================
@@ -740,23 +833,23 @@ function Initialize()
 
   CuiInit() -- CUI
 
-  ContextPtr:SetInitHandler(OnContextInitialize);
+  ContextPtr:SetInitHandler( OnInit );
   ContextPtr:SetShutdown( OnShutdown );
-
+	
   Events.BeginWonderReveal.Add( OnBeginWonderReveal );
+  Events.CityAddedToMap.Add(OnCityAddedToMap);
+  Events.CivicCompleted.Add(OnCivicCompleted);
   Events.EndWonderReveal.Add( OnEndWonderReveal );
   Events.LocalPlayerChanged.Add(OnLocalPlayerChanged);
-  Events.CityAddedToMap.Add(OnCityAddedToMap);
+  Events.PlotMarkerChanged.Add(OnPlotMarkersChanged);
+  Events.PlotVisibilityChanged.Add(OnPlotVisibilityChanged);
+  Events.ResearchCompleted.Add(OnResearchCompleted);
   Events.ResourceVisibilityChanged.Add(OnResourceVisibilityChanged);
   Events.ResourceAddedToMap.Add(OnResourceChanged);
   Events.ResourceRemovedFromMap.Add(OnResourceRemovedFromMap);
-  Events.PlotVisibilityChanged.Add(OnPlotVisibilityChanged);
-  Events.PlotMarkerChanged.Add(OnPlotMarkersChanged);
-  Events.UnitSelectionChanged.Add( OnUnitSelectionChanged );
   Events.UserOptionChanged.Add(OnUserOptionChanged);
   Events.UserOptionsActivated.Add( OnUserOptionsActivated );
-  Events.ResearchCompleted.Add(OnResearchCompleted);
-  Events.CivicCompleted.Add(OnCivicCompleted);
+  Events.UnitSelectionChanged.Add( OnUnitSelectionChanged );
 
   for row in GameInfo.Resources() do
     if row.PrereqTech ~= nil then
