@@ -13,9 +13,9 @@ include( "ProductionHelper" );
 
 include( "cui_settings" ); -- CUI
 include( "cui_helper" ); -- CUI
-include( "CuiProductionData" ); -- CUI
-include( "CuiProductionSupport" ); -- CUI
-include( "CuiProductionUI" ); -- CUI
+include( "cuiproductiondata" ); -- CUI
+include( "cuiproductionsupport" ); -- CUI
+include( "cuiproductionui" ); -- CUI
 
 -- ===========================================================================
 --	Constants

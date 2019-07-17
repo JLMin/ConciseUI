@@ -6,7 +6,7 @@ include( "ToolTipHelper" );
 include( "AdjacencyBonusSupport" );
 
 include( "cui_helper" );
-include( "CuiProductionSupport" );
+include( "cuiproductionsupport" );
 
 -- ===========================================================================
 -- Variables

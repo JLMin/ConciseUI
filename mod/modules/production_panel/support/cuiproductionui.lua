@@ -5,7 +5,7 @@
 include( "InstanceManager" );
 
 include( "cui_helper" );
-include( "CuiProductionSupport" );
+include( "cuiproductionsupport" );
 
 -- ===========================================================================
 -- Variables
