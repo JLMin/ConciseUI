@@ -1,9 +1,13 @@
 # Concise UI (v1.2)
 
 Concise UI greatly improves the game experience by modifying the vanilla UI and adding new UI elements to the game.
+
 > _Supported game versions: 1.0.0.317 (416354)_  
 
 ## Manually Update
+
+> _The current version on steam is the same as the one on github._
+
 1. Subscribe on Steam Workshop: 
 [Concise UI](https://steamcommunity.com/sharedfiles/filedetails/?id=1671978687)
 
