@@ -31,6 +31,7 @@
       <File>assets/wrench.dds</File>
     </ImportFiles>
     <UpdateText id="Cui_Text">
+      <File>localization/cui_de_de.sql</File>
       <File>localization/cui_en_us.sql</File>
       <File>localization/cui_es_es.sql</File>
       <File>localization/cui_fr_fr.sql</File>
@@ -180,6 +181,7 @@
     <File>config/cui_config.xml</File>
     <File>lib/cui_helper.lua</File>
     <File>lib/cui_settings.lua</File>
+    <File>localization/cui_de_de.sql</File>
     <File>localization/cui_en_us.sql</File>
     <File>localization/cui_es_es.sql</File>
     <File>localization/cui_fr_fr.sql</File>

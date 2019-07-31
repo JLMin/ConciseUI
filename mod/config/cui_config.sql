@@ -5,15 +5,15 @@
 INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 
 -- ===========================================================================
--- untranslated
+-- [Deutsch] by [Titule]
 -- ===========================================================================
 ("LOC_CUI_CONFIG_CATEGORY",            "de_DE", "Concise UI"),
-("LOC_CUI_CONFIG_PLACE_MAP_PIN",       "de_DE", "Add Map Tack"),
-("LOC_CUI_CONFIG_TOGGLE_IMPROVED",     "de_DE", "Toggle Improved Resource"),
-("LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",   "de_DE", "Toggle Unit Flags"),
-("LOC_CUI_CONFIG_TOGGLE_TRADERS",      "de_DE", "Toggle Trader Icons"),
-("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "de_DE", "Toggle City Banners"),
-("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "de_DE", "Open Unit List"),
+("LOC_CUI_CONFIG_PLACE_MAP_PIN",       "de_DE", "Kartennadel hinzufügen"),
+("LOC_CUI_CONFIG_TOGGLE_IMPROVED",     "de_DE", "Fortgeschrittene Resourcen anzeigen"),
+("LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",   "de_DE", "Einheitenflagge anzeigen"),
+("LOC_CUI_CONFIG_TOGGLE_TRADERS",      "de_DE", "Handelsymbole anzeigen"),
+("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "de_DE", "Stadtbanner anzeigen"),
+("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "de_DE", "Öffne Einheitenliste"),
 
 -- ===========================================================================
 -- [English] by [eudaimonia]
