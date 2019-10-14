@@ -1488,12 +1488,12 @@ end
 
 -- CUI ========================================================================
 function CuiInit()
-  Controls.FoodSortButton      :RegisterCallback( eLClick, function() CuiOnSortButtonClick(1); end );
-  Controls.ProductionSortButton:RegisterCallback( eLClick, function() CuiOnSortButtonClick(2); end );
-  Controls.GoldSortButton      :RegisterCallback( eLClick, function() CuiOnSortButtonClick(3); end );
-  Controls.ScienceSortButton   :RegisterCallback( eLClick, function() CuiOnSortButtonClick(4); end );
-  Controls.CultureSortButton   :RegisterCallback( eLClick, function() CuiOnSortButtonClick(5); end );
-  Controls.FaithSortButton     :RegisterCallback( eLClick, function() CuiOnSortButtonClick(6); end );
+  Controls.FoodSortButton      :RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(1); end );
+  Controls.ProductionSortButton:RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(2); end );
+  Controls.GoldSortButton      :RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(3); end );
+  Controls.ScienceSortButton   :RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(4); end );
+  Controls.CultureSortButton   :RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(5); end );
+  Controls.FaithSortButton     :RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(6); end );
 end
 
 -- ===========================================================================
@@ -1523,12 +1523,12 @@ function Initialize()
   CuiInit();
 
   -- Control Events
-  Controls.BeginRouteButton:RegisterCallback( eLClick, RequestTradeRoute );
+  Controls.BeginRouteButton:RegisterCallback( Mouse.eLClick, RequestTradeRoute );
   Controls.BeginRouteButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
   -- CUI Controls.CancelButton:RegisterCallback( eLClick, ClearSelection );
-  Controls.FilterButton:RegisterCallback( eLClick, UpdateFilterArrow );
+  Controls.FilterButton:RegisterCallback( Mouse.eLClick, UpdateFilterArrow );
   Controls.DestinationFilterPulldown:RegisterSelectionCallback( OnFilterSelected );
-  Controls.Header_CloseButton:RegisterCallback( eLClick, OnClose );
+  Controls.Header_CloseButton:RegisterCallback( Mouse.eLClick, OnClose );
   Controls.TopGrid:RegisterSizeChanged( OnTopGridSizeChanged );
   Controls.BonusIconStack:RegisterSizeChanged( function() OnBonusIconStackSizeChanged(Controls); end );
 
