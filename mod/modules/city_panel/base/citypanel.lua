@@ -558,6 +558,11 @@ end
 --	GAME Event
 -- ===========================================================================
 function OnCityProductionChanged(ownerPlayerID:number, cityID:number)
+  -- CUI
+  if Controls.ChangeProductionCheck:IsChecked() then
+    Controls.ChangeProductionCheck:SetCheck(false);
+  end
+  --
   RefreshIfMatch(ownerPlayerID, cityID);
 end
 
@@ -746,7 +751,7 @@ function OnShutdown()
 	Events.CitySelectionChanged.Remove(		OnCitySelectionChanged );
 	Events.CityFocusChanged.Remove(			OnCityFocusChange );
 	Events.CityProductionCompleted.Remove(	OnCityProductionCompleted );
-	Events.CityProductionUpdated.Remove(	OnCityProductionUpdated );	
+	Events.CityProductionUpdated.Remove(	OnCityProductionUpdated );
 	Events.CityProductionChanged.Remove(	OnCityProductionChanged );
 	Events.CityWorkerChanged.Remove(		OnCityWorkerChanged );
 	Events.DistrictDamageChanged.Remove(	OnCityProductionChanged );
@@ -761,7 +766,7 @@ function OnShutdown()
 	LuaEvents.CityPanelOverview_CloseButton.Remove(		OnCloseOverviewPanel );
 	LuaEvents.CityPanel_SetOverViewState.Remove(		OnCityPanelSetOverViewState );
 	LuaEvents.CityPanel_ToggleManageCitizens.Remove(	OnCityPanelToggleManageCitizens );
-	LuaEvents.GameDebug_Return.Remove(					OnGameDebugReturn );	
+	LuaEvents.GameDebug_Return.Remove(					OnGameDebugReturn );
 	LuaEvents.ProductionPanel_Close.Remove(				OnProductionPanelClose );
 	LuaEvents.ProductionPanel_ListModeChanged.Remove(	OnProductionPanelListModeChanged );
 	LuaEvents.ProductionPanel_Open.Remove(				OnProductionPanelOpen );
@@ -937,7 +942,7 @@ function OnTogglePurchaseTile()
     UILens.ToggleLayerOn( m_PurchasePlot );
   else
     if not Controls.ManageCitizensCheck:IsChecked() and UI.GetInterfaceMode() == InterfaceModeTypes.CITY_MANAGEMENT then
-			UI.SetInterfaceMode(m_PrevInterfaceMode);			-- Exit mode		
+			UI.SetInterfaceMode(m_PrevInterfaceMode);			-- Exit mode
 			m_PrevInterfaceMode = InterfaceModeTypes.SELECTION;
     end
     UILens.ToggleLayerOff( m_PurchasePlot );
@@ -949,6 +954,10 @@ function OnToggleProduction()
   if Controls.ChangeProductionCheck:IsChecked() then
     RecenterCameraOnCity();
     LuaEvents.CityPanel_ProductionOpen();
+    -- CUI
+    Controls.ProduceWithFaithCheck:SetCheck( false );
+    Controls.ProduceWithGoldCheck:SetCheck( false );
+    --
   else
     LuaEvents.CityPanel_ProductionClose();
   end
@@ -959,6 +968,10 @@ function OnTogglePurchaseWithGold()
   if Controls.ProduceWithGoldCheck:IsChecked() then
     RecenterCameraOnCity();
     LuaEvents.CityPanel_PurchaseGoldOpen();
+    -- CUI
+    Controls.ChangeProductionCheck:SetCheck( false );
+    Controls.ProduceWithFaithCheck:SetCheck( false );
+    --
   else
     LuaEvents.CityPanel_ProductionClose();
   end
@@ -969,6 +982,10 @@ function OnTogglePurchaseWithFaith()
   if Controls.ProduceWithFaithCheck:IsChecked() then
     RecenterCameraOnCity();
     LuaEvents.CityPanel_PurchaseFaithOpen();
+    -- CUI
+    Controls.ChangeProductionCheck:SetCheck( false );
+    Controls.ProduceWithGoldCheck:SetCheck( false );
+    --
   else
     LuaEvents.CityPanel_ProductionClose();
   end
@@ -1405,7 +1422,7 @@ function Initialize()
     -- Controls.ManageCitizensCheck:SetAndCall(not Controls.ManageCitizensCheck:IsChecked());
     Controls.ManageTileCheck:SetAndCall(not Controls.ManageTileCheck:IsChecked());
   end);
-  LuaEvents.GameDebug_Return.Add( OnGameDebugReturn );	
+  LuaEvents.GameDebug_Return.Add( OnGameDebugReturn );
   LuaEvents.ProductionPanel_Close.Add( OnProductionPanelClose );
   LuaEvents.ProductionPanel_ListModeChanged.Add(	OnProductionPanelListModeChanged );
   LuaEvents.ProductionPanel_Open.Add( OnProductionPanelOpen );
