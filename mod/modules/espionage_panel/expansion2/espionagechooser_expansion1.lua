@@ -28,6 +28,6 @@ function CuiCivCheck(player:table)
 end
 -- CUI =======================================================================
 function CuiInit()
-  Controls.DamSortButton:RegisterCallback( eLClick, function() CuiOnSortButtonClick(8); end );
+  Controls.DamSortButton:RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(8); end );
 end
 CuiInit();

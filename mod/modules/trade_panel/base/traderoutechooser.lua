@@ -1525,7 +1525,7 @@ function Initialize()
   -- Control Events
   Controls.BeginRouteButton:RegisterCallback( Mouse.eLClick, RequestTradeRoute );
   Controls.BeginRouteButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
-  -- CUI Controls.CancelButton:RegisterCallback( eLClick, ClearSelection );
+  -- CUI Controls.CancelButton:RegisterCallback( Mouse.eLClick, ClearSelection );
   Controls.FilterButton:RegisterCallback( Mouse.eLClick, UpdateFilterArrow );
   Controls.DestinationFilterPulldown:RegisterSelectionCallback( OnFilterSelected );
   Controls.Header_CloseButton:RegisterCallback( Mouse.eLClick, OnClose );

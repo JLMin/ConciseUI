@@ -1075,12 +1075,12 @@ function CuiInit()
   Controls.FilterButton:RegisterCallback(Mouse.eLClick, CuiUpdateFilterArrow);
   Controls.CivFilterPulldown:RegisterSelectionCallback(CuiOnFilterSelected);
 
-  Controls.CampusSortButton      :RegisterCallback( eLClick, function() CuiOnSortButtonClick(2); end );
-  Controls.CommercialSortButton  :RegisterCallback( eLClick, function() CuiOnSortButtonClick(3); end );
-  Controls.IndustrialSortButton  :RegisterCallback( eLClick, function() CuiOnSortButtonClick(4); end );
-  Controls.NeighborhoodSortButton:RegisterCallback( eLClick, function() CuiOnSortButtonClick(5); end );
-  Controls.TheaterSortButton     :RegisterCallback( eLClick, function() CuiOnSortButtonClick(6); end );
-  Controls.SpacePortSortButton   :RegisterCallback( eLClick, function() CuiOnSortButtonClick(7); end );
+  Controls.CampusSortButton      :RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(2); end );
+  Controls.CommercialSortButton  :RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(3); end );
+  Controls.IndustrialSortButton  :RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(4); end );
+  Controls.NeighborhoodSortButton:RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(5); end );
+  Controls.TheaterSortButton     :RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(6); end );
+  Controls.SpacePortSortButton   :RegisterCallback( Mouse.eLClick, function() CuiOnSortButtonClick(7); end );
 end
 
 -- ===========================================================================
