@@ -9,6 +9,7 @@ include("SupportFunctions");
 include("WorldCrisisSupport");
 include("PopupPriorityLoader_", true);
 include("InputSupport");
+include("Civ6Common"); --FormatTimeRemaining
 include("cuileadericonsupport"); -- CUI
 
 -- ===========================================================================
@@ -46,6 +47,7 @@ local m_HasAccepted:boolean = false; -- set to true when accept button is clicke
 local m_IsEmergencySession:boolean = false; -- if m_CurrentStage == 2
 local m_HasSpecialSessionNotification:boolean = false;
 local m_ReviewTab:number = REVIEW_TAB_RESULTS;
+local m_kPreviousTooltipEvaluators:table = {};
 
 -- The members below store state that initialize when the screen opens
 local m_kProposalVotes:table;
@@ -68,6 +70,7 @@ local m_ProposalVoterIM:table = InstanceManager:new("ProposalVoter", "Root");
 local m_ResolutionVoterIM:table = InstanceManager:new("ResolutionVoter", "Root");
 local m_VerticalPaddingReviewIM:table = InstanceManager:new("VerticalPaddingReview", "Root");
 local m_VerticalPaddingSmallIM:table = InstanceManager:new("VerticalPadding1px", "Root");
+local m_kActivePulldown:table;
 
 -- ===========================================================================
 --	Checks the current turn segment and opens World Congress if necessary
@@ -451,6 +454,7 @@ function PopulateLeaderStack()
           instance.GrievanceLabel:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_GRIEVANCE_DEFINITION", grievances));
           instance.GrievanceContainer:SetHide(false);
         else
+          instance.GrievanceLabel:SetText("");
           instance.GrievanceContainer:SetHide(true);
         end
         ]]
@@ -560,7 +564,6 @@ function PopulateResolutions()
   m_kProposalTitleIM:ResetInstances();
   m_kResolutionItemIM:ResetInstances();
 
-  local metPlayers, isUniqueLeader = GetMetPlayersAndUniqueLeaders();
 
   for i, kResolutionData in pairs(kResolutions) do
     if type(i) == "number" then -- There's a "Stage" key kResolutions
@@ -603,6 +606,7 @@ function PopulateResolutions()
       UpdateVotingWidget(instance.Vote2, kVoteData.B, kCostData, TestResolutionVote, 2);
       instance.Vote2.UpButton:RegisterCallback(Mouse.eLClick, OnVoteResolution(2, UP_VOTE, kVoteData.B, kCostData));
       instance.Vote2.DownButton:RegisterCallback(Mouse.eLClick, OnVoteResolution(2, DOWN_VOTE, kVoteData.B, kCostData));
+      EvaluateResolutionHistory(pWorldCongress, kResolutionData, instance);
 
       instance.Choice1Container:SetSizeY(kResolutionData.TargetType == "PlayerType" and 65 or 30);
       instance.Choice2Container:SetSizeY(kResolutionData.TargetType == "PlayerType" and 65 or 30);
@@ -613,7 +617,7 @@ function PopulateResolutions()
           if favoredTT ~= "" then
             favoredTT = favoredTT .. "[NEWLINE]";
           end
-          favoredTT = favoredTT .. Locale.Lookup(GetPlayerName(playerID, metPlayers));
+          favoredTT = favoredTT .. GetVisiblePlayerName(playerID);
         end
         instance.FavoredLabel:SetText(table.count(kResolutionData.FavoredPlayerIDs));
         instance.FavoredContainer:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_PREFERRED_VOTES_TT", favoredTT));
@@ -628,7 +632,7 @@ function PopulateResolutions()
           if disfavotedTT ~= "" then
             disfavotedTT = disfavotedTT .. "[NEWLINE]";
           end
-          disfavotedTT = disfavotedTT .. Locale.Lookup(GetPlayerName(playerID, metPlayers));
+          disfavotedTT = disfavotedTT .. GetVisiblePlayerName(playerID);
         end
         instance.DisfavoredLabel:SetText(table.count(kResolutionData.DisfavoredPlayerIDs));
         instance.DisfavoredContainer:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_PREFERRED_VOTES_TT", disfavotedTT));
@@ -666,6 +670,157 @@ function PopulateResolutions()
 end
 
 -- ===========================================================================
+-- Build the tooltip describing the previous time this resolution appeared
+-- in World Congress, if it has shown up before.
+-- ===========================================================================
+function EvaluateResolutionHistory(pWorldCongress:table, kResolutionData:table, uiResolutionInstance:table)
+	if pWorldCongress == nil then
+		UI.DataError("World Congress is nil. Something has gone incredibly wrong when Evaluating Resolution History.");
+		return;
+	end
+
+	--Get the stats for the last time this resolution was seen
+	if kResolutionData ~= nil then
+		local kPreviousResolutionData:table = pWorldCongress:GetPreviousVotesOnResolution(kResolutionData.Type);
+		if kPreviousResolutionData == nil then
+			uiResolutionInstance.MoreInfoButton:SetHide(true);
+			uiResolutionInstance.MoreInfoButton:SetToolTipString("");
+			return;
+		end
+
+		uiResolutionInstance.MoreInfoButton:SetHide(false);
+
+		--Our data format for evaluation
+		local kEvaluationData:table = {
+			aVotes = 0, 
+			bVotes = 0,
+			aVoters = 0,
+			bVoters = 0,
+			soleAPlayerID = -1,
+			soleBPlayerID = -1,
+			biggestAVotes = 0,
+			biggestBVotes = 0,
+			biggestAVoter = -1,
+			biggestBVoter = -1
+		};
+
+		--Generate data
+		for playerID, kData in pairs(kPreviousResolutionData.PlayerSelections) do
+			if kData.OptionChosen == 1 then
+				kEvaluationData.aVotes = kEvaluationData.aVotes + kData.Votes;
+				kEvaluationData.aVoters = kEvaluationData.aVoters + 1;
+				kEvaluationData.soleAPlayerID = playerID;
+				if kData.Votes > kEvaluationData.biggestAVotes then
+					kEvaluationData.biggestAVotes = kData.Votes;
+					kEvaluationData.biggestAVoter = playerID;
+				end
+			else
+				kEvaluationData.bVotes = kEvaluationData.bVotes + kData.Votes;
+				kEvaluationData.bVoters = kEvaluationData.bVoters + 1;
+				kEvaluationData.soleBPlayerID = playerID;
+				if kData.Votes > kEvaluationData.biggestBVotes then
+					kEvaluationData.biggestBVotes = kData.Votes;
+					kEvaluationData.biggestBVoter = playerID;
+				end
+			end
+		end
+
+		--Go through all of our evaluators and append to the tooltip string
+		local chosenThingString:string = Locale.Lookup(kPreviousResolutionData.ChosenThing);
+		if kPreviousResolutionData.TargetType == "PlayerType" then
+			local playerID:number = tonumber(kPreviousResolutionData.ChosenThing);
+			if playerID ~= PlayerTypes.NONE and playerID ~= PlayerTypes.OBSERVER then
+				chosenThingString = GetVisiblePlayerName(playerID);
+			end
+		end
+		local tooltipString:string = kEvaluationData.aVotes > kEvaluationData.bVotes and Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_A_WON", chosenThingString) or Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_B_WON", chosenThingString);
+		for _, evaluate in pairs(m_kPreviousTooltipEvaluators) do
+			tooltipString = tooltipString .. evaluate(kEvaluationData);
+		end
+
+		uiResolutionInstance.MoreInfoButton:SetToolTipString(tooltipString);
+	else
+		UI.DataError("Resolution Data is nil! World Congress unable to evaluate Resolution History");
+		return;
+	end
+end
+
+-- ===========================================================================
+function EvaluateTiebroken(kEvaluationData:table)
+	--Evaluate if the last round was decided by tiebreaker
+	return kEvaluationData.aVotes == kEvaluationData.bVotes and "[NEWLINE]" .. Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_WAS_TIE") or "";
+end
+
+-- ===========================================================================
+function EvaluateSoleVoter(kEvaluationData:table)
+	--Did a category only have a single voter?
+	local soleVoterString:string = "";
+
+	if kEvaluationData.aVoters == 1 then
+		soleVoterString = soleVoterString .. "[NEWLINE]" .. Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_A_SOLE_VOTE", GetVisiblePlayerName(kEvaluationData.soleAPlayerID));
+	end
+
+	if kEvaluationData.bVoters == 1 then
+		soleVoterString = soleVoterString .. "[NEWLINE]" .. Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_B_SOLE_VOTE", GetVisiblePlayerName(kEvaluationData.soleBPlayerID));
+	end
+
+	return soleVoterString;
+end
+
+-- ===========================================================================
+function EvaluateNeckAndNeck(kEvaluationData:table)
+	--Evaluate if the voting was close
+	local voteDelta:number = math.abs(kEvaluationData.aVotes - kEvaluationData.bVotes);
+	local voteMargin:number = voteDelta / math.ceil(kEvaluationData.aVotes, kEvaluationData.bVotes);
+	
+	if voteMargin <= GlobalParameters.WORLD_CONGRESS_NEARLY_TIED_RANGE / 100 then
+		return "[NEWLINE]" .. (kEvaluationData.aVotes > kEvaluationData.bVotes and Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_NECK_AND_NECK_A") or Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_NECK_AND_NECK_B"));
+	end
+
+	return "";
+end
+
+-- ===========================================================================
+function EvaluateUnanimous(kEvaluationData:table)
+	--Was the decision unanimous?
+	if kEvaluationData.aVoters > 0 and kEvaluationData.bVoters == 0 then
+		return "[NEWLINE]" .. Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_UNANIMOUS_A");
+	end
+
+	if kEvaluationData.aVoters == 0 and kEvaluationData.bVoters > 0 then
+		return  "[NEWLINE]" .. Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_UNANIMOUS_B");
+	end
+
+	return "";	
+end
+
+-- ===========================================================================
+function EvaluateMajorityLeader(kEvaluationData:table)
+	--Was one player outstanding in their contribution?
+	local majorityString:string = "";
+	local aVoteMargin:number = -1;
+	local bVoteMargin:number = -1;
+
+	if kEvaluationData.aVotes > 0 then
+		aVoteMargin = kEvaluationData.biggestAVotes / kEvaluationData.aVotes;
+	end
+
+	if kEvaluationData.bVotes > 0 then
+		bVoteMargin = kEvaluationData.biggestBVotes / kEvaluationData.bVotes;
+	end
+
+	if aVoteMargin > GlobalParameters.WORLD_CONGRESS_MAJORITY_LEADER_MINIMUM then
+		majorityString = majorityString .. "[NEWLINE]" .. Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_MAJORITY_A", GetVisiblePlayerName(kEvaluationData.biggestAVoter));
+	end
+
+	if bVoteMargin > GlobalParameters.WORLD_CONGRESS_MAJORITY_LEADER_MINIMUM then
+		majorityString = majorityString .. "[NEWLINE]" .. Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_MAJORITY_B", GetVisiblePlayerName(kEvaluationData.biggestBVoter));
+	end
+
+	return majorityString;
+end
+
+-- ===========================================================================
 function PopulateChoicePulldown(kResolutionChoice:table, kVoteData:table)
   local kResolutionData:table = kVoteData.kResolutionData;
   local instance:table = kResolutionChoice.choice == 1 and kVoteData.instance.Choice1 or kVoteData.instance.Choice2;
@@ -673,6 +828,7 @@ function PopulateChoicePulldown(kResolutionChoice:table, kVoteData:table)
   if kResolutionData.TargetType == "PlayerType" then
     instance.Pulldown:SetHide(true);
     instance.PlayerPulldown:SetHide(false);
+    instance.PlayerPulldown:GetButton():RegisterCallback(Mouse.eLClick, function() AssignActivePulldown(instance.PlayerPulldown); end);
 
     local metPlayers, isUniqueLeader = GetMetPlayersAndUniqueLeaders();
 
@@ -685,7 +841,7 @@ function PopulateChoicePulldown(kResolutionChoice:table, kVoteData:table)
         instance.PlayerPulldown:BuildEntry( "InstanceOne", entry );
 
         entry.Button:SetVoid1(i);
-        local text, leaderIcon, civIcon = GetPulldownEntryText(kResolutionData, i, metPlayers);
+        local text, leaderIcon, civIcon = GetPulldownNameAndIcons(kResolutionData, i );
         entry.Button:SetText(text);
 
         local civIconManager:table = CivilizationIcon:AttachInstance(entry.CivIcon);
@@ -700,7 +856,7 @@ function PopulateChoicePulldown(kResolutionChoice:table, kVoteData:table)
 
     local tmpID:number = tonumber(kResolutionChoice.target);
     local playerID:number = tmpID < 0 and -1 or tonumber(kResolutionData.PossibleTargets[tmpID]);
-    local text, leaderIcon, civIcon = GetPulldownEntryText(kResolutionData, kResolutionChoice.target, metPlayers);
+    local text, leaderIcon, civIcon = GetPulldownNameAndIcons(kResolutionData, kResolutionChoice.target );
 
     local civIconManager:table = CivilizationIcon:AttachInstance(instance.CivIcon);
     civIconManager:UpdateIconFromPlayerID(playerID);
@@ -712,7 +868,7 @@ function PopulateChoicePulldown(kResolutionChoice:table, kVoteData:table)
     instance.PlayerPulldown:RegisterSelectionCallback(function(i)
       local playerID:number = tonumber(kResolutionData.PossibleTargets[i]);
       kResolutionChoice.target = i;
-      local text, leaderIcon, civIcon = GetPulldownEntryText(kResolutionData, i, metPlayers);
+      local text, leaderIcon, civIcon = GetPulldownNameAndIcons(kResolutionData, i );
       instance.PlayerPulldown:GetButton():SetText(text);
       instance.PlayerPulldown:GetButton():SetToolTipString("");
 
@@ -727,6 +883,7 @@ function PopulateChoicePulldown(kResolutionChoice:table, kVoteData:table)
   else--kResolutionData.TargetType ~= "PlayerType"
     instance.Pulldown:SetHide(false);
     instance.PlayerPulldown:SetHide(true);
+    instance.Pulldown:GetButton():RegisterCallback(Mouse.eLClick, function() AssignActivePulldown(instance.Pulldown); end);
 
     instance.Pulldown:ClearEntries();
     instance.Pulldown:GetButton():SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_NO_VOTING_DOWN"));
@@ -782,17 +939,19 @@ function PopulateChoicePulldown(kResolutionChoice:table, kVoteData:table)
 end
 
 -- ===========================================================================
-function GetPulldownEntryText(kResolutionData:table, index:number, metPlayers:table)
-  if index == nil or index < 0 then
-    return Locale.Lookup("LOC_WORLD_CONGRESS_SELECT_TARGET"), "ICON_LEADER_DEFAULT", "ICON_CIVILIZATION_UNKNOWN";
-  end
-  if kResolutionData.TargetType == "PlayerType" then
-    local playerID:number = kResolutionData.PossibleTargets and tonumber(kResolutionData.PossibleTargets[index]) or index;
-    local text, icon, civIcon = GetPlayerName(playerID, metPlayers)
-    return Locale.Lookup(text), icon, civIcon;
-  else
-    return Locale.Lookup(kResolutionData.PossibleTargets[index]);
-  end
+function GetPulldownNameAndIcons(kResolutionData:table, index:number )
+	if index == nil or index < 0 then
+		return Locale.Lookup("LOC_WORLD_CONGRESS_SELECT_TARGET"), "ICON_LEADER_DEFAULT", "ICON_CIVILIZATION_UNKNOWN";
+	end
+
+	-- If target type is the player type then either use index to obtain target index or itself is the index:
+	if kResolutionData.TargetType == "PlayerType" then
+		local playerID:number = kResolutionData.PossibleTargets and tonumber(kResolutionData.PossibleTargets[index]) or index;
+		return GetVisiblePlayerNameAndIcons( playerID );
+	end
+
+	-- Only returning a name (no icons), the possible targets actually holds unlocalized names.
+	return Locale.Lookup(kResolutionData.PossibleTargets[index]);	
 end
 
 -- ===========================================================================
@@ -1101,9 +1260,8 @@ function PopulateProposalStack(kProposals:table, kProposalIM:table, kProposalCat
       if pPlayerConfig then
         local playerTypeName:string = pPlayerConfig:GetLeaderTypeName();
         local isLocalPlayer:boolean = kProposal.Target == localPlayerID;
-        local name:string = GetPlayerName(kProposal.Target, metPlayers);
-        local icon:string = (isLocalPlayer or pDiplomacy:HasMet(kProposal.Target)) and "ICON_" .. playerTypeName or "ICON_LEADER_DEFAULT";
-        pIconManager:UpdateIconSimple(icon, kProposal.Target, isUniqueLeader[kProposal.Target] or false, Locale.Lookup("LOC_WORLD_CONGRESS_TARGET_PROPOSAL_TT"));
+        local name, leaderIcon, civIcon = GetVisiblePlayerNameAndIcons( kProposal.Target );		
+        pIconManager:UpdateIconSimple(leaderIcon, kProposal.Target, isUniqueLeader[kProposal.Target] or false, Locale.Lookup("LOC_WORLD_CONGRESS_TARGET_PROPOSAL_TT"));
         instance.Title:SetText(Locale.ToUpper(Locale.Lookup(kProposal.Name, name)));
         instance.Description:SetText(Locale.Lookup(kProposal.Description, name));
         instance.LeaderIcon.SelectButton:SetHide(false);
@@ -1180,8 +1338,10 @@ function PopulateEmergencyData(instance:table, emergencyTarget:number, emergency
 end
 
 -- ===========================================================================
-function GetProposalVoteKey(kProposal:table)
-  return kProposal.Target .. "_" .. (kProposal.Sender ~= nil and kProposal.Sender or kProposal.Type);
+--	Generate a unique "key" for later lookups based on the proposal attrubtes
+-- ===========================================================================
+function GetProposalVoteKey( kProposal:table )
+	return tostring(kProposal.TypeName) .."_" .. kProposal.Target .. "_" .. (kProposal.Sender ~= nil and kProposal.Sender or "NONE");
 end
 
 -- ===========================================================================
@@ -1423,7 +1583,7 @@ function PopulateSummary()
           instance.TypeIcon:SetHide(false);
         end
 
-        local text, icon = GetPulldownEntryText(kResolutionData, kResolutionChoice.target, metPlayers) or "", "";
+        local text, icon = GetPulldownNameAndIcons(kResolutionData, kResolutionChoice.target ) or "", "";
         instance.ChosenThing:SetText(text);
         instance.Title:SetText(Locale.ToUpper(Locale.Lookup(kResolution.Name)));
         instance.Status:SetText("");
@@ -1451,14 +1611,15 @@ function PopulateSummary()
     local titleInstance:table = m_kProposalTitleIM:GetInstance(Controls.ReviewProposalStack);
     local kCategoryProposals:table = kProposalCategory.ProposalsOfType;
 
-    PopulateSummaryProposals(kCategoryProposals, m_kReviewProposalIM, metPlayers);
+    PopulateSummaryProposals(kCategoryProposals, m_kReviewProposalIM );
     UpdateCategoryTitle(titleInstance, kCategoryProposals, kProposalDef);
   end
 
   Controls.ReviewResolutionTitle:SetHide(m_kReviewResolutionIM.m_iAllocatedInstances == 0);
 end
 
-function PopulateSummaryProposals(kProposals:table, kProposalIM:table, metPlayers:table)
+-- ===========================================================================
+function PopulateSummaryProposals(kProposals:table, kProposalIM:table)
   local metPlayers:table = GetMetPlayersAndUniqueLeaders();
   local localPlayerID:number = Game.GetLocalPlayer();
   local pDiplomacy:table= Players[localPlayerID]:GetDiplomacy();
@@ -1695,7 +1856,7 @@ function PopulateReview()
 
       if kResolutionData.TargetType == "PlayerType" then
         local playerID:number = tonumber(kResolutionData.ChosenThing);
-        local text, icon = playerID ~= -1 and GetPulldownEntryText(kResolutionData, playerID, metPlayers) or "", "";
+        local text, icon = playerID ~= -1 and GetPulldownNameAndIcons(kResolutionData, playerID ) or "", "";
         instance.ChosenThing:SetText(text);
 
         local pIconManager:table = LeaderIcon:AttachInstance(instance.LeaderIcon);
@@ -1743,7 +1904,7 @@ function PopulateReview()
           voterInstance.UpVoteStack:SetHide(kData.OptionChosen == 1 or kData.Votes == 0);
           voterInstance.DownVoteStack:SetHide(kData.OptionChosen ~= 1 or kData.Votes == 0);
 
-          local playerName:string = GetPlayerName(playerID, metPlayers);
+          local playerName:string = GetVisiblePlayerName(playerID);
           local aTT:string = Locale.Lookup("LOC_WORLD_CONGRESS_REVIEW_A_VOTES_PLAYER_TT", playerName, kData.Votes);
           local bTT:string = Locale.Lookup("LOC_WORLD_CONGRESS_REVIEW_B_VOTES_PLAYER_TT", playerName, kData.Votes);
           voterInstance.UpVoteIcon:SetToolTipString(bTT);
@@ -1758,7 +1919,7 @@ function PopulateReview()
 
           if kResolutionData.TargetType == "PlayerType" then
             local targetPlayerID:number = tonumber(kData.ResolutionTarget);
-            local text, icon = targetPlayerID ~= -1 and GetPulldownEntryText(kResolutionData, targetPlayerID, metPlayers) or "", "";
+            local text, icon = targetPlayerID ~= -1 and GetPulldownNameAndIcons(kResolutionData, targetPlayerID) or "", "";
             voterInstance.ChosenThing:SetText(text);
           else
             voterInstance.ChosenThing:SetText(Locale.Lookup(kData.ResolutionTarget));
@@ -1801,7 +1962,7 @@ function PopulateReview()
     titleInstance.Cost:SetToolTipString("");
     titleInstance.Cost:SetText("");
 
-    PopulateReviewProposals(kProposalCategory.ProposalsOfType, m_kReviewProposalIM, metPlayers);
+    PopulateReviewProposals(kProposalCategory.ProposalsOfType, m_kReviewProposalIM);
   end
 
   Controls.ReviewResolutionFavor:SetText("");
@@ -1874,7 +2035,7 @@ function PopulateActiveEffects()
         end
 
         local playerID:number = tonumber(kResolutionData.ChosenThing);
-        local text, icon = playerID ~= -1 and GetPulldownEntryText(kResolutionData, playerID, metPlayers) or "", "";
+        local text, icon = playerID ~= -1 and GetPulldownNameAndIcons(kResolutionData, playerID) or "", "";
         instance.ChosenThing:SetText(text);
 
         local pIconManager:table = LeaderIcon:AttachInstance(instance.LeaderIcon);
@@ -1912,7 +2073,7 @@ function PopulateActiveEffects()
     titleInstance.Cost:SetToolTipString("");
     titleInstance.Cost:SetText("");
 
-    PopulateSummaryProposals(kProposalCategory.ProposalsOfType, m_kReviewProposalIM, metPlayers);
+    PopulateSummaryProposals(kProposalCategory.ProposalsOfType, m_kReviewProposalIM);
   end
 
   Controls.ReviewResolutionFavor:SetText("");
@@ -1922,7 +2083,7 @@ end
 -- ===========================================================================
 -- Accept the voting setup as presented
 -- ===========================================================================
-function PopulateReviewProposals(kProposals:table, kProposalIM:table, metPlayers:table)
+function PopulateReviewProposals(kProposals:table, kProposalIM:table)
   local metPlayers:table = GetMetPlayersAndUniqueLeaders();
   local localPlayerID:number = Game.GetLocalPlayer();
   local pDiplomacy:table= Players[localPlayerID]:GetDiplomacy();
@@ -2011,7 +2172,7 @@ function PopulateReviewProposals(kProposals:table, kProposalIM:table, metPlayers
         -- Target Icon
         local pIconManager:table = LeaderIcon:AttachInstance(instance.LeaderIcon);
         local pPlayerConfig:table = PlayerConfigurations[playerID];
-        local playerName:string = GetPlayerName(playerID, metPlayers);
+        local playerName:string = GetVisiblePlayerName(playerID);
         if pPlayerConfig then
           local playerTypeName:string = pPlayerConfig:GetLeaderTypeName();
           local icon:string = (playerID == localPlayerID or pDiplomacy:HasMet(playerID)) and "ICON_" .. playerTypeName or "ICON_LEADER_DEFAULT";
@@ -2197,6 +2358,9 @@ end
 -- Shows the popup
 -- ===========================================================================
 function ShowPopup(delayShow:boolean, fromHotLoad:boolean)
+  if(GameConfiguration.IsPaused()) then
+    return;
+  end
   if ContextPtr:IsHidden() or fromHotLoad then
     UIManager:QueuePopup(ContextPtr, PopupPriority.WorldCongressPopup, { AlwaysVisibleInQueue = true, DelayShow = delayShow });
     Input.PushActiveContext( InputContext.Popup );
@@ -2234,7 +2398,7 @@ function OnGameDebugReturn(context:string, contextTable:table)
       m_kResolutionVotes = contextTable.ResolutionVotes;
       m_kResolutionChoices = contextTable.ResolutionChoices;
       m_HasSpecialSessionNotification = contextTable.HasSpecialSessionNotification;
-      SetStage(contextTable.CurrentStage);
+      SetStage(contextTable.CurrentStage, true);
       SetPhase(contextTable.CurrentPhase);
       ShowPopup(false, true);
     end
@@ -2245,6 +2409,7 @@ end
 -- Reload support
 -- ===========================================================================
 function OnInit(isReload:boolean)
+  LateInitialize();
   if isReload then
     LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID);
   end
@@ -2254,6 +2419,21 @@ end
 -- Reload support
 -- ===========================================================================
 function OnShutdown()
+  --Stop listening
+  LuaEvents.GameDebug_Return.Remove(OnGameDebugReturn);
+  LuaEvents.WorldCongressIntro_ShowWorldCongress.Remove( OnShowFromIntro );
+  LuaEvents.CongressButton_ShowCongressResults.Remove(OnWorldCongressResults);
+  LuaEvents.DiplomacyActionView_ShowCongressResults.Remove(OnWorldCongressResults);
+  LuaEvents.NotificationPanel_ResumeCongress.Remove(OnResumeCongress);
+  LuaEvents.CongressButton_ResumeCongress.Remove(OnResumeCongress);
+  LuaEvents.DiplomacyActionView_ResumeCongress.Remove(OnResumeCongress);
+  LuaEvents.WorldCongressBetweenTurns_ResumeCongress.Remove(OnResumeCongress);
+  LuaEvents.DiplomacyActionView_HideCongress.Remove(OnCloseFromDiplomacy);
+  LuaEvents.DiploBasePopup_HideUI.Remove(OnCloseFromDiplomacy);
+  LuaEvents.NotificationPanel_OpenWorldCongressProposeEmergencies.Remove(OnWorldCongressEmergencyProposals);
+  LuaEvents.NotificationPanel_OpenWorldCongressResults.Remove(OnOpenWorldCongressResultsNotification);
+  LuaEvents.WorldCongressPopup_OnSpecialSessionNotificationAdded.Remove(OnSpecialSessionNotificationAdded);
+  LuaEvents.WorldCongressPopup_OnSpecialSessionNotificationDismissed.Remove(OnSpecialSessionNotificationDismissed);
   LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "IsVisible", ContextPtr:IsVisible());
   LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "ReviewTab", m_ReviewTab);
   LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "CurrentStage", m_CurrentStage);
@@ -2331,6 +2511,7 @@ end
 -- Reopen the screen
 -- ===========================================================================
 function OnResumeCongress()
+  PopulateLeaderStack();
   if not m_HasAccepted and (not m_IsInSession or HasChoices()) then
     UIManager:QueuePopup(ContextPtr, PopupPriority.WorldCongressPopup, { AlwaysVisibleInQueue = true });
     Input.PushActiveContext( InputContext.Popup );
@@ -2373,7 +2554,7 @@ function OnTurnTimerUpdated(elapsedTime :number, maxTurnTime :number)
     Controls.ReturnButton:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_RETURN"));
   else
     local timeLeft:number = SoftRound(maxTurnTime - elapsedTime);
-    local timeLeftLabel:string = " (" .. Locale.Lookup("LOC_KEY_TIME_SECONDS", timeLeft) .. ")";
+    local timeLeftLabel:string = " (" .. FormatTimeRemaining(timeLeft, true) .. ")";
     Controls.NextButton:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_NEXT") .. timeLeftLabel);
     Controls.AcceptButton:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_SUBMIT") .. timeLeftLabel);
     Controls.ReturnButton:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_RETURN") .. timeLeftLabel);
@@ -2398,21 +2579,23 @@ function OnUpdateUI( type:number, tag:string, iData1:number, iData2:number, strD
 end
 
 -- ===========================================================================
+function AssignActivePulldown(pulldown:table)
+	m_kActivePulldown = pulldown;
+end
+
+-- ===========================================================================
+function CloseActivePulldown()
+	if(m_kActivePulldown ~= nil) then
+		if(m_kActivePulldown:IsOpen()) then
+			m_kActivePulldown:ForceClose();
+		end
+	end
+end
+
+-- ===========================================================================
 --	Initialize
 -- ===========================================================================
-function Initialize()
-  Events.SystemUpdateUI.Add(OnUpdateUI);
-  Events.LoadScreenClose.Add(OnLoadScreenClose);
-  Events.WorldCongressStage1.Add(function(i) OnWorldCongressStageChange(i, 1); end);
-  Events.WorldCongressStage2.Add(function(i) OnWorldCongressStageChange(i, 2); end);
-  Events.LocalPlayerTurnEnd.Add( OnLocalPlayerTurnEnd );
-  Events.TurnTimerUpdated.Add( OnTurnTimerUpdated );
-  Events.GameConfigChanged.Add( OnGameConfigChanged );
-
-  ContextPtr:SetInputHandler(OnInputHandler, true);
-  ContextPtr:SetInitHandler(OnInit);
-  ContextPtr:SetShutdown(OnShutdown);
-
+function LateInitialize()
   Controls.AcceptButton:RegisterCallback(Mouse.eLClick, OnAccept);
   Controls.ReturnButton:RegisterCallback(Mouse.eLClick, OnClose);
   Controls.PassButton:RegisterCallback(Mouse.eLClick, OnPass);
@@ -2436,9 +2619,48 @@ function Initialize()
   LuaEvents.DiplomacyActionView_HideCongress.Add(OnCloseFromDiplomacy);
   LuaEvents.DiploBasePopup_HideUI.Add(OnCloseFromDiplomacy);
   LuaEvents.NotificationPanel_OpenWorldCongressProposeEmergencies.Add(OnWorldCongressEmergencyProposals);
-  LuaEvents.NotificationPanel_OpenWorldCongressResults.Add(function() OnWorldCongressResults(REVIEW_TAB_RESULTS, true); end);
-  LuaEvents.WorldCongressPopup_OnSpecialSessionNotificationAdded.Add(function() m_HasSpecialSessionNotification = true; end);
-  LuaEvents.WorldCongressPopup_OnSpecialSessionNotificationDismissed.Add(function() m_HasSpecialSessionNotification = false; end);
+  LuaEvents.NotificationPanel_OpenWorldCongressResults.Add(OnOpenWorldCongressResultsNotification);
+  LuaEvents.WorldCongressPopup_OnSpecialSessionNotificationAdded.Add(OnSpecialSessionNotificationAdded);
+  LuaEvents.WorldCongressPopup_OnSpecialSessionNotificationDismissed.Add(OnSpecialSessionNotificationDismissed);
+
+  table.insert(m_kPreviousTooltipEvaluators, EvaluateTiebroken);
+  table.insert(m_kPreviousTooltipEvaluators, EvaluateNeckAndNeck);
+  table.insert(m_kPreviousTooltipEvaluators, EvaluateUnanimous);
+  table.insert(m_kPreviousTooltipEvaluators, EvaluateMajorityLeader);
+  table.insert(m_kPreviousTooltipEvaluators, EvaluateSoleVoter);
+end
+
+-- ===========================================================================
+--	Callback Helpers
+-- ===========================================================================
+function OnOpenWorldCongressResultsNotification() 
+	OnWorldCongressResults(REVIEW_TAB_RESULTS, true); 
+end
+
+function OnSpecialSessionNotificationAdded() 
+	m_HasSpecialSessionNotification = true;
+end
+
+function OnSpecialSessionNotificationDismissed() 
+	m_HasSpecialSessionNotification = false; 
+end
+
+-- ===========================================================================
+--	Initialize
+-- ===========================================================================
+function Initialize()
+	ContextPtr:SetInputHandler(OnInputHandler, true);
+	ContextPtr:SetInitHandler(OnInit);
+	ContextPtr:SetShutdown(OnShutdown);
+
+	Events.SystemUpdateUI.Add(OnUpdateUI);
+	Events.LoadScreenClose.Add(OnLoadScreenClose);
+	Events.WorldCongressStage1.Add(function(i) OnWorldCongressStageChange(i, 1); end);
+	Events.WorldCongressStage2.Add(function(i) OnWorldCongressStageChange(i, 2); end);
+	Events.LocalPlayerTurnEnd.Add( OnLocalPlayerTurnEnd );
+	Events.TurnTimerUpdated.Add( OnTurnTimerUpdated );
+	Events.GameConfigChanged.Add( OnGameConfigChanged );
+	Events.UserRequestClose.Add( CloseActivePulldown );
 end
 
 --No capability means never initialize this so it can never be used.
