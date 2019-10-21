@@ -10,7 +10,7 @@ MODINFO_PATH = MOD_PATH + 'cui.modinfo'
 
 # Mod Information
 MOD_ID      = '5f504949-398a-4038-a838-43c3acc4dc10'
-MOD_VERSION = '1.2'
+MOD_VERSION = '1.3'
 MOD_NAME    = '[COLOR_Civ6LightBlue]Concise UI[ENDCOLOR]'
 MOD_TEASER  = 'For a better gaming experience.'
 MOD_DESC    = 'Concise UI greatly improves the game experience by '\
@@ -26,9 +26,6 @@ RULE_SET_2  = 'RULESET_EXPANSION_2'
 
 
 def __build_modinfo():
-    '''
-        Automatically build modinfo file.
-    '''
     mod_files = __load_files()
 
     # Mod
@@ -46,10 +43,10 @@ def __build_modinfo():
     # ActionCriteria
     criteria = SubElement(root, 'ActionCriteria')
     # Expansion 1
-    exp_1 = SubElement(criteria, 'Criteria', id=CRITERIA_1, any="1")
+    exp_1 = SubElement(criteria, 'Criteria', id=CRITERIA_1, any='1')
     SubElement(exp_1, 'RuleSetInUse').text = RULE_SET_1
     # Expansion 2
-    exp_2 = SubElement(criteria, 'Criteria', id=CRITERIA_2, any="1")
+    exp_2 = SubElement(criteria, 'Criteria', id=CRITERIA_2, any='1')
     SubElement(exp_2, 'RuleSetInUse').text = RULE_SET_2
 
     # FrontEndActions
@@ -119,7 +116,7 @@ def __build_modinfo():
         for f in mod_files['additions']:
             SubElement(additions, 'File').text = f
         # add user interface
-        add_ui = SubElement(ingame, 'AddUserInterfaces', id="Cui_UI")
+        add_ui = SubElement(ingame, 'AddUserInterfaces', id='Cui_UI')
         add_ui_p = SubElement(add_ui, 'Properties')
         SubElement(add_ui_p, 'Context').text = 'InGame'
         for f in mod_files['additions']:
@@ -173,20 +170,13 @@ def __files_in_path(path):
 
 
 def __prettify(elem):
-    '''
-        Return a pretty-printed XML string for this element.
-    '''
     raw_string = ElementTree.tostring(elem, encoding='utf-8')
     xml_string = minidom.parseString(raw_string.decode('utf-8'))
     pty_string = xml_string.toprettyxml(indent='  ', encoding='utf-8')
-
     return pty_string
 
 
 def __save_to_file(text):
-    '''
-        Save xml text to a modinfo file.
-    '''
     with open(MODINFO_PATH, 'w+', encoding='utf-8') as modinfo:
         modinfo.write(text.decode('utf-8'))
 
