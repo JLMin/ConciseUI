@@ -1547,7 +1547,12 @@ function OnClickAvailableCity(player, valueType, subType)
     local pDealItem = pDeal:FindItemByValueType(DealItemTypes.CITIES, subType, valueType, player:GetID());
     if (pDealItem == nil) then
       -- No
-      pDealItem = pDeal:AddItemOfType(DealItemTypes.CITIES, player:GetID());
+      local otherPlayerID = g_OtherPlayer:GetID();
+      if (otherPlayerID == player:GetID()) then
+        otherPlayerID = g_LocalPlayer:GetID();
+      end
+
+      pDealItem = pDeal:AddItemOfType(DealItemTypes.CITIES, player:GetID(), otherPlayerID, subType, valueType);
       if (pDealItem ~= nil) then
         pDealItem:SetSubType(subType);
         pDealItem:SetValueType(valueType);

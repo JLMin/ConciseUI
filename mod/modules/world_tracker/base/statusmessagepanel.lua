@@ -146,7 +146,7 @@ function RemoveGossip( kEntry:table, uiInstance:table )
   uiInstance.Anim:ClearEndCallback();
   uiInstance.Anim:ClearAnimCallback();
   m_gossipIM:ReleaseInstance( uiInstance );
-
+  UI.PlaySound("Play_UI_Click");
   -- Remove data
   for i,kTableEntry in ipairs(m_kGossip) do
   if kTableEntry == kEntry then
@@ -411,9 +411,13 @@ function OnInit()
 end
 
 -- ===========================================================================
+--	
+-- ===========================================================================
 function Initialize()
   ContextPtr:SetInitHandler( OnInit );
   ContextPtr:SetShutdown( OnShutdown );
   if debug_testActive then DebugTest(); end	-- Enable debug mode?
 end
-Initialize();
+if GameCapabilities.HasCapability("CAPABILITY_DISPLAY_HUD_GOSSIP_LIST") then
+  Initialize();
+end

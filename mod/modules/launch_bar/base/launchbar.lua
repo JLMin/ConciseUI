@@ -86,6 +86,12 @@ function CloseAllPopups()
 end
 
 -- ===========================================================================
+function OnGetPopupsOpen()
+	if isGovernmentOpen or isTechTreeOpen or isCivicsTreeOpen or isGreatPeopleOpen or isGreatWorksOpen or isReligionOpen then
+		LuaEvents.TradeRouteChooser_CloseIfPopups();
+	end
+end
+-- ===========================================================================
 function OnOpenGreatPeople()
   if isGreatPeopleOpen then
     LuaEvents.LaunchBar_CloseGreatPeoplePopup();
@@ -109,9 +115,16 @@ end
 function OnOpenReligion()
   if isReligionOpen then
     LuaEvents.LaunchBar_CloseReligionPanel();
+		LuaEvents.LaunchBar_ClosePantheonChooser();
+	else
+		-- If we're able to but have yet to found a pantheon then open the pantheon chooser instead
+		local pLocalPlayerReligion:table = Players[Game.GetLocalPlayer()]:GetReligion();
+		if pLocalPlayerReligion and pLocalPlayerReligion:GetPantheon() < 0 and pLocalPlayerReligion:CanCreatePantheon() then
+			LuaEvents.LaunchBar_OpenPantheonChooser();
   else
     CloseAllPopups();
     LuaEvents.LaunchBar_OpenReligionPanel();	
+		end	
   end
 end
 
@@ -438,14 +451,24 @@ end
 --	Update the background and size of the launchbar itself.
 -- ===========================================================================
 function RealizeBacking()
-  -- The Launch Bar width should accomodate how many hooks are currently in the stack.  
   Controls.ButtonStack:CalculateSize();
-  Controls.LaunchBacking:SetSizeX(Controls.ButtonStack:GetSizeX()+116);
-  Controls.LaunchBackingTile:SetSizeX(Controls.ButtonStack:GetSizeX()-20);
-  Controls.LaunchBarDropShadow:SetSizeX(Controls.ButtonStack:GetSizeX());
+	local stackWidth:number = Controls.ButtonStack:GetSizeX();
+	Controls.LaunchBacking:SetSizeX(stackWidth+116);
+	Controls.LaunchBackingTile:SetSizeX(stackWidth-20);
+	Controls.LaunchBarDropShadow:SetSizeX(stackWidth);
   
-  -- When we change size of the LaunchBar, we send this LuaEvent to the Diplomacy Ribbon, so that it can change scroll width to accommodate it
-  LuaEvents.LaunchBar_Resize(Controls.ButtonStack:GetSizeX());
+	-- If the stack is less than a pip (at this writing 7) then there is nothing in it... hide the launchbar
+	if stackWidth < 10 then
+		stackWidth = 0;
+		ContextPtr:SetHide(true);		
+		Unsubscribe();
+	else
+		if ContextPtr:IsHidden() then
+			ContextPtr:SetHide(false);
+		end
+	end
+	-- Signal to other contexts (e.g., DiploRibbon)  when size has changed.
+	LuaEvents.LaunchBar_Resize( stackWidth );
 end
 
 -- ===========================================================================
@@ -577,7 +600,7 @@ function RefreshView()
   RefreshGreatPeople();
   RefreshReligion();
 
-  if BASE_RefreshView == nil then		-- No MODs, then wrap this up.
+	if BASE_RefreshView == nil then		-- No MODs/Expansions defining this function so its safe to call Realize now.
     RealizeBacking();
   end
 end
@@ -604,6 +627,11 @@ end
 --	EVENT
 function OnResearchChanged()
   RefreshView();
+end
+-- ===========================================================================
+--	EVENT
+function OnGovernmentRefresh()
+	RefreshGovernment();
 end
 
 -- ===========================================================================
@@ -699,8 +727,102 @@ function PlayMouseoverSound()
 end
 
 -- ===========================================================================
+function Unsubscribe()
+
+	Events.AnarchyBegins.Remove( OnGovernmentRefresh );
+	Events.AnarchyEnds.Remove( OnGovernmentRefresh );
+	Events.CityOccupationChanged.Remove( OnCityCaptured );		-- HACK: Detect GreatWorks acquired via city capture, by hooking this event
+	Events.CivicCompleted.Remove( OnCivicCompleted );			-- To capture when we complete Code of Laws
+	Events.CivicChanged.Remove( OnCivicChanged );
+	Events.DiplomacyDealEnacted.Remove( OnDiplomacyDealEnacted );
+	Events.FaithChanged.Remove( OnFaithChanged );
+	Events.GovernmentChanged.Remove( OnGovernmentRefresh );
+	Events.GovernmentPolicyChanged.Remove( OnGovernmentRefresh );
+	Events.GovernmentPolicyObsoleted.Remove( OnGovernmentRefresh );
+	Events.GreatWorkCreated.Remove( OnGreatWorkCreated );
+	Events.InputActionTriggered.Remove( OnInputActionTriggered );
+	Events.InterfaceModeChanged.Remove( OnInterfaceModeChanged );
+	Events.LocalPlayerChanged.Remove( OnLocalPlayerChanged );
+	Events.LocalPlayerTurnBegin.Remove( OnLocalPlayerTurnBegin );
+	Events.ResearchChanged.Remove(OnResearchChanged);
+	Events.TreasuryChanged.Remove( OnGovernmentRefresh );
+	Events.VisualStateRestored.Remove( OnVisualStateRestored );
+
+	LuaEvents.CivicsTree_CloseCivicsTree.Remove( SetCivicsTreeClosed );
+	LuaEvents.CivicsTree_OpenCivicsTree.Remove( SetCivicsTreeOpen );	
+	LuaEvents.Government_CloseGovernment.Remove( SetGovernmentClosed );
+	LuaEvents.Government_OpenGovernment.Remove( SetGovernmentOpen );	
+	LuaEvents.GreatPeople_CloseGreatPeople.Remove( SetGreatPeopleClosed );
+	LuaEvents.GreatPeople_OpenGreatPeople.Remove( SetGreatPeopleOpen );
+	LuaEvents.GreatWorks_CloseGreatWorks.Remove( SetGreatWorksClosed );
+	LuaEvents.GreatWorks_OpenGreatWorks.Remove( SetGreatWorksOpen );
+	LuaEvents.LaunchBar_CheckPopupsOpen.Remove( OnGetPopupsOpen );
+	LuaEvents.Religion_CloseReligion.Remove( SetReligionClosed );
+	LuaEvents.Religion_OpenReligion.Remove( SetReligionOpen );	
+	LuaEvents.PantheonChooser_CloseReligion.Remove( SetReligionClosed );
+	LuaEvents.PantheonChooser_OpenReligion.Remove( SetReligionOpen );	
+	LuaEvents.TechTree_CloseTechTree.Remove(SetTechTreeClosed);
+	LuaEvents.TechTree_OpenTechTree.Remove( SetTechTreeOpen );
+	LuaEvents.Tutorial_CloseAllLaunchBarScreens.Remove( OnTutorialCloseAll );
+
+	if HasCapability("CAPABILITY_TECH_TREE") then
+		LuaEvents.WorldTracker_ToggleResearchPanel.Remove( OnToggleResearchPanel );
+	end
+	if HasCapability("CAPABILITY_CIVICS_TREE") then
+		LuaEvents.WorldTracker_ToggleCivicPanel.Remove( OnToggleCivicPanel );
+	end
+end
+
+-- ===========================================================================
+function Subscribe()
+	Events.AnarchyBegins.Add( OnGovernmentRefresh );
+	Events.AnarchyEnds.Add( OnGovernmentRefresh );
+	Events.CityOccupationChanged.Add( OnCityCaptured );		-- HACK: Detect GreatWorks acquired via city capture, by hooking this event
+	Events.CivicCompleted.Add( OnCivicCompleted );			-- To capture when we complete Code of Laws
+	Events.CivicChanged.Add( OnCivicChanged );
+	Events.DiplomacyDealEnacted.Add( OnDiplomacyDealEnacted );
+	Events.FaithChanged.Add( OnFaithChanged );
+	Events.GovernmentChanged.Add( OnGovernmentRefresh );
+	Events.GovernmentPolicyChanged.Add( OnGovernmentRefresh );
+	Events.GovernmentPolicyObsoleted.Add( OnGovernmentRefresh );
+	Events.GreatWorkCreated.Add( OnGreatWorkCreated );
+	Events.InputActionTriggered.Add( OnInputActionTriggered );
+	Events.InterfaceModeChanged.Add( OnInterfaceModeChanged );
+	Events.LocalPlayerChanged.Add( OnLocalPlayerChanged );
+	Events.LocalPlayerTurnBegin.Add( OnLocalPlayerTurnBegin );
+	Events.ResearchChanged.Add(OnResearchChanged);
+	Events.TreasuryChanged.Add( OnGovernmentRefresh );
+	Events.VisualStateRestored.Add( OnVisualStateRestored );
+
+	LuaEvents.CivicsTree_CloseCivicsTree.Add( SetCivicsTreeClosed );
+	LuaEvents.CivicsTree_OpenCivicsTree.Add( SetCivicsTreeOpen );	
+	LuaEvents.Government_CloseGovernment.Add( SetGovernmentClosed );
+	LuaEvents.Government_OpenGovernment.Add( SetGovernmentOpen );	
+	LuaEvents.GreatPeople_CloseGreatPeople.Add( SetGreatPeopleClosed );
+	LuaEvents.GreatPeople_OpenGreatPeople.Add( SetGreatPeopleOpen );
+	LuaEvents.GreatWorks_CloseGreatWorks.Add( SetGreatWorksClosed );
+	LuaEvents.GreatWorks_OpenGreatWorks.Add( SetGreatWorksOpen );
+	LuaEvents.LaunchBar_CheckPopupsOpen.Add( OnGetPopupsOpen );
+	LuaEvents.Religion_CloseReligion.Add( SetReligionClosed );
+	LuaEvents.Religion_OpenReligion.Add( SetReligionOpen );	
+	LuaEvents.PantheonChooser_CloseReligion.Add( SetReligionClosed );
+	LuaEvents.PantheonChooser_OpenReligion.Add( SetReligionOpen );	
+	LuaEvents.TechTree_CloseTechTree.Add(SetTechTreeClosed);
+	LuaEvents.TechTree_OpenTechTree.Add( SetTechTreeOpen );
+	LuaEvents.Tutorial_CloseAllLaunchBarScreens.Add( OnTutorialCloseAll );
+
+	if HasCapability("CAPABILITY_TECH_TREE") then
+		LuaEvents.WorldTracker_ToggleResearchPanel.Add( OnToggleResearchPanel );
+	end
+	if HasCapability("CAPABILITY_CIVICS_TREE") then
+		LuaEvents.WorldTracker_ToggleCivicPanel.Add( OnToggleCivicPanel );
+	end
+end
+
+-- ===========================================================================
 function LateInitialize()
-  RefreshView();
+	Subscribe();
+	RefreshView();
 end
 
 -- ===========================================================================
@@ -727,47 +849,5 @@ function Initialize()
   Controls.ReligionButton:RegisterCallback( Mouse.eMouseEnter, PlayMouseoverSound);
   Controls.ScienceButton:RegisterCallback(Mouse.eLClick, OnOpenResearch);
   Controls.ScienceButton:RegisterCallback( Mouse.eMouseEnter, PlayMouseoverSound);
-
-  Events.LocalPlayerTurnBegin.Add( OnLocalPlayerTurnBegin );
-  Events.VisualStateRestored.Add( OnVisualStateRestored );
-  Events.CivicCompleted.Add( OnCivicCompleted );				-- To capture when we complete Code of Laws
-  Events.CivicChanged.Add( OnCivicChanged );
-  Events.ResearchChanged.Add(OnResearchChanged);
-  Events.TreasuryChanged.Add( RefreshGovernment );
-  Events.GovernmentPolicyChanged.Add( RefreshGovernment );
-  Events.GovernmentPolicyObsoleted.Add( RefreshGovernment );
-  Events.GovernmentChanged.Add( RefreshGovernment );
-  Events.AnarchyBegins.Add( RefreshGovernment );
-  Events.AnarchyEnds.Add( RefreshGovernment );
-  Events.InterfaceModeChanged.Add( OnInterfaceModeChanged );
-  Events.GreatWorkCreated.Add( OnGreatWorkCreated );
-  Events.FaithChanged.Add( OnFaithChanged );
-  Events.LocalPlayerChanged.Add( OnLocalPlayerChanged );
-  Events.DiplomacyDealEnacted.Add( OnDiplomacyDealEnacted );
-  Events.CityOccupationChanged.Add( OnCityCaptured ); -- kinda bootleg, but effective
-
-  -- Wrapped in an anonymous function, because OnInputActionTriggered may be overriden elsewhere (like XP1)
-  Events.InputActionTriggered.Add( function(actionId) OnInputActionTriggered(actionId) end );
-
-  LuaEvents.CivicsTree_CloseCivicsTree.Add( SetCivicsTreeClosed );
-  LuaEvents.CivicsTree_OpenCivicsTree.Add( SetCivicsTreeOpen );	
-  LuaEvents.Government_CloseGovernment.Add( SetGovernmentClosed );
-  LuaEvents.Government_OpenGovernment.Add( SetGovernmentOpen );	
-  LuaEvents.GreatPeople_CloseGreatPeople.Add( SetGreatPeopleClosed );
-  LuaEvents.GreatPeople_OpenGreatPeople.Add( SetGreatPeopleOpen );
-  LuaEvents.GreatWorks_CloseGreatWorks.Add( SetGreatWorksClosed );
-  LuaEvents.GreatWorks_OpenGreatWorks.Add( SetGreatWorksOpen );
-  LuaEvents.Religion_CloseReligion.Add( SetReligionClosed );
-  LuaEvents.Religion_OpenReligion.Add( SetReligionOpen );	
-  LuaEvents.TechTree_CloseTechTree.Add(SetTechTreeClosed);
-  LuaEvents.TechTree_OpenTechTree.Add( SetTechTreeOpen );
-  LuaEvents.Tutorial_CloseAllLaunchBarScreens.Add( OnTutorialCloseAll );
-
-  if HasCapability("CAPABILITY_TECH_TREE") then
-    LuaEvents.WorldTracker_ToggleResearchPanel.Add( OnToggleResearchPanel );
-  end
-  if HasCapability("CAPABILITY_CIVICS_TREE") then
-    LuaEvents.WorldTracker_ToggleCivicPanel.Add( OnToggleCivicPanel );
-  end
 end
 Initialize();

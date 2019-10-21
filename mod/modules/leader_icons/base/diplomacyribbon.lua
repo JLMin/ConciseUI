@@ -34,13 +34,12 @@ local m_leadersMet			:number = 0;		-- Number of leaders in the ribbon
 local m_scrollIndex			:number = 0;		-- Index of leader that is supposed to be on the far right.  TODO: Remove this and instead scroll based on visible area.
 local m_scrollPercent		:number = 0;		-- Necessary for scroll lerp
 local m_isScrolling			:boolean = false;
-local m_uiLeadersByID		:table = {};
-local m_uiLeadersByPortrait	:table = {};
+local m_uiLeadersByID		:table = {};		-- map of (entire) leader controls based on player id
+local m_uiLeadersByPortrait	:table = {};		-- map of leader portraits based on player id
 local m_uiChatIconsVisible	:table = {};
 local m_leaderInstanceHeight:number = 0;		-- How tall is an instantiated leader instance.
-local m_ribbonStats			:number = -1;		-- From Options on how this should display.
-local m_isIniting			:boolean = true;	-- Tracking if initialization.
-local m_updateFramesLeft	:number = 0;
+local m_ribbonStats			:number = -1;		-- From Options menu, enum of how this should display.
+local m_isIniting			:boolean = true;	-- Tracking if initialization is occuring.
 local m_kActiveIds			:table = {};		-- Which player(s) are active.
 local m_isYieldsSubscribed	:boolean = false;	-- Are yield events subscribed to?
 
@@ -165,7 +164,7 @@ function FinishAddingLeader( playerID:number, uiLeader:table, kProps:table)
 	if kProps.isMasked then	isMasked = kProps.isMasked; end
 
 	-- Show fields for enabled victory types.
-	local isHideScore	:boolean = isMasked or (not (GameConfiguration.IsAnyMultiplayer() or Game.IsVictoryEnabled("VICTORY_SCORE")));
+	local isHideScore	:boolean = isMasked or (not (Game.IsVictoryEnabled("VICTORY_SCORE") or (not HasCapability("VICTORY_SCORE"))));
 	local isHideMilitary:boolean = isMasked or (not Game.IsVictoryEnabled("VICTORY_CONQUEST") or not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"));
 	local isHideScience	:boolean = isMasked or (not HasCapability("CAPABILITY_SCIENCE") or not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"));
 	local isHideCulture :boolean = isMasked or (not HasCapability("CAPABILITY_CULTURE") or not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"));
@@ -286,6 +285,7 @@ function RealizeSize( additionalElementsWidth:number )
 	Controls.LeaderStack:CalculateSize();
 
 	-- Obtain controls
+	local uiPartialScreenHookRoot:table	= ContextPtr:LookUpControl( "/InGame/PartialScreenHooks/RootContainer" );
 	local uiPartialScreenHookBar :table	= ContextPtr:LookUpControl( "/InGame/PartialScreenHooks/ButtonStack" );
 	local uiLaunchBar			 :table	= ContextPtr:LookUpControl( "/InGame/LaunchBar/ButtonStack" );
 
@@ -293,7 +293,11 @@ function RealizeSize( additionalElementsWidth:number )
 		launchBarWidth = math.max(uiLaunchBar:GetSizeX() + WORLD_TRACKER_OFFSET, MIN_LEFT_HOOKS);
 	end
 	if (uiPartialScreenHookBar~=nil) then
+		if uiPartialScreenHookRoot and uiPartialScreenHookRoot:IsVisible() then
 		partialScreenBarWidth = uiPartialScreenHookBar:GetSizeX();
+		else
+			partialScreenBarWidth = 0;  -- There are no partial screen hooks at all; backing is invisible.
+		end
 	end
 
 	local screenWidth:number, screenHeight:number = UIManager:GetScreenSizeVal(); -- Cache screen dimensions
@@ -543,8 +547,15 @@ function OnTurnBegin( playerID:number )
 	if(uiLeader ~= nil) then
 		UpdateStatValues( playerID, uiLeader );
 
+		local localPlayerID:number = Game.GetLocalPlayer();
+		if(localPlayerID == PlayerTypes.NONE or localPlayerID == PlayerTypes.OBSERVER)then
+			return;
+		end
 		-- Update the approripate animation (alpha vs slide) based on what mode is being used.
 		if 	m_ribbonStats == RibbonHUDStats.SHOW then
+			if(not(playerID == localPlayerID or Players[localPlayerID]:GetDiplomacy():HasMet(playerID))) then
+				uiLeader.LeaderContainer:SetSizeVal(63,63);
+			end
 			local pSize:table = uiLeader.LeaderContainer:GetSize();
 			uiLeader.ActiveLeaderAndStats:SetSizeVal( pSize.x + LEADER_ART_OFFSET_X, pSize.y + LEADER_ART_OFFSET_Y );
 			uiLeader.ActiveLeaderAndStats:SetToBeginning();
@@ -562,6 +573,7 @@ function OnTurnBegin( playerID:number )
 	end
 
 	m_kActiveIds[playerID] = true;
+	UpdateLeaders();
 end
 
 -- ===========================================================================
@@ -677,6 +689,7 @@ end
 
 -- ===========================================================================
 --	UI Callback
+--	Refresh the stats.
 -- ===========================================================================
 function OnRefresh()
 	ContextPtr:ClearRequestRefresh();
@@ -693,6 +706,21 @@ function OnRefresh()
 		UI.DataError("Attempt to refresh diplomacy ribbon stats but no event triggered the refresh!");
 	end
 	g_kRefreshRequesters = {};	-- Clear out for next refresh
+end
+-- ===========================================================================
+--	Event
+--	Special from most other yield events as this may trigger on players other
+--	than the local player for actions such as making a deal.
+-- ===========================================================================
+function OnTreasuryChanged( playerID:number, yield:number , balance:number)	
+	local uiLeader :table = m_uiLeadersByID[playerID];
+	if uiLeader ~= nil then
+		UpdateStatValues( playerID, uiLeader );
+	end	
+	-- If refresh is pending for local player, it can be cleared.
+	if playerID == Game.GetLocalPlayer() and table.count(g_kRefreshRequesters) > 0 then
+		ContextPtr:ClearRequestRefresh();
+	end
 end
 
 -- ===========================================================================
@@ -725,7 +753,6 @@ OnImprovementRemovedFromMap	= function() OnLocalStatUpdateRequest( "OnImprovemen
 OnPantheonFounded			= function() OnLocalStatUpdateRequest( "OnPantheonFounded" ); end
 OnPlayerAgeChanged			= function() OnLocalStatUpdateRequest( "OnPlayerAgeChanged" ); end
 OnResearchCompleted			= function() OnLocalStatUpdateRequest( "OnResearchCompleted" ); end
-OnTreasuryChanged			= function() OnLocalStatUpdateRequest( "OnTreasuryChanged" ); end
 OnUnitAddedToMap			= function() OnLocalStatUpdateRequest( "OnUnitAddedToMap" ); end
 OnUnitGreatPersonActivated	= function() OnLocalStatUpdateRequest( "OnUnitGreatPersonActivated" ); end
 OnUnitKilledInCombat		= function() OnLocalStatUpdateRequest( "OnUnitKilledInCombat" ); end
