@@ -1,8 +1,8 @@
-# Concise UI (v1.2)
+# Concise UI (v1.3)
 
 Concise UI greatly improves the game experience by modifying the vanilla UI and adding new UI elements to the game.
 
-> _Supported game versions: 1.0.0.317 (416354)_  
+> _Supported game versions: 1.0.0.341 (443561)_  
 
 ## Manually Update
 
