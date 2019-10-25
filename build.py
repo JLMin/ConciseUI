@@ -15,7 +15,7 @@ MOD_NAME    = '[COLOR_Civ6LightBlue]Concise UI[ENDCOLOR]'
 MOD_TEASER  = 'For a better gaming experience.'
 MOD_DESC    = 'Concise UI greatly improves the game experience by '\
               'modifying the vanilla UI and adding new UI elements to the game.'\
-              '[NEWLINE][NEWLINE]Game Version: 1.0.0.328 (426563)'
+              '[NEWLINE][NEWLINE]Game Version: 1.0.0.341 (443561)'
 MOD_AUTHOR  = 'eudaimonia'
 MOD_SAVED   = '0'
 MOD_COMPT   = '2.0'

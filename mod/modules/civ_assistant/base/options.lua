@@ -50,6 +50,9 @@ local WINDOWED_OPTION = 0;
 
 local MIN_SCROLL_SPEED = 0.5;
 local MAX_SCROLL_SPEED = 5.0;
+local MIN_SCREEN_Y = 768;
+local SCREEN_OFFSET_Y = 63;
+local MIN_SCREEN_OFFSET_Y = -53;
 
 _PromptRestartApp = false;
 _PromptRestartGame = false;
@@ -1542,6 +1545,45 @@ function TemporaryHardCodedGoodness()
 --    );
 
     -- Interface
+		PopulateComboBox(Controls.ClockFormat, clock_options, Options.GetUserOption("Interface", "ClockFormat"), function(option)
+		UserConfiguration.SetValue("ClockFormat", option);
+		Options.SetUserOption("Interface", "ClockFormat", option);
+		Controls.ConfirmButton:SetDisabled(false);
+	end,
+	UserConfiguration.IsValueLocked("ClockFormat"));	
+
+	PopulateComboBox(Controls.PlayByCloudEndTurnBehavior, playByCloud_endturn_options, Options.GetUserOption("Interface", "PlayByCloudEndTurnBehavior"), 
+		function(option)
+			Options.SetUserOption("Interface", "PlayByCloudEndTurnBehavior", option);
+			Controls.ConfirmButton:SetDisabled(false);
+		end
+	);
+
+		PopulateComboBox(Controls.PlayByCloudClientReadyBehavior, playByCloud_ready_options, Options.GetUserOption("Interface", "PlayByCloudClientReadyBehavior"), 
+		function(option)
+			Options.SetUserOption("Interface", "PlayByCloudClientReadyBehavior", option);
+			Controls.ConfirmButton:SetDisabled(false);
+		end
+	);
+
+	PopulateComboBox(Controls.ColorblindAdaptation, colorblindAdaptation_options, Options.GetAppOption("UI", "ColorblindAdaptation"), function(option)
+		Options.SetAppOption("UI", "ColorblindAdaptation", option);
+		Controls.ConfirmButton:SetDisabled(false);
+		_PromptRestartGame = true;
+    end);	
+
+	PopulateComboBox(Controls.RGBControl, lightingRGB_options, Options.GetAppOption("UI", "UseRGBLighting"), function(option)
+		Options.SetAppOption("UI", "UseRGBLighting", option);
+		Controls.ConfirmButton:SetDisabled(false);
+		_PromptRestartApp = true;
+    end);	
+
+    -- we can't allow this to be changed in-game, too many things cache the values
+    if IsInGame() then
+        Controls.ColorblindAdaptation:SetDisabled(true);
+    else
+        Controls.ColorblindAdaptation:SetDisabled(false);
+    end
   PopulateComboBox(Controls.StartInStrategicView, boolean_options, Options.GetUserOption("Gameplay", "StartInStrategicView"), function(option)
     Options.SetUserOption("Gameplay", "StartInStrategicView", option);
     Controls.ConfirmButton:SetDisabled(false);
@@ -1854,17 +1896,14 @@ function OnToggleAdvancedOptions()
 end
 -------------------------------------------------------------------------------
 function Resize()
-  local screenX, screenY:number = UIManager:GetScreenSizeVal();
-  
-  if (screenY < 768 ) then
-    Controls.Content:SetSizeY(screenY-98);
-  end
-
-  local hideLogo = true;
-  if(screenY >= Controls.MainWindow:GetSizeY() + (Controls.LogoContainer:GetSizeY()+ Controls.LogoContainer:GetOffsetY())*2) then
-    hideLogo = false;
-  end
-  Controls.LogoContainer:SetHide(hideLogo);	
+	local screenX, screenY:number = UIManager:GetScreenSizeVal();
+	if(screenY >= MIN_SCREEN_Y + (Controls.LogoContainer:GetSizeY()+ Controls.LogoContainer:GetOffsetY() * 2)) then
+		Controls.MainWindow:SetSizeY(screenY-(Controls.LogoContainer:GetSizeY() + Controls.LogoContainer:GetOffsetY() * 2));
+		Controls.Content:SetSizeY(SCREEN_OFFSET_Y + Controls.MainWindow:GetSizeY()-(Controls.ConfirmButton:GetSizeY() + Controls.LogoContainer:GetSizeY()));
+	else
+		Controls.MainWindow:SetSizeY(screenY);
+		Controls.Content:SetSizeY(MIN_SCREEN_OFFSET_Y + Controls.MainWindow:GetSizeY()-(Controls.ConfirmButton:GetSizeY()));
+	end
 end
 
 function OnUpdateUI( type:number, tag:string, iData1:number, iData2:number, strData1:string )   
