@@ -82,6 +82,7 @@
       <File>modules/leader_icons/base/diplomacyactionview.lua</File>
       <File>modules/leader_icons/base/diplomacyribbon.lua</File>
       <File>modules/leader_icons/base/leadericon.xml</File>
+      <File>modules/map_options/base/selectedunit.lua</File>
       <File>modules/map_options/base/unitflagmanager.lua</File>
       <File>modules/map_options/base/worldviewiconsmanager.lua</File>
       <File>modules/map_tacks/base/mappinlistpanel.lua</File>
@@ -208,6 +209,7 @@
     <File>modules/leader_icons/base/diplomacyactionview.lua</File>
     <File>modules/leader_icons/base/diplomacyribbon.lua</File>
     <File>modules/leader_icons/base/leadericon.xml</File>
+    <File>modules/map_options/base/selectedunit.lua</File>
     <File>modules/map_options/base/unitflagmanager.lua</File>
     <File>modules/map_options/base/worldviewiconsmanager.lua</File>
     <File>modules/map_tacks/base/mappinlistpanel.lua</File>
