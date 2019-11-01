@@ -5,21 +5,23 @@
   <InputCategories>
     <InsertOrIgnore CategoryId="CONCISEUI" Name="LOC_CUI_CONFIG_CATEGORY" Visible="1" SortIndex="0" />
   </InputCategories>
-  
-  <InputActions>	
+
+  <InputActions>
     <InsertOrIgnore ActionId="CuiActionPlaceMapPin"       Name="LOC_CUI_CONFIG_PLACE_MAP_PIN"       Description="LOC_CUI_CONFIG_PLACE_MAP_PIN"       CategoryId="CONCISEUI" ContextId="World" />
     <InsertOrIgnore ActionId="CuiActionToggleImproved"    Name="LOC_CUI_CONFIG_TOGGLE_IMPROVED"     Description="LOC_CUI_CONFIG_TOGGLE_IMPROVED"     CategoryId="CONCISEUI" ContextId="World" />
     <InsertOrIgnore ActionId="CuiActionToggleUnitFlags"   Name="LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS"   Description="LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS"   CategoryId="CONCISEUI" ContextId="World" />
     <InsertOrIgnore ActionId="CuiActionToggleTraders"     Name="LOC_CUI_CONFIG_TOGGLE_TRADERS"      Description="LOC_CUI_CONFIG_TOGGLE_TRADERS"      CategoryId="CONCISEUI" ContextId="World" />
+    <InsertOrIgnore ActionId="CuiActionToggleReligions"   Name="LOC_CUI_CONFIG_TOGGLE_RELIGIONS"    Description="LOC_CUI_CONFIG_TOGGLE_RELIGIONS"    CategoryId="CONCISEUI" ContextId="World" />
     <InsertOrIgnore ActionId="CuiActionToggleCityBanners" Name="LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS" Description="LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS" CategoryId="CONCISEUI" ContextId="World" />
     <InsertOrIgnore ActionId="CuiActionToggleUnitList"    Name="LOC_CUI_CONFIG_OPEN_UNIT_LIST"      Description="LOC_CUI_CONFIG_OPEN_UNIT_LIST"      CategoryId="CONCISEUI" ContextId="World" />
   </InputActions>
-  
+
   <InputActionDefaultGestures>
     <InsertOrIgnore ActionId="CuiActionPlaceMapPin"       Index="0" GestureType="KBMouse" GestureData="LOC_OPTIONS_KEY_X"/>
     <InsertOrIgnore ActionId="CuiActionToggleImproved"    Index="0" GestureType="KBMouse" GestureData="LOC_OPTIONS_KEY_I"/>
     <InsertOrIgnore ActionId="CuiActionToggleUnitFlags"   Index="0" GestureType="KBMouse" GestureData="LOC_OPTIONS_KEY_U"/>
     <InsertOrIgnore ActionId="CuiActionToggleTraders"     Index="0" GestureType="KBMouse" GestureData="LOC_OPTIONS_KEY_T"/>
+    <InsertOrIgnore ActionId="CuiActionToggleReligions"   Index="0" GestureType="KBMouse" GestureData="LOC_OPTIONS_KEY_R"/>
     <InsertOrIgnore ActionId="CuiActionToggleCityBanners" Index="0" GestureType="KBMouse" GestureData="LOC_OPTIONS_KEY_B"/>
     <InsertOrIgnore ActionId="CuiActionToggleUnitList"    Index="0" GestureType="KBMouse" GestureData="LOC_OPTIONS_KEY_L"/>
   </InputActionDefaultGestures>

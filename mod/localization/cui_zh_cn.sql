@@ -11,6 +11,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("zh_Hans_CN", "LOC_CUI_CONFIG_TOGGLE_IMPROVED",                                "开启/关闭已改良资源图标"),
 ("zh_Hans_CN", "LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",                              "开启/关闭单位图标"),
 ("zh_Hans_CN", "LOC_CUI_CONFIG_TOGGLE_TRADERS",                                 "开启/关闭商人图标"),
+("zh_Hans_CN", "LOC_CUI_CONFIG_TOGGLE_RELIGIONS",                               "开启/关闭宗教单位图标"),
 ("zh_Hans_CN", "LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS",                            "开启/关闭城市横幅"),
 ("zh_Hans_CN", "LOC_CUI_CONFIG_OPEN_UNIT_LIST",                                 "打开单位列表"),
 
@@ -69,6 +70,8 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("zh_Hans_CN", "LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP",                        "开启/关闭城市横幅"),
 ("zh_Hans_CN", "LOC_CUI_MO_SHOW_TRADERS",                                       "显示商人图标"),
 ("zh_Hans_CN", "LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP",                             "开启/关闭商人图标"),
+("zh_Hans_CN", "LOC_CUI_MO_SHOW_RELIGIONS",                                     "显示宗教单位图标"),
+("zh_Hans_CN", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                           "开启/关闭宗教单位图标"),
 
 -- =============================================================================
 -- Report Screen

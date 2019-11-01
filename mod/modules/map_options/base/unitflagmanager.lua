@@ -600,6 +600,7 @@ function UnitFlag.UpdateFlagType( self )
     textureName = TEXTURE_CIVILIAN;
   elseif( self.m_Style == FLAGSTYLE_RELIGION ) then
     textureName = TEXTURE_RELIGION;
+    self.m_IsForceHide = not CuiSettings:GetBoolean(CuiSettings.SHOW_RELIGIONS); -- CUI: toggle religion flags
   elseif( self.m_Style == FLAGSTYLE_NAVAL) then
     textureName = TEXTURE_NAVAL;
   elseif( self.m_Style == FLAGSTYLE_SUPPORT) then
@@ -1343,6 +1344,11 @@ function UpdateIconStack( plotX:number, plotY:number )
           flag.m_Instance.Anchor:SetHide(not CuiSettings:GetBoolean(CuiSettings.SHOW_TRADERS));
         end
 
+        -- CUI: toggle religion flags
+        if (flag.m_Style == FLAGSTYLE_RELIGION) then
+          flag.m_Instance.Anchor:SetHide(not CuiSettings:GetBoolean(CuiSettings.SHOW_RELIGIONS));
+        end
+
       end
     end
   end
@@ -1988,6 +1994,7 @@ function Initialize()
   LuaEvents.CityBannerManager_UpdateRangeStrike.Add( UpdateFlagPositions );
 
   LuaEvents.CuiToggleTraderIcons.Add( Refresh ); -- CUI
+  LuaEvents.CuiToggleReligionIcons.Add( Refresh ); -- CUI
 
   RegisterDirtyEvents();
 end

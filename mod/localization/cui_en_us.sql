@@ -11,6 +11,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("en_US", "LOC_CUI_CONFIG_TOGGLE_IMPROVED",                                     "Toggle Improved Resource"),
 ("en_US", "LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",                                   "Toggle Unit Flags"),
 ("en_US", "LOC_CUI_CONFIG_TOGGLE_TRADERS",                                      "Toggle Trader Icons"),
+("en_US", "LOC_CUI_CONFIG_TOGGLE_RELIGIONS",                                    "Toggle Religion Icons"),
 ("en_US", "LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS",                                 "Toggle City Banners"),
 ("en_US", "LOC_CUI_CONFIG_OPEN_UNIT_LIST",                                      "Open Unit List"),
 
@@ -68,7 +69,9 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("en_US", "LOC_CUI_MO_SHOW_CITY_BANNERS",                                       "Show City Banners"),
 ("en_US", "LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP",                             "Toggle City Banners"),
 ("en_US", "LOC_CUI_MO_SHOW_TRADERS",                                            "Show Traders"),
-("en_US", "LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP",                                  "Toggle Trader Icons"),
+("en_US", "LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP",                                  "Toggle Trader Flags"),
+("en_US", "LOC_CUI_MO_SHOW_RELIGIONS",                                          "Show Religion Units"),
+("en_US", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Toggle Religion Flags"),
 
 -- =============================================================================
 -- Report Screen

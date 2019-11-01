@@ -11,6 +11,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ja_JP", "LOC_CUI_CONFIG_TOGGLE_IMPROVED",                                     "改善済み資源の表示"),
 ("ja_JP", "LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",                                   "ユニットアイコンの表示"),
 ("ja_JP", "LOC_CUI_CONFIG_TOGGLE_TRADERS",                                      "交易商アイコンの表示"),
+("ja_JP", "LOC_CUI_CONFIG_TOGGLE_RELIGIONS",                                    "Toggle Religion Icons"),
 ("ja_JP", "LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS",                                 "都市バナーの表示"),
 ("ja_JP", "LOC_CUI_CONFIG_OPEN_UNIT_LIST",                                      "ユニット一覧を開く"),
 
@@ -69,6 +70,8 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ja_JP", "LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP",                             "都市バナーの切り替え"),
 ("ja_JP", "LOC_CUI_MO_SHOW_TRADERS",                                            "交易商アイコンを表示"),
 ("ja_JP", "LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP",                                  "交易商アイコンの切り替え"),
+("ja_JP", "LOC_CUI_MO_SHOW_RELIGIONS",                                          "Show Religion Units"),
+("ja_JP", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Toggle Religion Flags"),
 
 -- =============================================================================
 -- Report Screen

@@ -11,6 +11,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("fr_FR", "LOC_CUI_CONFIG_TOGGLE_IMPROVED",                                     "Afficher les ressources aménagées"),
 ("fr_FR", "LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",                                   "Afficher les icônes des unités"),
 ("fr_FR", "LOC_CUI_CONFIG_TOGGLE_TRADERS",                                      "Afficher les icônes des négociants"),
+("fr_FR", "LOC_CUI_CONFIG_TOGGLE_RELIGIONS",                                    "Toggle Religion Icons"),
 ("fr_FR", "LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS",                                 "Afficher les bannières (noms) des villes"),
 ("fr_FR", "LOC_CUI_CONFIG_OPEN_UNIT_LIST",                                      "Ouvrir la liste des unités"),
 
@@ -69,6 +70,8 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("fr_FR", "LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP",                             "Afficher les bannières (noms) des villes"),
 ("fr_FR", "LOC_CUI_MO_SHOW_TRADERS",                                            "Afficher les négociants"),
 ("fr_FR", "LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP",                                  "Afficher les icônes des négociants"),
+("fr_FR", "LOC_CUI_MO_SHOW_RELIGIONS",                                          "Show Religion Units"),
+("fr_FR", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Toggle Religion Flags"),
 
 -- =============================================================================
 -- Report Screen
