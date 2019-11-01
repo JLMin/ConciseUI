@@ -538,13 +538,16 @@
     <Container ID="Top" Size="320,32">
       <Image ID="Branch" Size="6,35" Texture="branch.dds" Offset="-3,-17" Hidden="1"/>
       <Stack StackGrowth="Left" StackPadding="0" Anchor="R,T">
-        <GridButton ID="GoldButton"  Size="32,32" Style="ButtonControl" Anchor="R,T">
-          <Label ID="GoldCost"       Size="68,32" String="[ICON_GOLD]"  Anchor="R,C" Offset="5,1" Hidden="1" Style="WhiteSemiBold14"/>
-          <Label ID="GoldIconOnly"   Size="32,32" String="[ICON_GOLD]"  Anchor="R,C" Offset="5,1" Style="WhiteSemiBold14"/>
+        <GridButton ID="GoldButton"   Size="32,32" Style="ButtonControl" Anchor="R,T">
+          <Label ID="GoldCost"        Size="68,32" String="[ICON_GOLD]"  Anchor="R,C" Offset="5,1" Hidden="1" Style="WhiteSemiBold14"/>
+          <Label ID="GoldIconOnly"    Size="32,32" String="[ICON_GOLD]"  Anchor="R,C" Offset="5,1" Style="WhiteSemiBold14"/>
         </GridButton>
-        <GridButton ID="FaithButton" Size="32,32" Style="ButtonControl" Anchor="R,T">
-          <Label ID="FaithCost"      Size="68,32" String="[ICON_Faith]" Anchor="R,C" Offset="5,1" Hidden="1" Style="WhiteSemiBold14"/>
-          <Label ID="FaithIconOnly"  Size="32,32" String="[ICON_Faith]" Anchor="R,C" Offset="5,1" Style="WhiteSemiBold14"/>
+        <GridButton ID="FaithButton"  Size="32,32" Style="ButtonControl" Anchor="R,T">
+          <Label ID="FaithCost"       Size="68,32" String="[ICON_Faith]" Anchor="R,C" Offset="5,1" Hidden="1" Style="WhiteSemiBold14"/>
+          <Label ID="FaithIconOnly"   Size="32,32" String="[ICON_Faith]" Anchor="R,C" Offset="5,1" Style="WhiteSemiBold14"/>
+        </GridButton>
+        <GridButton ID="RepeatButton" Size="32,32" Style="ButtonControl" Anchor="R,T">
+          <Label ID="RepeateIcon"     Size="32,32" String="[ICON_TradeRouteLarge]" Anchor="R,C" Offset="5,3" Style="WhiteSemiBold14"/>
         </GridButton>
         <GridButton ID="Button" Size="256,32" Style="ButtonControl" Anchor="R,T">
           <Container ID="CompletedArea" Size="parent,parent" Hidden="1" Offset="0,-1">

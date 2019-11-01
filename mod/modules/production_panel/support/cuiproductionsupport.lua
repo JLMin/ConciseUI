@@ -127,6 +127,67 @@ function ComposeTT( ... )
 end
 
 -- ===========================================================================
+-- Repeat Project
+-- ---------------------------------------------------------------------------
+RepeatableProject = {
+  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_HOLY_SITE"].Hash,
+  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_CAMPUS"].Hash,
+  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_ENCAMPMENT"].Hash,
+  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_HARBOR"].Hash,
+  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_COMMERCIAL_HUB"].Hash,
+  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_THEATER"].Hash,
+  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_INDUSTRIAL_ZONE"].Hash,
+  GameInfo.Projects["PROJECT_CARNIVAL"].Hash
+}
+
+if isExpansion1 then
+  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_BREAD_AND_CIRCUSES"].Hash);
+  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_WATER_CARNIVAL"].Hash);
+end
+
+if isExpansion2 then
+  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_CARBON_RECAPTURE"].Hash);
+  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_TRAIN_ATHLETES"].Hash);
+  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_TRAIN_ASTRONAUTS"].Hash);
+end
+
+function CuiIsProjectRepeatable(project)
+  for _, h in ipairs(RepeatableProject) do
+    if project.Hash == h then return true; end
+  end
+  return false
+end
+
+function AddProjectToRepeatList(city, projectHash)
+  local cityName = city:GetName();
+  RepeatedProjectsList[cityName] = projectHash;
+end
+
+function StopRepeatProject(city)
+  local cityName = city:GetName();
+  if RepeatedProjectsList[cityName] then
+    RepeatedProjectsList[cityName] = nil;
+  end
+end
+
+function RepeatProjects()
+  local playerID = Game.GetLocalPlayer();
+  local player = Players[playerID];
+  if player == nil then return; end
+
+  for i, city in player:GetCities():Members() do
+    local cityName = city:GetName();
+    if RepeatedProjectsList[cityName] then
+      projectHash = RepeatedProjectsList[cityName]
+      local tParameters = {};
+      tParameters[CityOperationTypes.PARAM_PROJECT_TYPE] = projectHash;
+      GetBuildInsertMode(tParameters);
+      CityManager.RequestOperation(city, CityOperationTypes.BUILD, tParameters);
+    end
+  end
+end
+
+-- ===========================================================================
 -- Test & Debug
 -- ---------------------------------------------------------------------------
 function PPD(data)
@@ -141,3 +202,12 @@ end
 function pItem(item, extraInfo)
   print(Locale.Lookup(item.Name), extraInfo);
 end
+
+-- ===========================================================================
+-- Initialize
+-- ---------------------------------------------------------------------------
+function Initialize()
+  RepeatedProjectsList = {};
+  Events.PlayerTurnActivated.Add(RepeatProjects);
+end
+Initialize()

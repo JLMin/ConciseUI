@@ -872,7 +872,7 @@ function PopulateProjects(data:table, listMode:number, listIM:table)
     if listMode ~= LISTMODE.PROD_QUEUE then
       shouldShow = not item.IsCurrentProduction;
     else
-      shouldShow = item.IsRepeatable or not CuiIsProjectInQueue(item);
+      shouldShow = CuiIsProjectRepeatable(item) or not CuiIsProjectInQueue(item);
     end
     --
     if shouldShow then

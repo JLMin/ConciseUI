@@ -240,6 +240,8 @@ function SetBasicItemInstance(instance, item)
   instance.FaithIconOnly:SetHide(false);
   instance.FaithCost:SetText(nil);
   instance.FaithCost:SetHide(true);
+  
+  instance.RepeatButton:SetHide(true);
 
   instance.Icon:SetIcon("ICON_" .. item.Type);
   local name = Locale.Lookup(item.Name);
@@ -304,6 +306,11 @@ function SetupProduceButtons(instance, item)
     );
   end
 
+  if item.IsProject and CuiIsProjectRepeatable(item) then
+    dSize = dSize + small;
+    instance.RepeatButton:SetHide(false);
+  end
+
   instance.Button:SetSizeX(default - dSize);
   local producTT = ComposeTT(item.BasicTT, item.ReasonTT, item.CostTT);
   instance.Button:SetToolTipString(producTT);
@@ -366,6 +373,10 @@ function RegisterProduceButtons(instance, item)
   if item.IsProject then
     instance.Button:RegisterCallback(Mouse.eLClick,
       function() OnBuildProject(m_city, item); end
+    );
+
+    instance.RepeatButton:RegisterCallback(Mouse.eLClick,
+      function() OnRepeatProject(m_city, item); end
     );
   end
 end
@@ -439,6 +450,8 @@ end
 
 -- ---------------------------------------------------------------------------
 function OnBuildDistrict(city, districtEntry)
+  StopRepeatProject(city);
+
   if CheckQueueItemSelected() then
     return;
   end
@@ -493,6 +506,8 @@ end
 
 -- ---------------------------------------------------------------------------
 function OnBuildBuilding(city, buildingEntry)
+  StopRepeatProject(city);
+
   if CheckQueueItemSelected() then
     return;
   end
@@ -543,6 +558,8 @@ end
 
 -- ---------------------------------------------------------------------------
 function OnBuildUnit(city, unitEntry, formation)
+  StopRepeatProject(city);
+
   if CheckQueueItemSelected() then
     return;
   end
@@ -573,6 +590,25 @@ end
 
 -- ---------------------------------------------------------------------------
 function OnBuildProject(city, projectEntry)
+  StopRepeatProject(city);
+
+  if CheckQueueItemSelected() then
+    return;
+  end
+
+  local tParameters = {};
+  tParameters[CityOperationTypes.PARAM_PROJECT_TYPE] = projectEntry.Hash;
+  GetBuildInsertMode(tParameters);
+  CityManager.RequestOperation(city, CityOperationTypes.BUILD, tParameters);
+  UI.PlaySound("Confirm_Production");
+
+  CloseAfterNewProduction();
+end
+
+-- ---------------------------------------------------------------------------
+function OnRepeatProject(city, projectEntry)
+  AddProjectToRepeatList(city, projectEntry.Hash)
+
   if CheckQueueItemSelected() then
     return;
   end
@@ -609,7 +645,7 @@ function ItemDisabledInQueue(item, queue)
   if item.IsDistrict then return IsItemInQueue(item, queue) and item.OnePerCity; end
   if item.IsWonder   then return IsItemInQueue(item, queue); end
   if item.IsUnit     then return false; end
-  if item.IsProject  then return IsItemInQueue(item, queue) and not item.IsRepeatable; end
+  if item.IsProject  then return IsItemInQueue(item, queue) and not CuiIsProjectRepeatable(item); end
 
   if item.IsBuilding then
     if IsItemInQueue(item, queue) then return true; end
