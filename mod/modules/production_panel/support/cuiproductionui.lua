@@ -306,9 +306,10 @@ function SetupProduceButtons(instance, item)
     );
   end
 
-  if item.IsProject and CuiIsProjectRepeatable(item) then
+  if item.IsProject and item.IsRepeatable then
     dSize = dSize + small;
     instance.RepeatButton:SetHide(false);
+    instance.RepeatButton:SetDisabled(not item.Enable);
   end
 
   instance.Button:SetSizeX(default - dSize);
@@ -645,7 +646,7 @@ function ItemDisabledInQueue(item, queue)
   if item.IsDistrict then return IsItemInQueue(item, queue) and item.OnePerCity; end
   if item.IsWonder   then return IsItemInQueue(item, queue); end
   if item.IsUnit     then return false; end
-  if item.IsProject  then return IsItemInQueue(item, queue) and not CuiIsProjectRepeatable(item); end
+  if item.IsProject  then return IsItemInQueue(item, queue) and not item.IsRepeatable; end
 
   if item.IsBuilding then
     if IsItemInQueue(item, queue) then return true; end

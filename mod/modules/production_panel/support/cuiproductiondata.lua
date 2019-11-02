@@ -526,13 +526,26 @@ end
 -- ---------------------------------------------------------------------------
 function GetCityProjects()
   local projects = {};
+  local sortedProjects = {};
   for project in GameInfo.Projects() do
     if IsProjectUnlocked(project) then
       local data = GetProjectData(project);
       table.insert(projects, data);
     end
   end
-  return projects;
+  
+  local comparator = function(t, a, b)
+                       if t[a].IsRepeatable ~= t[b].IsRepeatable then
+                         return not t[a].IsRepeatable;
+                       else
+                         return t[a].Cost < t[b].Cost;
+                       end
+                     end
+  
+  for _, p in SortedTable(projects, comparator) do
+    table.insert(sortedProjects, p);
+  end
+  return sortedProjects;
 end
 
 -- ---------------------------------------------------------------------------
@@ -571,7 +584,7 @@ function GetProjectData(project)
   data.CostTT   = cToolTip;
 
   -- additional data
-  data.IsRepeatable = project.MaxPlayerInstances ~= 1;
+  data.IsRepeatable = CuiIsProjectRepeatable(project)
 
   return data;
 end

@@ -149,6 +149,8 @@ if isExpansion2 then
   table.insert(RepeatableProject, GameInfo.Projects["PROJECT_CARBON_RECAPTURE"].Hash);
   table.insert(RepeatableProject, GameInfo.Projects["PROJECT_TRAIN_ATHLETES"].Hash);
   table.insert(RepeatableProject, GameInfo.Projects["PROJECT_TRAIN_ASTRONAUTS"].Hash);
+  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_ORBITAL_LASER"].Hash);
+  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_TERRESTRIAL_LASER"].Hash);
 end
 
 function CuiIsProjectRepeatable(project)
