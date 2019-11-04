@@ -1972,6 +1972,9 @@ function PopulateDiplomacyRibbon(diplomacyRibbon : table)
 
     -- Add entries for everyone we know (Majors only)
     local aPlayers = PlayerManager.GetAliveMajors();
+    -- CUI sort by met time
+    table.sort(aPlayers, function(a, b) return pLocalPlayerDiplomacy:GetMetTurn(a:GetID()) < pLocalPlayerDiplomacy:GetMetTurn(b:GetID()) end);
+    --
     for _, pPlayer in ipairs(aPlayers) do
       if (pPlayer:GetID() ~= ms_LocalPlayerID and pLocalPlayerDiplomacy:HasMet(pPlayer:GetID())) then
         local leaderIcon, leaderInstance = LeaderIcon:GetInstance(ms_DiplomacyRibbonLeaderIM, diplomacyRibbon.Leaders);
@@ -2798,7 +2801,7 @@ function Close()
 
   local isCleanExit:boolean = UninitializeView();
   LuaEvents.DiploScene_SceneClosed();
-	
+
   ResetPlayerPanel();
 
   local localPlayer = Game.GetLocalPlayer();

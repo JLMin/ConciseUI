@@ -3,6 +3,8 @@
 -- eudaimonia, 3/22/2019
 -- ===========================================================================
 
+include( "cui_helper" );
+
 function CuiGetAllianceData(otherPlayerID:number)
   local localPlayer:table = Players[Game.GetLocalPlayer()];
   local localPlayerDiplomacy:table = localPlayer:GetDiplomacy();
