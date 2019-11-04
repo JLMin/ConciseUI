@@ -130,32 +130,34 @@ end
 -- Repeat Project
 -- ---------------------------------------------------------------------------
 RepeatableProject = {
-  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_HOLY_SITE"].Hash,
-  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_CAMPUS"].Hash,
-  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_ENCAMPMENT"].Hash,
-  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_HARBOR"].Hash,
-  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_COMMERCIAL_HUB"].Hash,
-  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_THEATER"].Hash,
-  GameInfo.Projects["PROJECT_ENHANCE_DISTRICT_INDUSTRIAL_ZONE"].Hash,
-  GameInfo.Projects["PROJECT_CARNIVAL"].Hash
+  -- base game
+  "LOC_PROJECT_ENHANCE_DISTRICT_ENCAMPMENT_NAME",
+  "LOC_PROJECT_ENHANCE_DISTRICT_HARBOR_NAME",
+  "LOC_PROJECT_ENHANCE_DISTRICT_INDUSTRIAL_ZONE_NAME",
+  "LOC_PROJECT_ENHANCE_DISTRICT_COMMERCIAL_HUB_NAME",
+  "LOC_PROJECT_ENHANCE_DISTRICT_HOLY_SITE_NAME",
+  "LOC_PROJECT_ENHANCE_DISTRICT_CAMPUS_NAME",
+  "LOC_PROJECT_ENHANCE_DISTRICT_THEATER_NAME",
+  "LOC_PROJECT_CARNIVAL_NAME",
+  "LOC_PROJECT_BUILD_NUCLEAR_DEVICE_NAME",
+  "LOC_PROJECT_BUILD_THERMONUCLEAR_DEVICE_NAME",
+  
+  -- expansion 1
+  "LOC_PROJECT_WATER_CARNIVAL_NAME",
+  "LOC_PROJECT_BREAD_AND_CIRCUSES_NAME",
+  
+  -- expansion 2
+  "LOC_PROJECT_CARBON_RECAPTURE_NAME",
+  "LOC_PROJECT_ORBITAL_LASER_NAME",
+  "LOC_PROJECT_TERRESTRIAL_LASER_NAME",
+  "LOC_PROJECT_SEND_AID_NAME",
+  "LOC_PROJECT_TRAIN_ATHLETES_NAME",
+  "LOC_PROJECT_TRAIN_ASTRONAUTS_NAME",
 }
 
-if isExpansion1 then
-  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_BREAD_AND_CIRCUSES"].Hash);
-  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_WATER_CARNIVAL"].Hash);
-end
-
-if isExpansion2 then
-  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_CARBON_RECAPTURE"].Hash);
-  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_TRAIN_ATHLETES"].Hash);
-  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_TRAIN_ASTRONAUTS"].Hash);
-  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_ORBITAL_LASER"].Hash);
-  table.insert(RepeatableProject, GameInfo.Projects["PROJECT_TERRESTRIAL_LASER"].Hash);
-end
-
 function CuiIsProjectRepeatable(project)
-  for _, h in ipairs(RepeatableProject) do
-    if project.Hash == h then return true; end
+  for _, name in ipairs(RepeatableProject) do
+    if project.Name == name then return true; end
   end
   return false
 end
@@ -180,7 +182,7 @@ function RepeatProjects()
   for i, city in player:GetCities():Members() do
     local cityName = city:GetName();
     if RepeatedProjectsList[cityName] then
-      projectHash = RepeatedProjectsList[cityName]
+      local projectHash = RepeatedProjectsList[cityName]
       local tParameters = {};
       tParameters[CityOperationTypes.PARAM_PROJECT_TYPE] = projectHash;
       GetBuildInsertMode(tParameters);
