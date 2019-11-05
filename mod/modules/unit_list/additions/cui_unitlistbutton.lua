@@ -22,7 +22,7 @@ function AttachToTopPanel()
     unitListButtonInstance.UnitListButton:RegisterCallback(Mouse.eLClick, OnToggleUnitList);
     unitListButtonInstance.UnitListButton:SetToolTipString(Locale.Lookup("LOC_PEDIA_UNITS_TITLE"));
 
-    local x, y, sheet = IconManager:FindIconAtlas("ICON_NOTIFICATION_PLAYER_MET", 40);
+    local x, y, sheet = IconManager:FindIconAtlas("ICON_CIVIC_NATIONALISM", 42);
     unitListButtonInstance.UnitListIcon:SetTexture(x, y, sheet);
     unitListButtonInstance.UnitListIcon:SetColorByName("White");
 

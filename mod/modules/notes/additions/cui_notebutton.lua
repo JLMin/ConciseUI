@@ -22,7 +22,7 @@ function AttachToTopPanel()
     notesButtonInstance.NotesButton:RegisterCallback(Mouse.eLClick, OnToggleNoteScreen);
     notesButtonInstance.NotesButton:SetToolTipString(Locale.Lookup("LOC_CUI_NOTES"));
 
-    local x, y, sheet = IconManager:FindIconAtlas("ICON_NOTIFICATION_EVENT_POPUP", 40);
+    local x, y, sheet = IconManager:FindIconAtlas("ICON_CIVIC_DIPLOMATIC_SERVICE", 42);
     notesButtonInstance.NotesIcon:SetTexture(x, y, sheet);
     notesButtonInstance.NotesIcon:SetColorByName("White");
     
