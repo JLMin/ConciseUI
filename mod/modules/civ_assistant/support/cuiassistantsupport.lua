@@ -435,7 +435,7 @@ function GetCultureData()
   for _, pData in pairs(playerData) do
     local playerID = pData.playerID;
     local pPlayer  = Players[playerID];
-    pData.tourism  = pPlayer:GetStats():GetTourism();
+    pData.tourism  = Round(pPlayer:GetStats():GetTourism(), 0);
     pData.cultureY = Round(pPlayer:GetCulture():GetCultureYield(), 0);
     local customData = GetCultureCustomData(playerID);
     pData.visiter  = customData.visiter;
