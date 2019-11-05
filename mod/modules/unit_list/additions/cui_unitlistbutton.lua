@@ -21,6 +21,11 @@ function AttachToTopPanel()
     
     unitListButtonInstance.UnitListButton:RegisterCallback(Mouse.eLClick, OnToggleUnitList);
     unitListButtonInstance.UnitListButton:SetToolTipString(Locale.Lookup("LOC_PEDIA_UNITS_TITLE"));
+
+    local x, y, sheet = IconManager:FindIconAtlas("ICON_NOTIFICATION_PLAYER_MET", 40);
+    unitListButtonInstance.UnitListIcon:SetTexture(x, y, sheet);
+    unitListButtonInstance.UnitListIcon:SetColorByName("White");
+
     buttonStack:CalculateSize();
     
     local backing = ContextPtr:LookUpControl( "/InGame/LaunchBar/LaunchBacking" );
@@ -46,6 +51,7 @@ end
 -- ===========================================================================
 function Initialize()
   ContextPtr:SetHide( true );
+
   Events.LoadGameViewStateDone.Add(AttachToTopPanel);
   Events.InputActionTriggered.Add(CuiOnIngameAction);
 end
