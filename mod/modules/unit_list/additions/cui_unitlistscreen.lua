@@ -120,7 +120,7 @@ function GetUnitExpenses()
   if goldCost > 0 then
     local iconName = "[ICON_GOLD]";
     local cost = "[COLOR_RED]" .. -goldCost .. "[ENDCOLOR]";
-    goldText = goldText .. cost .. iconName;
+    goldText = iconName .. cost .. goldText;
   end
 
   -- resources cost
@@ -133,7 +133,7 @@ function GetUnitExpenses()
         if unitConsumptionPerTurn > 0 then
           local iconName:string = "[ICON_" .. resource.ResourceType .. "]";
           local cost = "[COLOR_RED]" .. -unitConsumptionPerTurn .. "[ENDCOLOR]";
-          resourcesText = resourcesText .. "  " .. cost .. iconName;
+          resourcesText = resourcesText .. "  " .. iconName .. cost;
         end
       end
     end
@@ -359,7 +359,7 @@ end
 -- ===========================================================================
 function CloseOtherPanel()
   LuaEvents.LaunchBar_CloseTechTree();
-  LuaEvents.LaunchBar_CloseCivicsTree();  
+  LuaEvents.LaunchBar_CloseCivicsTree();
   LuaEvents.LaunchBar_CloseGovernmentPanel();
   LuaEvents.LaunchBar_CloseReligionPanel();
   LuaEvents.LaunchBar_CloseGreatPeoplePopup();
@@ -388,9 +388,9 @@ function Open()
     UIManager:QueuePopup(ContextPtr, PopupPriority.Low, kParameters);
     UI.PlaySound("UI_Screen_Open");
   end
-  
+
   SelectTab();
-  
+
   Controls.Vignette:SetSizeY(windowHeight);
   -- FullScreenVignetteConsumer
   Controls.ScreenAnimIn:SetToBeginning();
@@ -478,7 +478,7 @@ function Initialize()
   Controls.CloseButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
   LuaEvents.CuiToggleUnitList.Add( ToggleUnitList );
   Events.UnitUpgraded.Add( RefreshUnitList );
-  
+
   windowHeight = Controls.Vignette:GetSizeY() - TOP_PANEL_OFFSET;
 end
 Initialize();
