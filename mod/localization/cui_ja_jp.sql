@@ -5,17 +5,6 @@
 INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
--- Config
-("ja_JP", "LOC_CUI_CONFIG_CATEGORY",                                            "Concise UI"),
-("ja_JP", "LOC_CUI_CONFIG_PLACE_MAP_PIN",                                       "ピンの追加"),
-("ja_JP", "LOC_CUI_CONFIG_TOGGLE_IMPROVED",                                     "改善済み資源の表示"),
-("ja_JP", "LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",                                   "ユニットアイコンの表示"),
-("ja_JP", "LOC_CUI_CONFIG_TOGGLE_TRADERS",                                      "交易商アイコンの表示"),
-("ja_JP", "LOC_CUI_CONFIG_TOGGLE_RELIGIONS",                                    "Toggle Religion Icons"),
-("ja_JP", "LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS",                                 "都市バナーの表示"),
-("ja_JP", "LOC_CUI_CONFIG_OPEN_UNIT_LIST",                                      "ユニット一覧を開く"),
-
--- =============================================================================
 -- City Panel
 ("ja_JP", "LOC_CUI_CP_MANAGE_CITIZENS_TILES",                                   "市民とタイルを管理"),
 

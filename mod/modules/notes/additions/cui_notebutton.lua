@@ -1,9 +1,11 @@
 -- ===========================================================================
 -- Cui In Game Note Button
--- eudaimonia, 2/10/2019
+-- eudaimonia, 11/05/2019
 -- ===========================================================================
 
 local isAttached = false;
+local notesButtonInstance = {};
+local pipInstance = {};
 
 -- ===========================================================================
 function OnToggleNoteScreen()
@@ -13,11 +15,31 @@ end
 -- ===========================================================================
 function AttachToTopPanel()
   if not isAttached then
-    local infoStack = ContextPtr:LookUpControl( "/InGame/TopPanel/InfoStack" );
-    Controls.CuiNoteContainer:ChangeParent(infoStack);
-    infoStack:CalculateSize();
-    infoStack:ReprocessAnchoring();    
+    local buttonStack = ContextPtr:LookUpControl( "/InGame/LaunchBar/ButtonStack" );
+    ContextPtr:BuildInstanceForControl("CuiNotes", notesButtonInstance, buttonStack);
+    ContextPtr:BuildInstanceForControl("Pip", pipInstance, buttonStack);
+    
+    notesButtonInstance.NotesButton:RegisterCallback(Mouse.eLClick, OnToggleNoteScreen);
+    notesButtonInstance.NotesButton:SetToolTipString(Locale.Lookup("LOC_CUI_NOTES"));
+    buttonStack:CalculateSize();
+    
+    local backing = ContextPtr:LookUpControl( "/InGame/LaunchBar/LaunchBacking" );
+    backing:SetSizeX(buttonStack:GetSizeX() + 116);
+    
+    local backingTile = ContextPtr:LookUpControl( "/InGame/LaunchBar/LaunchBackingTile" );
+    backingTile:SetSizeX(buttonStack:GetSizeX() - 20);
+    
+    LuaEvents.LaunchBar_Resize(buttonStack:GetSizeX());
     isAttached = true;
+  end
+end
+
+-- ===========================================================================
+function CuiOnIngameAction(actionId)
+  if Game.GetLocalPlayer() == -1 then return; end
+  
+  if actionId == Input.GetActionId("CuiActionToggleNotes") then
+    OnToggleNoteScreen();
   end
 end
 
@@ -25,7 +47,6 @@ end
 function Initialize()
   ContextPtr:SetHide( true );
   Events.LoadGameViewStateDone.Add(AttachToTopPanel);
-  Controls.CuiViewNotes:RegisterCallback( Mouse.eLClick, OnToggleNoteScreen );
-  Controls.CuiViewNotes:RegisterCallback( Mouse.eMouseEnter,function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
+  Events.InputActionTriggered.Add(CuiOnIngameAction);
 end
 Initialize();

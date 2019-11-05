@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Cui In Game Note Button, eudaimonia, 2/10/2019 -->
+<!-- Cui In Game Note Button, eudaimonia, 11/05/2019 -->
 
 <Context>
-  <Container ID="CuiNoteContainer" Anchor="L,C" Size="30,30" Offset="2,1">
-    <GridButton ID="CuiViewNotes" Style="FontNormal16" FontStyle="Glow" TextAnchor="C,C" TextOffset="-1,0" Texture="Controls_ButtonControl_Reports" SliceCorner="12,12" SliceSize="1,1" SliceTextureSize="29,29" StateOffsetIncrement="0,29" String="[ICON_Reports]" ToolTip="LOC_CUI_NOTES" Size="29,29" Offset="1,-2" />
-  </Container>
+  <Instance Name="CuiNotes">
+    <Button ID="NotesButton" Anchor="L,C" Size="49,49" Texture="LaunchBar_Hook_GreatPeopleButton" Style="ButtonNormalText" StateOffsetIncrement="0,49">
+      <!--<Image Anchor="C,C" Icon="ICON_CIVILOPEDIA_CIVICS" Style="Civilopedia_SectionTabIcon"/>-->
+      <Image Anchor="C,C" Texture="LaunchBar_Hook_Reports" Style="Civilopedia_SectionTabIcon"/>
+    </Button>
+  </Instance>
+  
+  <Instance Name="Pip">
+    <Image Anchor="L,C" Offset="0,-2" Size="7,7" Texture="LaunchBar_TrackPip" Color="255,255,255,200"/>
+  </Instance>
 </Context>

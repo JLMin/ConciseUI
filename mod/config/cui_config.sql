@@ -15,6 +15,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "de_DE", "Toggle Religion Icons"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "de_DE", "Stadtbanner anzeigen"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "de_DE", "Öffne Einheitenliste"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "de_DE", "Open Notes"),
 
 -- ===========================================================================
 -- [English] by [eudaimonia]
@@ -27,6 +28,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "en_US", "Toggle Religion Icons"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "en_US", "Toggle City Banners"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "en_US", "Open Unit List"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "en_US", "Open Notes"),
 
 -- ===========================================================================
 -- [Spanish] by [MinuZzzZz] 4/26/2019
@@ -39,6 +41,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "es_ES", "Toggle Religion Icons"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "es_ES", "Alternar Estandartes de ciudad"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "es_ES", "Abrir lista de unidades"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "es_ES", "Open Notes"),
 
 -- ===========================================================================
 -- [French] by [G.] 3/1/2019
@@ -51,6 +54,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "fr_FR", "Toggle Religion Icons"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "fr_FR", "Afficher les bannières (noms) des villes"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "fr_FR", "Ouvrir la liste des unités"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "fr_FR", "Open Notes"),
 
 -- ===========================================================================
 -- [Italiano] by [Diaz Ex Machina] 2/18/2019
@@ -63,6 +67,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "it_IT", "Toggle Religion Icons"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "it_IT", "Mostra/nascondi banner città"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "it_IT", "Aprire l'elenco delle unità"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "it_IT", "Open Notes"),
 
 -- ===========================================================================
 -- [Japanese] by [J4A] 2/17/2019
@@ -75,6 +80,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "ja_JP", "Toggle Religion Icons"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "ja_JP", "都市バナーの表示"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "ja_JP", "ユニット一覧を開く"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "ja_JP", "Open Notes"),
 
 -- ===========================================================================
 -- untranslated
@@ -87,6 +93,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "ko_KR", "Toggle Religion Icons"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "ko_KR", "Toggle City Banners"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "ko_KR", "Open Unit List"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "ko_KR", "Open Notes"),
 
 -- ===========================================================================
 -- untranslated
@@ -99,6 +106,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "pl_PL", "Toggle Religion Icons"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "pl_PL", "Toggle City Banners"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "pl_PL", "Open Unit List"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "pl_PL", "Open Notes"),
 
 -- ===========================================================================
 -- untranslated
@@ -111,6 +119,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "pt_BR", "Toggle Religion Icons"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "pt_BR", "Toggle City Banners"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "pt_BR", "Open Unit List"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "pt_BR", "Open Notes"),
 
 -- ===========================================================================
 -- untranslated
@@ -123,6 +132,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "ru_RU", "Toggle Religion Icons"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "ru_RU", "Toggle City Banners"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "ru_RU", "Open Unit List"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "ru_RU", "Open Notes"),
 
 -- ===========================================================================
 -- [Simplified Chinese] by [eudaimonia]
@@ -135,6 +145,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "zh_Hans_CN", "开启/关闭宗教单位图标"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "zh_Hans_CN", "开启/关闭城市横幅"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "zh_Hans_CN", "打开单位列表"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "zh_Hans_CN", "打开备忘录"),
 
 -- ===========================================================================
 -- untranslated
@@ -147,6 +158,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "zh_Hans_HK", "Toggle Religion Icons"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "zh_Hans_HK", "Toggle City Banners"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "zh_Hans_HK", "Open Unit List"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "zh_Hans_HK", "Open Notes"),
 
 -- ===========================================================================
 ("LOC_CUI_DUMMY", "en_US", "DUMMY");

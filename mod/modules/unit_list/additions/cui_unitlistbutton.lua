@@ -5,6 +5,7 @@
 
 local isAttached = false;
 local unitListButtonInstance = {};
+local pipInstance = {};
 
 -- ===========================================================================
 function OnToggleUnitList()
@@ -15,7 +16,9 @@ end
 function AttachToTopPanel()
   if not isAttached then
     local buttonStack = ContextPtr:LookUpControl( "/InGame/LaunchBar/ButtonStack" );
-    ContextPtr:BuildInstanceForControl("CuiUnitList", unitListButtonInstance, buttonStack );
+    ContextPtr:BuildInstanceForControl("CuiUnitList", unitListButtonInstance, buttonStack);
+    ContextPtr:BuildInstanceForControl("Pip", pipInstance, buttonStack);
+    
     unitListButtonInstance.UnitListButton:RegisterCallback(Mouse.eLClick, OnToggleUnitList);
     unitListButtonInstance.UnitListButton:SetToolTipString(Locale.Lookup("LOC_PEDIA_UNITS_TITLE"));
     buttonStack:CalculateSize();

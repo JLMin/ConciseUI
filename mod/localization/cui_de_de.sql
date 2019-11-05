@@ -5,17 +5,6 @@
 INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
--- Config
-("en_DE", "LOC_CUI_CONFIG_CATEGORY",                                            "Concise UI"),
-("de_DE", "LOC_CUI_CONFIG_PLACE_MAP_PIN",                                       "Kartennadel hinzufügen"),
-("de_DE", "LOC_CUI_CONFIG_TOGGLE_IMPROVED",                                     "Fortgeschrittene Ressourcen anzeigen"),
-("de_DE", "LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",                                   "Einheitenflagge anzeigen"),
-("de_DE", "LOC_CUI_CONFIG_TOGGLE_TRADERS",                                      "Handelsymbole anzeigen"),
-("de_DE", "LOC_CUI_CONFIG_TOGGLE_RELIGIONS",                                    "Toggle Religion Icons"),
-("de_DE", "LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS",                                 "Stadtbanner anzeigen"),
-("de_DE", "LOC_CUI_CONFIG_OPEN_UNIT_LIST",                                      "Öffne Einheitenliste"),
-
--- =============================================================================
 -- City Panel
 ("de_DE", "LOC_CUI_CP_MANAGE_CITIZENS_TILES",                                   "Bürger und Kacheln verwalten"),
 

@@ -3,8 +3,12 @@
 
 <Context>
   <Instance Name="CuiUnitList">
-    <Button ID="UnitListButton" Anchor="L,C" Size="49,49" Texture="LaunchBar_Hook_GovernmentButton" Style="ButtonNormalText" StateOffsetIncrement="0,49">
-      <Image Anchor="C,C" Size="35,35" IconSize="35" Icon="ICON_STAT_UNITS"/>
+    <Button ID="UnitListButton" Anchor="L,C" Size="49,49" Texture="LaunchBar_Hook_GreatPeopleButton" Style="ButtonNormalText" StateOffsetIncrement="0,49">
+      <Image Anchor="C,C" Icon="ICON_CIVILOPEDIA_UNITS" Style="Civilopedia_SectionTabIcon"/>
     </Button>
+  </Instance>
+  
+  <Instance Name="Pip">
+    <Image Anchor="L,C" Offset="0,-2" Size="7,7" Texture="LaunchBar_TrackPip" Color="255,255,255,200"/>
   </Instance>
 </Context>

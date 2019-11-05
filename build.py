@@ -70,6 +70,9 @@ def __build_modinfo():
     # loc
     if 'localization' in mod_files:
         update = SubElement(ingame, 'UpdateText', id='Cui_Text')
+        for f in mod_files['config']:
+            if f.endswith('sql'):
+                SubElement(update, 'File').text = f
         for f in mod_files['localization']:
             SubElement(update, 'File').text = f
     # lib

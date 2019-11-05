@@ -14,6 +14,7 @@
     <InsertOrIgnore ActionId="CuiActionToggleReligions"   Name="LOC_CUI_CONFIG_TOGGLE_RELIGIONS"    Description="LOC_CUI_CONFIG_TOGGLE_RELIGIONS"    CategoryId="CONCISEUI" ContextId="World" />
     <InsertOrIgnore ActionId="CuiActionToggleCityBanners" Name="LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS" Description="LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS" CategoryId="CONCISEUI" ContextId="World" />
     <InsertOrIgnore ActionId="CuiActionToggleUnitList"    Name="LOC_CUI_CONFIG_OPEN_UNIT_LIST"      Description="LOC_CUI_CONFIG_OPEN_UNIT_LIST"      CategoryId="CONCISEUI" ContextId="World" />
+    <InsertOrIgnore ActionId="CuiActionToggleNotes"       Name="LOC_CUI_CONFIG_OPEN_NOTES"          Description="LOC_CUI_CONFIG_OPEN_NOTES"          CategoryId="CONCISEUI" ContextId="World" />
   </InputActions>
 
   <InputActionDefaultGestures>
@@ -24,5 +25,6 @@
     <InsertOrIgnore ActionId="CuiActionToggleReligions"   Index="0" GestureType="KBMouse" GestureData="LOC_OPTIONS_KEY_R"/>
     <InsertOrIgnore ActionId="CuiActionToggleCityBanners" Index="0" GestureType="KBMouse" GestureData="LOC_OPTIONS_KEY_B"/>
     <InsertOrIgnore ActionId="CuiActionToggleUnitList"    Index="0" GestureType="KBMouse" GestureData="LOC_OPTIONS_KEY_L"/>
+    <InsertOrIgnore ActionId="CuiActionToggleNotes"       Index="0" GestureType="KBMouse" GestureData="LOC_OPTIONS_KEY_N"/>
   </InputActionDefaultGestures>
 </GameInfo>

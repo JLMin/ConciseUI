@@ -5,17 +5,6 @@
 INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
--- Config
-("zh_Hans_CN", "LOC_CUI_CONFIG_CATEGORY",                                       "Concise UI"),
-("zh_Hans_CN", "LOC_CUI_CONFIG_PLACE_MAP_PIN",                                  "添加地图钉"),
-("zh_Hans_CN", "LOC_CUI_CONFIG_TOGGLE_IMPROVED",                                "开启/关闭已改良资源图标"),
-("zh_Hans_CN", "LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",                              "开启/关闭单位图标"),
-("zh_Hans_CN", "LOC_CUI_CONFIG_TOGGLE_TRADERS",                                 "开启/关闭商人图标"),
-("zh_Hans_CN", "LOC_CUI_CONFIG_TOGGLE_RELIGIONS",                               "开启/关闭宗教单位图标"),
-("zh_Hans_CN", "LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS",                            "开启/关闭城市横幅"),
-("zh_Hans_CN", "LOC_CUI_CONFIG_OPEN_UNIT_LIST",                                 "打开单位列表"),
-
--- =============================================================================
 -- City Panel
 ("zh_Hans_CN", "LOC_CUI_CP_MANAGE_CITIZENS_TILES",                              "市民与单元格管理"),
 
