@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd">
 
-  <Container Style="FullScreenVignetteConsumer" ConsumeAllMouse="0" ConsumeMouseButton="1" ConsumeMouseWheel="1" ConsumeMouseOver="1"/>
+  <Container ID="Vignette" Style="FullScreenVignetteConsumer" />
 
-  <Container Anchor="C,C" Size="1276,768">
+  <Container ID="PopupContainer" Anchor="C,C" Size="1276,768">
 
     <Image ID="ModalBG" Size="1276,768" Texture="Religion_BG" StretchMode="Tile" ConsumeMouseButton="1" ConsumeMouseWheel="1"/>
 

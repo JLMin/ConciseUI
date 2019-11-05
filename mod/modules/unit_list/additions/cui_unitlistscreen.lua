@@ -3,14 +3,14 @@
 -- eudaimonia, 2/18/2019
 -- ===========================================================================
 
-include( "InstanceManager" );
-include( "SupportFunctions" );
-include( "TabSupport" );
-include( "CombatInfo" );
-include( "Civ6Common" );
-include( "EspionageSupport" );
-include( "cui_helper" );
-include( "cui_settings" );
+include("InstanceManager");
+include("SupportFunctions");
+include("TabSupport");
+include("CombatInfo");
+include("Civ6Common");
+include("EspionageSupport");
+include("cui_helper");
+include("cui_settings");
 
 -- ===========================================================================
 
@@ -27,6 +27,8 @@ local UNIT_GROUP:table = {
 };
 local showDetails;
 local m_tabs;
+local windowHeight = 0;
+local TOP_PANEL_OFFSET = 29;
 
 -- ===========================================================================
 function GetUnitData()
@@ -356,12 +358,12 @@ end
 
 -- ===========================================================================
 function CloseOtherPanel()
+  LuaEvents.LaunchBar_CloseTechTree();
+  LuaEvents.LaunchBar_CloseCivicsTree();  
+  LuaEvents.LaunchBar_CloseGovernmentPanel();
+  LuaEvents.LaunchBar_CloseReligionPanel();
   LuaEvents.LaunchBar_CloseGreatPeoplePopup();
   LuaEvents.LaunchBar_CloseGreatWorksOverview();
-  LuaEvents.LaunchBar_CloseReligionPanel();
-
-  LuaEvents.LaunchBar_CloseTechTree();
-  LuaEvents.LaunchBar_CloseCivicsTree();
 
   if isExpansion1 then
     LuaEvents.GovernorPanel_Close();
@@ -375,8 +377,7 @@ end
 
 -- ===========================================================================
 function Open()
-  if Game.GetLocalPlayer() == -1 then return; end
-
+  if (Game.GetLocalPlayer() == -1) then return end
   CloseOtherPanel();
 
   if not UIManager:IsInPopupQueue(ContextPtr) then
@@ -387,9 +388,10 @@ function Open()
     UIManager:QueuePopup(ContextPtr, PopupPriority.Low, kParameters);
     UI.PlaySound("UI_Screen_Open");
   end
-
-  RefreshUnitList();
-
+  
+  SelectTab();
+  
+  Controls.Vignette:SetSizeY(windowHeight);
   -- FullScreenVignetteConsumer
   Controls.ScreenAnimIn:SetToBeginning();
   Controls.ScreenAnimIn:Play();
@@ -397,8 +399,11 @@ end
 
 -- ===========================================================================
 function Close()
+  if not ContextPtr:IsHidden() then
+    UI.PlaySound("UI_Screen_Close");
+  end
+
   UIManager:DequeuePopup(ContextPtr);
-  UI.PlaySound("UI_Screen_Close");
 end
 
 -- ===========================================================================
@@ -473,5 +478,7 @@ function Initialize()
   Controls.CloseButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
   LuaEvents.CuiToggleUnitList.Add( ToggleUnitList );
   Events.UnitUpgraded.Add( RefreshUnitList );
+  
+  windowHeight = Controls.Vignette:GetSizeY() - TOP_PANEL_OFFSET;
 end
 Initialize();

@@ -4,6 +4,7 @@
   <Container ID="Vignette" Style="FullScreenVignetteConsumer" />
  
   <Container ID="PopupContainer" Anchor="C,C" Size="1396,768">
+  
     <Image Size="parent,parent" Texture="Parchment_Pattern" StretchMode="Tile">
       <Image ID="ArtParchmentDecoTop" Offset="0,50" Size="parent,103" Texture="Parchment_BorderDeco" FlipY="1" StretchMode="Tile" Alpha="0.2"/>
       <Image ID="ArtParchmentDecoBottom" Anchor="L,B" Offset="0,10" Size="parent,103" Texture="Parchment_BorderDeco" FlipY="0" StretchMode="Tile" Alpha="0.2"/>

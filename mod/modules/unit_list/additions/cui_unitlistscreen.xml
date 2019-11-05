@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Cui Unit List Screen, eudaimonia, 2/18/2019 -->
 
-<Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd">
+<Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+				 xsi:noNamespaceSchemaLocation="..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd"
+				 Style="FontNormal16" FontStyle="Shadow">
 
-  <Container Style="FullScreenVignetteConsumer"/>
+  <Container ID="Vignette" Style="FullScreenVignetteConsumer" />
 
   <Container ID="PopupContainer" Anchor="C,C" Size="1024,768">
     <Box Anchor="C,C" Size="parent,768" Color="22,22,22,255">
-      <Image Anchor="C,C" Size="parent,parent" Texture="Climate_BG" Color="27,36,63,255"/>
+      <Image Anchor="C,C" Size="parent,parent" Texture="Climate_BG" Color="100,100,100,255"/>
       <Image Size="parent,40" Texture="Controls_SubHeader2"/>
       <Container Size="parent,40">
         <Label Anchor="C,C" Style="FontFlair24" String="LOC_PEDIA_UNITS_TITLE" FontStyle="glow" ColorSet="ShellHeader" SmallCaps="28" SmallCapsLeading="0" SmallCapsType="EveryWord"/>
@@ -15,7 +17,7 @@
       <Grid Anchor="C,C" Size="parent+16,parent+16" Style="ScreenFrame"/>
     </Box>
     
-    <Button ID="CloseButton"	Anchor="R,T" Style="CloseButtonLarge" Offset="-8,-5"/>
+    <Button ID="CloseButton" Anchor="R,T" Style="CloseButtonLarge" Offset="-8,-5"/>
     
     <!-- Body -->
     <Container Anchor="C,T" Offset="0,80" Size="1024,parent-80">

@@ -4,6 +4,7 @@ include("InstanceManager");
 include("PopupDialog")
 include("GameCapabilities");
 include("GreatWorksSupport");
+include("ModalScreen_PlayerYieldsHelper"); -- CUI
 include("cui_settings"); -- CUI
 
 -- ===========================================================================
@@ -73,6 +74,7 @@ local m_kViableDropTargets:table = {};
 local m_kControlToInstanceMap:table = {};
 local m_uiSelectedDropTarget:table = nil;
 
+local m_TopPanelConsideredHeight:number = 0; -- CUI
 -- ===========================================================================
 --	PLAYER VARIABLES
 -- ===========================================================================
@@ -995,21 +997,49 @@ function Open()
 	if (Game.GetLocalPlayer() == -1) then
 		return
 	end
+  
 	cui_ThemeHelper = false; -- CUI
+  
+  -- CUI
+  if not UIManager:IsInPopupQueue(ContextPtr) then
+    local kParameters = {};
+    kParameters.RenderAtCurrentParent = true;
+    kParameters.InputAtCurrentParent = true;
+    kParameters.AlwaysVisibleInQueue = true;
+    UIManager:QueuePopup(ContextPtr, PopupPriority.Low, kParameters);
+    UI.PlaySound("UI_Screen_Open");
+  end
+  --
 	UpdateData();
 	ContextPtr:SetHide(false);
+
+  Controls.Vignette:SetSizeY(m_TopPanelConsideredHeight); -- CUI
 
 	-- From Civ6_styles: FullScreenVignetteConsumer
 	Controls.ScreenAnimIn:SetToBeginning();
 	Controls.ScreenAnimIn:Play();
+  
 	LuaEvents.GreatWorks_OpenGreatWorks();
 end
 
 function Close()
+
 	cui_ThemeHelper = false; -- CUI
+  
+  -- CUI
+  if not ContextPtr:IsHidden() then
+    UI.PlaySound("UI_Screen_Close");
+  end
+
+  if UIManager:DequeuePopup(ContextPtr) then
+    LuaEvents.GreatPeople_CloseGreatPeople();
+  end
+  --
+
 	ContextPtr:SetHide(true);
 	ContextPtr:ClearUpdate();
 end
+
 function ViewGreatWork(greatWorkData:table)
 	local city:table = greatWorkData.CityBldgs:GetCity();
 	local buildingID:number = greatWorkData.Building;
@@ -1026,7 +1056,7 @@ function OnShowScreen()
 	end
 
 	Open();
-	UI.PlaySound("UI_Screen_Open");
+	-- CUI UI.PlaySound("UI_Screen_Open");
 end
 
 -- ===========================================================================
@@ -1273,5 +1303,6 @@ function Initialize()
 	Events.LocalPlayerTurnBegin.Add(OnLocalPlayerTurnBegin);
 	Events.LocalPlayerTurnEnd.Add(OnLocalPlayerTurnEnd);
 
+  m_TopPanelConsideredHeight = Controls.Vignette:GetSizeY() - TOP_PANEL_OFFSET; -- CUI
 end
 Initialize();

@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Cui In Game Note Screen, eudaimonia, 2/10/2019 -->
 
-<Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd">
+<Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+				 xsi:noNamespaceSchemaLocation="..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd"
+				 Style="FontNormal16" FontStyle="Shadow">
 
-  <Container Style="FullScreenVignetteConsumer"/>
+  <Container ID="Vignette" Style="FullScreenVignetteConsumer" />
 
-  <Box ID="Main" Anchor="C,C" Size="840,640" Color="11,27,40,255">
-    <Grid Anchor="C,C" Size="parent+14,parent+14" Style="WindowFrameTopOnly" />
-    <Button ID="CloseButton" Anchor="R,T" Offset="-3,-1" Size="44,44" Texture="Controls_CloseLarge" />
-    <Image Anchor="C,T" Size="parent,44" Color="61,112,154,255" Texture="Controls_Gradient_HalfRadial" />
-    <Label Anchor="C,T" Offset="0,16" Style="FontFlair20" String="LOC_CUI_NOTES" FontStyle="Glow" Color0="133,205,235,255" Color1="203,215,225,100" Color2="254,254,254,255" SmallCaps="28" SmallCapsType="EveryWord" />
-    <Grid Anchor="C,T" Offset="0,44" Size="parent-6,8" Style="Divider3Grid" />
+  <Container ID="PopupContainer" Anchor="C,C" Size="1024,768">
+    <Box Anchor="C,C" Size="parent,768" Color="22,22,22,255">
+      <Image Anchor="C,C" Size="parent,parent" Texture="Climate_BG" Color="100,100,100,255"/>
+      <Image Size="parent,40" Texture="Controls_SubHeader2"/>
+      <Container Size="parent,40">
+        <Label Anchor="C,C" Style="FontFlair24" String="LOC_CUI_NOTES" FontStyle="glow" ColorSet="ShellHeader" SmallCaps="28" SmallCapsLeading="0" SmallCapsType="EveryWord"/>
+      </Container>
+      <Grid Anchor="C,C" Size="parent+16,parent+16" Style="ScreenFrame"/>
+    </Box>
 
-    <Container ID="NoteContainer" Anchor="C,T" Offset="0,44" Size="parent,auto">
+    <Button ID="CloseButton" Anchor="R,T" Style="CloseButtonLarge" Offset="-8,-5"/>
+
+    <!-- Body -->
+    <Container ID="NoteContainer" Anchor="C,T" Offset="0,44" Size="1024,parent-80">
       <Stack ID="NoteStack" Size="parent,auto" Offset="0,14" StackGrowth="Down" StackPadding="8" />
     </Container>
-  </Box>
+  </Container>
 
   <!-- ==================================================================	-->
   <!--	Instances																													-->
   <!-- ==================================================================	-->
   <Instance Name="NoteEnter">
-    <Container ID="Top" Anchor="C,T" Offset="0,0" Size="parent,50">
+    <Container ID="Top" Anchor="C,T" Offset="0,0" Size="parent,62">
       <Grid Size="parent-30,10" Anchor="C,T" Offset="0,38" Style="DividerGrid" Color="80,69,48" >
-        <Label ID="LastEdit" Anchor="R,T" Style="FontNormal14" Offset="20,-34" Color="164,164,164,255" />
-        <GridButton ID="EditButton" Size="parent,26"    Offset="0,4"  Anchor="L,B" Texture="Controls_TextEntry" SliceCorner="30,0" SliceTextureSize="44,26" StateOffsetIncrement="0,26">
-          <EditBox  ID="EditNote"   Size="800,16" Offset="35,1" Anchor="L,C" Style="FontNormal14" EditMode="1" String="Empty Note" MaxLength="100" Hidden="1" />
-          <Label    ID="Overview"   Size="800,16" Offset="35,1" Anchor="L,C" Style="FontNormal14" TruncateWidth="750" />
+        <Label ID="LastEdit" Anchor="R,T" Style="FontNormal14" Offset="20,-36" Color="164,164,164,255" />
+        <GridButton ID="EditButton" Size="parent,32"    Offset="0,4"  Anchor="L,B" Texture="Controls_TextEntry" SliceCorner="30,0" SliceTextureSize="44,26" StateOffsetIncrement="0,26">
+          <EditBox  ID="EditNote"   Size="800,22" Offset="35,5" Anchor="L,C" Style="FontNormal16" EditMode="1" String="Empty Note" MaxLength="100" Hidden="1" />
+          <Label    ID="Overview"   Size="800,22" Offset="35,5" Anchor="L,C" Style="FontNormal16" TruncateWidth="750" />
         </GridButton>
       </Grid>
     </Container>

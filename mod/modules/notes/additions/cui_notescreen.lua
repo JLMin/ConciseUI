@@ -1,14 +1,17 @@
 -- ===========================================================================
 -- Cui In Game Note Screen
--- eudaimonia, 2/10/2019
+-- eudaimonia, 11/05/2019
 -- ===========================================================================
 
 include("InstanceManager");
+include("cui_helper");
 include("cui_settings");
 
 -- ===========================================================================
 local cui_NoteEnter = InstanceManager:new("NoteEnter", "Top", Controls.NoteStack);
 local EMPTY_NOTE = Locale.Lookup("LOC_CUI_NOTE_EMPTY");
+local windowHeight = 0;
+local TOP_PANEL_OFFSET = 29;
 
 local NOTE = {
   NOTE0 = { field = "Note0", default = EMPTY_NOTE },
@@ -118,11 +121,41 @@ function SetNote(note, text, turn)
 end
 
 -- ===========================================================================
-function Open()
-  UIManager:QueuePopup(ContextPtr, PopupPriority.Normal);
-  UI.PlaySound("UI_Screen_Open");
-  PopulateNoteList();
+function CloseOtherPanel()
+  LuaEvents.LaunchBar_CloseTechTree();
+  LuaEvents.LaunchBar_CloseCivicsTree();
+  LuaEvents.LaunchBar_CloseGovernmentPanel();
+  LuaEvents.LaunchBar_CloseReligionPanel();
+  LuaEvents.LaunchBar_CloseGreatPeoplePopup();
+  LuaEvents.LaunchBar_CloseGreatWorksOverview();
 
+  if isExpansion1 then
+    LuaEvents.GovernorPanel_Close();
+    LuaEvents.HistoricMoments_Close();
+  end
+
+  if isExpansion2 then
+    LuaEvents.Launchbar_Expansion2_ClimateScreen_Close();
+  end
+end
+
+-- ===========================================================================
+function Open()
+  if (Game.GetLocalPlayer() == -1) then return end
+  CloseOtherPanel();
+  
+  if not UIManager:IsInPopupQueue(ContextPtr) then
+    local kParameters = {};
+    kParameters.RenderAtCurrentParent = true;
+    kParameters.InputAtCurrentParent = true;
+    kParameters.AlwaysVisibleInQueue = true;
+    UIManager:QueuePopup(ContextPtr, PopupPriority.Low, kParameters);
+    UI.PlaySound("UI_Screen_Open");
+  end
+  
+  PopulateNoteList();
+  
+  Controls.Vignette:SetSizeY(windowHeight);
   -- FullScreenVignetteConsumer
   Controls.ScreenAnimIn:SetToBeginning();
   Controls.ScreenAnimIn:Play();
@@ -130,8 +163,11 @@ end
 
 -- ===========================================================================
 function Close()
+  if not ContextPtr:IsHidden() then
+    UI.PlaySound("UI_Screen_Close");
+  end
+
   UIManager:DequeuePopup(ContextPtr);
-  UI.PlaySound("UI_Screen_Close");
 end
 
 -- ===========================================================================
@@ -169,5 +205,7 @@ function Initialize()
 	Controls.CloseButton:RegisterCallback( Mouse.eLClick, Close );
   Controls.CloseButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
   LuaEvents.Cui_ToggleNoteScreen.Add( ToggleNoteScreen );
+  
+  windowHeight = Controls.Vignette:GetSizeY() - TOP_PANEL_OFFSET;
 end
 Initialize();
