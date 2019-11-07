@@ -63,8 +63,6 @@ local cui_IsCombatTurnShown = false;
 
 m_hideGossipLog = CuiSettings:GetBoolean(CuiSettings.HIDE_GOSSIP_LOG);
 m_hideCombatLog = CuiSettings:GetBoolean(CuiSettings.HIDE_COMBAT_LOG);
-local m_persistGossipLog = CuiSettings:GetBoolean(CuiSettings.GOSSIP_LOG_PERSIST);
-local m_persistCombatLog = CuiSettings:GetBoolean(CuiSettings.COMBAT_LOG_PERSIST);
 local cui_maxLog = 50;
 local cui_LogPanelStatus:table = {};
 cui_LogPanelStatus[1] = {main = 28,  log = 24};
@@ -655,6 +653,12 @@ function CuiUpdateLog(logString, displayTime, logType)
 end
 
 -- CUI =======================================================================
+function CuiResetCounter()
+  cui_gossipCount = 0;
+  cui_combatCount = 0;
+end
+
+-- CUI =======================================================================
 function CuiAddNewLog(logString, logType)
   local logPanel, entries, counter = nil;
   if     logType == ReportingStatusTypes.GOSSIP then
@@ -695,32 +699,6 @@ function CuiAddNewLog(logString, logType)
   logPanel.LogStack:CalculateSize();
   logPanel.LogStack:ReprocessAnchoring();
 
-end
-
--- CUI =======================================================================
-function CuiClearLogs()
-  if not(m_persistCombatLog) then
-    CuiClearLogPanel(cui_gossipPanel, cui_gossipLogs);
-  end
-  cui_gossipCount = 0;
-  cui_gossipPanel.NewLogNumber:SetText("");
-
-  if not(m_persistGossipLog) then
-    CuiClearLogPanel(cui_combatPanel, cui_combatLogs);
-  end
-  cui_combatCount = 0;
-  cui_combatPanel.NewLogNumber:SetText("");
-end
-
--- CUI =======================================================================
-function CuiClearLogPanel(instance, entryInstance)
-  for i = 1, table.count(entryInstance) do
-    instance.LogStack:ReleaseChild( entryInstance[i].LogRoot);
-  end
-  entryInstance = {};
-  instance.NewLogNumber:SetText("");
-  instance.LogStack:CalculateSize();
-  instance.LogStack:ReprocessAnchoring();
 end
 
 -- CUI =======================================================================
@@ -778,23 +756,6 @@ function CuiOnLogCheckClick()
 end
 
 -- CUI =======================================================================
-function CuiOnPersistClick()
-  m_persistGossipLog = Controls.GossipPersistCheck:IsChecked();
-  m_persistCombatLog = Controls.GossipPersistCheck:IsChecked();
-  CuiSettings:SetBoolean(CuiSettings.GOSSIP_LOG_PERSIST, m_persistGossipLog);
-  CuiSettings:SetBoolean(CuiSettings.COMBAT_LOG_PERSIST, m_persistCombatLog);
-end
-
--- CUI =======================================================================
-function CuiOnReminderClick()
-  local bTechRemind:boolean = Controls.TechReminderCheck:IsChecked();
-  local bCivicsRemind:boolean = Controls.CivicsReminderCheck:IsChecked();
-  CuiSettings:SetBoolean(CuiSettings.TECK_REMINDER, bTechRemind);
-  CuiSettings:SetBoolean(CuiSettings.CIVICS_REMINDER, bCivicsRemind);
-  Refresh();
-end
-
--- CUI =======================================================================
 function CuiInit()
 
   ContextPtr:BuildInstanceForControl( "GossipLogInstance", cui_gossipPanel,	Controls.PanelStack );
@@ -817,18 +778,9 @@ function CuiInit()
 
   Controls.GossipLogCheck     :SetCheck(not CuiSettings:GetBoolean(CuiSettings.HIDE_GOSSIP_LOG));
   Controls.GossipLogCheck     :RegisterCheckHandler(CuiOnLogCheckClick);
-  Controls.GossipPersistCheck :SetCheck(CuiSettings:GetBoolean(CuiSettings.GOSSIP_LOG_PERSIST));
-  Controls.GossipPersistCheck :RegisterCheckHandler(CuiOnPersistClick);
 
   Controls.CombatLogCheck     :SetCheck(not CuiSettings:GetBoolean(CuiSettings.HIDE_COMBAT_LOG));
   Controls.CombatLogCheck     :RegisterCheckHandler(CuiOnLogCheckClick);
-  Controls.CombatPersistCheck :SetCheck(CuiSettings:GetBoolean(CuiSettings.COMBAT_LOG_PERSIST));
-  Controls.CombatPersistCheck :RegisterCheckHandler(CuiOnPersistClick);
-
-  Controls.TechReminderCheck  :SetCheck(CuiSettings:GetBoolean(CuiSettings.TECK_REMINDER));
-  Controls.TechReminderCheck  :RegisterCheckHandler(CuiOnReminderClick);
-  Controls.CivicsReminderCheck:SetCheck(CuiSettings:GetBoolean(CuiSettings.CIVICS_REMINDER));
-  Controls.CivicsReminderCheck:RegisterCheckHandler(CuiOnReminderClick);
 end
 
 -- ===========================================================================
@@ -997,7 +949,7 @@ function Initialize()
 
   -- CUI
   Events.StatusMessage.Add( CuiUpdateLog );
-  Events.LocalPlayerTurnEnd.Add( CuiClearLogs);
+  Events.LocalPlayerTurnEnd.Add( CuiResetCounter);
   -- LuaEvents.Custom_GossipMessage.Add(CuiUpdateLog);
   -- Test();
   --

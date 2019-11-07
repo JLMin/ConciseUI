@@ -78,8 +78,6 @@
       <File>modules/great_people/base/greatpeoplepopup.xml</File>
       <File>modules/great_work/base/greatworksoverview.lua</File>
       <File>modules/great_work/base/greatworksoverview.xml</File>
-      <File>modules/launch_bar/base/launchbar.lua</File>
-      <File>modules/launch_bar/base/launchbar.xml</File>
       <File>modules/leader_icons/base/diplomacyactionview.lua</File>
       <File>modules/leader_icons/base/diplomacyribbon.lua</File>
       <File>modules/leader_icons/base/leadericon.xml</File>
@@ -100,7 +98,6 @@
       <File>modules/world_tracker/base/civicschooser.lua</File>
       <File>modules/world_tracker/base/researchchooser.lua</File>
       <File>modules/world_tracker/base/statusmessagepanel.lua</File>
-      <File>modules/world_tracker/base/techandcivicsupport.lua</File>
       <File>modules/world_tracker/base/techciviccompletedpopup.lua</File>
       <File>modules/world_tracker/base/worldtracker.lua</File>
       <File>modules/world_tracker/base/worldtracker.xml</File>
@@ -112,7 +109,6 @@
       <File>modules/city_panel/expansion1/citypanel_expansion1.lua</File>
       <File>modules/city_states/expansion1/citystates.xml</File>
       <File>modules/espionage_panel/expansion1/espionagechooser_expansion1.lua</File>
-      <File>modules/launch_bar/expansion1/launchbar_expansion1.lua</File>
       <File>modules/leader_icons/expansion1/diplomacyribbon_expansion1.lua</File>
     </ImportFiles>
     <ImportFiles criteria="Expansion2AndBeyond" id="Cui_Expansion2">
@@ -126,7 +122,6 @@
       <File>modules/espionage_panel/expansion2/espionagechooser.xml</File>
       <File>modules/espionage_panel/expansion2/espionagechooser_expansion1.lua</File>
       <File>modules/great_work/expansion2/greatworksoverview_expansion2.lua</File>
-      <File>modules/launch_bar/expansion2/launchbar_expansion2.lua</File>
       <File>modules/leader_icons/expansion2/diplomacyactionview.xml</File>
       <File>modules/leader_icons/expansion2/worldcongresspopup.lua</File>
     </ImportFiles>
@@ -205,8 +200,6 @@
     <File>modules/great_people/base/greatpeoplepopup.xml</File>
     <File>modules/great_work/base/greatworksoverview.lua</File>
     <File>modules/great_work/base/greatworksoverview.xml</File>
-    <File>modules/launch_bar/base/launchbar.lua</File>
-    <File>modules/launch_bar/base/launchbar.xml</File>
     <File>modules/leader_icons/base/diplomacyactionview.lua</File>
     <File>modules/leader_icons/base/diplomacyribbon.lua</File>
     <File>modules/leader_icons/base/leadericon.xml</File>
@@ -227,14 +220,12 @@
     <File>modules/world_tracker/base/civicschooser.lua</File>
     <File>modules/world_tracker/base/researchchooser.lua</File>
     <File>modules/world_tracker/base/statusmessagepanel.lua</File>
-    <File>modules/world_tracker/base/techandcivicsupport.lua</File>
     <File>modules/world_tracker/base/techciviccompletedpopup.lua</File>
     <File>modules/world_tracker/base/worldtracker.lua</File>
     <File>modules/world_tracker/base/worldtracker.xml</File>
     <File>modules/city_panel/expansion1/citypanel_expansion1.lua</File>
     <File>modules/city_states/expansion1/citystates.xml</File>
     <File>modules/espionage_panel/expansion1/espionagechooser_expansion1.lua</File>
-    <File>modules/launch_bar/expansion1/launchbar_expansion1.lua</File>
     <File>modules/leader_icons/expansion1/diplomacyribbon_expansion1.lua</File>
     <File>modules/_log/additions/cui_gameinfo.lua</File>
     <File>modules/_log/additions/cui_log.lua</File>
@@ -273,7 +264,6 @@
     <File>modules/espionage_panel/expansion2/espionagechooser.xml</File>
     <File>modules/espionage_panel/expansion2/espionagechooser_expansion1.lua</File>
     <File>modules/great_work/expansion2/greatworksoverview_expansion2.lua</File>
-    <File>modules/launch_bar/expansion2/launchbar_expansion2.lua</File>
     <File>modules/leader_icons/expansion2/diplomacyactionview.xml</File>
     <File>modules/leader_icons/expansion2/worldcongresspopup.lua</File>
   </Files>

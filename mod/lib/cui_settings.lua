@@ -23,12 +23,8 @@ CuiSettings = {
     -- world tracker
     HIDE_GOSSIP_LOG     = {field = "HideGossipLog",     default = false},
     HIDE_COMBAT_LOG     = {field = "HideCombatLog",     default = false},
-    GOSSIP_LOG_PERSIST  = {field = "GossipLogPersist",  default = false},
-    COMBAT_LOG_PERSIST  = {field = "CombatLogPersist",  default = false},
     GOSSIP_LOG_STATE    = {field = "GossipLogState",    default = 2},
     COMBAT_LOG_STATE    = {field = "CombatLogState",    default = 2},
-    TECK_REMINDER       = {field = "TechReminder",      default = true},
-    CIVICS_REMINDER     = {field = "CivicsReminder",    default = true},
     -- unit list
     SHOW_UNIT_DETAILS   = {field = "ShowUnitDetails",   default = true},
     -- production panel

@@ -67,25 +67,6 @@
               <CheckBox ID="ChatCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_HIDE_CHAT_PANEL" WrapWidth="180" Align="Right"/>
             </Container>
           </Stack>
-
-          <Stack Anchor="L,T" StackGrowth="Bottom" StackPadding="5">
-            <Container ID="TechReminderButton" Size="auto,auto" Anchor="R,T">
-              <CheckBox ID="TechReminderCheck" Anchor="R,T" ToolTip="LOC_CUI_WT_TECH_REMINDER_TOOLTIP" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_REMINDER" WrapWidth="180" Align="Right"/>
-            </Container>
-
-            <Container ID="CivicsReminderButton" Size="auto,auto" Anchor="R,T">
-              <CheckBox ID="CivicsReminderCheck" Anchor="R,T" ToolTip="LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_REMINDER" WrapWidth="180" Align="Right"/>
-            </Container>
-
-            <Container ID="GossipPersistButton" Size="auto,auto" Anchor="R,T">
-              <CheckBox ID="GossipPersistCheck" Anchor="R,T" ToolTip="LOC_CUI_WT_GLOG_PERSIST_TOOLTIP" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_PERSIST" Align="Right"/>
-            </Container>
-
-            <Container ID="CombatPersistButton" Size="auto,auto" Anchor="R,T">
-              <CheckBox ID="CombatPersistCheck" Anchor="R,T" ToolTip="LOC_CUI_WT_CLOG_PERSIST_TOOLTIP" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_PERSIST" Align="Right"/>
-            </Container>
-          </Stack>
-
           <Container Size="5,50"/>
         </Stack>
       </Grid>
@@ -143,7 +124,7 @@
 
   <Instance Name="LogInstance">
     <Container ID="LogRoot" Offset="0,9" Anchor="L,C" Size="280,28">
-      <Label ID="String" Anchor="L,C" WrapWidth="250" Color1="0,0,0,150" Style="FontNormal12" WrapWidth="250"/>
+      <Label ID="String" Anchor="L,C" WrapWidth="250" Color1="0,0,0,150" Style="FontNormal14" WrapWidth="250"/>
       <Box ID="Divider" Anchor="L,B" Offset="-10,-5" Size="265,1" Color="255,255,255,35"/>
     </Container>
   </Instance>
