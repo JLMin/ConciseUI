@@ -875,12 +875,23 @@ function AddCityStateRow( kCityState:table )
     kInst.DiplomacyPip:SetToolTipString(tooltip);
   end
 
+  -- CUI Quest
   for _,kQuest in pairs( kCityState.Quests ) do
     numQuests = numQuests + 1;
-    questToolTip = questToolTip .. "[NEWLINE]" .. kQuest.Callout .. kQuest.Name;
+    questToolTip = questToolTip .. kQuest.Callout .. kQuest.Name;
   end
-  kInst.QuestIcon:SetHide(numQuests <= 0);
-  kInst.QuestIcon:SetToolTipString(questToolTip);
+  -- kInst.QuestIcon:SetHide(numQuests <= 0);
+  -- kInst.QuestIcon:SetToolTipString(questToolTip);
+  if numQuests > 0 then
+    kInst.CuiCityStateQuestIcon:SetString("[ICON_CityStateQuest]");
+    kInst.CuiCityStateQuest:SetString(questToolTip);
+    kInst.CuiCityStateQuest:SetColorByName("White");
+  else
+    kInst.CuiCityStateQuestIcon:SetString("[ICON_CheckMark]");
+    kInst.CuiCityStateQuest:SetString(Locale.Lookup("LOC_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_MESSAGE"));
+    kInst.CuiCityStateQuest:SetColorByName("Gray");
+  end
+  --
 
   RealizeEnvoyToken( kCityState.Tokens, kInst.EnvoyCount);
   kInst.EnvoyLessButton:SetDisabled( true );
