@@ -36,7 +36,7 @@ CuiSettings = {
     MAKE_PEACE          = {field = "MakePeace",         default = true},
     OPEN_BORDERS        = {field = "OpenBorders",       default = true},
     TRADE_ROUTES        = {field = "TradeRoutes",       default = true},
-    WONDERS_TRACK       = {field = "WonderTrack",       default = true},
+    WONDERS_TRACK       = {field = "WonderTrack",       default = false},
     SCIENCE             = {field = "ScienceVictory",    default = false},
     CULTURE             = {field = "CultureVictory",    default = false},
     DOMINATION          = {field = "DominationVictory", default = false},
