@@ -16,6 +16,7 @@ g_ExtraIconData = {};
 include("CivicsTreeIconLoader_", true);
 include("cui_helper"); -- CUI
 include("cui_settings"); -- CUI
+include("cuitrackersupport"); -- CUI
 
 -- ===========================================================================
 --	CONSTANTS
@@ -49,7 +50,33 @@ local m_unreadChatMsgs			:number  = 0;		-- number of chat messages unseen due to
 local m_researchInstance		:table	 = {};		-- Single instance wired up for the currently being researched tech
 local m_civicsInstance			:table	 = {};		-- Single instance wired up for the currently being researched civic
 
--- CUI
+-- CUI Tracker
+local CuiTrackBar = {};
+
+local wonderData   = {};
+local resourceData = {};
+local borderData   = {};
+local tradeData    = {};
+
+local CuiWonderTT   = {};
+local CuiResourceTT = {};
+local CuiBorderTT   = {};
+local CuiTradeTT    = {};
+
+TTManager:GetTypeControlTable("CuiWonderTT",   CuiWonderTT);
+TTManager:GetTypeControlTable("CuiResourceTT", CuiResourceTT);
+TTManager:GetTypeControlTable("CuiBorderTT",   CuiBorderTT);
+TTManager:GetTypeControlTable("CuiTradeTT",    CuiTradeTT);
+
+local wonderInstance      = InstanceManager:new( "WonderInstance",      "Top", Controls.WonderInstanceContainer );
+local colorInstance       = InstanceManager:new( "ColorInstance",       "Top", Controls.ColorInstanceContainer );
+local resourceInstance    = InstanceManager:new( "ResourceInstance",    "Top", Controls.ResourceInstanceContainer );
+local resourceBarInstance = InstanceManager:new( "ResourceBarInstance", "Top", Controls.ResourceBarInstanceContainer );
+local borderInstance      = InstanceManager:new( "BorderInstance",      "Top", Controls.BorderInstanceContainer );
+local tradeInstance       = InstanceManager:new( "TradeInstance",       "Top", Controls.TradeInstanceContainer );
+
+
+-- CUI gossip combat log
 local cui_gossipPanel = {};
 local cui_gossipCount = 0;
 local cui_gossipLogs  = {};
@@ -635,10 +662,201 @@ end
 
 
 -- ===========================================================================
---	CUI World Tracker Functions
--- ===========================================================================
+--	CUI Tracker Functions
+-- ---------------------------------------------------------------------------
+function RefreshWonderToolTip(tControl)
+  tControl:ClearToolTipCallback();
+  tControl:SetToolTipType("CuiWonderTT");
+  tControl:SetToolTipCallback(function() UpdateWonderToolTip(tControl); end);
+end
 
--- CUI =======================================================================
+-- ---------------------------------------------------------------------------
+function UpdateWonderToolTip()
+  local localPlayerID = Game.GetLocalPlayer();
+  if localPlayerID == -1 then return; end
+
+  wonderInstance:ResetInstances();
+  colorInstance :ResetInstances();
+
+  for _, wonder in ipairs(wonderData.Wonders) do
+    local wonderIcon = wonderInstance:GetInstance(CuiWonderTT.WonderIconStack);
+    wonderIcon.Icon :SetIcon(wonder.Icon);
+    local hasColor = wonder.Color1 ~= "Clear";
+    local alpha = hasColor and 0.5 or 1.0;
+    local back  = hasColor and "Black" or "Clear";
+    wonderIcon.Icon:SetAlpha(alpha);
+    wonderIcon.Back:SetColorByName(back);
+    wonderIcon.Color1:SetColor(wonder.Color1);
+    wonderIcon.Color2:SetColor(wonder.Color2);
+  end
+  CuiWonderTT.WonderIconStack:CalculateSize();
+
+  for _, civ in ipairs(wonderData.Colors) do
+    local colorIndicator = colorInstance:GetInstance(CuiWonderTT.ColorIndicatorStack);
+    colorIndicator.CivName:SetText(civ.CivName);
+    colorIndicator.Color1:SetColor(civ.Color1);
+    colorIndicator.Color2:SetColor(civ.Color2);
+  end
+  CuiWonderTT.ColorIndicatorStack:CalculateSize();
+
+  local wonderStackY = CuiWonderTT.WonderIconStack:GetSizeY();
+  local colorStackY  = CuiWonderTT.ColorIndicatorStack:GetSizeY();
+  local dividerY     = math.max(wonderStackY, colorStackY);
+  CuiWonderTT.VerticalDivider:SetSizeY(dividerY);
+
+  CuiWonderTT.MainStack:CalculateSize();
+  CuiWonderTT.BG:DoAutoSize();
+end
+
+-- ---------------------------------------------------------------------------
+function RefreshResourceToolTip(tControl)
+  tControl:ClearToolTipCallback();
+  tControl:SetToolTipType("CuiResourceTT");
+  tControl:SetToolTipCallback(function() UpdateResourceToolTip(tControl); end);
+end
+
+-- ---------------------------------------------------------------------------
+function UpdateResourceToolTip()
+  local localPlayerID = Game.GetLocalPlayer();
+  if localPlayerID == -1 then return; end
+
+  resourceInstance:ResetInstances();
+  resourceBarInstance:ResetInstances();
+  
+  r_luxury    = resourceData.Luxury;
+  r_strategic = resourceData.Strategic;
+  
+  -- luxury
+  CuiResourceTT.LuxuryIconStack:SetHide(#r_luxury == 0);
+  CuiResourceTT.Divider:SetHide(#r_luxury == 0);
+  
+  if not isExpansion2 and #r_luxury < 9 then
+    CuiResourceTT.Divider:SetSizeX(264);
+  else
+    CuiResourceTT.Divider:SetSizeX(346);
+  end
+  
+  for _, item in ipairs(r_luxury) do
+    local icon = resourceInstance:GetInstance(CuiResourceTT.LuxuryIconStack);
+    CuiSetIconToSize(icon.Icon, item.Icon, 36);
+    icon.Text:SetText(item.Amount);
+    if item.CanTrade then
+      icon.Text:SetColorByName("COLOR_MEDIUM_GREEN");
+    else
+      icon.Text:SetColorByName("Black");
+    end
+  end
+  CuiResourceTT.LuxuryIconStack:CalculateSize();
+  
+  -- strategic  
+  if isExpansion2 then
+    for _, item in ipairs(r_strategic) do
+      local icon = resourceBarInstance:GetInstance(CuiResourceTT.StrategicIconStack);
+      CuiSetIconToSize(icon.Icon, item.Icon, 36);
+      local perTurn = item.APerTurn - item.MPerTurn;
+      local perTurnText = "";
+      if perTurn < 0 then
+        perTurnText = "[COLOR_Civ6Red]" .. perTurn .. "[ENDCOLOR]";
+      elseif perTurn > 0 then
+        perTurnText = "[COLOR_ModStatusGreen]+" .. perTurn .. "[ENDCOLOR]";
+      else
+        perTurnText = "-";
+      end
+      icon.PerTurn:SetText(perTurnText);
+      if item.Amount > item.Cap then
+        item.Amount = item.Cap;
+      end
+      icon.Amount:SetText(item.Amount .. " / " .. item.Cap);
+      local percent = item.Amount / item.Cap;
+      icon.PercentBar:SetPercent(percent);
+    end
+    CuiResourceTT.StrategicIconStack:CalculateSize();
+  else
+    for _, item in ipairs(r_strategic) do
+      local icon = resourceInstance:GetInstance(CuiResourceTT.StrategicIconStack);
+      CuiSetIconToSize(icon.Icon, item.Icon, 36);
+      icon.Text:SetText(item.Amount);
+    end
+  end
+  
+  CuiResourceTT.MainStack:CalculateSize();
+  CuiResourceTT.BG:DoAutoSize();
+end
+
+-- ---------------------------------------------------------------------------
+function RefreshBorderToolTip(tControl)
+  tControl:ClearToolTipCallback();
+  if borderData.Active then
+    tControl:SetToolTipType("CuiBorderTT");
+    tControl:SetToolTipCallback(function() UpdateBorderToolTip(tControl); end);
+  end
+end
+
+-- ---------------------------------------------------------------------------
+function UpdateBorderToolTip()
+  local localPlayerID = Game.GetLocalPlayer();
+  if localPlayerID == -1 then return; end
+
+  borderInstance:ResetInstances();
+  
+  for _, leader in ipairs(borderData.Leaders) do
+    local icon = borderInstance:GetInstance(CuiBorderTT.OpenBorderStack);
+    icon.Icon:SetTexture(CuiLeaderTexture(leader.Icon, 45, true));
+    icon.OpenTo  :SetHide(not leader.OpenTo);
+    icon.OpenFrom:SetHide(not leader.OpenFrom);
+  end
+  CuiBorderTT.OpenBorderStack:CalculateSize();
+
+  CuiBorderTT.BG:DoAutoSize();
+end
+
+-- ---------------------------------------------------------------------------
+function RefreshTradeToolTip(tControl)
+  tControl:ClearToolTipCallback();
+  tControl:SetToolTipType("CuiTradeTT");
+  tControl:SetToolTipCallback(function() UpdateTradeToolTip(tControl); end);
+end
+
+-- ---------------------------------------------------------------------------
+function UpdateTradeToolTip()
+  local localPlayerID = Game.GetLocalPlayer();
+  if localPlayerID == -1 then return end
+
+  if isNil(tradeData) then return end
+  
+  local textActive = tradeData.Routes;
+  if tradeData.Routes < tradeData.Cap then
+    textActive = "[COLOR_GREEN]" .. tradeData.Routes .. "[ENDCOLOR]";
+  elseif tradeData.Routes > tradeData.Cap then
+    textActive = "[COLOR_RED]" .. tradeData.Routes .. "[ENDCOLOR]";
+  end
+  CuiTradeTT.RoutesActive:SetText(textActive);
+  CuiTradeTT.RoutesActive:SetFontSize(40);
+  CuiTradeTT.RoutesCap:   SetText(" / " .. tradeData.Cap);
+
+  tradeInstance:ResetInstances();
+  
+  CuiTradeTT.TraderIcon:SetTexture(IconManager:FindIconAtlas("ICON_UNIT_TRADER_PORTRAIT", 50));
+  for _, leader in ipairs(tradeData.Leaders) do
+    local icon = tradeInstance:GetInstance(CuiTradeTT.TradeRouteStack);
+    icon.Icon:SetTexture(CuiLeaderTexture(leader.Icon, 45, true));
+    local textNum = leader.RouteNum;
+    if leader.RouteNum > 0 then
+      textNum = "[COLOR_GREEN]" .. leader.RouteNum .. "[ENDCOLOR]";
+    end
+    icon.AmountLabel:SetText(textNum);
+  end
+  
+  CuiTradeTT.TradeRouteStack:CalculateSize();
+  CuiTradeTT.Divider:SetSizeX(CuiTradeTT.TradeRouteStack:GetSizeX());
+
+  CuiTradeTT.BG:DoAutoSize();
+end
+
+
+-- ===========================================================================
+--	CUI Log Functions
+-- ---------------------------------------------------------------------------
 function CuiUpdateLog(logString, displayTime, logType)
 
   if     (logType == ReportingStatusTypes.GOSSIP)  and (not cui_IsGossipTurnShown) then
@@ -652,13 +870,7 @@ function CuiUpdateLog(logString, displayTime, logType)
   CuiAddNewLog(logString, logType);
 end
 
--- CUI =======================================================================
-function CuiResetCounter()
-  cui_gossipCount = 0;
-  cui_combatCount = 0;
-end
-
--- CUI =======================================================================
+-- ---------------------------------------------------------------------------
 function CuiAddNewLog(logString, logType)
   local logPanel, entries, counter = nil;
   if     logType == ReportingStatusTypes.GOSSIP then
@@ -701,7 +913,7 @@ function CuiAddNewLog(logString, logType)
 
 end
 
--- CUI =======================================================================
+-- ---------------------------------------------------------------------------
 function CuiLogPanelResize(instance, state:number)
   local status:table = cui_LogPanelStatus[state];
   instance.MainPanel:SetSizeY(status.main);
@@ -710,7 +922,7 @@ function CuiLogPanelResize(instance, state:number)
   instance.ButtomDivider:SetHide(state == 1);
 end
 
--- CUI =======================================================================
+-- ---------------------------------------------------------------------------
 function CuiContractGossipLog()
   cui_GossipState = cui_GossipState - 1;
   if cui_GossipState == 0 then cui_GossipState = 3 end;
@@ -718,7 +930,7 @@ function CuiContractGossipLog()
   CuiLogPanelResize(cui_gossipPanel, cui_GossipState);
 end
 
--- CUI =======================================================================
+-- ---------------------------------------------------------------------------
 function CuiExpandGossipLog()
   cui_GossipState = cui_GossipState + 1;
   if cui_GossipState == 4 then cui_GossipState = 1 end;
@@ -726,7 +938,7 @@ function CuiExpandGossipLog()
   CuiLogPanelResize(cui_gossipPanel, cui_GossipState);
 end
 
--- CUI =======================================================================
+-- ---------------------------------------------------------------------------
 function CuiContractCombatLog()
   cui_CombatState = cui_CombatState - 1;
   if cui_CombatState == 0 then cui_CombatState = 3 end;
@@ -734,7 +946,7 @@ function CuiContractCombatLog()
   CuiLogPanelResize(cui_combatPanel, cui_CombatState);
 end
 
--- CUI =======================================================================
+-- ---------------------------------------------------------------------------
 function CuiExpandCombatLog()
   cui_CombatState = cui_CombatState + 1;
   if cui_CombatState == 4 then cui_CombatState = 1 end;
@@ -742,25 +954,50 @@ function CuiExpandCombatLog()
   CuiLogPanelResize(cui_combatPanel, cui_CombatState);
 end
 
--- CUI =======================================================================
-function CuiOnLogCheckClick()
-  m_hideGossipLog = not Controls.GossipLogCheck:IsChecked();
-  m_hideCombatLog = not Controls.CombatLogCheck:IsChecked();
-  CuiSettings:SetBoolean(CuiSettings.HIDE_GOSSIP_LOG, m_hideGossipLog);
-  CuiSettings:SetBoolean(CuiSettings.HIDE_COMBAT_LOG, m_hideCombatLog);
-  cui_gossipPanel.MainPanel:SetHide(m_hideGossipLog);
-  cui_combatPanel.MainPanel:SetHide(m_hideCombatLog);
-  LuaEvents.CuiLogChange();
-  RealizeEmptyMessage();
-  RealizeStack();
-end
 
--- CUI =======================================================================
+-- ===========================================================================
+--	CUI Panel Functions
+-- ---------------------------------------------------------------------------
 function CuiInit()
 
-  ContextPtr:BuildInstanceForControl( "GossipLogInstance", cui_gossipPanel,	Controls.PanelStack );
-  ContextPtr:BuildInstanceForControl( "CombatLogInstance", cui_combatPanel,	Controls.PanelStack );
+  ContextPtr:BuildInstanceForControl( "CuiTrackerInstance", CuiTrackBar,	Controls.PanelStack );
+  CuiTrackPanelSetup();
+  
+  ContextPtr:BuildInstanceForControl( "GossipLogInstance",  cui_gossipPanel,	Controls.PanelStack );
+  ContextPtr:BuildInstanceForControl( "CombatLogInstance",  cui_combatPanel,	Controls.PanelStack );
+  CuiLogPanelSetup();
+  
+  -- Events
+  Events.StatusMessage.Add(CuiUpdateLog);
+  Events.LocalPlayerTurnEnd.Add(CuiLogCounterReset);
+  
+  Events.LoadGameViewStateDone.Add(CuiTrackerRefresh);
+  Events.TurnBegin.Add(CuiTrackerRefresh);
+  LuaEvents.DiplomacyActionView_ShowIngameUI.Add(CuiTrackerRefresh);
+  
+  CuiTrackerRefresh();
+end
 
+-- ---------------------------------------------------------------------------
+function CuiTrackPanelSetup()
+  CuiTrackBar.WonderIcon:  SetTexture(IconManager:FindIconAtlas("ICON_DISTRICT_WONDER", 32));
+  CuiTrackBar.ResourceIcon:SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_REQUEST_ASSISTANCE", 38));
+  CuiTrackBar.BorderIcon:  SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_OPEN_BORDERS", 38));
+  CuiTrackBar.TradeIcon:   SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_VIEW_TRADE", 38));
+  CuiTrackBar.TempAIcon:   SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_DECLARE_SURPRISE_WAR", 38));
+  CuiTrackBar.TempBIcon:   SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_ALLIANCE", 38));
+  CuiTrackBar.TempCIcon:   SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_USE_NUCLEAR_WEAPON", 38));
+end
+
+-- ---------------------------------------------------------------------------
+function CuiChangeIconColor(icon, isActive)
+  if isActive then icon:SetColorByName("ModStatusGreenCS");
+              else icon:SetColorByName("White");
+  end
+end
+
+-- ---------------------------------------------------------------------------
+function CuiLogPanelSetup()
   cui_gossipPanel.MainPanel:SetHide(m_hideGossipLog);
   cui_combatPanel.MainPanel:SetHide(m_hideCombatLog);
 
@@ -776,12 +1013,54 @@ function CuiInit()
   CuiLogPanelResize(cui_combatPanel, cui_CombatState);
   CuiLogPanelResize(cui_gossipPanel, cui_GossipState);
 
-  Controls.GossipLogCheck     :SetCheck(not CuiSettings:GetBoolean(CuiSettings.HIDE_GOSSIP_LOG));
-  Controls.GossipLogCheck     :RegisterCheckHandler(CuiOnLogCheckClick);
+  Controls.GossipLogCheck:SetCheck(not CuiSettings:GetBoolean(CuiSettings.HIDE_GOSSIP_LOG));
+  Controls.GossipLogCheck:RegisterCheckHandler(CuiOnLogCheckClick);
 
-  Controls.CombatLogCheck     :SetCheck(not CuiSettings:GetBoolean(CuiSettings.HIDE_COMBAT_LOG));
-  Controls.CombatLogCheck     :RegisterCheckHandler(CuiOnLogCheckClick);
+  Controls.CombatLogCheck:SetCheck(not CuiSettings:GetBoolean(CuiSettings.HIDE_COMBAT_LOG));
+  Controls.CombatLogCheck:RegisterCheckHandler(CuiOnLogCheckClick);
 end
+
+-- ---------------------------------------------------------------------------
+function CuiLogCounterReset()
+  cui_gossipCount = 0;
+  cui_combatCount = 0;
+end
+
+-- ---------------------------------------------------------------------------
+function CuiTrackerRefresh()
+  local localPlayer = Players[Game.GetLocalPlayer()];
+  if localPlayer == nil then return end
+
+  SupportInit();
+
+  wonderData   = GetWonderData();
+  resourceData = GetResourceData();
+  borderData   = GetBorderData();
+  tradeData    = GetTradeData();
+  
+  RefreshWonderToolTip(  CuiTrackBar.WonderIcon);
+  RefreshResourceToolTip(CuiTrackBar.ResourceIcon);
+  RefreshBorderToolTip(  CuiTrackBar.BorderIcon);
+  RefreshTradeToolTip(   CuiTrackBar.TradeIcon);
+  
+  CuiChangeIconColor(CuiTrackBar.ResourceIcon, resourceData.Active);
+  CuiChangeIconColor(CuiTrackBar.BorderIcon,   borderData.Active);
+  CuiChangeIconColor(CuiTrackBar.TradeIcon,    tradeData.Active);
+end
+
+-- ---------------------------------------------------------------------------
+function CuiOnLogCheckClick()
+  m_hideGossipLog = not Controls.GossipLogCheck:IsChecked();
+  m_hideCombatLog = not Controls.CombatLogCheck:IsChecked();
+  CuiSettings:SetBoolean(CuiSettings.HIDE_GOSSIP_LOG, m_hideGossipLog);
+  CuiSettings:SetBoolean(CuiSettings.HIDE_COMBAT_LOG, m_hideCombatLog);
+  cui_gossipPanel.MainPanel:SetHide(m_hideGossipLog);
+  cui_combatPanel.MainPanel:SetHide(m_hideCombatLog);
+  LuaEvents.CuiLogChange();
+  RealizeEmptyMessage();
+  RealizeStack();
+end
+
 
 -- ===========================================================================
 -- Handling chat panel expansion
@@ -947,13 +1226,6 @@ function Initialize()
 	ContextPtr:SetShutdown(OnShutdown);
   LuaEvents.GameDebug_Return.Add(OnGameDebugReturn);
 
-  -- CUI
-  Events.StatusMessage.Add( CuiUpdateLog );
-  Events.LocalPlayerTurnEnd.Add( CuiResetCounter);
-  -- LuaEvents.Custom_GossipMessage.Add(CuiUpdateLog);
-  -- Test();
-  --
-
 	Controls.ChatCheck:SetCheck(true);
 	Controls.CivicsCheck:SetCheck(true);
 	Controls.ResearchCheck:SetCheck(true);
@@ -965,5 +1237,9 @@ function Initialize()
 	Controls.ToggleAllButton:RegisterCheckHandler(					function() ToggleAll(not Controls.ToggleAllButton:IsChecked()) end);
 	Controls.ToggleDropdownButton:RegisterCallback(	Mouse.eLClick, ToggleDropdown);
 	Controls.WorldTrackerAlpha:RegisterEndCallback( OnWorldTrackerAnimationFinished );
+  
+  -- CUI
+  -- LuaEvents.Custom_GossipMessage.Add(CuiUpdateLog);
+  -- Test();
 end
 Initialize();

@@ -15,16 +15,11 @@ CuiSettings = {
     SHOW_DISTRICT_ICONS = {field = "ShowDistrictIcons", default = true},
     SHOW_WONDER_ICONS   = {field = "ShowWonderIcons",   default = false},
     AUTO_NAMING_PINS    = {field = "AutoNamingPins",    default = true},
-    -- repost screen
-    SHOW_CITY_DETAILS   = {field = "ShowCityDetails",   default = false},
-    SHOW_STRATEGIC      = {field = "ShowStrategic",     default = true},
-    SHOW_LUXURY         = {field = "ShowLuxury",        default = true},
-    SHOW_BONUS          = {field = "ShowBonus",         default = false},
     -- world tracker
     HIDE_GOSSIP_LOG     = {field = "HideGossipLog",     default = false},
     HIDE_COMBAT_LOG     = {field = "HideCombatLog",     default = false},
-    GOSSIP_LOG_STATE    = {field = "GossipLogState",    default = 2},
-    COMBAT_LOG_STATE    = {field = "CombatLogState",    default = 2},
+    GOSSIP_LOG_STATE    = {field = "GossipLogState",    default = 1},
+    COMBAT_LOG_STATE    = {field = "CombatLogState",    default = 1},
     -- unit list
     SHOW_UNIT_DETAILS   = {field = "ShowUnitDetails",   default = true},
     -- production panel
@@ -32,13 +27,8 @@ CuiSettings = {
     -- great works
     SORT_BY_CITY        = {field = "SortByCity",        default = true},
     -- civ assistant
-    SURPLUS_RESOURCE    = {field = "SurplusResource",   default = true},
-    MAKE_PEACE          = {field = "MakePeace",         default = true},
-    OPEN_BORDERS        = {field = "OpenBorders",       default = true},
-    TRADE_ROUTES        = {field = "TradeRoutes",       default = true},
-    WONDERS_TRACK       = {field = "WonderTrack",       default = false},
-    SCIENCE             = {field = "ScienceVictory",    default = false},
-    CULTURE             = {field = "CultureVictory",    default = false},
+    SCIENCE             = {field = "ScienceVictory",    default = true},
+    CULTURE             = {field = "CultureVictory",    default = true},
     DOMINATION          = {field = "DominationVictory", default = false},
     RELIGION            = {field = "ReligionVictory",   default = false},
     DIPLOMATIC          = {field = "DiplomaticVictory", default = false}

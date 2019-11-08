@@ -82,8 +82,99 @@
   <Include File="WorldTrackerCivic"/>
   <Include File="WorldTrackerResearch"/>
 
+  <!-- ================================================================== -->
+  <!--	CUI Start                                                         -->
+  <!-- ================================================================== -->
 
-  <!-- CUI: Instances for Combat and Gossip Logs -->
+  <!-- CUI: Tracker Instance -->
+  <Instance Name="CuiTrackerInstance">
+    <Grid ID="MainPanel" Size="296,auto" ConsumeMouseOver="0">
+      <Box Color="40,35,25,230" Size="296,auto" AutoSizePadding="0,2">
+        <Box Color="143,122,82,200" Anchor="L,B" Size="parent-1,2">
+          <Box Color="0,0,0,200" Anchor="L,T" Size="parent-1,1" AnchorSide="I,O"/>
+        </Box>
+        <Image Texture="Controls_GradientSmall" Size="parent,38" Color="0,0,0,255" Anchor="L,T"/>
+        <Stack Anchor="L,C" StackGrowth="Right" StackPadding="4" Offset="6,0">
+          <Image ID="WonderIcon"   Size="32,32" Offset="0,2" />
+          <Image ID="ResourceIcon" Size="38,38" />
+          <Image ID="BorderIcon"   Size="38,38" />
+          <Image ID="TradeIcon"    Size="38,38" />
+          <Image ID="TempAIcon"    Size="38,38" />
+          <Image ID="TempBIcon"    Size="38,38" />
+          <Image ID="TempCIcon"    Size="38,38" />
+        </Stack>
+      </Box>
+    </Grid>
+  </Instance>
+
+  <Container ID="WonderInstanceContainer" Hidden="1"/>
+  <Instance Name="WonderInstance">
+    <Grid ID="Top" Size="32,40" Anchor="L,T">
+      <Image ID="Icon"   Size="32,32" Anchor="C,T" Color="254,254,230" Texture="MapPins24"/>
+      <Box   ID="Back"   Size="26,6"  Anchor="C,T" Color="Black" Offset="0,32">
+        <Box ID="Color1" Size="19,4"  Anchor="L,C" Color="Clear" Offset="1,0"/>
+        <Box ID="Color2" Size="4,4"   Anchor="L,C" Color="Clear" Offset="21,0"/>
+      </Box>
+    </Grid>
+  </Instance>
+
+  <Container ID="ColorInstanceContainer" Hidden="1"/>
+  <Instance Name="ColorInstance">
+    <Grid ID="Top" Size="auto,auto" Anchor="L,T">
+      <Box   ID="Back"   Size="26,6" Anchor="L,C" Color="Black">
+        <Box ID="Color1" Size="19,4" Anchor="L,C" Color="Clear" Offset="1,0"/>
+        <Box ID="Color2" Size="4,4"  Anchor="L,C" Color="Clear" Offset="21,0"/>
+      </Box>
+      <Label ID="CivName"  Style="FontNormal12" Offset="30,0"	ColorSet="GreatPeopleCS" Color="5,29,51,255"/>
+    </Grid>
+  </Instance>
+
+  <Container ID="ResourceInstanceContainer" Hidden="1"/>
+  <Instance Name="ResourceInstance">
+    <Grid ID="Top" Size="38,52" Anchor="L,T">
+      <Image ID="Icon" StretchMode="None" Size="36,36" Anchor="C,T" />
+      <Grid  ID="Backing" Anchor="C,B" Size="30,16" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16" >
+        <Label ID="Text"  Anchor="C,C" Size="38,18" Style="FontNormal12" Color="Black" String="10"/>
+      </Grid>
+    </Grid>
+  </Instance>
+  
+  <Container ID="ResourceBarInstanceContainer" Hidden="1"/>
+  <Instance Name="ResourceBarInstance">
+    <Container ID="Top"        Anchor="C,T" Size="172,36">
+      <Image   ID="Icon"       Anchor="L,T" Size="36,36" StretchMode="None" />
+      <Label   ID="PerTurn"    Anchor="L,C" Offset="42,0"  Style="FontNormal14"	ColorSet="GreatPeopleCS" Color="5,29,51,255" String="+??" />
+      <Label   ID="Amount"     Anchor="R,C" Offset="6,0"   Style="FontNormal12"	ColorSet="GreatPeopleCS" Color="5,29,51,255" String="??? / ???" />
+      <Bar     ID="PercentBar" Anchor="L,C" Offset="40,11" Size="parent-44,3" FGColor="5,29,51,255" BGColor="5,29,51,128" Percent="0.5" />
+    </Container>
+  </Instance>
+  
+  <Container ID="BorderInstanceContainer" Hidden="1"/>
+  <Instance Name="BorderInstance">
+    <Grid ID="Top" Size="68,51" Anchor="L,T">
+      <Container Size="45,45">
+        <Image           Size="51,51" Anchor="L,T" Texture="Controls_CircleBacking45" Offset="-3,-3"/>
+        <Image ID="Icon" Size="45,45" Anchor="C,C" Texture="Leaders45"/>
+      </Container>
+      <Image ID="OpenTo"   Anchor="R,C" Size="20,19" Offset="0,-15" Color="Green" FlipX="1" Texture="TradeOverview_Benefactor"/>
+      <Image ID="OpenFrom" Anchor="R,C" Size="20,19" Offset="0,7"   Color="Red"   FlipX="0" Texture="TradeOverview_Benefactor"/>
+    </Grid>
+  </Instance>
+  
+  <Container ID="TradeInstanceContainer" Hidden="1"/>
+  <Instance Name="TradeInstance">
+    <Container ID="Top" Size="85,50">			
+      <Grid                     Anchor="R,C" Offset="10,-3" Size="60,32" AutoSizePadding="0,2" InnerPadding="0,3" Texture="Controls_ItemContainer2" SliceCorner="11,5" SliceTextureSize="22,22">
+        <Label ID="AmountLabel" Anchor="R,C" Offset="10,0"  WrapWidth="110" Style="FontNormal14" ColorSet="BodyTextCool" FontStyle="Stroke" TruncateHeight="65"/>
+      </Grid>     
+      <Container Size="45,45">
+        <Image           Size="51,51" Anchor="L,T" Texture="Controls_CircleBacking45" Offset="-3,-3"/>
+        <Image ID="Icon" Size="45,45" Anchor="C,C" Texture="Leaders45"/>
+      </Container>
+		</Container>
+  </Instance>
+  
+  <!-- CUI: Gossip Log Instance -->
   <Instance Name="GossipLogInstance">
     <Grid ID="MainPanel" Size="296,82" ConsumeMouseOver="0">
       <Box ID="LogPanel" Anchor="C,T" Offset="0,0" Size="296,78" Color="40,35,25,230">
@@ -103,6 +194,7 @@
     </Grid>
   </Instance>
 
+  <!-- CUI: Combat Log Instance -->
   <Instance Name="CombatLogInstance">
     <Grid ID="MainPanel" Size="296,82" ConsumeMouseOver="0">
       <Box ID="LogPanel" Anchor="C,T" Offset="0,0" Size="296,78" Color="40,35,25,230">
@@ -122,11 +214,61 @@
     </Grid>
   </Instance>
 
+  <!-- CUI: Log Instance -->
   <Instance Name="LogInstance">
     <Container ID="LogRoot" Offset="0,9" Anchor="L,C" Size="280,28">
       <Label ID="String" Anchor="L,C" WrapWidth="250" Color1="0,0,0,150" Style="FontNormal14" WrapWidth="250"/>
       <Box ID="Divider" Anchor="L,B" Offset="-10,-5" Size="265,1" Color="255,255,255,35"/>
     </Container>
   </Instance>
+
+  <!-- CUI: Wonder Tooltip -->
+  <ToolTipType Name="CuiWonderTT">
+    <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
+      <Stack ID="MainStack" StackGrowth="Right" StackPadding="10">
+        <Stack ID="WonderIconStack" StackGrowth="Right" WrapWidth="370" WrapGrowth="Down" StackPadding="8"/> 
+        <Box   ID="VerticalDivider" Size="2,2" Color="200,200,200,200"/>
+        <Stack ID="ColorIndicatorStack" Offset="0,4" StackGrowth="Bottom" StackPadding="6"/>
+      </Stack>
+    </Grid>
+  </ToolTipType>
+
+  <!-- CUI: Resource Tooltip -->
+  <ToolTipType Name="CuiResourceTT">
+    <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
+      <Stack ID="MainStack" StackGrowth="Down" StackPadding="10">
+        <Stack ID="LuxuryIconStack"    StackGrowth="Right" WrapWidth="360" WrapGrowth="Down" StackPadding="0"/>
+        <Box   ID="Divider" Size="346,2" Color="200,200,200,200"/>
+        <Stack ID="StrategicIconStack" StackGrowth="Right" WrapWidth="360" WrapGrowth="Down" StackPadding="0"/>
+      </Stack>
+    </Grid>
+  </ToolTipType>
+  
+  <!-- CUI: Open Border Tooltip -->
+  <ToolTipType Name="CuiBorderTT">
+    <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
+      <Stack ID="OpenBorderStack" Offset="0,8" StackGrowth="Right" WrapWidth="330" WrapGrowth="Down" StackPadding="10" />
+    </Grid>
+  </ToolTipType>
+
+  <!-- CUI: Trade Route Tooltip -->
+  <ToolTipType Name="CuiTradeTT">
+    <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
+      <Stack ID="MainStack" StackGrowth="Down" StackPadding="4">
+        <Grid Size="175,72" Anchor="L,T">
+          <Container Size="72,72" Anchor="L,C" Offset="4,0">
+            <FlipAnim   ID="GearAnim" Texture="CivicPanel_MeterFrameAnim" FrameCount="3" Columns="3" Anchor="L,T" Speed="10" Size="40,40" Stopped="1"/>
+            <Image Texture="ProductionPanel_MeterFrame" Size="72,72">
+              <Image ID="TraderIcon" Size="50,50" Texture="Buildings50" Anchor="C,C"/>
+            </Image>
+          </Container>
+          <Label ID="RoutesActive" Anchor="R,C" Offset="42,2"   Style="FontFlairLua" ColorSet="GreatPeopleCS" Color="White" FontStyle="Glow" ColorSet="BlueGlow" String="??" />
+          <Label ID="RoutesCap"    Anchor="L,C" Offset="135,2"  Style="FontFlair20"  ColorSet="GreatPeopleCS" Color="Black" String=" / ??" />
+        </Grid>
+        <Box   ID="Divider" Size="100,2" Color="200,200,200,200"/>
+        <Stack ID="TradeRouteStack" Offset="5,8" StackGrowth="Right" WrapWidth="285" WrapGrowth="Down" StackPadding="10" />
+      </Stack>
+    </Grid>
+  </ToolTipType>
 
 </Context>

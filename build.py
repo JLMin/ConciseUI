@@ -10,7 +10,7 @@ MODINFO_PATH = MOD_PATH + 'cui.modinfo'
 
 # Mod Information
 MOD_ID      = '5f504949-398a-4038-a838-43c3acc4dc10'
-MOD_VERSION = '1.3.5'
+MOD_VERSION = '1.3.7'
 MOD_NAME    = '[COLOR_Civ6LightBlue]Concise UI[ENDCOLOR]'
 MOD_TEASER  = 'For a better gaming experience.'
 MOD_DESC    = 'Concise UI greatly improves the game experience by '\
