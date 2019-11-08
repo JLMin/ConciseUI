@@ -63,8 +63,8 @@
       <Button ID="EmptySlot" Offset="0,2" Texture="GreatWorks_EmptySlot" Size="38,60" NoStateChange="true"/>
       <Button ID="EmptySlotHighlight" Offset="-2,0" Texture="GreatWorks_EmptySlotHighlight" Size="42,64" NoStateChange="true" Hidden="1"/>
       <Image ID="SlotTypeIcon" Anchor="C,C" Texture="GreatWorksSlotTypes40" Size="40,40"/>
-      <Drag ID="GreatWorkDraggable" Size="parent,parent" Buttons="L" SnapBackSpeed="0" DragThreshold="8"> 
-      	<Image ID="GreatWorkIcon" Offset="-13,-2" Texture="GreatWorks64" Size="64,64"/>
+      <Drag ID="GreatWorkDraggable" Size="parent,parent" Buttons="L" SnapBackSpeed="0" DragThreshold="8">
+        <Image ID="GreatWorkIcon" Offset="-13,-2" Texture="GreatWorks64" Size="64,64"/>
       </Drag>
       <Grid ID="LockMask" Anchor="C,C" Hidden="1">
         <Grid ID="LockColor" Anchor="C,C" Size="38,60" Color="Clear" Alpha="0.7" Texture="Controls_SubContainerFill" SliceCorner="10,10" SliceTextureSize="18,18" SliceStart="2,2"/>

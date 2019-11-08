@@ -5,78 +5,78 @@
   <ToolTipType Name="CuiLeaderIconTT">
     <Grid ID="BG" Size="280,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
       <Image ID="Icon" Offset="0,0" Size="55,55" Texture="Leaders55"/>
-      <Label ID="Desc"  Anchor="L,T" Offset="65,10" Style="FontNormal16" Color="0,0,0,255"/>
+      <Label ID="Desc" Anchor="L,T" Offset="65,10" Style="FontNormal16" Color="0,0,0,255"/>
       <Stack StackGrowth="Bottom" StackPadding="0" Offset="0,56">
-      
+
         <Grid ID="FirstSection" Size="auto,auto">
-          <Grid                         Anchor="L,T" Offset="0,0"    Size="parent,14">
-            <Line                       Anchor="C,C"                 Start="0,0" End="parent,0" Width="1" Color="Brown"/>
+          <Grid Anchor="L,T" Offset="0,0" Size="parent,14">
+            <Line Anchor="C,C" Start="0,0" End="parent,0" Width="1" Color="Brown"/>
           </Grid>
           <Label ID="Government" Anchor="L,T" Offset="0,14" Style="FontNormal14" Color="0,0,0,255"/>
-          <Label ID="Religion"   Anchor="L,T" Offset="0,32" Style="FontNormal14" Color="0,0,0,255"/>
-          <Label ID="Cities"     Anchor="L,T" Offset="0,50" Style="FontNormal14" Color="0,0,0,255"/>
+          <Label ID="Religion" Anchor="L,T" Offset="0,32" Style="FontNormal14" Color="0,0,0,255"/>
+          <Label ID="Cities" Anchor="L,T" Offset="0,50" Style="FontNormal14" Color="0,0,0,255"/>
         </Grid>
-        
+
         <Grid ID="SecondSection" Size="auto,auto">
-          <Grid                         Anchor="L,T" Offset="0,0"    Size="parent,14">
-            <Line                       Anchor="C,C"                 Start="0,0" End="parent,0" Width="1" Color="Brown"/>
+          <Grid Anchor="L,T" Offset="0,0" Size="parent,14">
+            <Line Anchor="C,C" Start="0,0" End="parent,0" Width="1" Color="Brown"/>
           </Grid>
-          <Label ID="ScoreAndYields"    Anchor="L,T" Offset="0,14"   Style="FontNormal14" Color="0,0,0,255"/>
-          <Label ID="Score"             Anchor="L,T" Offset="0,32"   Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
-          <Label ID="Science"           Anchor="L,T" Offset="85,32"  Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
-          <Label ID="Culture"           Anchor="L,T" Offset="170,32" Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
-          <Label ID="Strength"          Anchor="L,T" Offset="0,50"   Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
-          <Label ID="Faith"             Anchor="L,T" Offset="85,50"  Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
-          <Label ID="Tourism"           Anchor="L,T" Offset="170,50" Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
+          <Label ID="ScoreAndYields" Anchor="L,T" Offset="0,14" Style="FontNormal14" Color="0,0,0,255"/>
+          <Label ID="Score" Anchor="L,T" Offset="0,32" Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
+          <Label ID="Science" Anchor="L,T" Offset="85,32" Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
+          <Label ID="Culture" Anchor="L,T" Offset="170,32" Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
+          <Label ID="Strength" Anchor="L,T" Offset="0,50" Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
+          <Label ID="Faith" Anchor="L,T" Offset="85,50" Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
+          <Label ID="Tourism" Anchor="L,T" Offset="170,50" Style="FontNormal14" Color="0,0,0,255" Size="85,14"/>
           <!--
-          <Label ID="ScienceVictory"    Anchor="L,T" Offset="0,73"   Style="FontNormal14" Color="0,0,0,255"/>
-          <Label ID="CultureVictory"    Anchor="L,T" Offset="0,91"   Style="FontNormal14" Color="0,0,0,255"/>
-          <Label ID="MilitaryVictory"   Anchor="L,T" Offset="0,109"  Style="FontNormal14" Color="0,0,0,255"/>
-          <Label ID="ReligionVictory"   Anchor="L,T" Offset="0,127"  Style="FontNormal14" Color="0,0,0,255"/>
-          <Label ID="DiplomaticVictory" Anchor="L,T" Offset="0,145"  Style="FontNormal14" Color="0,0,0,255" Hidden="1"/>
+          <Label ID="ScienceVictory" Anchor="L,T" Offset="0,73" Style="FontNormal14" Color="0,0,0,255"/>
+          <Label ID="CultureVictory" Anchor="L,T" Offset="0,91" Style="FontNormal14" Color="0,0,0,255"/>
+          <Label ID="MilitaryVictory" Anchor="L,T" Offset="0,109" Style="FontNormal14" Color="0,0,0,255"/>
+          <Label ID="ReligionVictory" Anchor="L,T" Offset="0,127" Style="FontNormal14" Color="0,0,0,255"/>
+          <Label ID="DiplomaticVictory" Anchor="L,T" Offset="0,145" Style="FontNormal14" Color="0,0,0,255" Hidden="1"/>
           -->
         </Grid>
-        
+
         <Grid ID="ThiredSection" Size="auto,auto">
-          <Grid                         Anchor="L,T" Offset="0,0"    Size="parent,14">
-            <Line                       Anchor="C,C"                 Start="0,0" End="parent,0" Width="1" Color="Brown"/>
+          <Grid Anchor="L,T" Offset="0,0" Size="parent,14">
+            <Line Anchor="C,C" Start="0,0" End="parent,0" Width="1" Color="Brown"/>
           </Grid>
           <Stack ID="PossibleDeals" StackGrowth="Bottom" StackPadding="4" Offset="0,14">
             <Grid Size="auto,auto">
-              <Label ID="GoldAndFavor" Anchor="L,T" Offset="0,0"    Style="FontNormal14" Color="0,0,0,255"/>
-              <Label ID="Gold"         Anchor="L,T" Offset="0,18"   Style="FontNormal14" Color="0,0,0,255"/>
-              <Label ID="Favor"        Anchor="L,T" Offset="130,18" Style="FontNormal14" Color="0,0,0,255"/>
+              <Label ID="GoldAndFavor" Anchor="L,T" Offset="0,0" Style="FontNormal14" Color="0,0,0,255"/>
+              <Label ID="Gold" Anchor="L,T" Offset="0,18" Style="FontNormal14" Color="0,0,0,255"/>
+              <Label ID="Favor" Anchor="L,T" Offset="130,18" Style="FontNormal14" Color="0,0,0,255"/>
             </Grid>
             <Grid ID="OtherOffer" Size="auto,auto" Offset="0,6">
-              <Label ID="OtherTitle"   Anchor="L,T" Offset="0,0"    Style="FontNormal14" Color="0,0,0,255" String="LOC_CUI_DB_THEY_CAN_OFFER"/>
-              <Stack ID="OtherStack"   Anchor="L,T" Offset="-6,2"   StackGrowth="Right"  WrapWidth="280" WrapGrowth="Down" StackPadding="0" />
+              <Label ID="OtherTitle" Anchor="L,T" Offset="0,0" Style="FontNormal14" Color="0,0,0,255" String="LOC_CUI_DB_THEY_CAN_OFFER"/>
+              <Stack ID="OtherStack" Anchor="L,T" Offset="-6,2" StackGrowth="Right" WrapWidth="280" WrapGrowth="Down" StackPadding="0" />
             </Grid>
             <Grid ID="LocalOffer" Size="auto,auto" Offset="0,6">
-              <Label ID="LocalTitle"   Anchor="L,T" Offset="0,0"    Style="FontNormal14" Color="0,0,0,255" String="LOC_CUI_DB_WE_CAN_OFFER"/>
-              <Stack ID="LocalStack"   Anchor="L,T" Offset="-6,2"   StackGrowth="Right"  WrapWidth="280" WrapGrowth="Down" StackPadding="0" />
+              <Label ID="LocalTitle" Anchor="L,T" Offset="0,0" Style="FontNormal14" Color="0,0,0,255" String="LOC_CUI_DB_WE_CAN_OFFER"/>
+              <Stack ID="LocalStack" Anchor="L,T" Offset="-6,2" StackGrowth="Right" WrapWidth="280" WrapGrowth="Down" StackPadding="0" />
             </Grid>
           </Stack>
         </Grid>
-        
+
       </Stack>
     </Grid>
   </ToolTipType>
 
   <ToolTipType Name="CuiRelationshipTT">
-    <Grid    ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
+    <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
       <Stack ID="RelationshipStack" StackGrowth="Bottom" StackPadding="14">
         <Grid Size="auto,auto">
-          <Label ID="Relationship" Anchor="L,T" Offset="0,0"  Style="FontNormal14" Color="0,0,0,255"/>
+          <Label ID="Relationship" Anchor="L,T" Offset="0,0" Style="FontNormal14" Color="0,0,0,255"/>
           <Stack ID="RelationshipReason" StackGrowth="Bottom" StackPadding="0" Offset="0,16" />
         </Grid>
         <Grid Size="auto,auto">
-          <Label ID="Grievance"   Anchor="L,T" Offset="0,0"  Style="FontNormal14" Color="0,0,0,255"/>
+          <Label ID="Grievance" Anchor="L,T" Offset="0,0" Style="FontNormal14" Color="0,0,0,255"/>
         </Grid>
         <Grid Size="auto,auto">
-          <Label ID="AccessLevel" Anchor="L,T" Offset="0,0"  Style="FontNormal14" Color="0,0,0,255"/>
+          <Label ID="AccessLevel" Anchor="L,T" Offset="0,0" Style="FontNormal14" Color="0,0,0,255"/>
         </Grid>
         <Grid Size="auto,auto">
-          <Label ID="States"      Anchor="L,T" Offset="0,0"  Style="FontNormal14" Color="0,0,0,255"/>
+          <Label ID="States" Anchor="L,T" Offset="0,0" Style="FontNormal14" Color="0,0,0,255"/>
         </Grid>
       </Stack>
     </Grid>
@@ -86,12 +86,12 @@
   <Instance Name="ResourceInstance">
     <Grid ID="Top" Size="38,58" Anchor="L,T">
       <Image ID="Icon" StretchMode="None" Size="36,36" Anchor="C,C" />
-      <Grid  ID="Backing" Anchor="C,B" Offset="0,-2" Size="30,16" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16" >
-        <Label ID="Text"  Anchor="C,C" Offset="0,0"  Size="38,18" Style="FontNormal12" Color="Black" String="10"/>
+      <Grid ID="Backing" Anchor="C,B" Offset="0,-2" Size="30,16" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
+        <Label ID="Text" Anchor="C,C" Offset="0,0" Size="38,18" Style="FontNormal12" Color="Black" String="10"/>
       </Grid>
     </Grid>
   </Instance>
-  
+
   <Container ID="ReasonInstanceContainer" Hidden="1"/>
   <Instance Name="ReasonInstance">
     <Container ID="Top" Size="auto,auto">
@@ -99,7 +99,7 @@
         <Label ID="Score" Style="FontNormal14" Anchor="R,T"/>
       </Container>
       <Container Size="auto,auto" Offset="34,0">
-        <Label ID="Text"  Style="FontNormal14" Anchor="L,T" Color="Black" Size="auto,auto"/>
+        <Label ID="Text" Style="FontNormal14" Anchor="L,T" Color="Black" Size="auto,auto"/>
       </Container>
     </Container>
   </Instance>

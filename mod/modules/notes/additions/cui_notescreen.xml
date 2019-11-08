@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Cui In Game Note Screen, eudaimonia, 2/10/2019 -->
 
-<Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-				 xsi:noNamespaceSchemaLocation="..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd"
-				 Style="FontNormal16" FontStyle="Shadow">
+<Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd" Style="FontNormal16" FontStyle="Shadow">
 
   <Container ID="Vignette" Style="FullScreenVignetteConsumer" />
 
@@ -30,11 +28,11 @@
   <!-- ==================================================================	-->
   <Instance Name="NoteEnter">
     <Container ID="Top" Anchor="C,T" Offset="0,0" Size="parent,62">
-      <Grid Size="parent-30,10" Anchor="C,T" Offset="0,38" Style="DividerGrid" Color="80,69,48" >
+      <Grid Size="parent-30,10" Anchor="C,T" Offset="0,38" Style="DividerGrid" Color="80,69,48">
         <Label ID="LastEdit" Anchor="R,T" Style="FontNormal14" Offset="20,-36" Color="164,164,164,255" />
-        <GridButton ID="EditButton" Size="parent,32"    Offset="0,4"  Anchor="L,B" Texture="Controls_TextEntry" SliceCorner="30,0" SliceTextureSize="44,26" StateOffsetIncrement="0,26">
-          <EditBox  ID="EditNote"   Size="800,22" Offset="35,5" Anchor="L,C" Style="FontNormal16" EditMode="1" String="Empty Note" MaxLength="100" Hidden="1" />
-          <Label    ID="Overview"   Size="800,22" Offset="35,5" Anchor="L,C" Style="FontNormal16" TruncateWidth="750" />
+        <GridButton ID="EditButton" Size="parent,32" Offset="0,4" Anchor="L,B" Texture="Controls_TextEntry" SliceCorner="30,0" SliceTextureSize="44,26" StateOffsetIncrement="0,26">
+          <EditBox ID="EditNote" Size="800,22" Offset="35,5" Anchor="L,C" Style="FontNormal16" EditMode="1" String="Empty Note" MaxLength="100" Hidden="1" />
+          <Label ID="Overview" Size="800,22" Offset="35,5" Anchor="L,C" Style="FontNormal16" TruncateWidth="750" />
         </GridButton>
       </Grid>
     </Container>

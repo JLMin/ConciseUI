@@ -4,7 +4,7 @@
 <Context>
   <Container ID="CuiAssistant" Size="68,68" Anchor="L,B" Offset="10,-6">
 
-    <Button  ID="AssistantButton" Size="68,68" ConsumeAllMouse="1">
+    <Button ID="AssistantButton" Size="68,68" ConsumeAllMouse="1">
       <Image Size="68,68" Anchor="C,C" Texture="Controls_CircleBacking68"/>
       <Image Size="64,62" Anchor="C,C" Texture="Diplomacy_YouIndicator"/>
       <Image Size="64,64" Anchor="C,C" Texture="Advisors64"/>
@@ -14,24 +14,24 @@
 
     <Grid ID="AssistantOptions" Anchor="L,T" AnchorSide="I,O" Size="220,150" Offset="-10,-10" Texture="Tracker_OptionsBacking.dds" SliceCorner="55,61" SliceSize="1,1" SliceTextureSize="121,119" ConsumeAllMouse="1" Hidden="1">
       <Label Anchor="C,T" String="{LOC_OPTIONS:upper}" Offset="-6,10" Style="FontFlair16" Color0="106,93,69,255" Color1="0,0,0,150" Color2="146,133,109,255" FontStyle="Glow" SmallCaps="20" SmallCapsLeading="0" SmallCapsType="EveryWord" KerningAdjustment="0"/>
-      <Stack ID="VictoryStack" Anchor="L,T" Offset="30,34" StackGrowth="Bottom" StackPadding="1" >
-        <CheckBox ID="SCIENCE"    IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_SCIENCE_NAME"    Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
-        <CheckBox ID="CULTURE"    IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_CULTURE_NAME"    Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
-        <CheckBox ID="DOMINATION" IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_DOMINATION_NAME" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
-        <CheckBox ID="RELIGION"   IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_RELIGIOUS_NAME"  Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
-        <CheckBox ID="DIPLOMATIC" IsChecked="1"  Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_DIPLOMATIC_NAME" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
+      <Stack ID="VictoryStack" Anchor="L,T" Offset="30,34" StackGrowth="Bottom" StackPadding="1">
+        <CheckBox ID="SCIENCE" IsChecked="1" Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_SCIENCE_NAME" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
+        <CheckBox ID="CULTURE" IsChecked="1" Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_CULTURE_NAME" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
+        <CheckBox ID="DOMINATION" IsChecked="1" Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_DOMINATION_NAME" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
+        <CheckBox ID="RELIGION" IsChecked="1" Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_RELIGIOUS_NAME" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
+        <CheckBox ID="DIPLOMATIC" IsChecked="1" Offset="10,4" TextOffset="-5,0" String="LOC_VICTORY_DIPLOMATIC_NAME" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T" Hidden="1"/>
       </Stack>
     </Grid>
   </Container>
-  
+
   <ToolTipType Name="CuiVictoryTT">
     <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
-      <Label ID="Title"   Anchor="C,T" Style="FontFlair16" Color="5,29,51,255" String="Victory"/>
-      <Grid  ID="Divider" Anchor="C,T" Size="150,6" Offset="0,16" Style="DividerGrid" Color="5,29,51,255"/>
+      <Label ID="Title" Anchor="C,T" Style="FontFlair16" Color="5,29,51,255" String="Victory"/>
+      <Grid ID="Divider" Anchor="C,T" Size="150,6" Offset="0,16" Style="DividerGrid" Color="5,29,51,255"/>
       <Stack ID="VictoryLeaderStack" StackGrowth="Bottom" StackPadding="6" Offset="0,30"/>
     </Grid>
   </ToolTipType>
-  
+
   <Container ID="VictoryIconInstanceContainer" Hidden="1"/>
   <Instance Name="VictoryIconInstance">
     <Grid ID="Top" Size="64,80" Anchor="L,T">
@@ -41,7 +41,7 @@
       </Grid>
     </Grid>
   </Instance>
-  
+
   <Container ID="VictoryLeaderInstanceContainer" Hidden="1"/>
   <Instance Name="VictoryLeaderInstance">
     <Grid ID="Top" Size="auto,auto" Anchor="L,T">
@@ -50,9 +50,9 @@
         <Image ID="YouIndicator" Hidden="1" Size="55,53" Texture="Diplomacy_YouIndicator45" Anchor="C,C"/>
         <Image ID="Icon" Anchor="C,C" Size="45,45" Texture="Leaders45" />
       </Grid>
-      <Label ID="UnMet"  Anchor="L,C" Offset="60,0"   Style="FontNormal14" Color="Black" String="LOC_WORLD_RANKING_UNMET_PLAYER" Hidden="1"/>
+      <Label ID="UnMet" Anchor="L,C" Offset="60,0" Style="FontNormal14" Color="Black" String="LOC_WORLD_RANKING_UNMET_PLAYER" Hidden="1"/>
       <Label ID="State1" Anchor="L,C" Offset="60,-10" Style="FontNormal14" Color="Black"/>
-      <Label ID="State2" Anchor="L,C" Offset="60,10"  Style="FontNormal14" Color="Black"/>
+      <Label ID="State2" Anchor="L,C" Offset="60,10" Style="FontNormal14" Color="Black"/>
     </Grid>
   </Instance>
 

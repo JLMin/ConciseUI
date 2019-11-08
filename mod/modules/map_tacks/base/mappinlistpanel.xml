@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Context Style="FontNormal16">
-	<!-- Map Pin List Panel -->
-	<Grid	Anchor="L,B" ID="MapPinPanel" Size="320,auto" Texture="Tracker_OptionsBacking" SliceCorner="55,61" SliceSize="1,1" SliceTextureSize="121,119" ConsumeAllMouse="1" MinSize="121,119" AutoSizePadding="0,15">
-		
+  <!-- Map Pin List Panel -->
+  <Grid Anchor="L,B" ID="MapPinPanel" Size="320,auto" Texture="Tracker_OptionsBacking" SliceCorner="55,61" SliceSize="1,1" SliceTextureSize="121,119" ConsumeAllMouse="1" MinSize="121,119" AutoSizePadding="0,15">
+
     <Label Anchor="C,T" String="{LOC_HUD_MAP_PIN_LIST:upper}" Offset="0,12" Style="FontFlair16" Color0="106,93,69,255" Color1="0,0,0,150" Color2="146,133,109,255" FontStyle="Glow" SmallCaps="20" SmallCapsLeading="0" SmallCapsType="EveryWord" KerningAdjustment="0"/>
 
     <Stack Anchor="C,T" ID="MapPinStack" StackGrowth="Bottom" StackPadding="5" Offset="-6,0">
       <Container Size="30,30"/>
       <!-- CUI: new checkbox -->
       <Stack ID="ICONContoral" Anchor="L,C" StackGrowth="Right" Offset="0,0" StackPadding="10">
-        <CheckBox ID="ShowDistricts" IsChecked="1" Offset="10,4" TextOffset="-5,0" String="LOC_HUD_DISTRICTS"     ToolTip="LOC_CUI_MP_SHOW_DISTRICTS_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="L,T"/>
-        <CheckBox ID="ShowWonders"   IsChecked="0" Offset="10,4" TextOffset="-5,0" String="LOC_HUD_CITY_WONDERS"  ToolTip="LOC_CUI_MP_SHOW_WONDERS_TOOLTIP"   Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="L,T"/>
-        <CheckBox ID="AutoNaming"    IsChecked="0" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MP_AUTONAMING" ToolTip="LOC_CUI_MP_AUTONAMING_TOOLTIP"     Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="L,T"/>
+        <CheckBox ID="ShowDistricts" IsChecked="1" Offset="10,4" TextOffset="-5,0" String="LOC_HUD_DISTRICTS" ToolTip="LOC_CUI_MP_SHOW_DISTRICTS_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="L,T"/>
+        <CheckBox ID="ShowWonders" IsChecked="0" Offset="10,4" TextOffset="-5,0" String="LOC_HUD_CITY_WONDERS" ToolTip="LOC_CUI_MP_SHOW_WONDERS_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="L,T"/>
+        <CheckBox ID="AutoNaming" IsChecked="0" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MP_AUTONAMING" ToolTip="LOC_CUI_MP_AUTONAMING_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="L,T"/>
       </Stack>
-      <GridButton	ID="AddPinButton"	Anchor="C,T" Size="280,24" String="LOC_HUD_MAP_PLACE_MAP_PIN" ToolTip="LOC_HUD_MAP_PLACE_MAP_PIN_TT" Style="ButtonControl"/>
+      <GridButton ID="AddPinButton" Anchor="C,T" Size="280,24" String="LOC_HUD_MAP_PLACE_MAP_PIN" ToolTip="LOC_HUD_MAP_PLACE_MAP_PIN_TT" Style="ButtonControl"/>
       <ScrollPanel Anchor="L,T" ID="MapPinScrollPanel" Offset="0,0" Size="280,200" Vertical="1">
         <Stack Anchor="L,T" ID="MapPinEntryStack" StackGrowth="Bottom" Offset="0,0" StackPadding="1"/>
         <ScrollBar Anchor="R,C" AnchorSide="O,I" Offset="3,0" Style="ScrollVerticalBar" Color="80,69,48">
@@ -23,23 +23,23 @@
       </ScrollPanel>
     </Stack>
 
-		<Image Texture="Controls_ButtonExtendSmall" TextureOffset="0,60" Size="20,20" Anchor="L,B" Offset="20,10"/>
-	</Grid>
-	
+    <Image Texture="Controls_ButtonExtendSmall" TextureOffset="0,60" Size="20,20" Anchor="L,B" Offset="20,10"/>
+  </Grid>
+
   <!-- ==================================================================== -->
   <!--	INSTANCES																														-->
   <!-- ==================================================================== -->
-	<Instance			Name="MapPinListEntry">
+  <Instance Name="MapPinListEntry">
     <Container ID="Root" Size="parent,24">
-      <GridButton ID="MapPinListButton" Anchor="L,C"  Size="parent-26,24" ConsumeAllMouse="1" Style="ButtonControlBrown">
-        <Image ID="IconImage"  Texture="MapPins24" Size="24,24" Anchor="L,C" Color="254,254,230" Offset="2,0"/>
-        <Label	ID="MapPinName"	Anchor="L,C" Offset="28,0" String="" WrapWidth="parent-24" Style="FontNormal14" TruncateWidth="210" FontStyle="Glow" Color0="154,137,108,255" Color1="21,18,12,100" />
+      <GridButton ID="MapPinListButton" Anchor="L,C" Size="parent-26,24" ConsumeAllMouse="1" Style="ButtonControlBrown">
+        <Image ID="IconImage" Texture="MapPins24" Size="24,24" Anchor="L,C" Color="254,254,230" Offset="2,0"/>
+        <Label ID="MapPinName" Anchor="L,C" Offset="28,0" String="" WrapWidth="parent-24" Style="FontNormal14" TruncateWidth="210" FontStyle="Glow" Color0="154,137,108,255" Color1="21,18,12,100" />
       </GridButton>
       <GridButton ID="EditMapPin" Style="ButtonControlBrown" Size="24,24" Anchor="R,C">
         <Image Texture="Controls_TypeIn" Size="18,18" Anchor="C,C"/>
       </GridButton>
     </Container>
-	</Instance>
+  </Instance>
 
-  
+
 </Context>

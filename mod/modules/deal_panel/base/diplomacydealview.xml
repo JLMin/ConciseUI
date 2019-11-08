@@ -22,22 +22,22 @@
         <Label ID="Turns" Anchor="L,T" Offset="6,10" String="[Icon_Turn]" />
       </Image>
 
-     <Stack StackGrowth="Bottom" Anchor="L,T" Size="60,82" Offset="50,6" StackPadding="2">
+      <Stack StackGrowth="Bottom" Anchor="L,T" Size="60,82" Offset="50,6" StackPadding="2">
         <GridButton ID="Edit100" Size="60,24" Style="ButtonControlTan" ToolTip="LOC_CUI_DP_GOLD_EDIT_TOOLTIP">
           <Label Anchor="L,C" String="[COLOR_GREEN]+[ENDCOLOR][COLOR_RED]-[ENDCOLOR] 100" Offset="6,2" Style="FontNormal14"/>
         </GridButton>
 
-        <GridButton ID="Edit10"  Size="60,24" Style="ButtonControlTan" ToolTip="LOC_CUI_DP_GOLD_EDIT_TOOLTIP">
+        <GridButton ID="Edit10" Size="60,24" Style="ButtonControlTan" ToolTip="LOC_CUI_DP_GOLD_EDIT_TOOLTIP">
           <Label Anchor="L,C" String="[COLOR_GREEN]+[ENDCOLOR][COLOR_RED]-[ENDCOLOR] 10" Offset="6,2" Style="FontNormal14"/>
         </GridButton>
 
-        <GridButton ID="Edit1"  Size="60,24" Style="ButtonControlTan" ToolTip="LOC_CUI_DP_GOLD_EDIT_TOOLTIP">
+        <GridButton ID="Edit1" Size="60,24" Style="ButtonControlTan" ToolTip="LOC_CUI_DP_GOLD_EDIT_TOOLTIP">
           <Label Anchor="L,C" String="[COLOR_GREEN]+[ENDCOLOR][COLOR_RED]-[ENDCOLOR] 1" Offset="6,2" Style="FontNormal14"/>
         </GridButton>
       </Stack>
     </Grid>
   </Instance>
-  
+
   <!-- CUI: custom group list -->
   <Instance Name="CuiGroupList">
     <Stack ID="List" Size="parent,0">

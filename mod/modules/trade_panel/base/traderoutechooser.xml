@@ -4,7 +4,7 @@
   <SlideAnim ID="RouteChooserSlideAnim" Size="auto,parent" Anchor="L,T" Begin="-350,0" End="0,0" Cycle="Once" Speed="2" Function="OutQuint">
     <Container ID="RouteChooser" Size="auto,parent-54" Offset="-3,54">
       <!-- Body container-->
-      <Container Size="350,parent" ConsumeAllMouse="1">           
+      <Container Size="350,parent" ConsumeAllMouse="1">
         <!-- Top Panel -->
         <Grid ID="TopGrid" Size="parent,200" Offset="0,0" Anchor="L,T" Texture="DestinationChooser_CurrentSlot" SliceStart="0,0" SliceCorner="30,30" SliceSize="250,90" SliceTextureSize="308,173">
           <Container ID="CurrentSelectionContainer" Size="parent,auto" Offset="0,0">
@@ -143,11 +143,11 @@
         <Grid ID="BottomGrid" Size="parent,parent-220" Offset="-2,260" Anchor="L,T" Texture="Controls_ContainerBlue" SliceStart="0,0" SliceCorner="3,3" SliceSize="9,9" SliceTextureSize="16,16">
           <!-- Destination List -->
           <ScrollPanel ID="RouteChoiceScrollPanel" Offset="14,1" Size="parent,parent" Vertical="1" AutoScrollBar="0">
-            <ScrollBar Anchor="L,C" AnchorSide="O,I"  Size="11,parent-8" Offset="-6,0" Style="ScrollVerticalBar" Color="28,60,90,255" />
+            <ScrollBar Anchor="L,C" AnchorSide="O,I" Size="11,parent-8" Offset="-6,0" Style="ScrollVerticalBar" Color="28,60,90,255" />
             <!-- Destination Stack -->
             <Stack ID="RouteChoiceStack" Offset="0,0" StackGrowth="Down"/>
           </ScrollPanel>
-          
+
           <!-- Bottom Divider -->
           <Grid Size="parent+5,10" Anchor="C,B" Offset="0,-8" Style="Divider3Grid" />
         </Grid>

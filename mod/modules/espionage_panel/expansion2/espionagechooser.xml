@@ -3,13 +3,13 @@
 
   <SlideAnim Style="ChooserAnim">
     <!-- Top Panel -->
-    <Grid Anchor="C,T" Size="parent+7,102" Offset="0,28" Texture="DestinationChooser_CurrentSlot" SliceStart="0,0" SliceCorner="23,23" SliceSize="250,70" SliceTextureSize="308,173" >
+    <Grid Anchor="C,T" Size="parent+7,102" Offset="0,28" Texture="DestinationChooser_CurrentSlot" SliceStart="0,0" SliceCorner="23,23" SliceSize="250,70" SliceTextureSize="308,173">
       <!-- City Banner -->
-      <Grid					ID="BannerBase"				Anchor="C,T" Offset="0,14"		Size="parent-26,33"								Texture="CityPanel_BannerBase"				SliceCorner="20,10" SliceSize="160,1" SliceTextureSize="199,33" Color="150,170,100,255">
-				<Grid				ID="BannerDarker"			Anchor="L,T" Offset="4,2"			Size="parent-8,parent-10"		Texture="CityPanel_BannerDarker"			SliceCorner="95,10" SliceSize="1,1" SliceTextureSize="191,23" Color="0,0,0,100" />
-        <Grid				ID="BannerLighter"		Anchor="L,T" Offset="4,2"			Size="parent-8,parent-10"		Texture="CityPanel_BannerLighter"			SliceCorner="95,10" SliceSize="1,1" SliceTextureSize="191,23" Color="255,255,255,255" />
-        <Grid															Anchor="L,T" Offset="6,2"			Size="parent-10,parent-8"		Texture="CityPanel_BannerNone"				SliceCorner="70,10" SliceSize="1,1" SliceTextureSize="179,20" Color="255,0,0,255" />
-        <Label			ID="CityName"					Anchor="L,C" Offset="34,-3"		Style="FontFlair16"					FontStyle="Stroke" EffectColor="0,0,0,25" String="$CityName$" SmallCaps="16" SmallCapsType="EveryWord" />
+      <Grid ID="BannerBase" Anchor="C,T" Offset="0,14" Size="parent-26,33" Texture="CityPanel_BannerBase" SliceCorner="20,10" SliceSize="160,1" SliceTextureSize="199,33" Color="150,170,100,255">
+        <Grid ID="BannerDarker" Anchor="L,T" Offset="4,2" Size="parent-8,parent-10" Texture="CityPanel_BannerDarker" SliceCorner="95,10" SliceSize="1,1" SliceTextureSize="191,23" Color="0,0,0,100" />
+        <Grid ID="BannerLighter" Anchor="L,T" Offset="4,2" Size="parent-8,parent-10" Texture="CityPanel_BannerLighter" SliceCorner="95,10" SliceSize="1,1" SliceTextureSize="191,23" Color="255,255,255,255" />
+        <Grid Anchor="L,T" Offset="6,2" Size="parent-10,parent-8" Texture="CityPanel_BannerNone" SliceCorner="70,10" SliceSize="1,1" SliceTextureSize="179,20" Color="255,0,0,255" />
+        <Label ID="CityName" Anchor="L,C" Offset="34,-3" Style="FontFlair16" FontStyle="Stroke" EffectColor="0,0,0,25" String="$CityName$" SmallCaps="16" SmallCapsType="EveryWord" />
 
         <!-- Travel Time -->
         <Stack ID="TravelTimeStack" Anchor="R,T" Offset="12,3" StackGrowth="Right" StackPadding="2">
@@ -20,7 +20,7 @@
 
       <!-- District Info -->
       <Button ID="DistrictsScrollLeftButton" Anchor="L,T" Offset="16,51" Style="ArrowButtonLeft" Hidden="1"/>
-      <Grid	ID="DistrictInfo" Size="256,30" Anchor="C,T" Offset="0,48" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16" >
+      <Grid ID="DistrictInfo" Size="256,30" Anchor="C,T" Offset="0,48" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
         <!-- Column Background -->
         <Box Size="32,parent" Offset="32,0" Color="255,255,255,10"/>
         <Box Size="32,parent" Offset="96,0" Color="255,255,255,10"/>
@@ -57,7 +57,7 @@
         <Image ID="PulldownClosedArrow" Texture="Controls_ButtonExtendSmall2" TextureOffset="0,60" Size="20,16" Anchor="L,T" Offset="7,-24"/>
       </PullDown>
 
-      <Grid	ID="DistrictFilter" Size="256,30" Anchor="C,T" Offset="7,54" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16" >
+      <Grid ID="DistrictFilter" Size="256,30" Anchor="C,T" Offset="7,54" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
         <!-- Column Background -->
         <Box Size="32,parent" Offset="32,0" Color="255,255,255,10"/>
         <Box Size="32,parent" Offset="96,0" Color="255,255,255,10"/>
@@ -107,12 +107,12 @@
     </Grid>
 
     <!-- Close Button -->
-    <Button					ID="CloseButton"				Anchor="L,T"	Offset="265,2" Style="CloseButtonSmall"/>
+    <Button ID="CloseButton" Anchor="L,T" Offset="265,2" Style="CloseButtonSmall"/>
 
     <!-- Destination Panel -->
-    <ScrollPanel		ID="DestinationPanel"	Anchor="L,B" Offset="18,0" Size="parent-22,parent-135" Vertical="1" AutoScrollBar="0">
-      <ScrollBar    Anchor="L,C" Size="11,parent" AnchorSide="O,I" Offset="4,0"	Style="ScrollVerticalBar" />
-      <Stack				ID="DestinationStack" StackGrowth="Bottom" StackPadding="2" />
+    <ScrollPanel ID="DestinationPanel" Anchor="L,B" Offset="18,0" Size="parent-22,parent-135" Vertical="1" AutoScrollBar="0">
+      <ScrollBar Anchor="L,C" Size="11,parent" AnchorSide="O,I" Offset="4,0" Style="ScrollVerticalBar" />
+      <Stack ID="DestinationStack" StackGrowth="Bottom" StackPadding="2" />
     </ScrollPanel>
 
     <!-- Mission Panel -->
@@ -123,25 +123,25 @@
 
       <!-- MissionStack -->
       <Grid ID="MissionBackground" Anchor="C,T" Size="parent-2,parent-135" Offset="0,-3" ConsumeMouse="1" Color="255,255,255,230" Texture="Controls_BlueGradient" SliceCorner="2,2" SliceSize="1,1" SliceTextureSize="5,256">
-        <ScrollPanel 		ID="MissionScrollPanel" Anchor="L,T" Size="parent-20,parent" Offset="18,0" Vertical="1" AutoScrollBar="0" ConsumeMouse="0">
-          <ScrollBar    Anchor="L,C" Size="11,parent-8" AnchorSide="O,I" Offset="4,0"	Style="ScrollVerticalBar" />
-          <Stack				ID="MissionStack" StackGrowth="Bottom" StackPadding="2" />
+        <ScrollPanel ID="MissionScrollPanel" Anchor="L,T" Size="parent-20,parent" Offset="18,0" Vertical="1" AutoScrollBar="0" ConsumeMouse="0">
+          <ScrollBar Anchor="L,C" Size="11,parent-8" AnchorSide="O,I" Offset="4,0" Style="ScrollVerticalBar" />
+          <Stack ID="MissionStack" StackGrowth="Bottom" StackPadding="2" />
         </ScrollPanel>
       </Grid>
 
       <Grid ID="DestinationChooserButtons" Anchor="C,B" Size="parent,94" Offset="0,-2" Texture="Controls_DrawerUp" SliceCorner="5,4" SliceSize="3,2" SliceTextureSize="14,8">
-       <Stack Anchor="C,C">
-        <!-- Confirm Button -->
-        <GridButton ID="ConfirmButton" Size="285,41" Offset="0,-8" Anchor="C,B" String="LOC_ESPIONAGECHOOSER_CONFIRM_PLACEMENT" Style="FontFlair14" FontStyle="Shadows" TextOffset="0,0" EffectColor="0,0,0,255" SmallCaps="18" SmallCapsType="EveryWord">
-          <GridData Texture="Controls_Confirm" StateOffsetIncrement="0,41" SliceCorner="40,21" SliceSize="1,1" SliceTextureSize="80,41"/>
-        </GridButton>
+        <Stack Anchor="C,C">
+          <!-- Confirm Button -->
+          <GridButton ID="ConfirmButton" Size="285,41" Offset="0,-8" Anchor="C,B" String="LOC_ESPIONAGECHOOSER_CONFIRM_PLACEMENT" Style="FontFlair14" FontStyle="Shadows" TextOffset="0,0" EffectColor="0,0,0,255" SmallCaps="18" SmallCapsType="EveryWord">
+            <GridData Texture="Controls_Confirm" StateOffsetIncrement="0,41" SliceCorner="40,21" SliceSize="1,1" SliceTextureSize="80,41"/>
+          </GridButton>
 
-        <!-- Cancel Button -->
-        <GridButton ID="CancelButton" Size="285,24" Offset="0,4" Anchor="C,B" String="LOC_ESPIONAGECHOOSER_CANCEL" Style="FontFlair14" FontStyle="Shadows" TextOffset="0,6" EffectColor="0,0,0,255" SmallCaps="18" SmallCapsType="EveryWord">
-          <GridData Style="ButtonLightWeightGrid"/>
-        </GridButton>
-      </Stack>
-      <Grid ID="BottomDivider" Style="Divider3Grid" Size="parent+2,6" Anchor="C,B" Offset="0,-6"/>
+          <!-- Cancel Button -->
+          <GridButton ID="CancelButton" Size="285,24" Offset="0,4" Anchor="C,B" String="LOC_ESPIONAGECHOOSER_CANCEL" Style="FontFlair14" FontStyle="Shadows" TextOffset="0,6" EffectColor="0,0,0,255" SmallCaps="18" SmallCapsType="EveryWord">
+            <GridData Style="ButtonLightWeightGrid"/>
+          </GridButton>
+        </Stack>
+        <Grid ID="BottomDivider" Style="Divider3Grid" Size="parent+2,6" Anchor="C,B" Offset="0,-6"/>
       </Grid>
     </Stack>
   </SlideAnim>
@@ -154,14 +154,14 @@
       <!-- Selector Brace -->
       <Grid ID="SelectorBrace" Size="parent+5,78" AutoSizePadding="0,5" Anchor="C,C" Texture="Controls_SelectorBrace" SliceCorner="29,29" SliceSize="2,2" SliceTextureSize="64,64">
         <!-- City Banner -->
-        <Grid			ID="BannerBase"			Anchor="C,T" Offset="-1,5"		Size="parent-10,33"					Texture="CityPanel_BannerBase"				SliceCorner="20,10" SliceSize="160,1" SliceTextureSize="199,33" Color="150,170,100,255">
-          <Grid		ID="BannerDarker"		Anchor="L,T" Offset="4,2"			Size="parent-8,parent-10"		Texture="CityPanel_BannerDarker"			SliceCorner="95,10" SliceSize="1,1" SliceTextureSize="191,23" Color="0,0,0,50" />
-          <Grid		ID="BannerLighter"	Anchor="L,T" Offset="4,2"			Size="parent-8,parent-10"		Texture="CityPanel_BannerLighter"			SliceCorner="95,10" SliceSize="1,1" SliceTextureSize="191,23" Color="255,255,255,150" />
-          <Grid												Anchor="L,T" Offset="6,2"			Size="parent-10,parent-8"		Texture="CityPanel_BannerNone"				SliceCorner="70,10" SliceSize="1,1" SliceTextureSize="179,20" Color="255,0,0,255" />
-          <Label	ID="CityName"				Anchor="L,C" Offset="34,-3"		Style="FontFlair16"					FontStyle="Stroke" EffectColor="0,0,0,25" String="$CityName$" SmallCaps="16" SmallCapsType="EveryWord" />
+        <Grid ID="BannerBase" Anchor="C,T" Offset="-1,5" Size="parent-10,33" Texture="CityPanel_BannerBase" SliceCorner="20,10" SliceSize="160,1" SliceTextureSize="199,33" Color="150,170,100,255">
+          <Grid ID="BannerDarker" Anchor="L,T" Offset="4,2" Size="parent-8,parent-10" Texture="CityPanel_BannerDarker" SliceCorner="95,10" SliceSize="1,1" SliceTextureSize="191,23" Color="0,0,0,50" />
+          <Grid ID="BannerLighter" Anchor="L,T" Offset="4,2" Size="parent-8,parent-10" Texture="CityPanel_BannerLighter" SliceCorner="95,10" SliceSize="1,1" SliceTextureSize="191,23" Color="255,255,255,150" />
+          <Grid Anchor="L,T" Offset="6,2" Size="parent-10,parent-8" Texture="CityPanel_BannerNone" SliceCorner="70,10" SliceSize="1,1" SliceTextureSize="179,20" Color="255,0,0,255" />
+          <Label ID="CityName" Anchor="L,C" Offset="34,-3" Style="FontFlair16" FontStyle="Stroke" EffectColor="0,0,0,25" String="$CityName$" SmallCaps="16" SmallCapsType="EveryWord" />
 
           <!-- Travel Time -->
-          <Stack ID="TravelTimeStack" Anchor="R,T" Offset="12,3" StackGrowth="Right" StackPadding="2" >
+          <Stack ID="TravelTimeStack" Anchor="R,T" Offset="12,3" StackGrowth="Right" StackPadding="2">
             <Image ID="TravelTimeIcon" Size="16,16" Offset="0,2" Texture="Stats16" TextureOffset="48,0"/>
             <Label ID="TravelTime" Offset="0,0" Style="FontFlair20" String="24"/>
           </Stack>
@@ -169,7 +169,7 @@
 
         <!-- District Info -->
         <Button ID="DistrictsScrollLeftButton" Anchor="L,B" Offset="3,10" Style="ArrowButtonLeft" Hidden="1"/>
-        <Grid	Size="256,30" Anchor="C,B" Offset="-1,10" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16" >
+        <Grid Size="256,30" Anchor="C,B" Offset="-1,10" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
           <!-- Column Background -->
           <Box Size="32,parent" Offset="32,0" Color="255,255,255,10"/>
           <Box Size="32,parent" Offset="96,0" Color="255,255,255,10"/>
@@ -205,7 +205,7 @@
 
         <!-- Stack used to manage operation district, turns to complete, and success chance information -->
         <Stack ID="MissionStatsStack" Anchor="L,B" Offset="148,0" StackGrowth="Right" StackPadding="4">
-          <Grid  Size="36,18" AutoSizePadding="-3,0" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
+          <Grid Size="36,18" AutoSizePadding="-3,0" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
             <Stack Offset="-2,0" StackGrowth="Right" StackPadding="0">
               <Label Offset="-2,5" Style="FontNormal14" String="[Icon_LocationPip]"/>
               <Label ID="MissionDistrictName" Anchor="L,C" Offset="-3,-2" Style="FontNormal14" String="City Center" Hidden="1"/>
@@ -220,7 +220,7 @@
             </Stack>
           </Grid>
 
-          <Grid ID="ProbabilityGrid"  Size="auto,auto" AutoSizePadding="1,1" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
+          <Grid ID="ProbabilityGrid" Size="auto,auto" AutoSizePadding="1,1" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
             <Label ID="ProbabilityLabel" Offset="3,2" Style="FontNormal14" String="5%"/>
           </Grid>
         </Stack>

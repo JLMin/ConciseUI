@@ -1,4 +1,4 @@
-# Concise UI (v1.3)
+# Concise UI
 
 Concise UI greatly improves the game experience by modifying the vanilla UI and adding new UI elements to the game.
 

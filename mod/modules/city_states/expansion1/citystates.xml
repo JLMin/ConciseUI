@@ -255,13 +255,13 @@
 			<GridButton ID="LevyMilitaryButton" Anchor="R,C" Offset="150,0" Size="140,32" Style="MainButton" Hidden="1" String="Levy Military"/>
 			<GridButton ID="ChangeWarStateButton" Anchor="R,C" Offset="0,0" Size="140,32" Style="MainButton" Hidden="1" String="Declare War!"/>
 			-->
-      
-      <!-- CUI Quest -->
-      <Line Start="3,44" End="parent-3,44" Color="59,62,63,255"/>
-      <Grid Anchor="L,B" Offset="10,10" Size="parent,16">
-        <Label ID="CuiCityStateQuestIcon" Anchor="L,C" Offset="4,6" String="$Icon$" Size="28,28"/>
-        <Label ID="CuiCityStateQuest" Anchor="L,C" Offset="30,6" String="$Quest$" Style="FontFlair14" SmallCaps="18" SmallCapsType="EveryWord" Color="255,255,255,120" />
-      </Grid>
+
+			<!-- CUI Quest -->
+			<Line Start="3,44" End="parent-3,44" Color="59,62,63,255"/>
+			<Grid Anchor="L,B" Offset="10,10" Size="parent,16">
+				<Label ID="CuiCityStateQuestIcon" Anchor="L,C" Offset="4,6" String="$Icon$" Size="28,28"/>
+				<Label ID="CuiCityStateQuest" Anchor="L,C" Offset="30,6" String="$Quest$" Style="FontFlair14" SmallCaps="18" SmallCapsType="EveryWord" Color="255,255,255,120" />
+			</Grid>
 		</GridButton>
 	</Instance>
 

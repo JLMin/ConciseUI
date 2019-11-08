@@ -79,29 +79,29 @@
           <Grid ID="ResourceInfoGrid" Size="314,auto" MinSize="0,32" Anchor="C,T" Offset="-1,38" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
             <Stack ID="ResourceList" Anchor="L,C" Offset="2,1" StackGrowth="Right" WrapWidth="320" WrapGrowth="Bottom">
               <Grid Size="52,14">
-                <Label ID="FoodIcon"       Anchor="L,C" Style="FontNormal14" String="[Icon_food]"/>
-                <Label ID="CityFood"       Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0"/>
+                <Label ID="FoodIcon" Anchor="L,C" Style="FontNormal14" String="[Icon_food]"/>
+                <Label ID="CityFood" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0"/>
               </Grid>
               <Grid Size="52,14">
                 <Label ID="ProductionIcon" Anchor="L,C" Style="FontNormal14" String="[ICON_Production]"/>
                 <Label ID="CityProduction" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0"/>
-                </Grid>
+              </Grid>
               <Grid Size="52,14">
-                <Label ID="GoldIcon"       Anchor="L,C" Style="FontNormal14" String="[Icon_Gold]"/>
-                <Label ID="CityGold"       Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0"/>
-                </Grid>
+                <Label ID="GoldIcon" Anchor="L,C" Style="FontNormal14" String="[Icon_Gold]"/>
+                <Label ID="CityGold" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0"/>
+              </Grid>
               <Grid Size="52,14">
-                <Label ID="ScienceIcon"    Anchor="L,C" Style="FontNormal14" String="[Icon_Science]"/>
-                <Label ID="CityScience"    Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0"/>
-                </Grid>
+                <Label ID="ScienceIcon" Anchor="L,C" Style="FontNormal14" String="[Icon_Science]"/>
+                <Label ID="CityScience" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0"/>
+              </Grid>
               <Grid Size="52,14">
-                <Label ID="CultureIcon"    Anchor="L,C" Style="FontNormal14" String="[Icon_Culture]"/>
-                <Label ID="CityCulture"    Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0"/>
-                </Grid>
+                <Label ID="CultureIcon" Anchor="L,C" Style="FontNormal14" String="[Icon_Culture]"/>
+                <Label ID="CityCulture" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0"/>
+              </Grid>
               <Grid Size="52,14">
-                <Label ID="FaithIcon"      Anchor="L,C" Style="FontNormal14" String="[Icon_Faith]"/>
-                <Label ID="CityFaith"      Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0"/>
-                </Grid>
+                <Label ID="FaithIcon" Anchor="L,C" Style="FontNormal14" String="[Icon_Faith]"/>
+                <Label ID="CityFaith" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0"/>
+              </Grid>
             </Stack>
           </Grid>
         </Grid>
