@@ -6,7 +6,7 @@ include("InstanceManager")
 include("PlayerSupport")
 include("cui_helper")
 include("cui_settings")
-include("cuiassistantsupport")
+include("cui_assistant_support")
 
 -- ===========================================================================
 

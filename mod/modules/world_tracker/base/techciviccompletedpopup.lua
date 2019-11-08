@@ -4,7 +4,7 @@
 -- ===========================================================================
 include("TechAndCivicSupport") -- (Already includes Civ6Common and InstanceManager) PopulateUnlockablesForTech, PopulateUnlockablesForCivic, GetUnlockablesForCivic, GetUnlockablesForTech
 include("LocalPlayerActionSupport")
-include("cuitechcivicsupport") -- CUI
+include("cui_tech_civic_support") -- CUI
 
 -- ===========================================================================
 --	CONSTANTS / MEMBERS

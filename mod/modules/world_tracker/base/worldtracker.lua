@@ -16,7 +16,7 @@ g_ExtraIconData = {}
 include("CivicsTreeIconLoader_", true)
 include("cui_helper") -- CUI
 include("cui_settings") -- CUI
-include("cuitrackersupport") -- CUI
+include("cui_tracker_support") -- CUI
 
 -- ===========================================================================
 --	CONSTANTS

@@ -52,14 +52,14 @@
       <Properties>
         <LoadOrder>11</LoadOrder>
       </Properties>
-      <File>modules/civ_assistant/support/cuiassistantsupport.lua</File>
+      <File>modules/civ_assistant/support/cui_assistant_support.lua</File>
       <File>modules/leader_icons/support/cuileadericonsupport.lua</File>
-      <File>modules/production_panel/support/cuiproductiondata.lua</File>
-      <File>modules/production_panel/support/cuiproductionsupport.lua</File>
-      <File>modules/production_panel/support/cuiproductionui.lua</File>
-      <File>modules/trade_panel/support/cuitraderoutesupport.lua</File>
-      <File>modules/world_tracker/support/cuitechcivicsupport.lua</File>
-      <File>modules/world_tracker/support/cuitrackersupport.lua</File>
+      <File>modules/production_panel/support/cui_production_data.lua</File>
+      <File>modules/production_panel/support/cui_production_support.lua</File>
+      <File>modules/production_panel/support/cui_production_ui.lua</File>
+      <File>modules/trade_panel/support/cui_trade_route_support.lua</File>
+      <File>modules/world_tracker/support/cui_tech_civic_support.lua</File>
+      <File>modules/world_tracker/support/cui_tracker_support.lua</File>
     </ImportFiles>
     <ImportFiles id="Cui_Base">
       <Properties>
@@ -135,24 +135,24 @@
       <File>modules/_log/additions/cui_log.xml</File>
       <File>modules/civ_assistant/additions/cui_assistant.lua</File>
       <File>modules/civ_assistant/additions/cui_assistant.xml</File>
-      <File>modules/great_people/additions/cui_greatpersontt.lua</File>
-      <File>modules/great_people/additions/cui_greatpersontt.xml</File>
-      <File>modules/leader_icons/additions/cui_leadericontt.lua</File>
-      <File>modules/leader_icons/additions/cui_leadericontt.xml</File>
-      <File>modules/map_options/additions/cui_moreoptions.lua</File>
-      <File>modules/map_options/additions/cui_moreoptions.xml</File>
-      <File>modules/notes/additions/cui_notebutton.lua</File>
-      <File>modules/notes/additions/cui_notebutton.xml</File>
-      <File>modules/notes/additions/cui_notescreen.lua</File>
-      <File>modules/notes/additions/cui_notescreen.xml</File>
+      <File>modules/great_people/additions/cui_great_people_tt.lua</File>
+      <File>modules/great_people/additions/cui_great_people_tt.xml</File>
+      <File>modules/leader_icons/additions/cui_leader_icon_tt.lua</File>
+      <File>modules/leader_icons/additions/cui_leader_icon_tt.xml</File>
+      <File>modules/map_options/additions/cui_map_options.lua</File>
+      <File>modules/map_options/additions/cui_map_options.xml</File>
+      <File>modules/notes/additions/cui_note_button.lua</File>
+      <File>modules/notes/additions/cui_note_button.xml</File>
+      <File>modules/notes/additions/cui_note_screen.lua</File>
+      <File>modules/notes/additions/cui_note_screen.xml</File>
       <File>modules/screenshot/additions/cui_screenshot.lua</File>
       <File>modules/screenshot/additions/cui_screenshot.xml</File>
-      <File>modules/spy_info/additions/cui_spyinfo.lua</File>
-      <File>modules/spy_info/additions/cui_spyinfo.xml</File>
-      <File>modules/unit_list/additions/cui_unitlistbutton.lua</File>
-      <File>modules/unit_list/additions/cui_unitlistbutton.xml</File>
-      <File>modules/unit_list/additions/cui_unitlistscreen.lua</File>
-      <File>modules/unit_list/additions/cui_unitlistscreen.xml</File>
+      <File>modules/spy_info/additions/cui_spy_info.lua</File>
+      <File>modules/spy_info/additions/cui_spy_info.xml</File>
+      <File>modules/unit_list/additions/cui_unitlist_button.lua</File>
+      <File>modules/unit_list/additions/cui_unitlist_button.xml</File>
+      <File>modules/unit_list/additions/cui_unitlist_screen.lua</File>
+      <File>modules/unit_list/additions/cui_unitlist_screen.xml</File>
     </ImportFiles>
     <AddUserInterfaces id="Cui_UI">
       <Properties>
@@ -160,15 +160,15 @@
       </Properties>
       <File>modules/_log/additions/cui_log.xml</File>
       <File>modules/civ_assistant/additions/cui_assistant.xml</File>
-      <File>modules/great_people/additions/cui_greatpersontt.xml</File>
-      <File>modules/leader_icons/additions/cui_leadericontt.xml</File>
-      <File>modules/map_options/additions/cui_moreoptions.xml</File>
-      <File>modules/notes/additions/cui_notebutton.xml</File>
-      <File>modules/notes/additions/cui_notescreen.xml</File>
+      <File>modules/great_people/additions/cui_great_people_tt.xml</File>
+      <File>modules/leader_icons/additions/cui_leader_icon_tt.xml</File>
+      <File>modules/map_options/additions/cui_map_options.xml</File>
+      <File>modules/notes/additions/cui_note_button.xml</File>
+      <File>modules/notes/additions/cui_note_screen.xml</File>
       <File>modules/screenshot/additions/cui_screenshot.xml</File>
-      <File>modules/spy_info/additions/cui_spyinfo.xml</File>
-      <File>modules/unit_list/additions/cui_unitlistbutton.xml</File>
-      <File>modules/unit_list/additions/cui_unitlistscreen.xml</File>
+      <File>modules/spy_info/additions/cui_spy_info.xml</File>
+      <File>modules/unit_list/additions/cui_unitlist_button.xml</File>
+      <File>modules/unit_list/additions/cui_unitlist_screen.xml</File>
     </AddUserInterfaces>
   </InGameActions>
   <Files>
@@ -233,32 +233,32 @@
     <File>modules/_log/additions/cui_log.xml</File>
     <File>modules/civ_assistant/additions/cui_assistant.lua</File>
     <File>modules/civ_assistant/additions/cui_assistant.xml</File>
-    <File>modules/great_people/additions/cui_greatpersontt.lua</File>
-    <File>modules/great_people/additions/cui_greatpersontt.xml</File>
-    <File>modules/leader_icons/additions/cui_leadericontt.lua</File>
-    <File>modules/leader_icons/additions/cui_leadericontt.xml</File>
-    <File>modules/map_options/additions/cui_moreoptions.lua</File>
-    <File>modules/map_options/additions/cui_moreoptions.xml</File>
-    <File>modules/notes/additions/cui_notebutton.lua</File>
-    <File>modules/notes/additions/cui_notebutton.xml</File>
-    <File>modules/notes/additions/cui_notescreen.lua</File>
-    <File>modules/notes/additions/cui_notescreen.xml</File>
+    <File>modules/great_people/additions/cui_great_people_tt.lua</File>
+    <File>modules/great_people/additions/cui_great_people_tt.xml</File>
+    <File>modules/leader_icons/additions/cui_leader_icon_tt.lua</File>
+    <File>modules/leader_icons/additions/cui_leader_icon_tt.xml</File>
+    <File>modules/map_options/additions/cui_map_options.lua</File>
+    <File>modules/map_options/additions/cui_map_options.xml</File>
+    <File>modules/notes/additions/cui_note_button.lua</File>
+    <File>modules/notes/additions/cui_note_button.xml</File>
+    <File>modules/notes/additions/cui_note_screen.lua</File>
+    <File>modules/notes/additions/cui_note_screen.xml</File>
     <File>modules/screenshot/additions/cui_screenshot.lua</File>
     <File>modules/screenshot/additions/cui_screenshot.xml</File>
-    <File>modules/spy_info/additions/cui_spyinfo.lua</File>
-    <File>modules/spy_info/additions/cui_spyinfo.xml</File>
-    <File>modules/unit_list/additions/cui_unitlistbutton.lua</File>
-    <File>modules/unit_list/additions/cui_unitlistbutton.xml</File>
-    <File>modules/unit_list/additions/cui_unitlistscreen.lua</File>
-    <File>modules/unit_list/additions/cui_unitlistscreen.xml</File>
-    <File>modules/civ_assistant/support/cuiassistantsupport.lua</File>
+    <File>modules/spy_info/additions/cui_spy_info.lua</File>
+    <File>modules/spy_info/additions/cui_spy_info.xml</File>
+    <File>modules/unit_list/additions/cui_unitlist_button.lua</File>
+    <File>modules/unit_list/additions/cui_unitlist_button.xml</File>
+    <File>modules/unit_list/additions/cui_unitlist_screen.lua</File>
+    <File>modules/unit_list/additions/cui_unitlist_screen.xml</File>
+    <File>modules/civ_assistant/support/cui_assistant_support.lua</File>
     <File>modules/leader_icons/support/cuileadericonsupport.lua</File>
-    <File>modules/production_panel/support/cuiproductiondata.lua</File>
-    <File>modules/production_panel/support/cuiproductionsupport.lua</File>
-    <File>modules/production_panel/support/cuiproductionui.lua</File>
-    <File>modules/trade_panel/support/cuitraderoutesupport.lua</File>
-    <File>modules/world_tracker/support/cuitechcivicsupport.lua</File>
-    <File>modules/world_tracker/support/cuitrackersupport.lua</File>
+    <File>modules/production_panel/support/cui_production_data.lua</File>
+    <File>modules/production_panel/support/cui_production_support.lua</File>
+    <File>modules/production_panel/support/cui_production_ui.lua</File>
+    <File>modules/trade_panel/support/cui_trade_route_support.lua</File>
+    <File>modules/world_tracker/support/cui_tech_civic_support.lua</File>
+    <File>modules/world_tracker/support/cui_tracker_support.lua</File>
     <File>modules/climate_screen/expansion2/climatescreen.lua</File>
     <File>modules/climate_screen/expansion2/climatescreen.xml</File>
     <File>modules/deal_panel/expansion2/diplomacydealview.lua</File>

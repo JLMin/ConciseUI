@@ -11,7 +11,7 @@ include("AnimSidePanelSupport")
 include("SupportFunctions")
 include("Civ6Common")
 include("GameCapabilities")
-include("cuitechcivicsupport") -- CUI
+include("cui_tech_civic_support") -- CUI
 
 -- ===========================================================================
 --	CONSTANTS

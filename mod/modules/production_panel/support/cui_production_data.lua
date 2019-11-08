@@ -6,7 +6,7 @@ include( "ToolTipHelper" );
 include( "AdjacencyBonusSupport" );
 
 include( "cui_helper" );
-include( "cuiproductionsupport" );
+include( "cui_production_support" );
 
 -- ===========================================================================
 -- Variables
@@ -533,7 +533,7 @@ function GetCityProjects()
       table.insert(projects, data);
     end
   end
-  
+
   local comparator = function(t, a, b)
                        if t[a].IsRepeatable ~= t[b].IsRepeatable then
                          return not t[a].IsRepeatable;
@@ -541,7 +541,7 @@ function GetCityProjects()
                          return t[a].Cost < t[b].Cost;
                        end
                      end
-  
+
   for _, p in SortedTable(projects, comparator) do
     table.insert(sortedProjects, p);
   end

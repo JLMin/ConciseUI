@@ -13,7 +13,7 @@ include("TechAndCivicSupport") -- Already includes Civ6Common and InstanceManage
 include("AnimSidePanelSupport")
 include("SupportFunctions")
 include("Civ6Common")
-include("cuitechcivicsupport") -- CUI
+include("cui_tech_civic_support") -- CUI
 
 -- ===========================================================================
 --	CONSTANTS

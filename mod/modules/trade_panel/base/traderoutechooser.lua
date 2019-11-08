@@ -5,7 +5,7 @@ include("InstanceManager")
 include("SupportFunctions")
 include("Colors")
 include("cui_helper") -- CUI
-include("cuitraderoutesupport") -- CUI
+include("cui_trade_route_support") -- CUI
 
 -- ===========================================================================
 --	VARIABLES

@@ -6,7 +6,7 @@ include("AnimSidePanelSupport")
 include("InstanceManager")
 include("SupportFunctions")
 include("TradeSupport")
-include("cuitraderoutesupport") -- CUI
+include("cui_trade_route_support") -- CUI
 
 -- ===========================================================================
 --	CONSTANTS

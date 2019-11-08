@@ -5,7 +5,7 @@
 include( "InstanceManager" );
 
 include( "cui_helper" );
-include( "cuiproductionsupport" );
+include( "cui_production_support" );
 
 -- ===========================================================================
 -- Variables
@@ -240,7 +240,7 @@ function SetBasicItemInstance(instance, item)
   instance.FaithIconOnly:SetHide(false);
   instance.FaithCost:SetText(nil);
   instance.FaithCost:SetHide(true);
-  
+
   instance.RepeatButton:SetHide(true);
 
   instance.Icon:SetIcon("ICON_" .. item.Type);
