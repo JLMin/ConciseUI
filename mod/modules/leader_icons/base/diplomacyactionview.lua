@@ -1083,8 +1083,7 @@ function OnActivateIntelRelationshipPanel(relationshipInstance)
                     ms_IntelRelationshipReasonIM:GetInstance(
                         intelSubPanel.RelationshipReasonStack)
 
-                local scoreText = Locale.Lookup(
-                                      "{1_Score  +#,###.##;-#,###.##}", score)
+                local scoreText = score
                 if (score > 0) then
                     relationshipReason.Score:SetText(
                         "[COLOR_Civ6Green]" .. scoreText .. "[ENDCOLOR]")

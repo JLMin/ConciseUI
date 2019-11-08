@@ -199,7 +199,9 @@ function GetResourceData()
                 for _, item in ipairs(r_luxury) do
                     if item.Icon == icon then
                         item.CanTrade = true
-                        active = true
+                        if item.Amount > 1 then
+                            active = true
+                        end
                     end
                 end
             end

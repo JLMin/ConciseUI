@@ -17,8 +17,8 @@ TTManager:GetTypeControlTable("CuiRelationshipTT", CuiRelationshipTT)
 
 local resourcesInstance = InstanceManager:new("ResourceInstance", "Top",
                                               Controls.ResourceInstanceContainer)
-local rsresonInstance = InstanceManager:new("ReasonInstance", "Top",
-                                            Controls.ReasonInstanceContainer)
+local reasonInstance = InstanceManager:new("ReasonInstance", "Top",
+                                           Controls.ReasonInstanceContainer)
 
 local localPlayer = Players[Game.GetLocalPlayer()]
 
@@ -520,7 +520,7 @@ function UpdateRelationShipTooltip(tControl, playerID, allianceData)
     local selectedPlayerDiplomaticAI = Players[playerID]:GetDiplomaticAI()
     local toolTips = selectedPlayerDiplomaticAI:GetDiplomaticModifiers(
                          Game.GetLocalPlayer())
-    rsresonInstance:ResetInstances()
+    reasonInstance:ResetInstances()
     if (toolTips) then
         table.sort(toolTips, function(a, b) return a.Score > b.Score end)
         for i, tip in ipairs(toolTips) do
@@ -528,10 +528,9 @@ function UpdateRelationShipTooltip(tControl, playerID, allianceData)
             local text = tip.Text
             if (score ~= 0) then
                 local relationshipReason =
-                    rsresonInstance:GetInstance(
+                    reasonInstance:GetInstance(
                         CuiRelationshipTT.RelationshipReason)
-                local scoreText = Locale.Lookup(
-                                      "{1_Score  +#,###.##;-#,###.##}", score)
+                local scoreText = score
                 local color = score > 0 and "[COLOR_ModStatusGreen]" or
                                   "[COLOR_Civ6Red]"
                 relationshipReason.Score:SetText(
