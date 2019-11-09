@@ -771,7 +771,7 @@ end
 -- ---------------------------------------------------------------------------
 function RefreshBorderToolTip(tControl)
     tControl:ClearToolTipCallback()
-    if borderData.Active then
+    if #borderData.Leaders > 0 then
         tControl:SetToolTipType("CuiBorderTT")
         tControl:SetToolTipCallback(function()
             UpdateBorderToolTip(tControl)
@@ -786,14 +786,35 @@ function UpdateBorderToolTip()
 
     borderInstance:ResetInstances()
 
+    CuiBorderTT.OpenBorderIcon:SetTexture(
+        IconManager:FindIconAtlas("ICON_DIPLOACTION_OPEN_BORDERS", 50))
+
     for _, leader in ipairs(borderData.Leaders) do
         local icon = borderInstance:GetInstance(CuiBorderTT.OpenBorderStack)
-        icon.Icon:SetTexture(CuiLeaderTexture(leader.Icon, 45, true))
-        icon.OpenTo:SetHide(not leader.OpenTo)
-        icon.OpenFrom:SetHide(not leader.OpenFrom)
+        icon.Icon:SetTexture(CuiLeaderTexture(leader.Icon, 45, leader.IsMet))
+
+        -- setup images
+        local importColor = leader.HasImport and "Green" or "White"
+        local exportColor = leader.HasExport and "Green" or "White"
+
+        icon.Import:SetColorByName(importColor)
+        icon.Export:SetColorByName(exportColor)
+
+        local isRestricted = not leader.HasImport and not leader.CanImport and
+                                 not leader.HasExport and not leader.CanImport
+
+        icon.Import:SetHide(isRestricted)
+        icon.Export:SetHide(isRestricted)
+        icon.Disable:SetHide(not isRestricted)
     end
     CuiBorderTT.OpenBorderStack:CalculateSize()
 
+    -- divider height
+    CuiBorderTT.Divider:SetHide(#borderData.Leaders == 0)
+    local stackHeight = CuiBorderTT.OpenBorderStack:GetSizeY()
+    CuiBorderTT.Divider:SetSizeY(math.max(190, stackHeight))
+
+    CuiBorderTT.MainStack:DoAutoSize()
     CuiBorderTT.BG:DoAutoSize()
 end
 
@@ -818,8 +839,7 @@ function UpdateTradeToolTip()
         textActive = "[COLOR_RED]" .. tradeData.Routes .. "[ENDCOLOR]"
     end
     CuiTradeTT.RoutesActive:SetText(textActive)
-    CuiTradeTT.RoutesActive:SetFontSize(40)
-    CuiTradeTT.RoutesCap:SetText(" / " .. tradeData.Cap)
+    CuiTradeTT.RoutesCap:SetText("/" .. tradeData.Cap)
 
     tradeInstance:ResetInstances()
 
@@ -827,17 +847,24 @@ function UpdateTradeToolTip()
                                          "ICON_UNIT_TRADER_PORTRAIT", 50))
     for _, leader in ipairs(tradeData.Leaders) do
         local icon = tradeInstance:GetInstance(CuiTradeTT.TradeRouteStack)
-        icon.Icon:SetTexture(CuiLeaderTexture(leader.Icon, 45, true))
-        local textNum = leader.RouteNum
-        if leader.RouteNum > 0 then
-            textNum = "[COLOR_GREEN]" .. leader.RouteNum .. "[ENDCOLOR]"
+        icon.Icon:SetTexture(CuiLeaderTexture(leader.Icon, 45, leader.IsMet))
+        if leader.IsTraded then
+            icon.TradeState:SetTexture("icon_yes.dds")
+        elseif not leader.IsMet or leader.IsWar then
+            icon.TradeState:SetTexture("icon_no.dds")
+        else
+            icon.TradeState:SetTexture("Espionage_OverlayFound")
         end
-        icon.AmountLabel:SetText(textNum)
+
     end
-
     CuiTradeTT.TradeRouteStack:CalculateSize()
-    CuiTradeTT.Divider:SetSizeX(CuiTradeTT.TradeRouteStack:GetSizeX())
 
+    -- divider height
+    CuiTradeTT.Divider:SetHide(#tradeData.Leaders == 0)
+    local stackHeight = CuiTradeTT.TradeRouteStack:GetSizeY()
+    CuiTradeTT.Divider:SetSizeY(math.max(190, stackHeight))
+
+    CuiTradeTT.MainStack:DoAutoSize()
     CuiTradeTT.BG:DoAutoSize()
 end
 

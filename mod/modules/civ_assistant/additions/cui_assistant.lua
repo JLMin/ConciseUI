@@ -89,8 +89,7 @@ end
 -- ===========================================================================
 function SetVictoryLeaderInstance(vType, leader, instance)
 
-    local shouldShowIcon = leader.isLocalPlayer or leader.isMet or
-                               leader.isHuman
+    local shouldShowIcon = leader.isLocalPlayer or leader.isMet
 
     local text1 = ""
     local text2 = ""

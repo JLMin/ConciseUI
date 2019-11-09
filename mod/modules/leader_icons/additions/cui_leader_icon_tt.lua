@@ -619,14 +619,5 @@ function TwoColorNumber(num, color1, color2)
 end
 
 -- ===========================================================================
-function CuiSetIconToSize(iconControl, iconName, iconSize)
-    if iconSize == nil then iconSize = 36 end
-    local x, y, szIconName, iconSize = IconManager:FindIconAtlasNearestSize(
-                                           iconName, iconSize, true)
-    iconControl:SetTexture(x, y, szIconName)
-    iconControl:SetSizeVal(iconSize, iconSize)
-end
-
--- ===========================================================================
 LuaEvents.CuiLeaderIconToolTip.Add(SetLeaderIconToolTip)
 LuaEvents.CuiRelationshipToolTip.Add(SetRelationShipToolTip)

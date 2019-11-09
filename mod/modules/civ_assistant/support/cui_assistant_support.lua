@@ -515,23 +515,3 @@ function GetVictoryLeader(playerData, comparator)
     if localRank > 3 then table.insert(sortedLeader, localLeader) end
     return sortedLeader, localRank
 end
-
--- ---------------------------------------------------------------------------
-function CuiLeaderTexture(icon, size, shouldShow)
-    local x, y, sheet
-    x, y, sheet = IconManager:FindIconAtlas(icon, size)
-    if (sheet == nil or sheet == "" or (not shouldShow)) then
-        x, y, sheet = IconManager:FindIconAtlas("ICON_LEADER_DEFAULT", size)
-    end
-    return x, y, sheet
-end
-
--- ---------------------------------------------------------------------------
-function CuiSetIconToSize(iconControl, iconName, iconSize)
-    if iconSize == nil then iconSize = 36 end
-    local x, y, szIconName, iconSize = IconManager:FindIconAtlasNearestSize(
-                                           iconName, iconSize, true)
-    iconControl:SetTexture(x, y, szIconName)
-    iconControl:SetSizeVal(iconSize, iconSize)
-end
-

@@ -5,7 +5,7 @@
 isExpansion1 = Modding.IsModActive("1B28771A-C749-434B-9053-D1380C553DE9")
 isExpansion2 = Modding.IsModActive("4873eb62-8ccc-4574-b784-dda455e74e68")
 
--- ===========================================================================
+-- ---------------------------------------------------------------------------
 function printc(t, i)
     local n = i or ""
     if isNil(t) then print("Cui Print:", n, "nil") end
@@ -20,7 +20,7 @@ function printc(t, i)
     end
 end
 
--- ===========================================================================
+-- ---------------------------------------------------------------------------
 function isNil(v)
     if type(v) == "table" then
         return v == nil or next(v) == nil
@@ -31,7 +31,7 @@ function isNil(v)
     end
 end
 
--- ===========================================================================
+-- ---------------------------------------------------------------------------
 function SortedTable(t, f)
     local a = {}
 
@@ -55,7 +55,7 @@ function SortedTable(t, f)
     return iter
 end
 
--- ===========================================================================
+-- ---------------------------------------------------------------------------
 function CuiRegCallback(control, callbackLClick, callbackRClick, sound)
     if callbackLClick then
         control:RegisterCallback(Mouse.eLClick, callbackLClick)
@@ -76,4 +76,23 @@ function CuiRegCallback(control, callbackLClick, callbackRClick, sound)
     control:RegisterCallback(Mouse.eMouseEnter, function()
         UI.PlaySound("Main_Menu_Mouse_Over")
     end)
+end
+
+-- ---------------------------------------------------------------------------
+function CuiLeaderTexture(icon, size, shouldShow)
+    local x, y, sheet
+    x, y, sheet = IconManager:FindIconAtlas(icon, size)
+    if (sheet == nil or sheet == "" or (not shouldShow)) then
+        x, y, sheet = IconManager:FindIconAtlas("ICON_LEADER_DEFAULT", size)
+    end
+    return x, y, sheet
+end
+
+-- ---------------------------------------------------------------------------
+function CuiSetIconToSize(iconControl, iconName, iconSize)
+    if iconSize == nil then iconSize = 36 end
+    local x, y, szIconName, iconSize = IconManager:FindIconAtlasNearestSize(
+                                           iconName, iconSize, true)
+    iconControl:SetTexture(x, y, szIconName)
+    iconControl:SetSizeVal(iconSize, iconSize)
 end

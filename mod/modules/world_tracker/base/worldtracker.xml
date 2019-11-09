@@ -151,21 +151,24 @@
 
   <Container ID="BorderInstanceContainer" Hidden="1"/>
   <Instance Name="BorderInstance">
-    <Grid ID="Top" Size="68,51" Anchor="L,T">
+    <Container ID="Top" Size="50,85">
+      <Grid Anchor="C,T" Offset="-2,18" Size="38,64" Texture="Controls_SubHeader3" SliceCorner="16,16" SliceSize="2,2" SliceTextureSize="34,34">
+        <Image ID="Import" Anchor="C,C" Size="20,19" Offset="0,4" Color="Green" FlipX="0" Texture="TradeOverview_Benefactor"/>
+        <Image ID="Export" Anchor="C,C" Size="20,19" Offset="0,16" Color="Green" FlipX="1" Texture="TradeOverview_Benefactor"/>
+        <Image ID="Disable" Anchor="C,C" Offset="0,10" Size="22,22" Texture="icon_no.dds" Hidden="1"/>
+      </Grid>
       <Container Size="45,45">
         <Image Size="51,51" Anchor="L,T" Texture="Controls_CircleBacking45" Offset="-3,-3"/>
         <Image ID="Icon" Size="45,45" Anchor="C,C" Texture="Leaders45"/>
       </Container>
-      <Image ID="OpenTo" Anchor="R,C" Size="20,19" Offset="0,-15" Color="Green" FlipX="1" Texture="TradeOverview_Benefactor"/>
-      <Image ID="OpenFrom" Anchor="R,C" Size="20,19" Offset="0,7" Color="Red" FlipX="0" Texture="TradeOverview_Benefactor"/>
-    </Grid>
+    </Container>
   </Instance>
 
   <Container ID="TradeInstanceContainer" Hidden="1"/>
   <Instance Name="TradeInstance">
-    <Container ID="Top" Size="85,50">
-      <Grid Anchor="R,C" Offset="10,-3" Size="60,32" AutoSizePadding="0,2" InnerPadding="0,3" Texture="Controls_ItemContainer2" SliceCorner="11,5" SliceTextureSize="22,22">
-        <Label ID="AmountLabel" Anchor="R,C" Offset="10,0" WrapWidth="110" Style="FontNormal14" ColorSet="BodyTextCool" FontStyle="Stroke" TruncateHeight="65"/>
+    <Container ID="Top" Size="50,85">
+      <Grid Anchor="C,T" Offset="-2,18" Size="38,64" Texture="Controls_SubHeader3" SliceCorner="16,16" SliceSize="2,2" SliceTextureSize="34,34">
+        <Image ID="TradeState" Anchor="C,C" Offset="0,10" Size="22,22" Texture="icon_yes.dds"/>
       </Grid>
       <Container Size="45,45">
         <Image Size="51,51" Anchor="L,T" Texture="Controls_CircleBacking45" Offset="-3,-3"/>
@@ -246,26 +249,47 @@
 
   <!-- CUI: Open Border Tooltip -->
   <ToolTipType Name="CuiBorderTT">
-    <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
-      <Stack ID="OpenBorderStack" Offset="0,8" StackGrowth="Right" WrapWidth="330" WrapGrowth="Down" StackPadding="10" />
+    <Grid ID="BG" Size="auto,auto" MinSize="auto, 200" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
+      <Stack ID="MainStack" StackGrowth="Right" StackPadding="4">
+        <Grid Size="72,136" Anchor="L,T">
+          <Container Size="72,71" Anchor="L,T">
+            <Image Texture="Diplomacy_RibbonBottom" Size="47,239" Offset="13,-20" />
+            <FlipAnim ID="GearAnim" Texture="CivicPanel_MeterFrameAnim" FrameCount="3" Columns="3" Anchor="L,T" Speed="10" Size="40,40" Stopped="1"/>
+            <Image Texture="ProductionPanel_MeterFrame" Size="72,72">
+              <Image ID="OpenBorderIcon" Size="50,50" Texture="Buildings50" Anchor="C,C"/>
+            </Image>
+          </Container>
+          <Container Size="72,80" Anchor="L,T" Offset="0,78">
+            <Label ID="Lab_Import" Anchor="C,T" Offset="0,4" Style="FontFlair14" Color="White" ColorSet="TopBarValueCS" String="LOC_HUD_REPORTS_TRADE_IMPORTED" />
+            <Image ID="Import" Anchor="C,T" Size="20,19" Offset="0,18" Color="Green" FlipX="0" Texture="TradeOverview_Benefactor"/>
+            <Image ID="Export" Anchor="C,T" Size="20,19" Offset="0,30" Color="Green" FlipX="1" Texture="TradeOverview_Benefactor"/>
+            <Label ID="Lab_Export" Anchor="C,T" Offset="0,52" Style="FontFlair14" Color="White" ColorSet="TopBarValueCS" String="LOC_HUD_REPORTS_TRADE_EXPORTED" />
+          </Container>
+        </Grid>
+        <Box ID="Divider" Size="2,190" Color="200,200,200,200"/>
+        <Stack ID="OpenBorderStack" Offset="5,8" StackGrowth="Right" WrapWidth="285" WrapGrowth="Down" StackPadding="10" />
+      </Stack>
     </Grid>
   </ToolTipType>
 
   <!-- CUI: Trade Route Tooltip -->
   <ToolTipType Name="CuiTradeTT">
-    <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
-      <Stack ID="MainStack" StackGrowth="Down" StackPadding="4">
-        <Grid Size="175,72" Anchor="L,T">
-          <Container Size="72,72" Anchor="L,C" Offset="4,0">
+    <Grid ID="BG" Size="auto,auto" MinSize="auto, 200" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
+      <Stack ID="MainStack" StackGrowth="Right" StackPadding="4">
+        <Grid Size="72,136" Anchor="L,T">
+          <Container Size="72,72" Anchor="L,T">
+            <Image Texture="Diplomacy_RibbonBottom" Size="47,239" Offset="13,-20" />
             <FlipAnim ID="GearAnim" Texture="CivicPanel_MeterFrameAnim" FrameCount="3" Columns="3" Anchor="L,T" Speed="10" Size="40,40" Stopped="1"/>
             <Image Texture="ProductionPanel_MeterFrame" Size="72,72">
               <Image ID="TraderIcon" Size="50,50" Texture="Buildings50" Anchor="C,C"/>
             </Image>
           </Container>
-          <Label ID="RoutesActive" Anchor="R,C" Offset="42,2" Style="FontFlairLua" ColorSet="GreatPeopleCS" Color="White" FontStyle="Glow" ColorSet="BlueGlow" String="??" />
-          <Label ID="RoutesCap" Anchor="L,C" Offset="135,2" Style="FontFlair20" ColorSet="GreatPeopleCS" Color="Black" String=" / ??" />
+          <Container Size="72,74" Anchor="L,T" Offset="0,78">
+            <Label ID="RoutesActive" Anchor="C,T" Style="FontFlairLua" FontSize="40" ColorSet="GreatPeopleCS" Color="White" FontStyle="Glow" ColorSet="BlueGlow" String="??" />
+            <Label ID="RoutesCap" Size="parent-2,34" Anchor="C,T" Offset="0,43" Style="FontFlairLua" FontSize="20" ColorSet="GreatPeopleCS" Color="White" String="??" />
+          </Container>
         </Grid>
-        <Box ID="Divider" Size="100,2" Color="200,200,200,200"/>
+        <Box ID="Divider" Size="2,190" Color="200,200,200,200"/>
         <Stack ID="TradeRouteStack" Offset="5,8" StackGrowth="Right" WrapWidth="285" WrapGrowth="Down" StackPadding="10" />
       </Stack>
     </Grid>

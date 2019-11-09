@@ -245,48 +245,65 @@ function GetBorderData()
 
     for _, pData in pairs(playerData) do
         local playerID = pData.playerID
-        if playerID ~= localPlayerID and (pData.isMet or pData.isHuman) then
-            local openTo = false
-            local openFrom = false
-            --
-            local pForDealTo = DealManager.GetWorkingDeal(
-                                   DealDirection.OUTGOING, localPlayerID,
-                                   playerID)
-            local possibleAgreementsTo =
-                DealManager.GetPossibleDealItems(localPlayerID, playerID,
-                                                 DealItemTypes.AGREEMENTS,
-                                                 pForDealTo)
-            if (possibleAgreementsTo ~= nil) then
-                for i, entry in ipairs(possibleAgreementsTo) do
-                    if entry.SubTypeName == "LOC_DIPLOACTION_OPEN_BORDERS_NAME" then
-                        openTo = true
+        if (not pData.isLocalPlayer) and (pData.isMet or pData.isHuman) then
+
+            local hasImport = false
+            local hasExport = false
+            local canImport = false
+            local canExport = false
+
+            -- has import
+            hasImport = localDiplomacy:HasOpenBordersFrom(playerID)
+            -- has export
+            local otherDiplomacy = Players[playerID]:GetDiplomacy()
+            hasExport = otherDiplomacy:HasOpenBordersFrom(localPlayerID)
+            -- can import
+            if not hasImport then
+                local pForDealFrom = DealManager.GetWorkingDeal(
+                                         DealDirection.OUTGOING, playerID,
+                                         localPlayerID)
+                local possibleAgreementsFrom =
+                    DealManager.GetPossibleDealItems(playerID, localPlayerID,
+                                                     DealItemTypes.AGREEMENTS,
+                                                     pForDealFrom)
+                if (possibleAgreementsFrom ~= nil) then
+                    for i, entry in ipairs(possibleAgreementsFrom) do
+                        if entry.SubTypeName ==
+                            "LOC_DIPLOACTION_OPEN_BORDERS_NAME" then
+                            canImport = true
+                        end
                     end
                 end
             end
-            --
-            local pForDealFrom = DealManager.GetWorkingDeal(
-                                     DealDirection.OUTGOING, playerID,
-                                     localPlayerID)
-            local possibleAgreementsFrom =
-                DealManager.GetPossibleDealItems(playerID, localPlayerID,
-                                                 DealItemTypes.AGREEMENTS,
-                                                 pForDealFrom)
-            if (possibleAgreementsFrom ~= nil) then
-                for i, entry in ipairs(possibleAgreementsFrom) do
-                    if entry.SubTypeName == "LOC_DIPLOACTION_OPEN_BORDERS_NAME" then
-                        openFrom = true
+            -- can export
+            if not hasExport then
+                local pForDealTo = DealManager.GetWorkingDeal(
+                                       DealDirection.OUTGOING, localPlayerID,
+                                       playerID)
+                local possibleAgreementsTo =
+                    DealManager.GetPossibleDealItems(localPlayerID, playerID,
+                                                     DealItemTypes.AGREEMENTS,
+                                                     pForDealTo)
+                if (possibleAgreementsTo ~= nil) then
+                    for i, entry in ipairs(possibleAgreementsTo) do
+                        if entry.SubTypeName ==
+                            "LOC_DIPLOACTION_OPEN_BORDERS_NAME" then
+                            canExport = true
+                        end
                     end
                 end
             end
-            --
-            if openTo or openFrom then
-                table.insert(leaders, {
-                    Icon = pData.leaderIcon,
-                    OpenTo = openTo,
-                    OpenFrom = openFrom
-                })
-                active = true
-            end
+            -- logic end
+
+            table.insert(leaders, {
+                Icon = pData.leaderIcon,
+                HasImport = hasImport,
+                HasExport = hasExport,
+                CanImport = canImport,
+                CanExport = canExport,
+                IsMet = pData.isMet
+            })
+            if canImport or canExport then active = true end
         end
     end
 
@@ -314,18 +331,20 @@ function GetTradeData()
     for _, pData in pairs(playerData) do
         local playerID = pData.playerID
         local player = Players[playerID]
-        if playerID ~= localPlayerID and (pData.isMet or pData.isHuman) then
-            local routeNum = 0
+        if (not pData.isLocalPlayer) and (pData.isMet or pData.isHuman) then
+            local isTraded = false
             local playerCities = player:GetCities()
             for _, city in playerCities:Members() do
                 if city:GetTrade():HasTradeRouteFrom(localPlayerID) then
-                    routeNum = routeNum + 1
+                    isTraded = true
                 end
             end
+            local isWar = IsAtWar(localPlayerID, playerID)
             table.insert(leaders, {
                 Icon = pData.leaderIcon,
-                IsTraded = routeNum > 0,
-                RouteNum = routeNum
+                IsTraded = isTraded,
+                IsWar = isWar,
+                IsMet = pData.isMet
             })
         end
     end
@@ -361,22 +380,15 @@ function GetPlayerBasicData()
     return playerData
 end
 
--- ---------------------------------------------------------------------------
-function CuiSetIconToSize(iconControl, iconName, iconSize)
-    if iconSize == nil then iconSize = 36 end
-    local x, y, szIconName, iconSize = IconManager:FindIconAtlasNearestSize(
-                                           iconName, iconSize, true)
-    iconControl:SetTexture(x, y, szIconName)
-    iconControl:SetSizeVal(iconSize, iconSize)
-end
+function IsAtWar(lPlayerID, tPlayerID)
 
--- ---------------------------------------------------------------------------
-function CuiLeaderTexture(icon, size, shouldShow)
-    local x, y, sheet
-    x, y, sheet = IconManager:FindIconAtlas(icon, size)
-    if (sheet == nil or sheet == "" or (not shouldShow)) then
-        x, y, sheet = IconManager:FindIconAtlas("ICON_LEADER_DEFAULT", size)
-    end
-    return x, y, sheet
-end
+    local tPlayer = Players[tPlayerID]
+    local lPlayerID = Game.GetLocalPlayer()
+    local lPlayer = Players[lPlayerID]
+    local lPlayerDiplomacy = lPlayer:GetDiplomacy()
+    local iState = tPlayer:GetDiplomaticAI():GetDiplomaticStateIndex(lPlayerID)
+    local iStateEntry = GameInfo.DiplomaticStates[iState]
+    local eState = iStateEntry.Hash
 
+    return eState == DiplomaticStates.WAR
+end
