@@ -26,6 +26,7 @@
   </FrontEndActions>
   <InGameActions>
     <ImportFiles id="Cui_Assets">
+      <File>assets/advisor.dds</File>
       <File>assets/branch.dds</File>
       <File>assets/icon_no.dds</File>
       <File>assets/icon_ready.dds</File>
@@ -175,6 +176,7 @@
     </AddUserInterfaces>
   </InGameActions>
   <Files>
+    <File>assets/advisor.dds</File>
     <File>assets/branch.dds</File>
     <File>assets/icon_no.dds</File>
     <File>assets/icon_ready.dds</File>

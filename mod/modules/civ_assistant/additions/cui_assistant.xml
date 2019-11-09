@@ -5,9 +5,7 @@
   <Container ID="CuiAssistant" Size="68,68" Anchor="L,B" Offset="10,-6">
 
     <Button ID="AssistantButton" Size="68,68" ConsumeAllMouse="1">
-      <Image Size="68,68" Anchor="C,C" Texture="Controls_CircleBacking68"/>
-      <Image Size="64,62" Anchor="C,C" Texture="Diplomacy_YouIndicator"/>
-      <Image Size="64,64" Anchor="C,C" Texture="Advisors64"/>
+      <Image Size="68,68" Anchor="C,C" Texture="advisor.dds"/>
     </Button>
 
     <Stack ID="VictoryButtonStack" Offset="72,-3" Anchor="L,T" StackGrowth="Right" />
