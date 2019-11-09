@@ -10,7 +10,7 @@
       <Image Size="64,64" Anchor="C,C" Texture="Advisors64"/>
     </Button>
 
-    <Stack ID="VictoryButtonStack" Offset="72,-4" Anchor="L,T" StackGrowth="Right" />
+    <Stack ID="VictoryButtonStack" Offset="72,-3" Anchor="L,T" StackGrowth="Right" />
 
     <Grid ID="AssistantOptions" Anchor="L,T" AnchorSide="I,O" Size="220,150" Offset="-10,-10" Texture="Tracker_OptionsBacking.dds" SliceCorner="55,61" SliceSize="1,1" SliceTextureSize="121,119" ConsumeAllMouse="1" Hidden="1">
       <Label Anchor="C,T" String="{LOC_OPTIONS:upper}" Offset="-6,10" Style="FontFlair16" Color0="106,93,69,255" Color1="0,0,0,150" Color2="146,133,109,255" FontStyle="Glow" SmallCaps="20" SmallCapsLeading="0" SmallCapsType="EveryWord" KerningAdjustment="0"/>
@@ -34,11 +34,11 @@
 
   <Container ID="VictoryIconInstanceContainer" Hidden="1"/>
   <Instance Name="VictoryIconInstance">
-    <Grid ID="Top" Size="64,80" Anchor="L,T">
+    <Grid ID="Top" Size="64,94" Anchor="L,T">
+      <Image Anchor="C,B" Size="40,30" Offset="0,9" Texture="CivicsTree_GovtUnlock">
+        <Label ID="Text" Anchor="C,C" Size="38,16" Style="FontNormal14" ColorSet="TopBarValueCS" Color="White" String="#1"/>
+      </Image>
       <Image ID="VictoryIcon" Anchor="C,T" Size="64,64" Texture="Victories64"/>
-      <Grid Anchor="C,B" Size="38,16" Offset="0,2" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
-        <Label ID="Text" Anchor="C,C" Size="38,16" Style="FontNormal14" Color="White" String="#1"/>
-      </Grid>
     </Grid>
   </Instance>
 

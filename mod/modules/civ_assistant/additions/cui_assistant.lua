@@ -176,7 +176,11 @@ function PopulateVictoryIcons()
                             UpdateVictoryToolTip(vType)
                         end)
                     -- set rank
-                    instance.Text:SetText("#" .. ranks[vType])
+                    local rankText = ranks[vType]
+                    if rankText == 1 then
+                        rankText = "[COLOR_GREEN]" .. rankText .. "[ENDCOLOR]"
+                    end
+                    instance.Text:SetText("#" .. rankText)
                 end
             end
         end

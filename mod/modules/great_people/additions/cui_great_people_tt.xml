@@ -14,7 +14,7 @@
     <Container ID="Top" Anchor="C,T" Size="256,44">
       <Grid ID="YouBacking" Anchor="C,C" Size="parent,parent" Style="Divider6Grid" Color="5,29,51,60" Hidden="1"/>
       <Label ID="Country" Anchor="L,C" Offset="40,-9" Style="FontNormal12" ColorSet="GreatPeopleCS" Color="5,29,51,255" TruncateWidth="200" />
-      <Label ID="Point" Anchor="L,C" Offset="40,3" Style="FontNormal12" ColorSet="GreatPeopleCS" Color="5,29,51,255" String="???? ( -?? / +?? )"/>
+      <Label ID="Point" Anchor="L,C" Offset="40,3" Style="FontNormal12" ColorSet="GreatPeopleCS" Color="ModStatusGreen" String="???? ( -?? / +?? )"/>
       <Label ID="TurnsRemaining" Anchor="R,C" Offset="0,-4" Style="FontNormal12" ColorSet="GreatPeopleCS" Color="5,29,51,255" String="?? more turns"/>
       <Bar ID="ProgressBar" Anchor="L,C" Size="parent-42,6" Offset="40,13" FGColor="5,29,51,255" BGColor="5,29,51,128" Percent="0.5"/>
       <Image ID="CivIconBacking" Anchor="L,C" Size="30,30" Offset="2,0" Texture="CircleBacking30">

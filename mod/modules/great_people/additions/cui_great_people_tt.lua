@@ -41,7 +41,7 @@ function UpdateGreatPersonTooltip(tControl, tData_Player, tData_GP)
             local sProgress = ""
             local sTurns = ""
             local pointTotal = tData_GP.RecruitCost
-            local pointPlayer = kPlayerPoints.PointsTotal
+            local pointPlayer = Round(kPlayerPoints.PointsTotal, 0)
             local percent = Clamp(pointPlayer / pointTotal, 0, 1)
 
             if percent < 1 then
@@ -50,10 +50,12 @@ function UpdateGreatPersonTooltip(tControl, tData_Player, tData_GP)
                 local turnsRemaining = pointPerturn == 0 and 999 or
                                            math.ceil(
                                                pointRemaining / pointPerturn)
-                sProgress = pointTotal .. " ( [COLOR_Civ6Red]-" ..
-                                pointRemaining .. "[ENDCOLOR] / " ..
-                                "[COLOR_ModStatusGreen]+" .. pointPerturn ..
-                                "[ENDCOLOR] )"
+                if pointPerturn == 0 then
+                    sProgress = "-"
+                else
+                    sProgress = "[COLOR_ModStatusGreen]+" .. pointPerturn ..
+                                    "[ENDCOLOR]"
+                end
                 sTurns = turnsRemaining .. "[ICON_TURN]"
             end
 

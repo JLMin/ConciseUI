@@ -80,12 +80,12 @@
 
       <Label ID="ClaimedLabel" Offset="0,0" Anchor="C,C" Align="center" Style="FontFlair18" SmallCaps="22" FontStyle="stroke" Color="199,223,233" Color0="9,46,75,255" Color1="16,43,67,100" String="LOC_GREAT_PEOPLE_ALL_POSSIBLE_CHOSEN" />
       <Container ID="Contents" InnerPadding="25,25" Size="parent,parent">
-        <Stack Anchor="C,T" StackGrowth="Right" StackPadding="5">
-          <GridButton ID="CivilpediaButton" Anchor="L,T" Offset="0,4" Size="22,22" ToolTip="LOC_GREAT_PEOPLE_BIOGRAPHY">
-            <Image ID="GreatPeopleIcon" Anchor="C,C" Size="22,22" Texture="Stats22" TextureSize="22,22" TextureOffset="0,22" StretchMode="Tile"/>
-          </GridButton>
-          <Label ID="IndividualName" Offset="0,8" Anchor="L,T" Align="center" Style="FontFlair16" SmallCaps="20" FontStyle="glow" Color="199,223,233" Color0="9,46,75,255" Color1="16,43,67,100"/>
-        </Stack>
+        <GridButton ID="CivilpediaButton" Anchor="C,T" Offset="0,0" Size="auto,22" ToolTip="LOC_GREAT_PEOPLE_BIOGRAPHY">
+          <Stack Anchor="C,T" StackGrowth="Right" StackPadding="5">
+            <Image ID="GreatPeopleIcon" Offset="0,3" Anchor="C,C" Size="22,22" Texture="Stats22" TextureSize="22,22" TextureOffset="0,22" StretchMode="Tile"/>
+            <Label ID="IndividualName" Offset="0,8" Anchor="L,T" Align="center" Style="FontFlair16" SmallCaps="20" FontStyle="glow" Color="199,223,233" Color0="9,46,75,255" Color1="16,43,67,100"/>
+          </Stack>
+        </GridButton>
         <Label ID="Amount" Anchor="C,T" Align="center" Offset="0,32" ColorSet="BodyTextCool" Style="FontNormal12" Color="199,223,233,169" String="X/Y"/>
         <Image ID="Era" Anchor="R,T" Offset="-13,-13" Size="40,40" Texture="Controls_CircleBacking28">
           <Image Anchor="C,C" Offset="0,0" Size="40,40" Texture="Controls_CircleRim40"/>
@@ -94,7 +94,7 @@
 
         <Image ID="ClassIcon" Anchor="L,T" Offset="-13,-13" Size="40,40" Texture="Controls_CircleBacking28">
           <Image Anchor="C,C" Offset="0,0" Size="40,40" Texture="Controls_CircleRim40"/>
-          <Image ID="GreatPersonIcon" Size="38,38" Anchor="C,C" Offset="-1,0" Texture="UnitActions38"/>
+          <Image ID="GreatPeopleClassIcon" Size="38,38" Anchor="C,C" Offset="-1,0" Texture="UnitActions38"/>
         </Image>
 
         <Stack ID="BonusStack" Anchor="C,T" Offset="0,48" StackGrowth="Right" Padding="8">
@@ -109,7 +109,7 @@
           </Grid>
         </Stack>
 
-        <Stack ID="RecruitStack" Anchor="R,B" Offset="30,-16" StackGrowth="Right" Padding="8">
+        <Stack ID="RecruitStack" Anchor="R,B" Offset="30,-17" StackGrowth="Right" Padding="8">
           <GridButton ID="GoldButton" Anchor="C,B" Size="80,32" SliceCorner="12,12" SliceSize="1,1" SliceTextureSize="24,24" Texture="Controls_ButtonControl_Brown" TextColor="126,123,120" TextOffset="0,1" Style="FontNormal14" StateOffsetIncrement="0,24" String="999" />
           <GridButton ID="FaithButton" Anchor="C,B" Size="80,32" SliceCorner="12,12" SliceSize="1,1" SliceTextureSize="24,24" Texture="Controls_ButtonControl_Brown" TextColor="126,123,120" TextOffset="0,1" Style="FontNormal14" StateOffsetIncrement="0,24" String="999" />
           <GridButton ID="RejectButton" Anchor="C,C" Size="100,32" Style="ButtonLightweightSmall" String="LOC_GREAT_PEOPLE_PASS" />
@@ -117,7 +117,7 @@
           <GridButton ID="ConnotRecruitButton" Anchor="C,C" Size="170,32" Style="ButtonConfirmSmall" Disabled="1" String="LOC_GREAT_PEOPLE_CANNOT_EARN_PERSON" />
         </Stack>
 
-        <Stack ID="CivIconStack" Anchor="L,B" Offset="26,-18" StackGrowth="Right" Padding="12"/>
+        <Stack ID="CivIconStack" Anchor="L,B" Offset="26,-19" StackGrowth="Right" Padding="12"/>
         <Box ID="CivIconStack_TTCatcher" Anchor="L,B" Offset="30,-18" Color="255,255,255,0"/>
       </Container>
 

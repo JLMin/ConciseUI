@@ -193,6 +193,8 @@ function ViewCurrent(data)
             classText = Locale.Lookup(classData.Name)
         end
         if kPerson.IndividualID ~= nil then
+            instance.CivilpediaButton:SetHide(false)
+            instance.GreatPeopleIcon:SetHide(false)
             individualName = Locale.ToUpper(kPerson.Name)
         end
 
@@ -224,12 +226,13 @@ function ViewCurrent(data)
                                  actionIcon .. "\", iconSize=" ..
                                  tostring(SIZE_ACTION_ICON))
             else
-                instance.GreatPersonIcon:SetTexture(textureOffsetX,
-                                                    textureOffsetY, textureSheet)
-                instance.GreatPersonIcon:SetHide(false)
+                instance.GreatPeopleClassIcon:SetTexture(textureOffsetX,
+                                                         textureOffsetY,
+                                                         textureSheet)
+                instance.GreatPeopleClassIcon:SetHide(false)
             end
         else
-            instance.GreatPersonIcon:SetHide(true)
+            instance.GreatPeopleClassIcon:SetHide(true)
         end
         --------------------------------------------------------
         -- Actions and Passive Ability
@@ -397,8 +400,8 @@ function ViewCurrent(data)
                             local sProgress = ""
                             local sTurns = ""
                             local pointTotal = kPerson.RecruitCost
-                            local pointPlayer = kPlayerPoints.PointsTotal
-
+                            local pointPlayer =
+                                Round(kPlayerPoints.PointsTotal, 0)
                             local pointRemaining =
                                 Round(pointTotal - pointPlayer, 0)
                             local pointPerturn =
@@ -407,11 +410,17 @@ function ViewCurrent(data)
                                 pointPerturn == 0 and 999 or
                                     math.ceil(pointRemaining / pointPerturn)
                             if turnsRemaining >= 1 then
-                                sProgress =
-                                    pointTotal .. " ( [COLOR_Civ6Red]-" ..
-                                        pointRemaining .. "[ENDCOLOR] / " ..
-                                        "[COLOR_Civ6Green]+" .. pointPerturn ..
-                                        "[ENDCOLOR] )"
+                                if pointPerturn == 0 then
+                                    sProgress =
+                                        pointPlayer ..
+                                            "([COLOR_Civ6Green]-[ENDCOLOR])" ..
+                                            " / " .. pointTotal
+                                else
+                                    sProgress =
+                                        pointPlayer .. "([COLOR_Civ6Green]+" ..
+                                            pointPerturn .. "[ENDCOLOR])" ..
+                                            " / " .. pointTotal
+                                end
                                 sTurns = turnsRemaining .. "[ICON_TURN]"
                             end
                             instance.Amount:SetText(
@@ -1259,7 +1268,9 @@ end
 
 -- CUI ===================================================================================
 function CuiSetPanelToDetault(instance)
-    instance.GreatPersonIcon:SetHide(true)
+    instance.CivilpediaButton:SetHide(true)
+    instance.GreatPeopleIcon:SetHide(true)
+    instance.GreatPeopleClassIcon:SetHide(true)
     instance.BonusBacking1:SetHide(true)
     instance.BonusBacking2:SetHide(true)
     instance.BonusBacking3:SetHide(true)
