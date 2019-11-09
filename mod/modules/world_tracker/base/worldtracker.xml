@@ -99,9 +99,9 @@
           <Image ID="ResourceIcon" Size="38,38" />
           <Image ID="BorderIcon" Size="38,38" />
           <Image ID="TradeIcon" Size="38,38" />
-          <Image ID="TempAIcon" Size="38,38" />
-          <Image ID="TempBIcon" Size="38,38" />
-          <Image ID="TempCIcon" Size="38,38" />
+          <Image ID="TempAIcon" Size="38,38" ToolTip="Place Holder" />
+          <Image ID="TempBIcon" Size="38,38" ToolTip="Place Holder" />
+          <Image ID="TempCIcon" Size="38,38" ToolTip="Place Holder" />
         </Stack>
       </Box>
     </Grid>
