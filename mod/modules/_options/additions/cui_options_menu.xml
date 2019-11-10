@@ -16,7 +16,7 @@
                 <Grid Style="SubContainerFill" Size="210,parent-6" Offset="3,3" Color="6,36,57,150">
                     <Grid Style="SubContainer3" Size="parent-6,parent-6" Anchor="C,C" Color="13,70,82,255">
                         <Stack ID="TabStack" StackGrowth="Down" Anchor="C,T" Padding="10">
-                            <GridButton ID="VictoryTab" Style="ShellTabSmall" Size="200,32" String="Victories" />
+                            <GridButton ID="VictoryTab" Style="ShellTabSmall" Size="200,32" String="LOC_VICTORY_DEFAULT_NAME" />
                             <GridButton ID="LogTab" Style="ShellTabSmall" Size="200,32" String="Logs" />
                             <GridButton ID="PopupTab" Style="ShellTabSmall" Size="200,32" String="Popups" />
                             <GridButton ID="RemindTab" Style="ShellTabSmall" Size="200,32" String="Remind" />
@@ -45,9 +45,11 @@
                     </Container>
                     <Container ID="PopupOptions" Size="parent,parent" Hidden="1">
                         <Stack Anchor="L,T" StackGrowth="Down" Padding="10" Offset="50,24" Size="parent-24,auto">
-                            <GridButton ID="CBResearch"  Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_RESEARCH_COMPLETE_TECH_COMPLETE"/>
+                            <GridButton ID="CBResearch" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_RESEARCH_COMPLETE_TECH_COMPLETE"/>
                             <GridButton ID="CBPlayAudio" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_OPTIONS_AUDIO"/>
-                            <GridButton ID="CBEraScore"  Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_CATEGORY_ERA_SCORE_NAME"/>
+                            <GridButton ID="CBEraScore" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_CATEGORY_ERA_SCORE_NAME"/>
+                            <GridButton ID="CBGreatWork" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_GREAT_PEOPLE_WORK_CREATED"/>
+                            <GridButton ID="CBRelic" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_NOTIFICATION_RELIC_CREATED_MESSAGE"/>
                         </Stack>
                     </Container>
                     <Container ID="RemindOptions" Size="parent,parent" Hidden="1">

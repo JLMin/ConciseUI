@@ -2,7 +2,6 @@
 -- Cui Options Menu
 -- eudaimonia, 11/10/2019
 -- ===========================================================================
-
 include("InstanceManager")
 include("cui_helper")
 include("cui_settings")
@@ -13,9 +12,9 @@ local boolean_text = {"LOC_OPTIONS_ENABLED", "LOC_OPTIONS_DISABLED"}
 
 local tabs = {
     {Controls.VictoryTab, Controls.VictoryOptions, 0},
-    {Controls.LogTab,     Controls.LogOptions,     0},
-    {Controls.PopupTab,   Controls.PopupOptions,   0},
-    {Controls.RemindTab,  Controls.RemindOptions,  0}
+    {Controls.LogTab, Controls.LogOptions, 0},
+    {Controls.PopupTab, Controls.PopupOptions, 0},
+    {Controls.RemindTab, Controls.RemindOptions, 0}
 }
 
 -- ---------------------------------------------------------------------------
@@ -42,15 +41,15 @@ end
 -- ---------------------------------------------------------------------------
 function SelectTab(tab)
     local button = tab[1]
-	local panel = tab[2]
+    local panel = tab[2]
 
-	for _, tab in ipairs(tabs) do
-		tab[1]:SetSelected(false)
-		tab[2]:SetHide(true)
-	end
+    for _, tab in ipairs(tabs) do
+        tab[1]:SetSelected(false)
+        tab[2]:SetHide(true)
+    end
 
-	button:SetSelected(true)
-	panel:SetHide(false);
+    button:SetSelected(true)
+    panel:SetHide(false)
 end
 
 -- ---------------------------------------------------------------------------
@@ -58,9 +57,7 @@ function RegisterClickFunctions()
     -- tabs
     for _, tab in ipairs(tabs) do
         local button = tab[1]
-        button:RegisterCallback(Mouse.eLClick, function()
-           SelectTab(tab)
-        end)
+        button:RegisterCallback(Mouse.eLClick, function() SelectTab(tab) end)
     end
 
     -- comfirm button
@@ -69,7 +66,6 @@ function RegisterClickFunctions()
         UI.PlaySound("Main_Menu_Mouse_Over")
     end)
 end
-
 
 -- ---------------------------------------------------------------------------
 -- Tab Functions
@@ -92,9 +88,7 @@ function LoadVictorySettings()
 end
 
 -- ---------------------------------------------------------------------------
-function UpdateVictory()
-    LuaEvents.CuiVictorySettingChange()
-end
+function UpdateVictory() LuaEvents.CuiVictorySettingChange() end
 
 -- ---------------------------------------------------------------------------
 function LoadLogSettings()
@@ -115,15 +109,15 @@ function LoadLogSettings()
 end
 
 -- ---------------------------------------------------------------------------
-function UpdateLog()
-    LuaEvents.CuiLogSettingChange()
-end
+function UpdateLog() LuaEvents.CuiLogSettingChange() end
 
 -- ---------------------------------------------------------------------------
 function LoadPopupSettings()
-    PopulateCheckBox(Controls.CBResearch,  "POPUP_RESEARCH", UpdatePopup, true)
+    PopulateCheckBox(Controls.CBResearch, "POPUP_RESEARCH", UpdatePopup, true)
     PopulateCheckBox(Controls.CBPlayAudio, "AUDIO_RESEARCH", UpdatePopup, true)
-    PopulateCheckBox(Controls.CBEraScore,  "POPUP_HISTORIC", UpdatePopup, true)
+    PopulateCheckBox(Controls.CBEraScore, "POPUP_HISTORIC", UpdatePopup, true)
+    PopulateCheckBox(Controls.CBGreatWork, "POPUP_CREATWORK", UpdatePopup, true)
+    PopulateCheckBox(Controls.CBRelic, "POPUP_RELIC", UpdatePopup, true)
 end
 
 -- ---------------------------------------------------------------------------
@@ -132,14 +126,10 @@ function UpdatePopup()
 end
 
 -- ---------------------------------------------------------------------------
-function LoadRemindSettings()
-end
+function LoadRemindSettings() end
 
 -- ---------------------------------------------------------------------------
-function UpdateRemind()
-    LuaEvents.CuiRemindSettingChange()
-end
-
+function UpdateRemind() LuaEvents.CuiRemindSettingChange() end
 
 -- ---------------------------------------------------------------------------
 -- Data Functions
@@ -153,7 +143,6 @@ end
 
 -- ---------------------------------------------------------------------------
 function SaveSettings() end
-
 
 -- ---------------------------------------------------------------------------
 -- Screen Functions
@@ -173,6 +162,8 @@ end
 function OnShow()
     LoadSettings()
     Open()
+    Controls.ScreenAnimIn:SetToBeginning()
+    Controls.ScreenAnimIn:Play()
 end
 
 -- ---------------------------------------------------------------------------
@@ -209,7 +200,8 @@ function Initialize()
 
     RegisterClickFunctions()
 
-    Controls.WindowTitle:SetText("Concise UI Options")
+    local title = "Concise UI - " .. Locale.Lookup("LOC_MAIN_MENU_OPTIONS")
+    Controls.WindowTitle:SetText(title)
     Controls.TabStack:CalculateSize()
 
     LuaEvents.CuiToggleOptions.Add(OnShow)

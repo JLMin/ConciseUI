@@ -94,6 +94,7 @@
       <File>modules/map_tacks/base/mappinpopup.lua</File>
       <File>modules/map_tacks/base/mappinpopup.xml</File>
       <File>modules/popup_manager/base/civicschooser.lua</File>
+      <File>modules/popup_manager/base/greatworkshowcase.lua</File>
       <File>modules/popup_manager/base/researchchooser.lua</File>
       <File>modules/popup_manager/base/techandcivicsupport.lua</File>
       <File>modules/popup_manager/base/techciviccompletedpopup.lua</File>
@@ -229,6 +230,7 @@
     <File>modules/map_tacks/base/mappinpopup.lua</File>
     <File>modules/map_tacks/base/mappinpopup.xml</File>
     <File>modules/popup_manager/base/civicschooser.lua</File>
+    <File>modules/popup_manager/base/greatworkshowcase.lua</File>
     <File>modules/popup_manager/base/researchchooser.lua</File>
     <File>modules/popup_manager/base/techandcivicsupport.lua</File>
     <File>modules/popup_manager/base/techciviccompletedpopup.lua</File>
