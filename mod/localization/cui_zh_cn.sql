@@ -122,6 +122,34 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("zh_Hans_CN", "LOC_CUI_NOTE_EMPTY",                                            "无记录"),
 
 -- =============================================================================
+-- Options
+("zh_Hans_CN", "LOC_CUI_OPTIONS_TAB_VICTORY",                                   "胜利进度"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_TAB_LOG",                                       "消息显示"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_TAB_POPUP",                                     "弹窗设置"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_TAB_REMIND",                                    "提示信息"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_DESC_VICTORY",                                  "请选择需要追踪的胜利方式"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_DESC_LOG",                                      "请选择消息的显示位置"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_DESC_POPUP",                                    "请选择需要开启的弹窗"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_DESC_REMIND",                                   "请选择需要开启的提示"),
+--
+("zh_Hans_CN", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                 "不显示"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                   "默认位置"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_LOG_WORLDTRACKER",                              "世界追踪"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_LOG_BOTH",                                      "同时显示"),
+--
+("zh_Hans_CN", "LOC_CUI_OPTIONS_POPUP_RESEARCH",                                "科技/市政完成"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_POPUP_AUDIO",                                   "科技/市政语音"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_POPUP_ERA_SCORE",                               "获得时代得分"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_POPUP_GREAT_WORK",                              "获得巨作/文物"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_POPUP_RELIC",                                   "获得遗物"),
+--
+("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_TECH",                                   "科技可靠尤里卡完成"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                  "市政可靠鼓舞完成"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                             "免费更换市政"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                               "未分配的总督点数"),
+
+
+-- =============================================================================
 -- Screenshot
 ("zh_Hans_CN", "LOC_CUI_SCREENSHOT_TOOLTIP",                                    "进入截图模式[NEWLINE][NEWLINE]截图模式会隐藏大部分或所有的界面元素，可以让你获得清爽的截图。[NEWLINE][NEWLINE]左键点击隐藏所有界面[NEWLINE]右键点击保留城市横幅[NEWLINE]按住ALT键旋转屏幕[NEWLINE]按ESC键退出截图模式"),
 

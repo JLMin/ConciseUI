@@ -71,20 +71,22 @@ end
 -- Tab Functions
 -- ---------------------------------------------------------------------------
 function LoadVictorySettings()
-    PopulateCheckBox(Controls.CBScience, "SCIENCE", UpdateVictory,
+--[[
+    PopulateCheckBox(Controls.SetScience, "SCIENCE", UpdateVictory,
                      Game.IsVictoryEnabled("VICTORY_TECHNOLOGY"))
 
-    PopulateCheckBox(Controls.CBCulture, "CULTURE", UpdateVictory,
+    PopulateCheckBox(Controls.SetCulture, "CULTURE", UpdateVictory,
                      Game.IsVictoryEnabled("VICTORY_CULTURE"))
 
-    PopulateCheckBox(Controls.CBDomination, "DOMINATION", UpdateVictory,
+    PopulateCheckBox(Controls.SetDomination, "DOMINATION", UpdateVictory,
                      Game.IsVictoryEnabled("VICTORY_CONQUEST"))
 
-    PopulateCheckBox(Controls.CBReligious, "RELIGION", UpdateVictory,
+    PopulateCheckBox(Controls.SetReligious, "RELIGION", UpdateVictory,
                      Game.IsVictoryEnabled("VICTORY_RELIGIOUS"))
 
-    PopulateCheckBox(Controls.CBDiplomatic, "DIPLOMATIC", UpdateVictory,
+    PopulateCheckBox(Controls.SetDiplomatic, "DIPLOMATIC", UpdateVictory,
                      Game.IsVictoryEnabled("VICTORY_DIPLOMATIC"))
+]]
 end
 
 -- ---------------------------------------------------------------------------
@@ -92,20 +94,12 @@ function UpdateVictory() LuaEvents.CuiVictorySettingChange() end
 
 -- ---------------------------------------------------------------------------
 function LoadLogSettings()
-    local txt_gossip = Locale.Lookup("LOC_CUI_WT_GOSSIP_LOG")
-    local txt_combat = Locale.Lookup("LOC_CUI_WT_COMBAT_LOG")
-    local txt_tracker = Locale.Lookup("LOC_WORLD_TRACKER_HEADER")
-    local txt_default = Locale.Lookup("LOC_WORLDBUILDER_DEFAULT")
-
-    Controls.CBGossipWT:SetText(txt_gossip .. " - " .. txt_tracker)
-    Controls.CBCombatWT:SetText(txt_combat .. " - " .. txt_tracker)
-    Controls.CBGossipDF:SetText(txt_gossip .. " - " .. txt_default)
-    Controls.CBCombatDF:SetText(txt_combat .. " - " .. txt_default)
-
-    PopulateCheckBox(Controls.CBGossipWT, "WT_GOSSIP_LOG", UpdateLog, true)
-    PopulateCheckBox(Controls.CBCombatWT, "WT_COMBAT_LOG", UpdateLog, true)
-    PopulateCheckBox(Controls.CBGossipDF, "DF_GOSSIP_LOG", UpdateLog, true)
-    PopulateCheckBox(Controls.CBCombatDF, "DF_COMBAT_LOG", UpdateLog, true)
+--[[
+    PopulateCheckBox(Controls.SetGossipWT, "WT_GOSSIP_LOG", UpdateLog, true)
+    PopulateCheckBox(Controls.SetCombatWT, "WT_COMBAT_LOG", UpdateLog, true)
+    PopulateCheckBox(Controls.SetGossipDF, "DF_GOSSIP_LOG", UpdateLog, true)
+    PopulateCheckBox(Controls.SetCombatDF, "DF_COMBAT_LOG", UpdateLog, true)
+]]
 end
 
 -- ---------------------------------------------------------------------------
@@ -113,11 +107,13 @@ function UpdateLog() LuaEvents.CuiLogSettingChange() end
 
 -- ---------------------------------------------------------------------------
 function LoadPopupSettings()
-    PopulateCheckBox(Controls.CBResearch, "POPUP_RESEARCH", UpdatePopup, true)
-    PopulateCheckBox(Controls.CBPlayAudio, "AUDIO_RESEARCH", UpdatePopup, true)
-    PopulateCheckBox(Controls.CBEraScore, "POPUP_HISTORIC", UpdatePopup, true)
-    PopulateCheckBox(Controls.CBGreatWork, "POPUP_CREATWORK", UpdatePopup, true)
-    PopulateCheckBox(Controls.CBRelic, "POPUP_RELIC", UpdatePopup, true)
+--[[
+    PopulateCheckBox(Controls.SetResearch, "POPUP_RESEARCH", UpdatePopup, true)
+    PopulateCheckBox(Controls.SetPlayAudio, "AUDIO_RESEARCH", UpdatePopup, true)
+    PopulateCheckBox(Controls.SetEraScore, "POPUP_HISTORIC", UpdatePopup, true)
+    PopulateCheckBox(Controls.SetGreatWork, "POPUP_CREATWORK", UpdatePopup, true)
+    PopulateCheckBox(Controls.SetRelic, "POPUP_RELIC", UpdatePopup, true)
+]]
 end
 
 -- ---------------------------------------------------------------------------
