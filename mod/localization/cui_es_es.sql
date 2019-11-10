@@ -126,10 +126,5 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("es_ES", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Entrar en Modo de Captura de Pantalla[NEWLINE][NEWLINE]El Modo de Captura de Pantalla oculta los elementos de la IU para tomar capturas limpias.[NEWLINE][NEWLINE]Click-izquierdo para ocultar los elementos de la IU[NEWLINE]Click-derecho para ocultar los elementos de la IU, excepto los estandartes de Ciudad[NEWLINE] Mantener ALT para girar la pantalla[NEWLINE]ESC para salir del Modo de Captura de Pantalla."),
 
 -- =============================================================================
--- Civ Assistant
-("es_ES", "LOC_CUI_CA_SURPLUS_RESOUCES",                                        "Excedentes de Lujos"),
-("es_ES", "LOC_CUI_CA_SURPLUS_RESOUCES_OPT",                                    "Excedentes de Lujos"),
-
--- =============================================================================
 ("es_ES", "LOC_CUI_COLON", ": ");
 -- EOF

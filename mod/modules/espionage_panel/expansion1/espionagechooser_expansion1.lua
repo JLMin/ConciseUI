@@ -22,4 +22,3 @@ function CuiCivCheck(player)
     end
     return false
 end
-

@@ -521,17 +521,17 @@ function PopulateLeaderStack()
                                   favor))
                 instance.FavorContainer:SetHide(false)
                 --[[ CUI: use tooltip instead
-        local grievanceTT = "";
-        local grievances = pDiplomacy:GetGrievancesAgainst(playerID);
-        if grievances > 0 then
-          instance.GrievanceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_GRIEVANCE_VALUE", grievances));
-          instance.GrievanceLabel:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_GRIEVANCE_DEFINITION", grievances));
-          instance.GrievanceContainer:SetHide(false);
-        else
-          instance.GrievanceLabel:SetText("");
-          instance.GrievanceContainer:SetHide(true);
-        end
-        ]]
+            local grievanceTT = "";
+            local grievances = pDiplomacy:GetGrievancesAgainst(playerID);
+            if grievances > 0 then
+            instance.GrievanceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_GRIEVANCE_VALUE", grievances));
+            instance.GrievanceLabel:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_GRIEVANCE_DEFINITION", grievances));
+            instance.GrievanceContainer:SetHide(false);
+            else
+            instance.GrievanceLabel:SetText("");
+            instance.GrievanceContainer:SetHide(true);
+            end
+            ]]
             else
                 instance.FavorContainer:SetHide(true)
                 -- instance.GrievanceContainer:SetHide(true); -- CUI
@@ -1692,12 +1692,12 @@ function UpdateAvailableProposal(kVoteData, kProposalCategory)
     local instance = kVoteData.instance
 
     --[[ We need an exposure to set 9 slice values in order to use WC_ProposalFrameOpen_* texture
-  if instance.isCollapsed then
+    if instance.isCollapsed then
     instance.Root:SetTexture(not kVoteData.disabled and kVoteData.votes == 0 and "WC_ProposalFrame_Normal" or "WC_ProposalFrame_Selected");
-  else
+    else
     instance.Root:SetTexture(not kVoteData.disabled and kVoteData.votes == 0 and "WC_ProposalFrameOpen_Normal" or "WC_ProposalFrameOpen_Selected");
-  end
-  ]]
+    end
+    ]]
     instance.Root:SetTexture(not kVoteData.disabled and kVoteData.votes == 0 and
                                  "WC_ProposalFrame_Normal" or
                                  "WC_ProposalFrame_Selected")

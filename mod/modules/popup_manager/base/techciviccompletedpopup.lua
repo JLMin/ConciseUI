@@ -21,7 +21,6 @@ local m_quote_audio
 -- ===========================================================================
 --	FUNCTIONS
 -- ===========================================================================
-
 -- ===========================================================================
 function ShowCivicCompletedPopup(player, civic, quote, audio)
     local civicInfo = GameInfo.Civics[civic]
@@ -269,11 +268,17 @@ function AddCompletedPopup(player, civic, tech, isByUser)
             audio = audio
         })
 
-        -- If its the first (or only) popup data added then queue it in Forge.
-        if (UIManager:IsInPopupQueue(ContextPtr) == false) then
-            UIManager:QueuePopup(ContextPtr, PopupPriority.Low,
-                                 {DelayShow = true})
+        -- CUI
+        if CuiSettings:GetBoolean(CuiSettings.POPUP_RESEARCH) then
+            -- If its the first (or only) popup data added then queue it in Forge.
+            if (UIManager:IsInPopupQueue(ContextPtr) == false) then
+                UIManager:QueuePopup(ContextPtr, PopupPriority.Low,
+                                     {DelayShow = true})
+            end
+        elseif CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH) then
+            UI.PlaySound(audio)
         end
+        --
     end
 end
 

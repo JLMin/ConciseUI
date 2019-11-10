@@ -2330,7 +2330,6 @@ function PopulateDiplomacyRibbon(diplomacyRibbon)
 
         -- Set the advisor icon
         -- diplomacyRibbon.Advisor:SetTexture(IconManager:FindIconAtlas("ADVISOR_GENERIC", 48));
-
         -- Add an entry for the local player at the top
         local leaderIcon, leaderInstance =
             LeaderIcon:GetInstance(ms_DiplomacyRibbonLeaderIM,
@@ -2409,7 +2408,6 @@ end
 function SetupPlayers()
 
     -- Set up some globals for easy access
-
     -- Store the local player.  Note, we do this every time we are shown, the local player can change, so don't do it in the one time constructor.
     ms_LocalPlayerID = Game.GetLocalPlayer()
 
@@ -2647,7 +2645,6 @@ function OnSetDealAnimation(animationName, useMood)
 end
 
 -- ===========================================================================
-
 function ShowCinemaMode()
     local w, h = UIManager:GetScreenSizeVal()
     Controls.ConversationContainer:SetHide(m_cinemaMode)
@@ -2977,7 +2974,6 @@ function MakeDeal_ApplyStatement(handler, statementTypeName,
     else
         -- Other actions just update the deal action.  This is especially true from the AI.  The AI will send, ACCEPT, REJECT, etc.
         -- as the automatic evaluation of the deal occurs.
-
         local eFromPlayerMood = GetStatementMood(kStatement.FromPlayer,
                                                  kStatement.FromPlayerMood)
         local kParsedStatement = handler.ExtractStatement(handler,
@@ -3313,7 +3309,6 @@ end
 -- ===========================================================================
 function OnShow()
     -- NOTE: We can get here after the OnDiplomacyStatement handler has done some setup, so don't reset too much, assume that OnHide has closed things down properly.
-
     Controls.AlphaIn:SetToBeginning()
     Controls.SlideIn:SetToBeginning()
     Controls.AlphaIn:Play()

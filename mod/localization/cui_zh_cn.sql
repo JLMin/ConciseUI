@@ -126,10 +126,5 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("zh_Hans_CN", "LOC_CUI_SCREENSHOT_TOOLTIP",                                    "进入截图模式[NEWLINE][NEWLINE]截图模式会隐藏大部分或所有的界面元素，可以让你获得清爽的截图。[NEWLINE][NEWLINE]左键点击隐藏所有界面[NEWLINE]右键点击保留城市横幅[NEWLINE]按住ALT键旋转屏幕[NEWLINE]按ESC键退出截图模式"),
 
 -- =============================================================================
--- Civ Assistant
-("zh_Hans_CN", "LOC_CUI_CA_SURPLUS_RESOUCES",                                   "富余的奢侈资源"),
-("zh_Hans_CN", "LOC_CUI_CA_SURPLUS_RESOUCES_OPT",                               "富余奢侈"),
-
--- =============================================================================
 ("zh_Hans_CN", "LOC_CUI_COLON", "：");
 -- EOF

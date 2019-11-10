@@ -126,10 +126,5 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("fr_FR", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Mode photo[NEWLINE][NEWLINE]L'interface utilisateur n'apparaitra pas dans ce mode pour vous permettre de prendre des photos propres.[NEWLINE][NEWLINE]Click gauche pour cacher tous les éléments de l'interface[NEWLINE]Click droit pour cacher tout sauf les bannières des villes[NEWLINE] ALT pour faire pivoter l'écran[NEWLINE]ESC pour sortir du mode photo"),
 
 -- =============================================================================
--- Civ Assistant
-("fr_FR", "LOC_CUI_CA_SURPLUS_RESOUCES",                                        "Surplus de ressources de luxe"),
-("fr_FR", "LOC_CUI_CA_SURPLUS_RESOUCES_OPT",                                    "Surplus de ressources de luxe"),
-
--- =============================================================================
 ("fr_FR", "LOC_CUI_COLON", ": ");
 -- EOF

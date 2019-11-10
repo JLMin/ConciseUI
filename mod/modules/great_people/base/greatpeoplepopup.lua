@@ -42,7 +42,6 @@ local Portraits = {
 -- ===========================================================================
 --	VARIABLES
 -- ===========================================================================
-
 local m_TopPanelConsideredHeight = 0
 local m_greatPersonPanelIM = InstanceManager:new("PanelInstance", "Top",
                                                  Controls.PeopleStack)
@@ -280,7 +279,6 @@ function ViewCurrent(data)
         --------------------------------------------------------
         -- Recruiting standings
         -- Let's sort the table first by points total, then by the lower player id (to push yours toward the top of the list for readability)
-
         -- I've further modified this so it only shows the top 3 players,
         -- as well as the local player if they aren't in the top 3.
         --------------------------------------------------------
@@ -664,7 +662,6 @@ function ViewPast(data)
         instance.Content:SetColorByName(colorName)
 
         -- Ability Effects
-
         colorName = (isLocalPlayer and "GreatPeoplePastCS") or
                         "GreatPeoplePastUnownedCS"
 

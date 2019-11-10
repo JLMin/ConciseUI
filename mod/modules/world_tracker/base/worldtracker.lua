@@ -102,7 +102,6 @@ cui_LogPanelStatus[3] = {main = 282, log = 278}
 local cui_GossipState = CuiSettings:GetNumber(CuiSettings.GOSSIP_LOG_STATE)
 local cui_CombatState = CuiSettings:GetNumber(CuiSettings.COMBAT_LOG_STATE)
 --
-
 local m_CachedModifiers = {}
 
 local m_currentResearchID = -1
@@ -115,7 +114,6 @@ local m_isDirty = false -- Note: renamed from "refresh" which is a built in Forg
 -- ===========================================================================
 --	FUNCTIONS
 -- ===========================================================================
-
 -- ===========================================================================
 --	The following are a accessors for Expansions/MODs so they can obtain status
 --	of the common panels but don't have access to toggling them.
@@ -821,8 +819,12 @@ end
 -- ---------------------------------------------------------------------------
 function RefreshTradeToolTip(tControl)
     tControl:ClearToolTipCallback()
-    tControl:SetToolTipType("CuiTradeTT")
-    tControl:SetToolTipCallback(function() UpdateTradeToolTip(tControl) end)
+    if tradeData.Cap > 0 then
+        tControl:SetToolTipType("CuiTradeTT")
+        tControl:SetToolTipCallback(function()
+            UpdateTradeToolTip(tControl)
+        end)
+    end
 end
 
 -- ---------------------------------------------------------------------------
@@ -1095,14 +1097,14 @@ end
 -- ===========================================================================
 function OnChatPanel_OpenExpandedPanels()
     --[[ TODO: Embiggen the chat panel to fill size!  (Requires chat panel changes as well) ??TRON
-	Controls.ChatPanel:SetHide(true);							-- Hide so it's not part of stack computation.
-	RealizeStack();
-	width, height				= UIManager:GetScreenSizeVal();
-	local stackSize			= Controls.PanelStack:GetSizeY();	-- Size of other stuff in the stack.
-	local minimapSize	 = 100;
-	local chatSize		 = math.max(199, height-(stackSize + minimapSize) );
-	Controls.ChatPanel:SetHide(false);
-	]]
+    Controls.ChatPanel:SetHide(true);							-- Hide so it's not part of stack computation.
+    RealizeStack();
+    width, height				= UIManager:GetScreenSizeVal();
+    local stackSize			= Controls.PanelStack:GetSizeY();	-- Size of other stuff in the stack.
+    local minimapSize	 = 100;
+    local chatSize		 = math.max(199, height-(stackSize + minimapSize) );
+    Controls.ChatPanel:SetHide(false);
+    ]]
     Controls.ChatPanel:SetSizeY(199)
     RealizeStack()
 end

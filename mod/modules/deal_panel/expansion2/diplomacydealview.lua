@@ -268,7 +268,6 @@ end
 function CreatePlayerAvailablePanel(playerType, rootControl)
 
     -- local playerPanel = ms_PlayerPanelIM:GetInstance(rootControl);
-
     g_AvailableGroups[AvailableDealItemGroupTypes.GOLD][playerType] =
         g_AvailableGroups[AvailableDealItemGroupTypes.FAVOR][playerType]
     g_AvailableGroups[AvailableDealItemGroupTypes.LUXURY_RESOURCES][playerType] =
@@ -1139,7 +1138,6 @@ function UpdateProposalButtons(bDealValid)
                         SetLeaderDialog("LOC_DIPLO_DEAL_UNACCEPTABLE_DEAL", "")
                     elseif (iItemsFromLocal > 0 and iItemsFromOther == 0) then
                         -- One way gift?
-
                         if ms_LastIncomingDealProposalAction ==
                             DealProposalAction.EQUALIZE_FAILED then
                             -- Equalize failed, hide the button, and we can't accept now!
@@ -1235,7 +1233,6 @@ function UpdateProposalButtons(bDealValid)
                     end
                 else
                     -- Dealing with another human
-
                     Controls.EqualizeDeal:SetHide(true)
                     Controls.AcceptDeal:SetHide(false)
 
@@ -2264,7 +2261,6 @@ function PopulateAvailableGreatWorks(player, iconList)
                     OnClickAvailableGreatWork(player, type)
                 end)
                 -- Set a tool tip
-
                 local strGreatWorkTooltip =
                     GreatWorksSupport_GetBasicTooltip(entry.ForType, false)
                 icon.SelectButton:SetToolTipString(strGreatWorkTooltip)
@@ -2592,7 +2588,6 @@ function PopulateDealResources(player, iconList)
 
                         -- KWG: Make a way for the icon manager to have categories, so the API is like this
                         -- icon.Icon:SetTexture(IconManager:FindIconAtlasForType(IconTypes.RESOURCE, resourceType));
-
                         if (dealItemID == g_ValueEditDealItemID) then
                             g_ValueEditDealItemControlTable = icon
                         end
@@ -2881,7 +2876,6 @@ end
 --	Handle a request to be shown, this should only be called by
 --  the diplomacy statement handler.
 -- ===========================================================================
-
 function OnShowMakeDeal(otherPlayerID)
     ms_OtherPlayerID = otherPlayerID
     ms_bIsDemand = false
@@ -2893,7 +2887,6 @@ LuaEvents.DiploPopup_ShowMakeDeal.Add(OnShowMakeDeal)
 --	Handle a request to be shown, this should only be called by
 --  the diplomacy statement handler.
 -- ===========================================================================
-
 function OnShowMakeDemand(otherPlayerID)
     ms_OtherPlayerID = otherPlayerID
     ms_bIsDemand = true
@@ -2905,7 +2898,6 @@ LuaEvents.DiploPopup_ShowMakeDemand.Add(OnShowMakeDemand)
 --	Handle a request to be hidden, this should only be called by
 --  the diplomacy statement handler.
 -- ===========================================================================
-
 function OnHideDeal(otherPlayerID) OnContinue() end
 LuaEvents.DiploPopup_HideDeal.Add(OnHideDeal)
 
@@ -2935,7 +2927,6 @@ Events.DiplomacyIncomingDeal.Add(OnDiplomacyIncomingDeal)
 -- ===========================================================================
 --	Handle a deal changing, usually from an incoming statement.
 -- ===========================================================================
-
 function OnDealUpdated(otherPlayerID, eAction, szText)
     if (not ContextPtr:IsHidden()) then
         -- Display some updated text.
@@ -2983,7 +2974,6 @@ function OnContinue() ContextPtr:SetHide(true) end
 -- ===========================================================================
 --	Functions for setting the data in the yield area
 -- ===========================================================================
-
 function FormatValuePerTurn(value)
     return Locale.ToNumber(value, "+#,###.#;-#,###.#")
 end
@@ -3041,7 +3031,6 @@ function RefreshYields()
     Controls.YieldStack:ReprocessAnchoring()
 end
 -- ===========================================================================
-
 -- ===========================================================================
 function OnShow()
     RefreshYields()

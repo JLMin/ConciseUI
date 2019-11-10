@@ -77,7 +77,6 @@ function UpdateMapPinListEntry(iPlayerID, mapPinID)
         -- local primaryColor, secondaryColor  = UI.GetPlayerColors(iPlayerID);
         -- mapPinEntry.PrimaryColorBox:SetColor(primaryColor);
         -- mapPinEntry.SecondaryColorBox:SetColor(secondaryColor);
-
         -- Set pin icon
         SetMapPinIcon(mapPinEntry.IconImage, mapPinCfg:GetIconName())
 

@@ -59,7 +59,6 @@ function OnClickAvailableResource(player, resourceType)
                     end
                     if (pResourceDef ~= nil and pResourceDef.Accumulate) then
                         -- already have this, up the amount
-
                         -- CUI: rewrite strategic logic
                         local oldValue = pDealItem:GetAmount()
                         local newValue =
@@ -82,7 +81,6 @@ function OnClickAvailableResource(player, resourceType)
                             return
                         end
                         --
-
                     end
                 end
             end
@@ -104,7 +102,6 @@ function OnClickAvailableResource(player, resourceType)
                 pDealItem:SetDuration(30) -- Default to this many turns
             end
             --
-
             -- After we add the item, test to see if the item is valid, it is possible that we have exceeded the amount of resources we can trade.
             if not pDealItem:IsValid() then
                 pDeal:RemoveItemByID(pDealItem:GetID())
@@ -261,7 +258,6 @@ function PopulateAvailableFavor(player, iconList)
                 CuiEditGroupSetup(player, editGroup, "FAVOR")
                 editGroup.Icon:SetColor(1, 1, 1)
                 --
-
                 iAvailableItemCount = iAvailableItemCount + 1
             end
         end

@@ -37,7 +37,6 @@ function CuiDistrictReasonCheck(results)
     -- local floodedTxt  = Locale.Lookup("LOC_DISTRICT_REPAIR_LOCATION_FLOODED");
     local notSuitable = false
     -- local isFlooded   = false;
-
     if not isNil(results) then
         local fReasons = results[CityCommandResults.FAILURE_REASONS]
         if not isNil(fReasons) then

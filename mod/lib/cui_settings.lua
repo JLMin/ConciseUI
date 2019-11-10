@@ -6,32 +6,37 @@ local SETTING_PREFIX = "CUI_SETTING_"
 
 CuiSettings = {
     -- map options
-    SHOW_IMPROVES      = {field = "ShowImproveS",      default = true},
-    SHOW_UNITS         = {field = "ShowUnits",         default = true},
-    SHOW_TRADERS       = {field = "ShowTraders",       default = true},
-    SHOW_RELIGIONS     = {field = "ShowReligions",     default = true},
-    SHOW_CITYS         = {field = "ShowCitys",         default = true},
+    SHOW_IMPROVES     = {field = "ShowImproveS",      default = true},
+    SHOW_UNITS        = {field = "ShowUnits",         default = true},
+    SHOW_TRADERS      = {field = "ShowTraders",       default = true},
+    SHOW_RELIGIONS    = {field = "ShowReligions",     default = true},
+    SHOW_CITYS        = {field = "ShowCitys",         default = true},
     -- map pins
-    SHOW_DISTRICTS     = {field = "ShowDistricts",     default = true},
-    SHOW_WONDERS       = {field = "ShowWonders",       default = false},
-    AUTO_NAMING        = {field = "AutoNaming",        default = true},
+    SHOW_DISTRICTS    = {field = "ShowDistricts",     default = true},
+    SHOW_WONDERS      = {field = "ShowWonders",       default = false},
+    AUTO_NAMING       = {field = "AutoNaming",        default = true},
     -- world tracker
-    HIDE_GOSSIP_LOG    = {field = "HideGossipLog",     default = false},
-    HIDE_COMBAT_LOG    = {field = "HideCombatLog",     default = false},
-    GOSSIP_LOG_STATE   = {field = "GossipLogState",    default = 1},
-    COMBAT_LOG_STATE   = {field = "CombatLogState",    default = 1},
+    HIDE_GOSSIP_LOG   = {field = "HideGossipLog",     default = false},
+    HIDE_COMBAT_LOG   = {field = "HideCombatLog",     default = false},
+    GOSSIP_LOG_STATE  = {field = "GossipLogState",    default = 1},
+    COMBAT_LOG_STATE  = {field = "CombatLogState",    default = 1},
     -- unit list
-    SHOW_UNIT_DETAILS  = {field = "ShowUnitDetails",   default = true},
+    SHOW_UNIT_DETAILS = {field = "ShowUnitDetails",   default = true},
     -- production panel
-    QUEUE_BY_DEFAULT   = {field = "QueueByDefault",    default = false},
+    QUEUE_BY_DEFAULT  = {field = "QueueByDefault",    default = false},
     -- great works
-    SORT_BY_CITY       = {field = "SortByCity",        default = true},
-    -- civ assistant
-    SCIENCE            = {field = "ScienceVictory",    default = true},
-    CULTURE            = {field = "CultureVictory",    default = true},
-    DOMINATION         = {field = "DominationVictory", default = false},
-    RELIGION           = {field = "ReligionVictory",   default = false},
-    DIPLOMATIC         = {field = "DiplomaticVictory", default = false}
+    SORT_BY_CITY      = {field = "SortByCity",        default = true},
+    -- civ victory tracking
+    SCIENCE           = {field = "ScienceVictory",    default = true},
+    CULTURE           = {field = "CultureVictory",    default = true},
+    DOMINATION        = {field = "DominationVictory", default = false},
+    RELIGION          = {field = "ReligionVictory",   default = false},
+    DIPLOMATIC        = {field = "DiplomaticVictory", default = false},
+    -- popup manager
+    POPUP_RESEARCH    = {field = "PopupResearch",     default = false},
+    AUDIO_RESEARCH    = {field = "PlayResearchAudio", default = true},
+    POPUP_HISTORIC    = {field = "PopupHistoric",     default = false},
+    --
 }
 CuiSettings.__index = CuiSettings
 

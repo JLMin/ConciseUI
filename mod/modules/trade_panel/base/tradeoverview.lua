@@ -11,7 +11,6 @@ include("cui_trade_route_support") -- CUI
 -- ===========================================================================
 --	CONSTANTS
 -- ===========================================================================
-
 local RELOAD_CACHE_ID = "TradeOverview" -- Must be unique (usually the same as the file name)
 local DATA_ICON_PREFIX = "ICON_"
 
@@ -23,7 +22,6 @@ local m_showMyBenefits = true
 -- ===========================================================================
 --	VARIABLES
 -- ===========================================================================
-
 local m_RouteInstanceIM = InstanceManager:new("RouteInstance", "Top",
                                               Controls.BodyStack)
 local m_HeaderInstanceIM = InstanceManager:new("HeaderInstance", "Top",
@@ -416,27 +414,26 @@ function AddRoute(originPlayer, originCity, destinationPlayer, destinationCity,
 
     routeInstance.ReligionPressureContainer:SetHide(true)
     --[[
-	-- Show the religions pressure from the influencing city
-	local cityReligion = influencingCity:GetReligion();
-	local majorReligion = cityReligion:GetMajorityReligion();
-	if majorReligion > 0 then
-		local religionInfo = GameInfo.Religions[majorReligion];
-		local iconName = DATA_ICON_PREFIX .. religionInfo.ReligionType;
-		local majorityReligionColor = UI.GetColorValue(religionInfo.Color);
-		if majorityReligionColor ~= nil then
-			routeInstance.ReligionPressureIcon:SetColor(majorityReligionColor);
-		end
-		local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(iconName,22);
-		if textureOffsetX ~= nil then
-			routeInstance.ReligionPressureIcon:SetTexture( textureOffsetX, textureOffsetY, textureSheet );
-		end
-		routeInstance.ReligionPressureContainer:SetHide(false);
-		routeInstance.ReligionPressureContainer:LocalizeAndSetToolTip("LOC_TRADE_OVERVIEW_TOOLTIP_RELIGIOUS_INFLUENCE", Locale.Lookup(influencingCity:GetName()), Locale.Lookup(religionInfo.Name), Locale.Lookup(influencedCity:GetName()));
-	else
-		routeInstance.ReligionPressureContainer:SetHide(true);
-	end
-	--]]
-
+    -- Show the religions pressure from the influencing city
+    local cityReligion = influencingCity:GetReligion();
+    local majorReligion = cityReligion:GetMajorityReligion();
+    if majorReligion > 0 then
+    local religionInfo = GameInfo.Religions[majorReligion];
+    local iconName = DATA_ICON_PREFIX .. religionInfo.ReligionType;
+    local majorityReligionColor = UI.GetColorValue(religionInfo.Color);
+    if majorityReligionColor ~= nil then
+    routeInstance.ReligionPressureIcon:SetColor(majorityReligionColor);
+    end
+    local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(iconName,22);
+    if textureOffsetX ~= nil then
+    routeInstance.ReligionPressureIcon:SetTexture( textureOffsetX, textureOffsetY, textureSheet );
+    end
+    routeInstance.ReligionPressureContainer:SetHide(false);
+    routeInstance.ReligionPressureContainer:LocalizeAndSetToolTip("LOC_TRADE_OVERVIEW_TOOLTIP_RELIGIOUS_INFLUENCE", Locale.Lookup(influencingCity:GetName()), Locale.Lookup(religionInfo.Name), Locale.Lookup(influencedCity:GetName()));
+    else
+    routeInstance.ReligionPressureContainer:SetHide(true);
+    end
+    --]]
     -- Update Trading Post Icon
     if destinationCity:GetTrade():HasActiveTradingPost(originPlayer) then
         routeInstance.TradingPostIndicator:SetAlpha(1.0)
@@ -453,7 +450,6 @@ function AddRoute(originPlayer, originCity, destinationPlayer, destinationCity,
     local tradeRouteInfo = CuiGetTradeRouteInfo(originCity, destinationCity)
     routeInstance.RouteDistance:SetText(tradeRouteInfo.turns)
     --
-
     -- Update Origin Civ Icon
     local originPlayerConfig = PlayerConfigurations[originPlayer:GetID()]
     local originPlayerIconString = "ICON_" ..

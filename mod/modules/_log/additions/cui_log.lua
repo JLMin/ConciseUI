@@ -52,16 +52,15 @@ function LogC:mod(mod)
     if mod.Official and not ShowOfficial then return end
 
     --[[
-  Id         = mod.Id,
-  Name       = GenerateModName(mod),
-  Active     = false,
-  Enabled    = mod.Enabled,
-  Official   = mod.Official,
-  SubID      = mod.SubscriptionId,
-  Update     = "";
-  Compatible = Modding.IsModCompatible(mod.Handle)
-  ]]
-
+    Id         = mod.Id,
+    Name       = GenerateModName(mod),
+    Active     = false,
+    Enabled    = mod.Enabled,
+    Official   = mod.Official,
+    SubID      = mod.SubscriptionId,
+    Update     = "";
+    Compatible = Modding.IsModCompatible(mod.Handle)
+    ]]
     -- title
     local mType = mod.Official and "[O]" or "[C]"
     local title = ""
@@ -108,7 +107,6 @@ function LogGameInfo()
     Log:property("Game Seed", CuiGameInfo.GameSeed, ".")
     Log:property("Game Speed", CuiGameInfo.GameSpeed, ".")
     -- Log:property("Rule Set",        CuiGameInfo.RuleSet,          ".");
-
     local i1, i2, i3 = CuiGameInfo.InstalledAll, CuiGameInfo.InstalledOff,
                        CuiGameInfo.InstalledCom
     Log:value3("Mods Installed", i1, i2, i3)

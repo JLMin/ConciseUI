@@ -128,12 +128,12 @@ function UpdateGreatWorks()
                                          buildingIndex)
                     if (numSlots ~= nil and numSlots > 0) then
                         --[[ CUI: sort
-						local instance = m_GreatWorkSlotsIM:GetInstance();
-						local greatWorks = PopulateGreatWorkSlot(instance, pCity, pCityBldgs, buildingInfo);
-						table.insert(m_GreatWorkBuildings, {Instance=instance, Type=buildingType, Index=buildingIndex, CityBldgs=pCityBldgs});
-						numDisplaySpaces = numDisplaySpaces + pCityBldgs:GetNumGreatWorkSlots(buildingIndex);
-						numGreatWorks = numGreatWorks + greatWorks;
-						]]
+                        local instance = m_GreatWorkSlotsIM:GetInstance();
+                        local greatWorks = PopulateGreatWorkSlot(instance, pCity, pCityBldgs, buildingInfo);
+                        table.insert(m_GreatWorkBuildings, {Instance=instance, Type=buildingType, Index=buildingIndex, CityBldgs=pCityBldgs});
+                        numDisplaySpaces = numDisplaySpaces + pCityBldgs:GetNumGreatWorkSlots(buildingIndex);
+                        numGreatWorks = numGreatWorks + greatWorks;
+                        ]]
                         table.insert(cui_tmpBuildings, {
                             Type = buildingType,
                             Index = buildingIndex,
@@ -173,7 +173,6 @@ function UpdateGreatWorks()
         numGreatWorks = numGreatWorks + greatWorks
     end
     --
-
     Controls.NumGreatWorks:SetText(numGreatWorks)
     Controls.NumDisplaySpaces:SetText(numDisplaySpaces)
 
@@ -224,7 +223,6 @@ function PopulateGreatWorkSlot(instance, pCity, pCityBldgs, pBuildingInfo)
     instance.ThemingLabel:SetText("")
     instance.ThemingLabel:SetToolTipString("")
     --
-
     local buildingType = pBuildingInfo.BuildingType
     local buildingIndex = pBuildingInfo.Index
     local themeDescription = GetThemeDescription(buildingType)
@@ -525,7 +523,6 @@ function PopulateGreatWork(instance, pCityBldgs, pBuildingInfo, slotIndex,
     instance.LockMask:SetHide(true)
     instance.ThemeMask:SetHide(true)
     --
-
     instance[DATA_FIELD_CITY_ID] = pCityBldgs:GetCity():GetID()
     instance[DATA_FIELD_BUILDING_ID] = buildingIndex
     instance[DATA_FIELD_SLOT_INDEX] = slotIndex
@@ -558,7 +555,6 @@ function PopulateGreatWork(instance, pCityBldgs, pBuildingInfo, slotIndex,
         instance.LockMask:SetHide(cui_ThemeHelper)
         instance.ThemeMask:SetHide(not cui_ThemeHelper)
         --
-
         local srcGreatWork = pCityBldgs:GetGreatWorkInSlot(buildingIndex,
                                                            slotIndex)
         local srcGreatWorkType = pCityBldgs:GetGreatWorkTypeFromIndex(
@@ -1205,7 +1201,6 @@ function Close()
         LuaEvents.GreatPeople_CloseGreatPeople()
     end
     --
-
     ContextPtr:SetHide(true)
     ContextPtr:ClearUpdate()
 end

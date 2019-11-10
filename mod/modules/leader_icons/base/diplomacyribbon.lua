@@ -57,7 +57,6 @@ end
 -- ===========================================================================
 function OnLeaderClicked(playerID)
     -- Send an event to open the leader in the diplomacy view (only if they met)
-
     local localPlayerID = Game.GetLocalPlayer()
     if playerID == localPlayerID or
         Players[localPlayerID]:GetDiplomacy():HasMet(playerID) then
@@ -115,31 +114,29 @@ function AddLeader(iconName, playerID, kProps)
                                 function() OnLeaderClicked(playerID) end)
 
     --[[ CUI: disable vanilla events
-	-- If using focus, setup mouse in/out callbacks... otherwise clear them.
-	if 	m_ribbonStats == RibbonHUDStats.FOCUS then
-		uiPortraitButton:RegisterMouseEnterCallback(
-			function( uiControl )
-				ShowStats( uiLeader );
-			end
-		);
-		uiPortraitButton:RegisterMouseExitCallback(
-			function( uiControl )
-				HideStats( uiLeader );
-			end
-		);
-	else
-		uiPortraitButton:ClearMouseEnterCallback();
-		uiPortraitButton:ClearMouseExitCallback();
-  end
-  ]]
-
+    -- If using focus, setup mouse in/out callbacks... otherwise clear them.
+    if 	m_ribbonStats == RibbonHUDStats.FOCUS then
+    uiPortraitButton:RegisterMouseEnterCallback(
+    function( uiControl )
+    ShowStats( uiLeader );
+    end
+    );
+    uiPortraitButton:RegisterMouseExitCallback(
+    function( uiControl )
+    HideStats( uiLeader );
+    end
+    );
+    else
+    uiPortraitButton:ClearMouseEnterCallback();
+    uiPortraitButton:ClearMouseExitCallback();
+    end
+    ]]
     -- CUI: use advenced tooltip
     local allianceData = CuiGetAllianceData(playerID)
     LuaEvents.CuiLeaderIconToolTip(leaderIcon.Controls.Portrait, playerID)
     LuaEvents.CuiRelationshipToolTip(leaderIcon.Controls.Relationship, playerID,
                                      allianceData)
     --
-
     uiLeader.LeaderContainer:RegisterSizeChanged(
         function(uiControl) OnLeaderSizeChanged(uiLeader) end)
 

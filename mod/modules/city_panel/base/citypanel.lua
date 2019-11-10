@@ -414,7 +414,6 @@ function ViewMain(data)
                               Controls.GrowthLabel:GetText())
 
     -- Production
-
     Controls.ProductionTurns:SetHide(m_isShowingPanels)
     Controls.ProductionTurnsBar:SetPercent(
         Clamp(data.CurrentProdPercent, 0.0, 1.0))
@@ -901,7 +900,6 @@ function OnHousing() LuaEvents.CityPanel_ShowHousingTab() end
 --	end
 --	Refresh();
 -- end
-
 -- ===========================================================================
 function OnCitizensGrowth() LuaEvents.CityPanel_ShowCitizensTab() end
 

@@ -83,7 +83,6 @@ g_UnitsArcheology = UILens.CreateLensLayerHash("Units_Archaeology")
 -- ===========================================================================
 --	VARIABLES
 -- ===========================================================================
-
 -- A link to a container that is rendered after the Unit/City flags.  This is used
 -- so that selected units will always appear above the other objects.
 local m_SelectedContainer = ContextPtr:LookUpControl("../SelectedUnitContainer")
@@ -164,7 +163,6 @@ local m_isMapDeselectDisabled = false
 -- m_Player						;
 -- m_UnitID						;		-- The unit ID.  Keeping just the ID, rather than a reference because there will be times when we need the value, but the unit instance will not exist.
 -- end
-
 -- Create one instance of the meta object as a global variable with the same name as the data structure portion.
 -- This allows us to do a UnitFlag:new, so the naming looks consistent.
 -- UnitFlag = hmake UnitFlagMeta {};
@@ -368,20 +366,20 @@ function UnitFlag.SetInteractivity(self)
 
             -- Signal to who is handling drawing the arrow lens.
             --[[
-      TODO: Refactor: Currently WorldInput receives the input from the LUAContext
-      so while the flag is signaled (control gets eHasMouseOver) the input chain
-      still sends input through to the context.
-    interfaceMode = UI.GetInterfaceMode();
-    if	interfaceMode == InterfaceModeTypes.CITY_RANGE_ATTACK or
-      interfaceMode == InterfaceModeTypes.DISTRICT_RANGE_ATTACK  then
-      local pUnit  = self:GetUnit();
-      local unitX  = pUnit:GetX();
-      local unitY  = pUnit:GetY();
-      local pPlot	 = Map.GetPlot( unitX, unitY );
-      local plotIndex  = pPlot:GetIndex();
-      LuaEvents.UnitFlagManager_DrawRangeAttackPreview( plotIndex );
-    end
-    ]]
+        TODO: Refactor: Currently WorldInput receives the input from the LUAContext
+        so while the flag is signaled (control gets eHasMouseOver) the input chain
+        still sends input through to the context.
+        interfaceMode = UI.GetInterfaceMode();
+        if	interfaceMode == InterfaceModeTypes.CITY_RANGE_ATTACK or
+        interfaceMode == InterfaceModeTypes.DISTRICT_RANGE_ATTACK  then
+        local pUnit  = self:GetUnit();
+        local unitX  = pUnit:GetX();
+        local unitY  = pUnit:GetY();
+        local pPlot	 = Map.GetPlot( unitX, unitY );
+        local plotIndex  = pPlot:GetIndex();
+        LuaEvents.UnitFlagManager_DrawRangeAttackPreview( plotIndex );
+        end
+        ]]
         end)
 
     self.m_Instance.FlagRoot:RegisterMouseExitCallback(
@@ -779,15 +777,15 @@ function UnitFlag.UpdatePromotions(self)
                 local promotionList = unitExperience:GetPromotions()
                 if (#promotionList > 0) then
                     --[[
-          local tooltipString  = "";
-          for i, promotion in ipairs(promotionList) do
-            tooltipString = tooltipString .. Locale.Lookup(GameInfo.UnitPromotions[promotion].Name);
-            if (i < #promotionList) then
-              tooltipString = tooltipString .. "[NEWLINE]";
-            end
-          end
-          self.m_Instance.Promotion_Flag:SetToolTipString(tooltipString);
-          --]]
+                    local tooltipString  = "";
+                    for i, promotion in ipairs(promotionList) do
+                    tooltipString = tooltipString .. Locale.Lookup(GameInfo.UnitPromotions[promotion].Name);
+                    if (i < #promotionList) then
+                    tooltipString = tooltipString .. "[NEWLINE]";
+                    end
+                    end
+                    self.m_Instance.Promotion_Flag:SetToolTipString(tooltipString);
+                    --]]
                     self.m_Instance.UnitNumPromotions:SetText(#promotionList)
                     self.m_Instance.Promotion_Flag:SetHide(false)
                 end
@@ -866,24 +864,24 @@ function UnitFlag.UpdateName(self)
 
         -- DEBUG TEXT FOR SHOWING UNIT ACTIVITY TYPE
         --[[
-    local activityType = UnitManager.GetActivityType(pUnit);
-    if (activityType == ActivityTypes.ACTIVITY_SENTRY) then
-      nameString = nameString .. TXT_UNITFLAG_ACTIVITY_ON_SENTRY;
-    elseif (activityType == ActivityTypes.ACTIVITY_INTERCEPT) then
-      nameString = nameString .. TXT_UNITFLAG_ACTIVITY_ON_INTERCEPT;
-    elseif (activityType == ActivityTypes.ACTIVITY_AWAKE) then
-      nameString = nameString .. TXT_UNITFLAG_ACTIVITY_AWAKE;
-    elseif (activityType == ActivityTypes.ACTIVITY_HOLD) then
-      nameString = nameString .. TXT_UNITFLAG_ACTIVITY_HOLD;
-    elseif (activityType == ActivityTypes.ACTIVITY_SLEEP) then
-      nameString = nameString .. TXT_UNITFLAG_ACTIVITY_SLEEP;
-    elseif (activityType == ActivityTypes.ACTIVITY_HEAL) then
-      nameString = nameString .. TXT_UNITFLAG_ACTIVITY_HEALING;
-    elseif (activityType == ActivityTypes.NO_ACTIVITY) then
-      nameString = nameString .. TXT_UNITFLAG_ACTIVITY_NO_ACTIVITY;
-    end
-    ]] --
-
+        local activityType = UnitManager.GetActivityType(pUnit);
+        if (activityType == ActivityTypes.ACTIVITY_SENTRY) then
+        nameString = nameString .. TXT_UNITFLAG_ACTIVITY_ON_SENTRY;
+        elseif (activityType == ActivityTypes.ACTIVITY_INTERCEPT) then
+        nameString = nameString .. TXT_UNITFLAG_ACTIVITY_ON_INTERCEPT;
+        elseif (activityType == ActivityTypes.ACTIVITY_AWAKE) then
+        nameString = nameString .. TXT_UNITFLAG_ACTIVITY_AWAKE;
+        elseif (activityType == ActivityTypes.ACTIVITY_HOLD) then
+        nameString = nameString .. TXT_UNITFLAG_ACTIVITY_HOLD;
+        elseif (activityType == ActivityTypes.ACTIVITY_SLEEP) then
+        nameString = nameString .. TXT_UNITFLAG_ACTIVITY_SLEEP;
+        elseif (activityType == ActivityTypes.ACTIVITY_HEAL) then
+        nameString = nameString .. TXT_UNITFLAG_ACTIVITY_HEALING;
+        elseif (activityType == ActivityTypes.NO_ACTIVITY) then
+        nameString = nameString .. TXT_UNITFLAG_ACTIVITY_NO_ACTIVITY;
+        end
+        ]]
+        --
         -- display archaeology info
         local idArchaeologyHomeCity = pUnit:GetArchaeologyHomeCity()
         if (idArchaeologyHomeCity ~= 0) then
@@ -1209,7 +1207,6 @@ function UnitSimPositionChanged(playerID, unitID, worldX, worldY, worldZ,
 
         -- The visibility passed in here seems to be inconsistent
         -- print("UnitSimPositionChanged: Visibility=" .. tostring(bVisible));
-
         flagInstance:SetPosition(worldX, worldY, worldZ)
     end
 end
@@ -1281,7 +1278,6 @@ function UpdateIconStack(plotX, plotY)
     local unitList = Units.GetUnitsInPlotLayerID(plotX, plotY, MapLayers.ANY)
     if unitList ~= nil then
         -- If a unit is going to die it shouldn't be counted
-
         local numUnits = table.count(unitList)
         for i, pUnit in ipairs(unitList) do
             if pUnit:IsDelayedDeath() then
@@ -2057,7 +2053,6 @@ function Initialize()
     Events.UnitMovementPointsCleared.Add(OnUnitMovementPointsChanged)
     Events.UnitMovementPointsRestored.Add(OnUnitMovementPointsRestored)
     -- Events.UnitActivityChanged.Add(OnUnitActivityChanged); --Currently only needed for debugging.
-
     LuaEvents.Tutorial_DisableMapSelect.Add(OnTutorial_DisableMapSelect)
     LuaEvents.CityBannerManager_UpdateRangeStrike.Add(UpdateFlagPositions)
 

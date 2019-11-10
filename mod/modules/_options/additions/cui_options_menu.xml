@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cui Options Menu, eudaimonia, 11/10/2019 -->
+
+<Context Name="CuiOptions">
+
+    <Container ID="Vignette" Style="FullScreenVignetteConsumer" />
+
+    <Box ID="MainGrid" Style="ShellBGBox" Size="640,480" Anchor="C,C">
+        <Container ID="MainWindow" Size="640,420" Anchor="C,T">
+            <Container ID="Header" Style="ShellHeaderContainer" Size="640,54">
+                <Label ID="WindowTitle" Style="ShellHeader" Anchor="C,C" String="{LOC_OPTIONS_TITLE:upper}"/>
+            </Container>
+
+            <Grid ID="Content" Style="SubContainer4" Size="parent-10,380" Anchor="C,T" Color="7,28,50" Offset="0,55">
+                <!--Options Tabs-->
+                <Grid Style="SubContainerFill" Size="210,parent-6" Offset="3,3" Color="6,36,57,150">
+                    <Grid Style="SubContainer3" Size="parent-6,parent-6" Anchor="C,C" Color="13,70,82,255">
+                        <Stack ID="TabStack" StackGrowth="Down" Anchor="C,T" Padding="10">
+                            <GridButton ID="VictoryTab" Style="ShellTabSmall" Size="200,32" String="Victories" />
+                            <GridButton ID="LogTab" Style="ShellTabSmall" Size="200,32" String="Logs" />
+                            <GridButton ID="PopupTab" Style="ShellTabSmall" Size="200,32" String="Popups" />
+                            <GridButton ID="RemindTab" Style="ShellTabSmall" Size="200,32" String="Remind" />
+                        </Stack>
+                    </Grid>
+                </Grid>
+
+                <!-- Options -->
+                <Container Anchor="R,T" Size="parent-215,parent-6">
+                    <Container ID="VictoryOptions" Size="parent,parent">
+                        <Stack Anchor="L,T" StackGrowth="Down" Padding="10" Offset="50,24" Size="parent-24,auto">
+                            <GridButton ID="CBScience" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_VICTORY_SCIENCE_NAME"/>
+                            <GridButton ID="CBCulture" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_VICTORY_CULTURE_NAME"/>
+                            <GridButton ID="CBDomination" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_VICTORY_DOMINATION_NAME"/>
+                            <GridButton ID="CBReligious" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_VICTORY_RELIGIOUS_NAME"/>
+                            <GridButton ID="CBDiplomatic" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_VICTORY_DIPLOMATIC_NAME"/>
+                        </Stack>
+                    </Container>
+                </Container>
+
+                <!-- Buttons -->
+                <GridButton ID="ConfirmButton" Style="ButtonConfirm" AnchorSide="I,O" Anchor="c,b" String="LOC_GENERIC_CONFIRM_BUTTON" Size="200,41"/>
+            </Grid>
+        </Container>
+    </Box>
+
+    <!-- Instance for a parameter that has multiple choices for the value, displayed as a dropdown -->
+    <Instance Name="PullDownParameterInstance">
+        <Container ID="Root" Anchor="C,T" Size="450,32" Offset="0,0">
+            <PullDown Anchor="C,T" ID="PullDown" Style="PullDownBlue" Size="300,24" Offset="-4,0">
+                <Label Offset="4,0" Style="ShellOptionText" ID="StringName" AnchorSide="O,I" Anchor="L,C" String=""/>
+            </PullDown>
+        </Container>
+    </Instance>
+</Context>

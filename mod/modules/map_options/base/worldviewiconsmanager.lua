@@ -112,7 +112,6 @@ function SetResourceIcon(pInstance, pPlot, type, state)
             pInstance.AlphaAnim:SetHide(true)
             -- pInstance.AlphaAnim:SetToBeginning();
             -- pInstance.AlphaAnim:Play();
-
             -- Add some tooltip information about the resource
             local toolTipItems = {}
             table.insert(toolTipItems, Locale.Lookup(resourceInfo.Name))
@@ -919,4 +918,3 @@ function Initialize()
 
 end
 Initialize()
-

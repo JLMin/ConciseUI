@@ -1,5 +1,5 @@
 -- ---------------------------------------------------------------------------
--- Cui Assistant Support Functions
+-- Cui Victory Support Functions
 -- eudaimonia, 4/7/2019
 -- ---------------------------------------------------------------------------
 include("SupportFunctions")

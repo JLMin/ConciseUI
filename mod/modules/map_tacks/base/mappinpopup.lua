@@ -173,7 +173,6 @@ function PopulateIconOptions()
     Controls.IconOptionStackWonders:CalculateSize()
     Controls.IconOptionStackWonders:ReprocessAnchoring()
     --
-
     Controls.OptionsStack:CalculateSize()
     Controls.OptionsStack:ReprocessAnchoring()
     Controls.WindowContentsStack:CalculateSize()
@@ -234,7 +233,6 @@ function RequestMapPin(hexX, hexY)
         Controls.IconOptionStackWonders:CalculateSize()
         Controls.IconOptionStackWonders:ReprocessAnchoring()
         --
-
         Controls.OptionsStack:CalculateSize()
         Controls.OptionsStack:ReprocessAnchoring()
         Controls.WindowContentsStack:CalculateSize()
@@ -522,7 +520,6 @@ function Initialize()
     LuaEvents.CuiMapPinSettingChange.Add(CuiRefresh)
     CuiRefresh()
     -- PopulateIconOptions();
-
     PopulateTargetPull(Controls.VisibilityPull, nil, nil,
                        g_visibilityTargetEntries, g_playerTarget, true,
                        OnVisibilityPull)
@@ -557,4 +554,3 @@ function Initialize()
 
 end
 Initialize()
-

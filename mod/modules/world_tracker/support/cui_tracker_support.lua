@@ -294,7 +294,6 @@ function GetBorderData()
                 end
             end
             -- logic end
-
             table.insert(leaders, {
                 Icon = pData.leaderIcon,
                 HasImport = hasImport,

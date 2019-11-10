@@ -79,7 +79,6 @@ local TXT_DISTRICT_REPAIR_LOCATION_FLOODED =
 -- ===========================================================================
 --	Members
 -- ===========================================================================
-
 local m_listIM = InstanceManager:new("NestedList", "Top",
                                      Controls.ProductionList)
 local m_purchaseListIM = InstanceManager:new("NestedList", "Top",
@@ -139,7 +138,6 @@ local cui_QueueOnDetault = false -- CUI
 
 local cui_newVersion = true
 -- ===========================================================================
-
 ------------------------------------------------------------------------------
 -- Collapsible List Handling
 ------------------------------------------------------------------------------
@@ -664,7 +662,6 @@ function View(data)
     -- there is also a ton of duplicated code between districts, buildings, units, wonders, etc
     -- I think this could be a prime candidate for a refactor if there is time, currently, care must
     -- be taken to copy any changes in several places to keep it functioning consistently
-
     PopulateList(data, LISTMODE.PRODUCTION, m_listIM)
     Controls.ProductionListScroll:SetScrollValue(
         GetScrollPosition(LISTMODE.PRODUCTION))
@@ -1120,7 +1117,6 @@ function PopulateDistrictsWithNestedBuildings(data, listMode, listIM)
     end
 
     -- Populate Nested Buildings -----------------
-
     for i, buildingItem in ipairs(data.BuildingItems) do
         -- CUI: fix the building logic
         local shouldShow = false
@@ -1883,7 +1879,6 @@ function ComposeUnitForPurchase(row, pCity, sYield, pYieldSource, sCantAffordKey
                              allReasons
         local isCantAfford = false
         -- print ( "UnitBuy ", row.UnitType,isCanStart );
-
         -- Collect some constants so we don't need to keep calling out to get them.
         local nCityID = pCity:GetID()
         local pCityGold = pCity:GetGold()
@@ -3437,7 +3432,6 @@ function Initialize()
 
     UpdateQueueTabText(0)
     -- CUI Controls.ManagerTab:SetText("[ICON_ProductionQueue] " .. Locale.Lookup("LOC_PRODUCTION_PANEL_MULTI_QUEUE"))
-
     ContextPtr:SetInitHandler(OnInit)
     ContextPtr:SetInputHandler(OnInputHandler, true)
     ContextPtr:SetShutdown(OnShutdown)

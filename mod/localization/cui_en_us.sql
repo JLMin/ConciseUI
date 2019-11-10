@@ -126,10 +126,5 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("en_US", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Enter Screenshot Mode[NEWLINE][NEWLINE]Screenshot Mode will hide most or all UI Elements, allows you to take clean screenshots.[NEWLINE][NEWLINE]Left-click hide all UI Elements[NEWLINE]Right-click hide all UI Elements except for City Banners[NEWLINE]Hold ALT to rotate the screen[NEWLINE]Press ESC to exit Screenshot Mode"),
 
 -- =============================================================================
--- Civ Assistant
-("en_US", "LOC_CUI_CA_SURPLUS_RESOUCES",                                        "Surplus Luxury"),
-("en_US", "LOC_CUI_CA_SURPLUS_RESOUCES_OPT",                                    "Surplus Luxury"),
-
--- =============================================================================
 ("en_US", "LOC_CUI_COLON", ": ");
 -- EOF

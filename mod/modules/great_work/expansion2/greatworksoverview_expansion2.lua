@@ -129,7 +129,6 @@ function PopulateGreatWorkSlot(instance, pCity, pCityBldgs, pBuildingInfo)
     instance.ThemingLabel:SetText("")
     instance.ThemingLabel:SetToolTipString("")
     --
-
     local buildingType = pBuildingInfo.BuildingType
     local buildingIndex = pBuildingInfo.Index
     local themeDescription = GetThemeDescription(buildingType)

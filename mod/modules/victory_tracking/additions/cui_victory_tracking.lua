@@ -1,15 +1,14 @@
 -- ===========================================================================
--- Cui Civilizaiton Assistant
--- eudaimonia, 3/31/2019
+-- Cui Victory Tracking
+-- eudaimonia, 11/10/2019
 -- ===========================================================================
 include("InstanceManager")
 include("PlayerSupport")
 include("cui_helper")
 include("cui_settings")
-include("cui_assistant_support")
+include("cui_victory_support")
 
--- ===========================================================================
-
+-- ---------------------------------------------------------------------------
 local isAttached = false
 
 local CuiVictoryTT = {}
@@ -28,8 +27,8 @@ local dominationData = {}
 local religionData = {}
 local diplomaticData = {}
 
--- ===========================================================================
-function GetVictoryData()
+-- ---------------------------------------------------------------------------
+function GetData()
     SupportInit()
 
     local victoryTypes = GetVictoryTypes()
@@ -48,7 +47,46 @@ function GetVictoryData()
     end
 end
 
--- ===========================================================================
+-- ---------------------------------------------------------------------------
+function PopulateVictoryIcons()
+    victoryIconInstance:ResetInstances()
+    local victoryTypes = GetVictoryTypes()
+    for _, vType in ipairs(victoryTypes) do
+        if CuiSettings:GetBoolean(CuiSettings[vType]) then
+            local instance = victoryIconInstance:GetInstance(
+                                 Controls.VictoryButtonStack)
+            local icon = "ICON_VICTORY_" .. vType
+            if icon ~= nil then
+                local textureOffsetX, textureOffsetY, textureSheet =
+                    IconManager:FindIconAtlas(icon, 64)
+                if (textureSheet == nil or textureSheet == "") then
+                    UI.DataError(
+                        "Could not find icon in PopulateVictoryButton: icon=\"" ..
+                            icon .. "\", iconSize=64")
+                else
+                    -- set icon
+                    instance.VictoryIcon:SetTexture(textureOffsetX,
+                                                    textureOffsetY, textureSheet)
+                    -- set tooltip
+                    instance.VictoryIcon:ClearToolTipCallback()
+                    instance.VictoryIcon:SetToolTipType("CuiVictoryTT")
+                    instance.VictoryIcon:SetToolTipCallback(
+                        function()
+                            UpdateVictoryToolTip(vType)
+                        end)
+                    -- set rank
+                    local rankText = ranks[vType]
+                    if rankText == 1 then
+                        rankText = "[COLOR_GREEN]" .. rankText .. "[ENDCOLOR]"
+                    end
+                    instance.Text:SetText("#" .. rankText)
+                end
+            end
+        end
+    end
+end
+
+-- ---------------------------------------------------------------------------
 function UpdateVictoryToolTip(vType)
     local localPlayerID = Game.GetLocalPlayer()
     if localPlayerID == -1 then return end
@@ -86,7 +124,7 @@ function UpdateVictoryToolTip(vType)
     CuiVictoryTT.BG:DoAutoSize()
 end
 
--- ===========================================================================
+-- ---------------------------------------------------------------------------
 function SetVictoryLeaderInstance(vType, leader, instance)
 
     local shouldShowIcon = leader.isLocalPlayer or leader.isMet
@@ -148,149 +186,36 @@ function SetVictoryLeaderInstance(vType, leader, instance)
 
 end
 
--- ===========================================================================
-function PopulateVictoryIcons()
-    victoryIconInstance:ResetInstances()
-    local victoryTypes = GetVictoryTypes()
-    for _, vType in ipairs(victoryTypes) do
-        if CuiSettings:GetBoolean(CuiSettings[vType]) then
-            local instance = victoryIconInstance:GetInstance(
-                                 Controls.VictoryButtonStack)
-            local icon = "ICON_VICTORY_" .. vType
-            if icon ~= nil then
-                local textureOffsetX, textureOffsetY, textureSheet =
-                    IconManager:FindIconAtlas(icon, 64)
-                if (textureSheet == nil or textureSheet == "") then
-                    UI.DataError(
-                        "Could not find icon in PopulateVictoryButton: icon=\"" ..
-                            icon .. "\", iconSize=64")
-                else
-                    -- set icon
-                    instance.VictoryIcon:SetTexture(textureOffsetX,
-                                                    textureOffsetY, textureSheet)
-                    -- set tooltip
-                    instance.VictoryIcon:ClearToolTipCallback()
-                    instance.VictoryIcon:SetToolTipType("CuiVictoryTT")
-                    instance.VictoryIcon:SetToolTipCallback(
-                        function()
-                            UpdateVictoryToolTip(vType)
-                        end)
-                    -- set rank
-                    local rankText = ranks[vType]
-                    if rankText == 1 then
-                        rankText = "[COLOR_GREEN]" .. rankText .. "[ENDCOLOR]"
-                    end
-                    instance.Text:SetText("#" .. rankText)
-                end
-            end
-        end
-    end
-end
-
--- ===========================================================================
+-- ---------------------------------------------------------------------------
 function RefreshAll()
-    GetVictoryData()
+    GetData()
     PopulateVictoryIcons()
 end
 
--- ===========================================================================
-function ToggleOptions()
-    local isHide = Controls.AssistantOptions:IsHidden()
-    Controls.AssistantOptions:SetHide(not isHide)
-end
-
--- ===========================================================================
+-- ---------------------------------------------------------------------------
 function OnMinimapResize()
     if isAttached then
         local minimap = ContextPtr:LookUpControl(
                             "/InGame/MinimapPanel/MiniMap/MinimapContainer")
-        Controls.CuiAssistant:SetOffsetX(minimap:GetSizeX() + 10)
+        Controls.CuiVictoryTracking:SetOffsetX(minimap:GetSizeX() + 10)
     end
 end
 
--- ===========================================================================
-function OnScience()
-    Controls.SCIENCE:SetCheck(CuiSettings:ReverseAndGetBoolean(
-                                  CuiSettings.SCIENCE))
-    RefreshAll()
-end
-
--- ===========================================================================
-function OnCulture()
-    Controls.CULTURE:SetCheck(CuiSettings:ReverseAndGetBoolean(
-                                  CuiSettings.CULTURE))
-    RefreshAll()
-end
-
--- ===========================================================================
-function OnDomiation()
-    Controls.DOMINATION:SetCheck(CuiSettings:ReverseAndGetBoolean(
-                                     CuiSettings.DOMINATION))
-    RefreshAll()
-end
-
--- ===========================================================================
-function OnReligion()
-    Controls.RELIGION:SetCheck(CuiSettings:ReverseAndGetBoolean(
-                                   CuiSettings.RELIGION))
-    RefreshAll()
-end
-
--- ===========================================================================
-function OnDiplomatic()
-    Controls.DIPLOMATIC:SetCheck(CuiSettings:ReverseAndGetBoolean(
-                                     CuiSettings.DIPLOMATIC))
-    RefreshAll()
-end
-
--- ===========================================================================
-function SetupUI()
-    SetupOptions()
-
-    local victoryStackX = Controls.VictoryStack:GetSizeX()
-    local victoryStackY = Controls.VictoryStack:GetSizeY()
-
-    Controls.AssistantOptions:SetSizeX(victoryStackX + 50)
-    Controls.AssistantOptions:SetSizeY(victoryStackY + 66)
-    Controls.AssistantOptions:SetHide(true)
-end
-
--- ===========================================================================
-function SetupOptions()
-    local victoryTypes = GetVictoryTypes()
-    for _, vType in ipairs(victoryTypes) do
-        Controls[vType]:SetHide(false)
-        Controls[vType]:SetCheck(CuiSettings:GetBoolean(CuiSettings[vType]))
-    end
-    Controls.SCIENCE:RegisterCheckHandler(OnScience)
-    Controls.CULTURE:RegisterCheckHandler(OnCulture)
-    Controls.DOMINATION:RegisterCheckHandler(OnDomiation)
-    Controls.RELIGION:RegisterCheckHandler(OnReligion)
-    Controls.DIPLOMATIC:RegisterCheckHandler(OnDiplomatic)
-
-    Controls.VictoryStack:CalculateSize()
-    Controls.VictoryStack:ReprocessAnchoring()
-end
-
--- ===========================================================================
+-- ---------------------------------------------------------------------------
 function AttachToMinimap()
     if not isAttached then
         local minimap = ContextPtr:LookUpControl(
                             "/InGame/MinimapPanel/MiniMap/MinimapContainer")
-        Controls.CuiAssistant:ChangeParent(minimap)
-        Controls.CuiAssistant:SetOffsetX(minimap:GetSizeX() + 10)
-        SetupUI()
+        Controls.CuiVictoryTracking:ChangeParent(minimap)
+        Controls.CuiVictoryTracking:SetOffsetX(minimap:GetSizeX() + 10)
         RefreshAll()
         isAttached = true
     end
 end
 
--- ===========================================================================
+-- ---------------------------------------------------------------------------
 function Initialize()
     ContextPtr:SetHide(true)
-
-    CuiRegCallback(Controls.AssistantButton, ToggleOptions, RefreshAll)
-
     Events.LoadGameViewStateDone.Add(AttachToMinimap)
     LuaEvents.CuiOnMinimapResize.Add(OnMinimapResize)
     LuaEvents.DiplomacyActionView_ShowIngameUI.Add(RefreshAll)

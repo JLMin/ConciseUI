@@ -30,13 +30,11 @@ end
 --	DEBUG
 --	Toggle these for temporary debugging help.
 -- ===========================================================================
-
 local m_debugAlwaysAllowAllOptions = false -- (false) When true no options are disabled, even when in game. :/
 
 -- ===========================================================================
 --	MEMBERS / VARIABLES
 -- ===========================================================================
-
 local _KeyBindingCategories = InstanceManager:new("KeyBindingCategory",
                                                   "CategoryName",
                                                   Controls.KeyBindingsStack)
@@ -666,7 +664,6 @@ function PopulateGraphicsOptions()
     -------------------------------------------------------------------------------
     -- Main Options
     -------------------------------------------------------------------------------
-
     local is_in_game = Options.IsAppInMainMenuState() == 0
     if m_debugAlwaysAllowAllOptions then is_in_game = false end
 
@@ -848,7 +845,6 @@ function PopulateGraphicsOptions()
     -------------------------------------------------------------------------------
     -- Advanced Settings
     -------------------------------------------------------------------------------
-
     -- VSync
     PopulateCheckBox(Controls.VSyncEnabledCheckbox,
                      Options.GetGraphicsOption("Video", "VSync"),
@@ -963,7 +959,6 @@ function PopulateGraphicsOptions()
     -------------------------------------------------------------------------------
     -- Advanced Settings - Lighting
     -------------------------------------------------------------------------------
-
     -- Bloom Enabled
     PopulateCheckBox(Controls.LightingBloomEnabledCheckbox,
                      Options.GetGraphicsOption("Bloom", "EnableBloom"),
@@ -987,7 +982,6 @@ function PopulateGraphicsOptions()
     -------------------------------------------------------------------------------
     -- Advanced Settings - Shadows
     -------------------------------------------------------------------------------
-
     -- Shadows Enabled
     PopulateCheckBox(Controls.ShadowsEnabledCheckbox,
                      Options.GetGraphicsOption("Shadows", "EnableShadows"),
@@ -1020,9 +1014,7 @@ function PopulateGraphicsOptions()
     -------------------------------------------------------------------------------
     -- Advanced Settings - Overlay
     -------------------------------------------------------------------------------
-
     -- Overlay Resolution
-
     -- Screen-Space Overlay Enabled
     PopulateCheckBox(Controls.SSOverlayEnabledCheckbox,
                      Options.GetGraphicsOption("General", "ScreenSpaceOverlay"),
@@ -1035,7 +1027,6 @@ function PopulateGraphicsOptions()
     -------------------------------------------------------------------------------
     -- Advanced Settings - Terrain
     -------------------------------------------------------------------------------
-
     -- Terrain Quality
     PopulateComboBox(Controls.TerrainQualityPullDown, terrainQuality_options,
                      Options.GetGraphicsOption("Terrain", "TerrainQuality"),
@@ -1135,7 +1126,6 @@ function PopulateGraphicsOptions()
     -------------------------------------------------------------------------------
     -- Advanced Settings - Water
     -------------------------------------------------------------------------------
-
     -- Water Quality
     PopulateCheckBox(Controls.WaterResolutionCheckbox, InvertOptionInt(
                          Options.GetGraphicsOption("General", "UseLowResWater")),
@@ -1162,7 +1152,6 @@ function PopulateGraphicsOptions()
     -------------------------------------------------------------------------------
     -- Advanced Settings - Reflections
     -------------------------------------------------------------------------------
-
     -- Screen-space Reflection Passes
     PopulateComboBox(Controls.ReflectionPassesPullDown,
                      reflectionPasses_options,
@@ -1176,7 +1165,6 @@ function PopulateGraphicsOptions()
     -------------------------------------------------------------------------------
     -- Advanced Settings - Leaders
     -------------------------------------------------------------------------------
-
     -- Update the Motion Blur checkbox when leader quality changes
     local UpdateMotionBlurCheckbox = function(eLeaderQuality)
         if UI.LeaderQualityAllowsMotionBlur(eLeaderQuality) then
@@ -1579,7 +1567,6 @@ function TemporaryHardCodedGoodness()
     --            end
     --        end
     --    );
-
     -- Interface
     PopulateComboBox(Controls.ClockFormat, clock_options,
                      Options.GetUserOption("Interface", "ClockFormat"),
@@ -2145,4 +2132,3 @@ function Initialize()
 end
 
 Initialize()
-

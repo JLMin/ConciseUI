@@ -126,10 +126,5 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Screenshot-Modus aufrufen[NEWLINE][NEWLINE]Im Screenshot-Modus werden die meisten UI-Elemente verborgen.[NEWLINE][NEWLINE]Linksklick verbirgt alle UI Elemente[NEWLINE]Rechtsklick verbirgt alle UI Elemente außer Stadtbanner[NEWLINE]Halte ALT gedrückt um den Bildschirm zu rotieren[NEWLINE]Drücke ESC um den Screenshot-Modus zu verlassen."),
 
 -- =============================================================================
--- Civ Assistant
-("de_DE", "LOC_CUI_CA_SURPLUS_RESOUCES",                                        "Luxus-Überschuss"),
-("de_DE", "LOC_CUI_CA_SURPLUS_RESOUCES_OPT",                                    "Luxus-Überschuss"),
-
--- =============================================================================
 ("de_DE", "LOC_CUI_COLON", ": ");
 -- EOF
