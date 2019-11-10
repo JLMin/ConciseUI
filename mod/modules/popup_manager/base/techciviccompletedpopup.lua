@@ -5,6 +5,7 @@
 include("TechAndCivicSupport") -- (Already includes Civ6Common and InstanceManager) PopulateUnlockablesForTech, PopulateUnlockablesForCivic, GetUnlockablesForCivic, GetUnlockablesForTech
 include("LocalPlayerActionSupport")
 include("cui_tech_civic_support") -- CUI
+include("cui_settings") -- CUI
 
 -- ===========================================================================
 --	CONSTANTS / MEMBERS
@@ -320,7 +321,10 @@ function RealizeNextPopup()
     UI.PlaySound("Pause_Advisor_Speech")
     UI.PlaySound("Resume_TechCivic_Speech")
     if (m_kCurrentData and m_kCurrentData.audio) then
-        UI.PlaySound(m_kCurrentData.audio)
+        -- CUI
+        if CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH) then
+            UI.PlaySound(m_kCurrentData.audio)
+        end
     end
 
     RefreshSize()

@@ -220,5 +220,6 @@ function Initialize()
     LuaEvents.CuiOnMinimapResize.Add(OnMinimapResize)
     LuaEvents.DiplomacyActionView_ShowIngameUI.Add(RefreshAll)
     Events.TurnBegin.Add(RefreshAll)
+    LuaEvents.CuiVictorySettingChange.Add(RefreshAll)
 end
 Initialize()

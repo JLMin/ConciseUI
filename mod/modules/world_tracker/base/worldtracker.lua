@@ -50,7 +50,7 @@ local m_researchInstance = {} -- Single instance wired up for the currently bein
 local m_civicsInstance = {} -- Single instance wired up for the currently being researched civic
 
 -- CUI Tracker
-local CuiTrackBar = {}
+local cui_TrackBar = {}
 
 local wonderData = {}
 local resourceData = {}
@@ -81,20 +81,20 @@ local tradeInstance = InstanceManager:new("TradeInstance", "Top",
                                           Controls.TradeInstanceContainer)
 
 -- CUI gossip combat log
-local cui_gossipPanel = {}
-local cui_gossipCount = 0
-local cui_gossipLogs = {}
+local cui_GossipPanel = {}
+local cui_GossipCount = 0
+local cui_GossipLogs = {}
 
-local cui_combatPanel = {}
-local cui_combatCount = 0
-local cui_combatLogs = {}
+local cui_CombatPanel = {}
+local cui_CombatCount = 0
+local cui_CombatLogs = {}
 
 local cui_IsGossipTurnShown = false
 local cui_IsCombatTurnShown = false
 
-m_hideGossipLog = CuiSettings:GetBoolean(CuiSettings.HIDE_GOSSIP_LOG)
-m_hideCombatLog = CuiSettings:GetBoolean(CuiSettings.HIDE_COMBAT_LOG)
-local cui_maxLog = 50
+local m_useGossipLog = CuiSettings:GetBoolean(CuiSettings.WT_GOSSIP_LOG)
+local m_useCombatLog = CuiSettings:GetBoolean(CuiSettings.WT_COMBAT_LOG)
+local cui_MaxLog = 50
 local cui_LogPanelStatus = {}
 cui_LogPanelStatus[1] = {main = 28, log = 24}
 cui_LogPanelStatus[2] = {main = 82, log = 78}
@@ -102,6 +102,7 @@ cui_LogPanelStatus[3] = {main = 282, log = 278}
 local cui_GossipState = CuiSettings:GetNumber(CuiSettings.GOSSIP_LOG_STATE)
 local cui_CombatState = CuiSettings:GetNumber(CuiSettings.COMBAT_LOG_STATE)
 --
+
 local m_CachedModifiers = {}
 
 local m_currentResearchID = -1
@@ -114,6 +115,7 @@ local m_isDirty = false -- Note: renamed from "refresh" which is a built in Forg
 -- ===========================================================================
 --	FUNCTIONS
 -- ===========================================================================
+
 -- ===========================================================================
 --	The following are a accessors for Expansions/MODs so they can obtain status
 --	of the common panels but don't have access to toggling them.
@@ -891,15 +893,15 @@ end
 function CuiAddNewLog(logString, logType)
     local logPanel, entries, counter = nil
     if logType == ReportingStatusTypes.GOSSIP then
-        logPanel = cui_gossipPanel
-        entries = cui_gossipLogs
-        if logString then cui_gossipCount = cui_gossipCount + 1 end
-        counter = cui_gossipCount
+        logPanel = cui_GossipPanel
+        entries = cui_GossipLogs
+        if logString then cui_GossipCount = cui_GossipCount + 1 end
+        counter = cui_GossipCount
     elseif logType == ReportingStatusTypes.DEFAULT then
-        logPanel = cui_combatPanel
-        entries = cui_combatLogs
-        if logString then cui_combatCount = cui_combatCount + 1 end
-        counter = cui_combatCount
+        logPanel = cui_CombatPanel
+        entries = cui_CombatLogs
+        if logString then cui_CombatCount = cui_CombatCount + 1 end
+        counter = cui_CombatCount
     else
         return
     end
@@ -921,7 +923,7 @@ function CuiAddNewLog(logString, logType)
     table.insert(entries, instance)
 
     -- Remove the earliest entry if the log limit has been reached
-    if #entries > cui_maxLog then
+    if #entries > cui_MaxLog then
         logPanel.LogStack:ReleaseChild(entries[1].LogRoot)
         table.remove(entries, 1)
     end
@@ -946,7 +948,7 @@ function CuiContractGossipLog()
     cui_GossipState = cui_GossipState - 1
     if cui_GossipState == 0 then cui_GossipState = 3 end
     CuiSettings:SetNumber(CuiSettings.GOSSIP_LOG_STATE, cui_GossipState)
-    CuiLogPanelResize(cui_gossipPanel, cui_GossipState)
+    CuiLogPanelResize(cui_GossipPanel, cui_GossipState)
 end
 
 -- ---------------------------------------------------------------------------
@@ -954,7 +956,7 @@ function CuiExpandGossipLog()
     cui_GossipState = cui_GossipState + 1
     if cui_GossipState == 4 then cui_GossipState = 1 end
     CuiSettings:SetNumber(CuiSettings.GOSSIP_LOG_STATE, cui_GossipState)
-    CuiLogPanelResize(cui_gossipPanel, cui_GossipState)
+    CuiLogPanelResize(cui_GossipPanel, cui_GossipState)
 end
 
 -- ---------------------------------------------------------------------------
@@ -962,7 +964,7 @@ function CuiContractCombatLog()
     cui_CombatState = cui_CombatState - 1
     if cui_CombatState == 0 then cui_CombatState = 3 end
     CuiSettings:SetNumber(CuiSettings.COMBAT_LOG_STATE, cui_CombatState)
-    CuiLogPanelResize(cui_combatPanel, cui_CombatState)
+    CuiLogPanelResize(cui_CombatPanel, cui_CombatState)
 end
 
 -- ---------------------------------------------------------------------------
@@ -970,7 +972,7 @@ function CuiExpandCombatLog()
     cui_CombatState = cui_CombatState + 1
     if cui_CombatState == 4 then cui_CombatState = 1 end
     CuiSettings:SetNumber(CuiSettings.COMBAT_LOG_STATE, cui_CombatState)
-    CuiLogPanelResize(cui_combatPanel, cui_CombatState)
+    CuiLogPanelResize(cui_CombatPanel, cui_CombatState)
 end
 
 -- ===========================================================================
@@ -978,13 +980,13 @@ end
 -- ---------------------------------------------------------------------------
 function CuiInit()
 
-    ContextPtr:BuildInstanceForControl("CuiTrackerInstance", CuiTrackBar,
+    ContextPtr:BuildInstanceForControl("CuiTrackerInstance", cui_TrackBar,
                                        Controls.PanelStack)
     CuiTrackPanelSetup()
 
-    ContextPtr:BuildInstanceForControl("GossipLogInstance", cui_gossipPanel,
+    ContextPtr:BuildInstanceForControl("GossipLogInstance", cui_GossipPanel,
                                        Controls.PanelStack)
-    ContextPtr:BuildInstanceForControl("CombatLogInstance", cui_combatPanel,
+    ContextPtr:BuildInstanceForControl("CombatLogInstance", cui_CombatPanel,
                                        Controls.PanelStack)
     CuiLogPanelSetup()
 
@@ -996,26 +998,40 @@ function CuiInit()
     Events.TurnBegin.Add(CuiTrackerRefresh)
     LuaEvents.DiplomacyActionView_ShowIngameUI.Add(CuiTrackerRefresh)
 
+    CuiLogPanelRefresh()
+
     CuiTrackerRefresh()
+
+    LuaEvents.CuiLogSettingChange.Add(CuiLogPanelRefresh)
+end
+
+-- ---------------------------------------------------------------------------
+function CuiLogPanelSetup()
+    CuiRegCallback(cui_GossipPanel.TitleButton, CuiExpandGossipLog,
+                   CuiContractGossipLog)
+    CuiRegCallback(cui_CombatPanel.TitleButton, CuiExpandCombatLog,
+                   CuiContractCombatLog)
+    Controls.GossipLogCheck:RegisterCheckHandler(CuiOnLogCheckClick)
+    Controls.CombatLogCheck:RegisterCheckHandler(CuiOnLogCheckClick)
 end
 
 -- ---------------------------------------------------------------------------
 function CuiTrackPanelSetup()
-    CuiTrackBar.WonderIcon:SetTexture(IconManager:FindIconAtlas(
+    cui_TrackBar.WonderIcon:SetTexture(IconManager:FindIconAtlas(
                                           "ICON_DISTRICT_WONDER", 32))
-    CuiTrackBar.ResourceIcon:SetTexture(IconManager:FindIconAtlas(
+    cui_TrackBar.ResourceIcon:SetTexture(IconManager:FindIconAtlas(
                                             "ICON_DIPLOACTION_REQUEST_ASSISTANCE",
                                             38))
-    CuiTrackBar.BorderIcon:SetTexture(IconManager:FindIconAtlas(
+    cui_TrackBar.BorderIcon:SetTexture(IconManager:FindIconAtlas(
                                           "ICON_DIPLOACTION_OPEN_BORDERS", 38))
-    CuiTrackBar.TradeIcon:SetTexture(IconManager:FindIconAtlas(
+    cui_TrackBar.TradeIcon:SetTexture(IconManager:FindIconAtlas(
                                          "ICON_DIPLOACTION_VIEW_TRADE", 38))
-    CuiTrackBar.TempAIcon:SetTexture(IconManager:FindIconAtlas(
+    cui_TrackBar.TempAIcon:SetTexture(IconManager:FindIconAtlas(
                                          "ICON_DIPLOACTION_DECLARE_SURPRISE_WAR",
                                          38))
-    CuiTrackBar.TempBIcon:SetTexture(IconManager:FindIconAtlas(
+    cui_TrackBar.TempBIcon:SetTexture(IconManager:FindIconAtlas(
                                          "ICON_DIPLOACTION_ALLIANCE", 38))
-    CuiTrackBar.TempCIcon:SetTexture(IconManager:FindIconAtlas(
+    cui_TrackBar.TempCIcon:SetTexture(IconManager:FindIconAtlas(
                                          "ICON_DIPLOACTION_USE_NUCLEAR_WEAPON",
                                          38))
 end
@@ -1030,31 +1046,24 @@ function CuiChangeIconColor(icon, isActive)
 end
 
 -- ---------------------------------------------------------------------------
-function CuiLogPanelSetup()
-    cui_gossipPanel.MainPanel:SetHide(m_hideGossipLog)
-    cui_combatPanel.MainPanel:SetHide(m_hideCombatLog)
+function CuiLogPanelRefresh()
+    m_useGossipLog = CuiSettings:GetBoolean(CuiSettings.WT_GOSSIP_LOG)
+    m_useCombatLog = CuiSettings:GetBoolean(CuiSettings.WT_COMBAT_LOG)
 
-    CuiRegCallback(cui_gossipPanel.TitleButton, CuiExpandGossipLog,
-                   CuiContractGossipLog)
-    CuiRegCallback(cui_combatPanel.TitleButton, CuiExpandCombatLog,
-                   CuiContractCombatLog)
+    cui_GossipPanel.MainPanel:SetHide(not m_useGossipLog)
+    cui_CombatPanel.MainPanel:SetHide(not m_useCombatLog)
 
-    CuiLogPanelResize(cui_combatPanel, cui_CombatState)
-    CuiLogPanelResize(cui_gossipPanel, cui_GossipState)
+    CuiLogPanelResize(cui_CombatPanel, cui_CombatState)
+    CuiLogPanelResize(cui_GossipPanel, cui_GossipState)
 
-    Controls.GossipLogCheck:SetCheck(not CuiSettings:GetBoolean(
-                                         CuiSettings.HIDE_GOSSIP_LOG))
-    Controls.GossipLogCheck:RegisterCheckHandler(CuiOnLogCheckClick)
-
-    Controls.CombatLogCheck:SetCheck(not CuiSettings:GetBoolean(
-                                         CuiSettings.HIDE_COMBAT_LOG))
-    Controls.CombatLogCheck:RegisterCheckHandler(CuiOnLogCheckClick)
+    Controls.GossipLogCheck:SetCheck(m_useGossipLog)
+    Controls.CombatLogCheck:SetCheck(m_useCombatLog)
 end
 
 -- ---------------------------------------------------------------------------
 function CuiLogCounterReset()
-    cui_gossipCount = 0
-    cui_combatCount = 0
+    cui_GossipCount = 0
+    cui_CombatCount = 0
 end
 
 -- ---------------------------------------------------------------------------
@@ -1069,25 +1078,23 @@ function CuiTrackerRefresh()
     borderData = GetBorderData()
     tradeData = GetTradeData()
 
-    RefreshWonderToolTip(CuiTrackBar.WonderIcon)
-    RefreshResourceToolTip(CuiTrackBar.ResourceIcon)
-    RefreshBorderToolTip(CuiTrackBar.BorderIcon)
-    RefreshTradeToolTip(CuiTrackBar.TradeIcon)
+    RefreshWonderToolTip(cui_TrackBar.WonderIcon)
+    RefreshResourceToolTip(cui_TrackBar.ResourceIcon)
+    RefreshBorderToolTip(cui_TrackBar.BorderIcon)
+    RefreshTradeToolTip(cui_TrackBar.TradeIcon)
 
-    CuiChangeIconColor(CuiTrackBar.ResourceIcon, resourceData.Active)
-    CuiChangeIconColor(CuiTrackBar.BorderIcon, borderData.Active)
-    CuiChangeIconColor(CuiTrackBar.TradeIcon, tradeData.Active)
+    CuiChangeIconColor(cui_TrackBar.ResourceIcon, resourceData.Active)
+    CuiChangeIconColor(cui_TrackBar.BorderIcon, borderData.Active)
+    CuiChangeIconColor(cui_TrackBar.TradeIcon, tradeData.Active)
 end
 
 -- ---------------------------------------------------------------------------
 function CuiOnLogCheckClick()
-    m_hideGossipLog = not Controls.GossipLogCheck:IsChecked()
-    m_hideCombatLog = not Controls.CombatLogCheck:IsChecked()
-    CuiSettings:SetBoolean(CuiSettings.HIDE_GOSSIP_LOG, m_hideGossipLog)
-    CuiSettings:SetBoolean(CuiSettings.HIDE_COMBAT_LOG, m_hideCombatLog)
-    cui_gossipPanel.MainPanel:SetHide(m_hideGossipLog)
-    cui_combatPanel.MainPanel:SetHide(m_hideCombatLog)
-    LuaEvents.CuiLogChange()
+    m_useGossipLog = Controls.GossipLogCheck:IsChecked()
+    m_useCombatLog = Controls.CombatLogCheck:IsChecked()
+    CuiSettings:SetBoolean(CuiSettings.WT_GOSSIP_LOG, m_useGossipLog)
+    CuiSettings:SetBoolean(CuiSettings.WT_COMBAT_LOG, m_useCombatLog)
+    CuiLogPanelRefresh()
     RealizeEmptyMessage()
     RealizeStack()
 end

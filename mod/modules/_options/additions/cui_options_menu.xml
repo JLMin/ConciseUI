@@ -26,13 +26,32 @@
 
                 <!-- Options -->
                 <Container Anchor="R,T" Size="parent-215,parent-6">
-                    <Container ID="VictoryOptions" Size="parent,parent">
+                    <Container ID="VictoryOptions" Size="parent,parent" Hidden="0">
                         <Stack Anchor="L,T" StackGrowth="Down" Padding="10" Offset="50,24" Size="parent-24,auto">
                             <GridButton ID="CBScience" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_VICTORY_SCIENCE_NAME"/>
                             <GridButton ID="CBCulture" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_VICTORY_CULTURE_NAME"/>
                             <GridButton ID="CBDomination" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_VICTORY_DOMINATION_NAME"/>
                             <GridButton ID="CBReligious" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_VICTORY_RELIGIOUS_NAME"/>
                             <GridButton ID="CBDiplomatic" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_VICTORY_DIPLOMATIC_NAME"/>
+                        </Stack>
+                    </Container>
+                    <Container ID="LogOptions" Size="parent,parent" Hidden="1">
+                        <Stack Anchor="L,T" StackGrowth="Down" Padding="10" Offset="50,24" Size="parent-24,auto">
+                            <GridButton ID="CBGossipWT" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="Gossip - World Track"/>
+                            <GridButton ID="CBCombatWT" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="Combat - World Track"/>
+                            <GridButton ID="CBGossipDF" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="Gossip - Default"/>
+                            <GridButton ID="CBCombatDF" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="Combat - Default"/>
+                        </Stack>
+                    </Container>
+                    <Container ID="PopupOptions" Size="parent,parent" Hidden="1">
+                        <Stack Anchor="L,T" StackGrowth="Down" Padding="10" Offset="50,24" Size="parent-24,auto">
+                            <GridButton ID="CBResearch"  Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_RESEARCH_COMPLETE_TECH_COMPLETE"/>
+                            <GridButton ID="CBPlayAudio" Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_OPTIONS_AUDIO"/>
+                            <GridButton ID="CBEraScore"  Anchor="L,L" Offset="5,0" Size="300,24" Style="CheckBoxControl" String="LOC_CATEGORY_ERA_SCORE_NAME"/>
+                        </Stack>
+                    </Container>
+                    <Container ID="RemindOptions" Size="parent,parent" Hidden="1">
+                        <Stack Anchor="L,T" StackGrowth="Down" Padding="10" Offset="50,24" Size="parent-24,auto">
                         </Stack>
                     </Container>
                 </Container>

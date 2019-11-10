@@ -52,6 +52,7 @@
             <Container ID="ResearchCheckButton" Size="auto,auto" Anchor="R,T">
               <CheckBox ID="ResearchCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_HIDE_RESEARCH_PANEL" WrapWidth="180" Align="Right"/>
             </Container>
+
             <Container ID="CivicsCheckButton" Size="auto,auto" Anchor="R,T">
               <CheckBox ID="CivicsCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_HIDE_CIVICS_PANEL" WrapWidth="180" Align="Right"/>
             </Container>
@@ -63,6 +64,7 @@
             <Container ID="CombatCheckButton" Size="auto,auto" Anchor="R,T">
               <CheckBox ID="CombatLogCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_COMBAT_LOG" WrapWidth="180" Align="Right"/>
             </Container>
+
             <Container ID="ChatCheckButton" Size="auto,auto" Anchor="R,T">
               <CheckBox ID="ChatCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_HIDE_CHAT_PANEL" WrapWidth="180" Align="Right"/>
             </Container>

@@ -28,17 +28,14 @@ local m_kMessages = {}
 --	FUNCTIONS
 -- ===========================================================================
 -- CUI =======================================================================
-local cui_HideVanilaGossip = not CuiSettings:GetBoolean(
-                                 CuiSettings.HIDE_GOSSIP_LOG)
-local cui_HideVanilaCombat = not CuiSettings:GetBoolean(
-                                 CuiSettings.HIDE_COMBAT_LOG)
+local cui_UseVanilaGossip = false
+local cui_UseVanilaCombat = false
+
 function CuiLogReset()
-    cui_HideVanilaGossip = not CuiSettings:GetBoolean(
-                               CuiSettings.HIDE_GOSSIP_LOG)
-    cui_HideVanilaCombat = not CuiSettings:GetBoolean(
-                               CuiSettings.HIDE_COMBAT_LOG)
+    cui_UseVanilaGossip = CuiSettings:GetBoolean(CuiSettings.DF_GOSSIP_LOG)
+    cui_UseVanilaCombat = CuiSettings:GetBoolean(CuiSettings.DF_COMBAT_LOG)
 end
-LuaEvents.CuiLogChange.Add(CuiLogReset)
+LuaEvents.CuiLogSettingChange.Add(CuiLogReset)
 
 -- ===========================================================================
 --	EVENT
@@ -47,13 +44,11 @@ LuaEvents.CuiLogChange.Add(CuiLogReset)
 function OnStatusMessage(message, displayTime, type, subType)
 
     -- CUI
-    if (cui_HideVanilaGossip and type == ReportingStatusTypes.GOSSIP) then
+    if (not cui_UseVanilaGossip and type == ReportingStatusTypes.GOSSIP) or
+       (not cui_UseVanilaCombat and type == ReportingStatusTypes.DEFAULT) then
         return
     end
-    -- CUI
-    if (cui_HideVanilaCombat and type == ReportingStatusTypes.DEFAULT) then
-        return
-    end
+    --
 
     if (type == ReportingStatusTypes.GOSSIP) then
         AddGossip(subType, message, displayTime)
