@@ -61,8 +61,8 @@
       <File>modules/production_panel/support/cui_production_data.lua</File>
       <File>modules/production_panel/support/cui_production_support.lua</File>
       <File>modules/production_panel/support/cui_production_ui.lua</File>
+      <File>modules/reminder/support/cui_tech_civic_support.lua</File>
       <File>modules/trade_panel/support/cui_trade_route_support.lua</File>
-      <File>modules/world_tracker/support/cui_tech_civic_support.lua</File>
       <File>modules/world_tracker/support/cui_tracker_support.lua</File>
     </ImportFiles>
     <ImportFiles id="Cui_Base">
@@ -95,15 +95,15 @@
       <File>modules/map_tacks/base/mappinpopup.xml</File>
       <File>modules/production_panel/base/productionpanel.lua</File>
       <File>modules/production_panel/base/productionpanel.xml</File>
+      <File>modules/reminder/base/civicschooser.lua</File>
+      <File>modules/reminder/base/researchchooser.lua</File>
+      <File>modules/reminder/base/techciviccompletedpopup.lua</File>
       <File>modules/trade_panel/base/tradeoriginchooser.lua</File>
       <File>modules/trade_panel/base/tradeoriginchooser.xml</File>
       <File>modules/trade_panel/base/tradeoverview.lua</File>
       <File>modules/trade_panel/base/traderoutechooser.lua</File>
       <File>modules/trade_panel/base/traderoutechooser.xml</File>
-      <File>modules/world_tracker/base/civicschooser.lua</File>
-      <File>modules/world_tracker/base/researchchooser.lua</File>
       <File>modules/world_tracker/base/statusmessagepanel.lua</File>
-      <File>modules/world_tracker/base/techciviccompletedpopup.lua</File>
       <File>modules/world_tracker/base/worldtracker.lua</File>
       <File>modules/world_tracker/base/worldtracker.xml</File>
     </ImportFiles>
@@ -221,15 +221,15 @@
     <File>modules/map_tacks/base/mappinpopup.xml</File>
     <File>modules/production_panel/base/productionpanel.lua</File>
     <File>modules/production_panel/base/productionpanel.xml</File>
+    <File>modules/reminder/base/civicschooser.lua</File>
+    <File>modules/reminder/base/researchchooser.lua</File>
+    <File>modules/reminder/base/techciviccompletedpopup.lua</File>
     <File>modules/trade_panel/base/tradeoriginchooser.lua</File>
     <File>modules/trade_panel/base/tradeoriginchooser.xml</File>
     <File>modules/trade_panel/base/tradeoverview.lua</File>
     <File>modules/trade_panel/base/traderoutechooser.lua</File>
     <File>modules/trade_panel/base/traderoutechooser.xml</File>
-    <File>modules/world_tracker/base/civicschooser.lua</File>
-    <File>modules/world_tracker/base/researchchooser.lua</File>
     <File>modules/world_tracker/base/statusmessagepanel.lua</File>
-    <File>modules/world_tracker/base/techciviccompletedpopup.lua</File>
     <File>modules/world_tracker/base/worldtracker.lua</File>
     <File>modules/world_tracker/base/worldtracker.xml</File>
     <File>modules/city_panel/expansion1/citypanel_expansion1.lua</File>
@@ -264,8 +264,8 @@
     <File>modules/production_panel/support/cui_production_data.lua</File>
     <File>modules/production_panel/support/cui_production_support.lua</File>
     <File>modules/production_panel/support/cui_production_ui.lua</File>
+    <File>modules/reminder/support/cui_tech_civic_support.lua</File>
     <File>modules/trade_panel/support/cui_trade_route_support.lua</File>
-    <File>modules/world_tracker/support/cui_tech_civic_support.lua</File>
     <File>modules/world_tracker/support/cui_tracker_support.lua</File>
     <File>modules/climate_screen/expansion2/climatescreen.lua</File>
     <File>modules/climate_screen/expansion2/climatescreen.xml</File>
