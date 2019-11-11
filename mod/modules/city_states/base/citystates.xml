@@ -42,7 +42,7 @@
 			</Grid>
 
 			<ScrollPanel ID="CityStateScroll" Offset="12,164" Size="490,parent-174" Vertical="1" AutoScrollBar="1">
-				<Stack ID="CityStateStack" Anchor="L,T" Offset="0,1" StackPadding="4" />
+				<Stack ID="CityStateStack" Anchor="L,T" Offset="0,1" StackPadding="2" />
 				<ScrollBar Anchor="R,C" Offset="-1,0" AnchorSide="O,I" Style="ScrollVerticalBarAlt" />
 			</ScrollPanel>
 

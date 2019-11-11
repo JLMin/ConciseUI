@@ -262,10 +262,10 @@
             </Image>
           </Container>
           <Container Size="72,80" Anchor="L,T" Offset="0,78">
-            <Label ID="Lab_Import" Anchor="C,T" Offset="0,4" Style="FontFlair14" Color="White" ColorSet="TopBarValueCS" String="LOC_HUD_REPORTS_TRADE_IMPORTED" />
+            <Label ID="Lab_Import" Anchor="C,T" Offset="0,4" Style="CityPanelText" FontSize="14" Color="White" ColorSet="GreatPeopleCS" String="LOC_HUD_REPORTS_TRADE_IMPORTED" />
             <Image ID="Import" Anchor="C,T" Size="20,19" Offset="0,18" Color="Green" FlipX="0" Texture="TradeOverview_Benefactor"/>
             <Image ID="Export" Anchor="C,T" Size="20,19" Offset="0,30" Color="Green" FlipX="1" Texture="TradeOverview_Benefactor"/>
-            <Label ID="Lab_Export" Anchor="C,T" Offset="0,52" Style="FontFlair14" Color="White" ColorSet="TopBarValueCS" String="LOC_HUD_REPORTS_TRADE_EXPORTED" />
+            <Label ID="Lab_Export" Anchor="C,T" Offset="0,52" Style="CityPanelText" FontSize="14" Color="White" ColorSet="GreatPeopleCS" String="LOC_HUD_REPORTS_TRADE_EXPORTED" />
           </Container>
         </Grid>
         <Box ID="Divider" Size="2,190" Color="200,200,200,200"/>
