@@ -146,7 +146,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_TECH",                                   "科技可靠尤里卡完成"),
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                  "市政可靠鼓舞完成"),
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                             "免费更换市政"),
-("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                               "未分配的总督点数"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                               "有可用的总督头衔"),
 
 
 -- =============================================================================

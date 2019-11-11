@@ -39,8 +39,12 @@ CuiSettings = {
     AUDIO_RESEARCH    = {field = "PlayResearchAudio", default = true},
     POPUP_HISTORIC    = {field = "PopupHistoric",     default = false},
     POPUP_CREATWORK   = {field = "PopupGreatWork",    default = false},
-    POPUP_RELIC       = {field = "PopupRelic",        default = true}
-    --
+    POPUP_RELIC       = {field = "PopupRelic",        default = true},
+    -- remind
+    REMIND_TECH       = {field = "RemindTech",        default = true},
+    REMIND_CIVIC      = {field = "RemindCivic",       default = true},
+    REMIND_GOVERNMENT = {field = "RemindGovernment",  default = true},
+    REMIND_GOVERNOR   = {field = "RemindGovernor",    default = true},
 }
 CuiSettings.__index = CuiSettings
 
