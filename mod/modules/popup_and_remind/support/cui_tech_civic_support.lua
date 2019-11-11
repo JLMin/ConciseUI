@@ -26,7 +26,8 @@ function CuiIsTechReady(playerID)
 
     if eTech and eTech.TechType then
         local boostAmount = eTech.Progress + eTech.BoostAmount
-        return eTech.Boostable and (not eTech.BoostTriggered) and (boostAmount >= 1)
+        return eTech.Boostable and (not eTech.BoostTriggered) and
+                   (boostAmount >= 1)
     end
 
     return false
@@ -42,7 +43,8 @@ function CuiIsCivicReady(playerID)
 
     if eCiciv and eCiciv.CivicType then
         local boostAmount = eCiciv.Progress + eCiciv.BoostAmount
-        return eCiciv.Boostable and (not eCiciv.BoostTriggered) and (boostAmount >= 1)
+        return eCiciv.Boostable and (not eCiciv.BoostTriggered) and
+                   (boostAmount >= 1)
     end
 
     return false
@@ -145,17 +147,17 @@ function CuiIsGovernmentReady(playerID)
     elseif pCulture:IsInAnarchy() then
         return false
     else
-        return pCulture:GetCostToUnlockPolicies() == 0 and pCulture:PolicyChangeMade() == false
+        return pCulture:GetCostToUnlockPolicies() == 0 and
+                   pCulture:PolicyChangeMade() == false
     end
 end
 
 -- ---------------------------------------------------------------------------
 function CuiIsGovernorReady(playerID)
     local player = Players[playerID]
-	local governors = player:GetGovernors();
-	local bCanAppoint = governors:CanAppoint();
-	local bCanPromote = governors:CanPromote();
-	return bCanAppoint or bCanPromote
+    local governors = player:GetGovernors()
+    local bCanAppoint = governors:CanAppoint()
+    local bCanPromote = governors:CanPromote()
+    return bCanAppoint or bCanPromote
 end
-
 

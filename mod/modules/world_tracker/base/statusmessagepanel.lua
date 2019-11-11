@@ -45,7 +45,7 @@ function OnStatusMessage(message, displayTime, type, subType)
 
     -- CUI
     if (not cui_UseVanilaGossip and type == ReportingStatusTypes.GOSSIP) or
-       (not cui_UseVanilaCombat and type == ReportingStatusTypes.DEFAULT) then
+        (not cui_UseVanilaCombat and type == ReportingStatusTypes.DEFAULT) then
         return
     end
     --

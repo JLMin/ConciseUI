@@ -1018,22 +1018,21 @@ end
 -- ---------------------------------------------------------------------------
 function CuiTrackPanelSetup()
     cui_TrackBar.WonderIcon:SetTexture(IconManager:FindIconAtlas(
-                                          "ICON_DISTRICT_WONDER", 32))
-    cui_TrackBar.ResourceIcon:SetTexture(IconManager:FindIconAtlas(
-                                            "ICON_DIPLOACTION_REQUEST_ASSISTANCE",
-                                            38))
+                                           "ICON_DISTRICT_WONDER", 32))
+    cui_TrackBar.ResourceIcon:SetTexture(
+        IconManager:FindIconAtlas("ICON_DIPLOACTION_REQUEST_ASSISTANCE", 38))
     cui_TrackBar.BorderIcon:SetTexture(IconManager:FindIconAtlas(
-                                          "ICON_DIPLOACTION_OPEN_BORDERS", 38))
+                                           "ICON_DIPLOACTION_OPEN_BORDERS", 38))
     cui_TrackBar.TradeIcon:SetTexture(IconManager:FindIconAtlas(
-                                         "ICON_DIPLOACTION_VIEW_TRADE", 38))
+                                          "ICON_DIPLOACTION_VIEW_TRADE", 38))
     cui_TrackBar.TempAIcon:SetTexture(IconManager:FindIconAtlas(
-                                         "ICON_DIPLOACTION_DECLARE_SURPRISE_WAR",
-                                         38))
+                                          "ICON_DIPLOACTION_DECLARE_SURPRISE_WAR",
+                                          38))
     cui_TrackBar.TempBIcon:SetTexture(IconManager:FindIconAtlas(
-                                         "ICON_DIPLOACTION_ALLIANCE", 38))
+                                          "ICON_DIPLOACTION_ALLIANCE", 38))
     cui_TrackBar.TempCIcon:SetTexture(IconManager:FindIconAtlas(
-                                         "ICON_DIPLOACTION_USE_NUCLEAR_WEAPON",
-                                         38))
+                                          "ICON_DIPLOACTION_USE_NUCLEAR_WEAPON",
+                                          38))
 end
 
 -- ---------------------------------------------------------------------------
