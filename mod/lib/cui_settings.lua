@@ -43,8 +43,8 @@ CuiSettings = {
     -- remind
     REMIND_TECH       = {field = "RemindTech",        default = true},
     REMIND_CIVIC      = {field = "RemindCivic",       default = true},
-    REMIND_GOVERNMENT = {field = "RemindGovernment",  default = false},
-    REMIND_GOVERNOR   = {field = "RemindGovernor",    default = false},
+    REMIND_GOVERNMENT = {field = "RemindGovernment",  default = true},
+    REMIND_GOVERNOR   = {field = "RemindGovernor",    default = true},
 }
 CuiSettings.__index = CuiSettings
 

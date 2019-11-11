@@ -9,6 +9,7 @@ include("cui_tech_civic_support")
 -- ---------------------------------------------------------------------------
 
 local isAttached = false
+local isAnyRemind = false
 
 -- ---------------------------------------------------------------------------
 function RefreshTech(localPlayer, eTech)
@@ -19,6 +20,7 @@ function RefreshTech(localPlayer, eTech)
 
     local isReady = CuiIsTechReady(localPlayer)
     Controls.TechReady:SetHide(not isReady)
+    if isReady then isAnyRemind = true end
 end
 
 -- ---------------------------------------------------------------------------
@@ -30,6 +32,7 @@ function RefreshCivic(localPlayer, eCivic)
 
     local isReady = CuiIsCivicReady(localPlayer)
     Controls.CivicReady:SetHide(not isReady)
+    if isReady then isAnyRemind = true end
 end
 
 -- ---------------------------------------------------------------------------
@@ -41,6 +44,7 @@ function RefreshGovernment(localPlayer)
 
     local isReady = CuiIsGovernmentReady(localPlayer)
     Controls.GovernmentReady:SetHide(not isReady)
+    if isReady then isAnyRemind = true end
 end
 
 -- ---------------------------------------------------------------------------
@@ -52,32 +56,48 @@ function RefreshGovernor(localPlayer)
 
     local isReady = CuiIsGovernorReady(localPlayer)
     Controls.GovernorReady:SetHide(not isReady)
+    if isReady then isAnyRemind = true end
 end
 
 -- ---------------------------------------------------------------------------
 function RefreshAll()
     local localPlayer = Game.GetLocalPlayer()
     if localPlayer ~= -1 then
+        isAnyRemind = false
         RefreshTech(localPlayer)
         RefreshCivic(localPlayer)
         RefreshGovernment(localPlayer)
         RefreshGovernor(localPlayer)
     end
+    
+    Controls.RemindStack:CalculateSize()
+    Controls.Bubble:SetHide(not isAnyRemind)
+    if isAnyRemind then
+        local stackX = Controls.RemindStack:GetSizeX()
+        local stackY = Controls.RemindStack:GetSizeY()
+        Controls.Bubble:SetSizeX(stackX + 60)
+        Controls.Bubble:SetSizeY(stackY + 98)
+    end
 end
 
 -- ---------------------------------------------------------------------------
-function AttachToActionPanel()
+function OnMinimapResize()
+    if isAttached then
+        local minimap = ContextPtr:LookUpControl(
+                            "/InGame/MinimapPanel/MiniMap/MinimapContainer")
+        Controls.RemindContainer:SetOffsetX(minimap:GetSizeX() + 30)
+    end
+end
+
+-- ---------------------------------------------------------------------------
+function AttachToMinimap()
     if not isAttached then
-        local actionPanel = ContextPtr:LookUpControl(
-                                "/InGame/ActionPanel/EndTurnButtonLabel")
-        Controls.RemindContainer:ChangeParent(actionPanel)
+        local minimap = ContextPtr:LookUpControl(
+                            "/InGame/MinimapPanel/MiniMap/MinimapContainer")
+        Controls.RemindContainer:ChangeParent(minimap)
+        Controls.RemindContainer:SetOffsetX(minimap:GetSizeX() + 30)
         isAttached = true
     end
-
-    Controls.TechReady:SetHide(true)
-    Controls.CivicReady:SetHide(true)
-    Controls.GovernmentReady:SetHide(true)
-    Controls.GovernorReady:SetHide(true)
 
     RefreshAll()
 end
@@ -86,7 +106,7 @@ end
 function Initialize()
     ContextPtr:SetHide(true)
     --
-    Events.LoadGameViewStateDone.Add(AttachToActionPanel)
+    Events.LoadGameViewStateDone.Add(AttachToMinimap)
     --
     Events.ResearchChanged.Add(RefreshAll)
     Events.ResearchCompleted.Add(RefreshAll)
@@ -105,5 +125,7 @@ function Initialize()
     Events.LocalPlayerTurnBegin.Add(RefreshAll)
     --
     LuaEvents.CuiRemindSettingChange.Add(RefreshAll)
+    --
+    LuaEvents.CuiOnMinimapResize.Add(OnMinimapResize)
 end
 Initialize()
