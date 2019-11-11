@@ -23,12 +23,12 @@ function CuiIsTechReady(playerID)
     local iTech = playerTechs:GetResearchingTech()
     local kTech = (iTech ~= -1) and GameInfo.Technologies[iTech] or nil
     local eTech = GetResearchData(playerID, playerTechs, kTech)
-    
+
     if eTech and eTech.TechType then
         local boostAmount = eTech.Progress + eTech.BoostAmount
         return eTech.Boostable and (not eTech.BoostTriggered) and (boostAmount >= 1)
     end
-    
+
     return false
 end
 
@@ -39,12 +39,12 @@ function CuiIsCivicReady(playerID)
     local iCivic = playerCulture:GetProgressingCivic()
     local kCivic = (iCivic ~= -1) and GameInfo.Civics[iCivic] or nil
     local eCiciv = GetCivicData(playerID, playerCulture, kCivic)
-    
+
     if eCiciv and eCiciv.CivicType then
         local boostAmount = eCiciv.Progress + eCiciv.BoostAmount
         return eCiciv.Boostable and (not eCiciv.BoostTriggered) and (boostAmount >= 1)
     end
-    
+
     return false
 end
 
@@ -140,10 +140,9 @@ end
 function CuiIsGovernmentReady(playerID)
     local player = Players[playerID]
     local pCulture = player:GetCulture()
-    print(pCulture:GetNumPoliciesUnlocked())
-    if pCulture:GetNumPoliciesUnlocked() <= 0 then 
+    if pCulture:GetNumPoliciesUnlocked() <= 0 then
         return false
-    elseif pCulture:IsInAnarchy() then 
+    elseif pCulture:IsInAnarchy() then
         return false
     else
         return pCulture:GetCostToUnlockPolicies() == 0 and pCulture:PolicyChangeMade() == false

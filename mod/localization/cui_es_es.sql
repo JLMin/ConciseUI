@@ -122,6 +122,33 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("es_ES", "LOC_CUI_NOTE_EMPTY",                                                 "Nota vacía"),
 
 -- =============================================================================
+-- Options
+("es_ES", "LOC_CUI_OPTIONS_TAB_VICTORY",                                        "Victories"),
+("es_ES", "LOC_CUI_OPTIONS_TAB_LOG",                                            "Logs"),
+("es_ES", "LOC_CUI_OPTIONS_TAB_POPUP",                                          "Popups"),
+("es_ES", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "Remind"),
+("es_ES", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "Please select the victory you want to track."),
+("es_ES", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Please elect where the logs will be displayed."),
+("es_ES", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Please select the popover you want to enable."),
+("es_ES", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Please select the reminder you want to use."),
+--
+("es_ES", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "Disable"),
+("es_ES", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                        "Default position"),
+("es_ES", "LOC_CUI_OPTIONS_LOG_WORLDTRACKER",                                   "World Tracker"),
+("es_ES", "LOC_CUI_OPTIONS_LOG_BOTH",                                           "Both"),
+--
+("es_ES", "LOC_CUI_OPTIONS_POPUP_RESEARCH",                                     "Tech/Civic complete"),
+("es_ES", "LOC_CUI_OPTIONS_POPUP_AUDIO",                                        "Tech/Civic audio"),
+("es_ES", "LOC_CUI_OPTIONS_POPUP_ERA_SCORE",                                    "Gain era score"),
+("es_ES", "LOC_CUI_OPTIONS_POPUP_GREAT_WORK",                                   "Create great works"),
+("es_ES", "LOC_CUI_OPTIONS_POPUP_RELIC",                                        "Get relics"),
+--
+("es_ES", "LOC_CUI_OPTIONS_REMIND_TECH",                                        "Tech complete by eureka"),
+("es_ES", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "Civic complete by inspire"),
+("es_ES", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Free government chance"),
+("es_ES", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Governor titles available"),
+
+-- =============================================================================
 -- Screenshot
 ("es_ES", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Entrar en Modo de Captura de Pantalla[NEWLINE][NEWLINE]El Modo de Captura de Pantalla oculta los elementos de la IU para tomar capturas limpias.[NEWLINE][NEWLINE]Click-izquierdo para ocultar los elementos de la IU[NEWLINE]Click-derecho para ocultar los elementos de la IU, excepto los estandartes de Ciudad[NEWLINE] Mantener ALT para girar la pantalla[NEWLINE]ESC para salir del Modo de Captura de Pantalla."),
 

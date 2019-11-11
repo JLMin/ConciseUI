@@ -122,6 +122,33 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ja_JP", "LOC_CUI_NOTE_EMPTY",                                                 "Empty Note"),
 
 -- =============================================================================
+-- Options
+("ja_JP", "LOC_CUI_OPTIONS_TAB_VICTORY",                                        "Victories"),
+("ja_JP", "LOC_CUI_OPTIONS_TAB_LOG",                                            "Logs"),
+("ja_JP", "LOC_CUI_OPTIONS_TAB_POPUP",                                          "Popups"),
+("ja_JP", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "Remind"),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "Please select the victory you want to track."),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Please elect where the logs will be displayed."),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Please select the popover you want to enable."),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Please select the reminder you want to use."),
+--
+("ja_JP", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "Disable"),
+("ja_JP", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                        "Default position"),
+("ja_JP", "LOC_CUI_OPTIONS_LOG_WORLDTRACKER",                                   "World Tracker"),
+("ja_JP", "LOC_CUI_OPTIONS_LOG_BOTH",                                           "Both"),
+--
+("ja_JP", "LOC_CUI_OPTIONS_POPUP_RESEARCH",                                     "Tech/Civic complete"),
+("ja_JP", "LOC_CUI_OPTIONS_POPUP_AUDIO",                                        "Tech/Civic audio"),
+("ja_JP", "LOC_CUI_OPTIONS_POPUP_ERA_SCORE",                                    "Gain era score"),
+("ja_JP", "LOC_CUI_OPTIONS_POPUP_GREAT_WORK",                                   "Create great works"),
+("ja_JP", "LOC_CUI_OPTIONS_POPUP_RELIC",                                        "Get relics"),
+--
+("ja_JP", "LOC_CUI_OPTIONS_REMIND_TECH",                                        "Tech complete by eureka"),
+("ja_JP", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "Civic complete by inspire"),
+("ja_JP", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Free government chance"),
+("ja_JP", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Governor titles available"),
+
+-- =============================================================================
 -- Screenshot
 ("ja_JP", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Enter Screenshot Mode[NEWLINE][NEWLINE]Screenshot Mode will hide most or all UI Elements, allows you to take clean screenshots.[NEWLINE][NEWLINE]Left-click hide all UI Elements[NEWLINE]Right-click hide all UI Elements except for City Banners[NEWLINE]Hold ALT to rotate the screen[NEWLINE]Press ESC to exit Screenshot Mode"),
 
