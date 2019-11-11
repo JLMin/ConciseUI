@@ -118,7 +118,7 @@ function GetResourceData()
         if resource.ResourceClassType == "RESOURCECLASS_LUXURY" then
             if amount > 0 then
                 table.insert(r_luxury,
-                             {Icon = icon, Amount = amount, CanTrade = false})
+                             {Icon = icon, Amount = amount, CanTrade = false, Duplicate = false})
             end
         elseif resource.ResourceClassType == "RESOURCECLASS_STRATEGIC" then
             local order = 0
@@ -198,8 +198,11 @@ function GetResourceData()
                 local icon = "ICON_" .. resourceDesc.ResourceType
                 for _, item in ipairs(r_luxury) do
                     if item.Icon == icon then
-                        item.CanTrade = true
-                        if item.Amount > 1 then
+                        if item.Amount == 1 then
+                            item.CanTrade = true
+                        elseif item.Amount > 1 then
+                            item.CanTrade = true
+                            item.Duplicate = true
                             active = true
                         end
                     end

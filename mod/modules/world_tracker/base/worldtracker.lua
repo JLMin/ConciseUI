@@ -724,10 +724,12 @@ function UpdateResourceToolTip()
         local icon = resourceInstance:GetInstance(CuiResourceTT.LuxuryIconStack)
         CuiSetIconToSize(icon.Icon, item.Icon, 36)
         icon.Text:SetText(item.Amount)
-        if item.CanTrade then
-            icon.Text:SetColorByName("COLOR_MEDIUM_GREEN")
-        else
+        if item.Duplicate then
+            icon.Text:SetColorByName("ModStatusGreen")
+        elseif item.CanTrade then
             icon.Text:SetColorByName("Black")
+        else
+            icon.Text:SetColorByName("Red")
         end
     end
     CuiResourceTT.LuxuryIconStack:CalculateSize()
