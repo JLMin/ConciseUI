@@ -29,13 +29,13 @@ CuiSettings = {
     -- great works
     SORT_BY_CITY      = {field = "SortByCity",        default = true},
     -- civ victory tracking
-    SCIENCE           = {field = "ScienceVictory",    default = true},
-    CULTURE           = {field = "CultureVictory",    default = true},
+    SCIENCE           = {field = "ScienceVictory",    default = false},
+    CULTURE           = {field = "CultureVictory",    default = false},
     DOMINATION        = {field = "DominationVictory", default = false},
     RELIGION          = {field = "ReligionVictory",   default = false},
     DIPLOMATIC        = {field = "DiplomaticVictory", default = false},
     -- popup manager
-    POPUP_RESEARCH    = {field = "PopupResearch",     default = false},
+    POPUP_RESEARCH    = {field = "PopupResearch",     default = true},
     AUDIO_RESEARCH    = {field = "PlayResearchAudio", default = true},
     POPUP_HISTORIC    = {field = "PopupHistoric",     default = false},
     POPUP_CREATWORK   = {field = "PopupGreatWork",    default = false},
@@ -43,8 +43,8 @@ CuiSettings = {
     -- remind
     REMIND_TECH       = {field = "RemindTech",        default = true},
     REMIND_CIVIC      = {field = "RemindCivic",       default = true},
-    REMIND_GOVERNMENT = {field = "RemindGovernment",  default = true},
-    REMIND_GOVERNOR   = {field = "RemindGovernor",    default = true},
+    REMIND_GOVERNMENT = {field = "RemindGovernment",  default = false},
+    REMIND_GOVERNOR   = {field = "RemindGovernor",    default = false},
 }
 CuiSettings.__index = CuiSettings
 

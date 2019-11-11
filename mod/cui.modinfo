@@ -57,7 +57,7 @@
         <LoadOrder>11</LoadOrder>
       </Properties>
       <File>modules/leader_icons/support/cuileadericonsupport.lua</File>
-      <File>modules/popup_manager/support/cui_tech_civic_support.lua</File>
+      <File>modules/popup_and_remind/support/cui_tech_civic_support.lua</File>
       <File>modules/production_panel/support/cui_production_data.lua</File>
       <File>modules/production_panel/support/cui_production_support.lua</File>
       <File>modules/production_panel/support/cui_production_ui.lua</File>
@@ -93,11 +93,10 @@
       <File>modules/map_tacks/base/mappinlistpanel.xml</File>
       <File>modules/map_tacks/base/mappinpopup.lua</File>
       <File>modules/map_tacks/base/mappinpopup.xml</File>
-      <File>modules/popup_manager/base/civicschooser.lua</File>
-      <File>modules/popup_manager/base/greatworkshowcase.lua</File>
-      <File>modules/popup_manager/base/researchchooser.lua</File>
-      <File>modules/popup_manager/base/techandcivicsupport.lua</File>
-      <File>modules/popup_manager/base/techciviccompletedpopup.lua</File>
+      <File>modules/popup_and_remind/base/civicschooser.lua</File>
+      <File>modules/popup_and_remind/base/greatworkshowcase.lua</File>
+      <File>modules/popup_and_remind/base/researchchooser.lua</File>
+      <File>modules/popup_and_remind/base/techciviccompletedpopup.lua</File>
       <File>modules/production_panel/base/productionpanel.lua</File>
       <File>modules/production_panel/base/productionpanel.xml</File>
       <File>modules/trade_panel/base/tradeoriginchooser.lua</File>
@@ -117,7 +116,7 @@
       <File>modules/city_states/expansion1/citystates.xml</File>
       <File>modules/espionage_panel/expansion1/espionagechooser_expansion1.lua</File>
       <File>modules/leader_icons/expansion1/diplomacyribbon_expansion1.lua</File>
-      <File>modules/popup_manager/expansion1/historicmoments.lua</File>
+      <File>modules/popup_and_remind/expansion1/historicmoments.lua</File>
     </ImportFiles>
     <ImportFiles criteria="Expansion2AndBeyond" id="Cui_Expansion2">
       <Properties>
@@ -132,7 +131,7 @@
       <File>modules/great_work/expansion2/greatworksoverview_expansion2.lua</File>
       <File>modules/leader_icons/expansion2/diplomacyactionview.xml</File>
       <File>modules/leader_icons/expansion2/worldcongresspopup.lua</File>
-      <File>modules/popup_manager/expansion2/historicmoments.lua</File>
+      <File>modules/popup_and_remind/expansion2/historicmoments.lua</File>
     </ImportFiles>
     <ImportFiles id="Cui_Additions">
       <Properties>
@@ -155,6 +154,8 @@
       <File>modules/notes/additions/cui_note_button.xml</File>
       <File>modules/notes/additions/cui_note_screen.lua</File>
       <File>modules/notes/additions/cui_note_screen.xml</File>
+      <File>modules/popup_and_remind/additions/cui_remind_panel.lua</File>
+      <File>modules/popup_and_remind/additions/cui_remind_panel.xml</File>
       <File>modules/screenshot/additions/cui_screenshot.lua</File>
       <File>modules/screenshot/additions/cui_screenshot.xml</File>
       <File>modules/spy_info/additions/cui_spy_info.lua</File>
@@ -178,6 +179,7 @@
       <File>modules/map_options/additions/cui_map_options.xml</File>
       <File>modules/notes/additions/cui_note_button.xml</File>
       <File>modules/notes/additions/cui_note_screen.xml</File>
+      <File>modules/popup_and_remind/additions/cui_remind_panel.xml</File>
       <File>modules/screenshot/additions/cui_screenshot.xml</File>
       <File>modules/spy_info/additions/cui_spy_info.xml</File>
       <File>modules/unit_list/additions/cui_unitlist_button.xml</File>
@@ -229,11 +231,10 @@
     <File>modules/map_tacks/base/mappinlistpanel.xml</File>
     <File>modules/map_tacks/base/mappinpopup.lua</File>
     <File>modules/map_tacks/base/mappinpopup.xml</File>
-    <File>modules/popup_manager/base/civicschooser.lua</File>
-    <File>modules/popup_manager/base/greatworkshowcase.lua</File>
-    <File>modules/popup_manager/base/researchchooser.lua</File>
-    <File>modules/popup_manager/base/techandcivicsupport.lua</File>
-    <File>modules/popup_manager/base/techciviccompletedpopup.lua</File>
+    <File>modules/popup_and_remind/base/civicschooser.lua</File>
+    <File>modules/popup_and_remind/base/greatworkshowcase.lua</File>
+    <File>modules/popup_and_remind/base/researchchooser.lua</File>
+    <File>modules/popup_and_remind/base/techciviccompletedpopup.lua</File>
     <File>modules/production_panel/base/productionpanel.lua</File>
     <File>modules/production_panel/base/productionpanel.xml</File>
     <File>modules/trade_panel/base/tradeoriginchooser.lua</File>
@@ -248,7 +249,7 @@
     <File>modules/city_states/expansion1/citystates.xml</File>
     <File>modules/espionage_panel/expansion1/espionagechooser_expansion1.lua</File>
     <File>modules/leader_icons/expansion1/diplomacyribbon_expansion1.lua</File>
-    <File>modules/popup_manager/expansion1/historicmoments.lua</File>
+    <File>modules/popup_and_remind/expansion1/historicmoments.lua</File>
     <File>modules/climate_screen/expansion2/climatescreen.lua</File>
     <File>modules/climate_screen/expansion2/climatescreen.xml</File>
     <File>modules/deal_panel/expansion2/diplomacydealview.lua</File>
@@ -258,7 +259,7 @@
     <File>modules/great_work/expansion2/greatworksoverview_expansion2.lua</File>
     <File>modules/leader_icons/expansion2/diplomacyactionview.xml</File>
     <File>modules/leader_icons/expansion2/worldcongresspopup.lua</File>
-    <File>modules/popup_manager/expansion2/historicmoments.lua</File>
+    <File>modules/popup_and_remind/expansion2/historicmoments.lua</File>
     <File>modules/_log/additions/cui_gameinfo.lua</File>
     <File>modules/_log/additions/cui_log.lua</File>
     <File>modules/_log/additions/cui_log.xml</File>
@@ -276,6 +277,8 @@
     <File>modules/notes/additions/cui_note_button.xml</File>
     <File>modules/notes/additions/cui_note_screen.lua</File>
     <File>modules/notes/additions/cui_note_screen.xml</File>
+    <File>modules/popup_and_remind/additions/cui_remind_panel.lua</File>
+    <File>modules/popup_and_remind/additions/cui_remind_panel.xml</File>
     <File>modules/screenshot/additions/cui_screenshot.lua</File>
     <File>modules/screenshot/additions/cui_screenshot.xml</File>
     <File>modules/spy_info/additions/cui_spy_info.lua</File>
@@ -287,7 +290,7 @@
     <File>modules/victory_tracking/additions/cui_victory_tracking.lua</File>
     <File>modules/victory_tracking/additions/cui_victory_tracking.xml</File>
     <File>modules/leader_icons/support/cuileadericonsupport.lua</File>
-    <File>modules/popup_manager/support/cui_tech_civic_support.lua</File>
+    <File>modules/popup_and_remind/support/cui_tech_civic_support.lua</File>
     <File>modules/production_panel/support/cui_production_data.lua</File>
     <File>modules/production_panel/support/cui_production_support.lua</File>
     <File>modules/production_panel/support/cui_production_ui.lua</File>
