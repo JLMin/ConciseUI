@@ -257,7 +257,9 @@ function ViewCurrent(data)
         if sPassiveName ~= nil and sPassiveName ~= "" then
             local sFullText = sPassiveName .. "[NEWLINE][NEWLINE]" .. sPassive
             instance.Bonus1:SetText(sFullText)
+            instance.Bonus1:SetHide(false)
             instance.Bonus2:SetText(sFullText)
+            instance.Bonus2:SetHide(false)
         end
 
         if (sActiveName ~= nil and sActiveName ~= "") then
@@ -272,8 +274,10 @@ function ViewCurrent(data)
 
             if bTwoBoxes then
                 instance.Bonus3:SetText(sFullText)
+                instance.Bonus3:SetHide(false)
             else
                 instance.Bonus1:SetText(sFullText)
+                instance.Bonus1:SetHide(false)
             end
         end
         --------------------------------------------------------
@@ -1268,6 +1272,9 @@ function CuiSetPanelToDetault(instance)
     instance.CivilpediaButton:SetHide(true)
     instance.GreatPeopleIcon:SetHide(true)
     instance.GreatPeopleClassIcon:SetHide(true)
+    instance.Bonus1:SetHide(true)
+    instance.Bonus2:SetHide(true)
+    instance.Bonus3:SetHide(true)
     instance.BonusBacking1:SetHide(true)
     instance.BonusBacking2:SetHide(true)
     instance.BonusBacking3:SetHide(true)
