@@ -22,15 +22,14 @@ local SIZE_ICON_SMALL = 30
 
 local TUTORIAL_ID = "17462E0F-1EE1-4819-AAAA-052B5896B02A"
 local TUTORIAL_TECHS = {
-    [2] = UITutorialManager:GetHash("TECH_MINING"),
-    [4] = UITutorialManager:GetHash("TECH_POTTERY"),
-    [3] = UITutorialManager:GetHash("TECH_IRRIGATION")
+  [2] = UITutorialManager:GetHash("TECH_MINING"),
+  [4] = UITutorialManager:GetHash("TECH_POTTERY"),
+  [3] = UITutorialManager:GetHash("TECH_IRRIGATION")
 }
 -- ===========================================================================
 --	MEMBERS
 -- ===========================================================================
-local m_researchIM = InstanceManager:new("ResearchListInstance", "TopContainer",
-                                         Controls.ResearchStack)
+local m_researchIM = InstanceManager:new("ResearchListInstance", "TopContainer", Controls.ResearchStack)
 local m_kSlideAnimator -- AnimSidePanelSupport
 local m_currentID = -1
 local m_isExpanded = false
@@ -45,51 +44,46 @@ local m_needsRefresh = false -- used to track whether a given series of events (
 --	Determine the current data.
 -- ===========================================================================
 function GetData()
-    local kData = {}
-    local ePlayer = Game.GetLocalPlayer()
-    local pPlayer = Players[ePlayer]
-    local pPlayerTechs = pPlayer:GetTechs()
-    local pResearchQueue = {}
+  local kData = {}
+  local ePlayer = Game.GetLocalPlayer()
+  local pPlayer = Players[ePlayer]
+  local pPlayerTechs = pPlayer:GetTechs()
+  local pResearchQueue = {}
 
-    -- Get recommendations
-    local techRecommendations = {}
-    local pGrandAI = pPlayer:GetGrandStrategicAI()
-    if pGrandAI then techRecommendations = pGrandAI:GetTechRecommendations() end
+  -- Get recommendations
+  local techRecommendations = {}
+  local pGrandAI = pPlayer:GetGrandStrategicAI()
+  if pGrandAI then techRecommendations = pGrandAI:GetTechRecommendations() end
 
-    pResearchQueue = pPlayerTechs:GetResearchQueue(pResearchQueue)
+  pResearchQueue = pPlayerTechs:GetResearchQueue(pResearchQueue)
 
-    -- Fill in the "other" (not-current) items
-    for kTech in GameInfo.Technologies() do
-        local iTech = kTech.Index
-        if iTech == m_currentID or iTech == m_lastCompletedID or
-            (iTech ~= m_currentID and pPlayerTechs:CanResearch(iTech)) then
+  -- Fill in the "other" (not-current) items
+  for kTech in GameInfo.Technologies() do
+    local iTech = kTech.Index
+    if iTech == m_currentID or iTech == m_lastCompletedID or (iTech ~= m_currentID and pPlayerTechs:CanResearch(iTech)) then
 
-            local kResearchData = GetResearchData(ePlayer, pPlayerTechs, kTech)
-            kResearchData.IsCurrent = (iTech == m_currentID)
-            kResearchData.IsLastCompleted = (iTech == m_lastCompletedID)
-            kResearchData.ResearchQueuePosition = -1
-            for i, techNum in pairs(pResearchQueue) do
-                if techNum == iTech then
-                    kResearchData.ResearchQueuePosition = i
-                end
-            end
+      local kResearchData = GetResearchData(ePlayer, pPlayerTechs, kTech)
+      kResearchData.IsCurrent = (iTech == m_currentID)
+      kResearchData.IsLastCompleted = (iTech == m_lastCompletedID)
+      kResearchData.ResearchQueuePosition = -1
+      for i, techNum in pairs(pResearchQueue) do if techNum == iTech then kResearchData.ResearchQueuePosition = i end end
 
-            -- Determine if this tech is recommended
-            kResearchData.IsRecommended = false
-            if techRecommendations ~= nil then
-                for i, recommendation in pairs(techRecommendations) do
-                    if kResearchData.Hash == recommendation.TechHash then
-                        kResearchData.IsRecommended = true
-                        kResearchData.AdvisorType = kTech.AdvisorType
-                    end
-                end
-            end
-
-            table.insert(kData, kResearchData)
+      -- Determine if this tech is recommended
+      kResearchData.IsRecommended = false
+      if techRecommendations ~= nil then
+        for i, recommendation in pairs(techRecommendations) do
+          if kResearchData.Hash == recommendation.TechHash then
+            kResearchData.IsRecommended = true
+            kResearchData.AdvisorType = kTech.AdvisorType
+          end
         end
-    end
+      end
 
-    return kData
+      table.insert(kData, kResearchData)
+    end
+  end
+
+  return kData
 end
 
 -- ===========================================================================
@@ -97,75 +91,69 @@ end
 -- ===========================================================================
 function View(playerID, kData)
 
-    m_researchIM:ResetInstances()
+  m_researchIM:ResetInstances()
 
-    local kActive = GetActiveData(kData)
-    if kActive == nil then
-        RealizeCurrentResearch(nil) -- No research done yet
+  local kActive = GetActiveData(kData)
+  if kActive == nil then
+    RealizeCurrentResearch(nil) -- No research done yet
+  end
+
+  table.sort(kData, function(a, b) return Locale.Compare(a.Name, b.Name) == -1 end)
+
+  for i, data in ipairs(kData) do
+    if data.IsCurrent or data.IsLastCompleted then
+      RealizeCurrentResearch(playerID, data)
+      if data.Repeatable then AddAvailableResearch(playerID, data) end
+    else
+      AddAvailableResearch(playerID, data)
     end
+  end
 
-    table.sort(kData,
-               function(a, b) return Locale.Compare(a.Name, b.Name) == -1 end)
-
-    for i, data in ipairs(kData) do
-        if data.IsCurrent or data.IsLastCompleted then
-            RealizeCurrentResearch(playerID, data)
-            if data.Repeatable then
-                AddAvailableResearch(playerID, data)
-            end
-        else
-            AddAvailableResearch(playerID, data)
+  -- TUTORIAL HACK: Ensure tutorial techs are in a specific position in the list:
+  if m_isTutorial then
+    local tutorialIndex = -1
+    local tutorialControl = nil
+    local tutorialControlHash = -1
+    for i = 1, m_researchIM.m_iAllocatedInstances do
+      local instance = m_researchIM:GetAllocatedInstance(i)
+      local tag = instance.Top:GetTag()
+      for index, techHash in pairs(TUTORIAL_TECHS) do
+        if tag == techHash then
+          tutorialIndex = index
+          tutorialControl = instance.TopContainer
+          tutorialControlHash = techHash
+          break
         end
+      end
+      if tutorialControl then break end
     end
+    if tutorialControl then Controls.ResearchStack:AddChildAtIndex(tutorialControl, tutorialIndex) end
+  end
 
-    -- TUTORIAL HACK: Ensure tutorial techs are in a specific position in the list:
-    if m_isTutorial then
-        local tutorialIndex = -1
-        local tutorialControl = nil
-        local tutorialControlHash = -1
-        for i = 1, m_researchIM.m_iAllocatedInstances do
-            local instance = m_researchIM:GetAllocatedInstance(i)
-            local tag = instance.Top:GetTag()
-            for index, techHash in pairs(TUTORIAL_TECHS) do
-                if tag == techHash then
-                    tutorialIndex = index
-                    tutorialControl = instance.TopContainer
-                    tutorialControlHash = techHash
-                    break
-                end
-            end
-            if tutorialControl then break end
-        end
-        if tutorialControl then
-            Controls.ResearchStack:AddChildAtIndex(tutorialControl,
-                                                   tutorialIndex)
-        end
-    end
-
-    RealizeSize()
+  RealizeSize()
 end
 
 -- ===========================================================================
 --	Get the latest data and visualize.
 -- ===========================================================================
 function Refresh()
-    local player = Game.GetLocalPlayer()
-    if (player >= 0) then
-        local kData = GetData()
-        View(player, kData)
-    end
+  local player = Game.GetLocalPlayer()
+  if (player >= 0) then
+    local kData = GetData()
+    View(player, kData)
+  end
 
-    m_needsRefresh = false
+  m_needsRefresh = false
 end
 
 -- ===========================================================================
 --	No science? No research for you!
 -- ===========================================================================
 function CanPlayerResearchAnything(playerID)
-    local pPlayer = Players[playerID]
-    local playerTechnology = pPlayer:GetTechs()
-    local currentScienceYield = playerTechnology:GetScienceYield()
-    return currentScienceYield <= 0
+  local pPlayer = Players[playerID]
+  local playerTechnology = pPlayer:GetTechs()
+  local currentScienceYield = playerTechnology:GetScienceYield()
+  return currentScienceYield <= 0
 end
 
 -- ===========================================================================
@@ -173,120 +161,110 @@ end
 -- ===========================================================================
 function AddAvailableResearch(playerID, kData)
 
-    if playerID == -1 then return end -- Autoplay
+  if playerID == -1 then return end -- Autoplay
 
-    local isDisabled = CanPlayerResearchAnything(playerID)
+  local isDisabled = CanPlayerResearchAnything(playerID)
 
-    -- Create main instance and the Instance Manager for any unlocks.
-    local kItemInstance = m_researchIM:GetInstance()
-    local techUnlockIM = GetUnlockIM(kItemInstance)
+  -- Create main instance and the Instance Manager for any unlocks.
+  local kItemInstance = m_researchIM:GetInstance()
+  local techUnlockIM = GetUnlockIM(kItemInstance)
 
-    kItemInstance.TechName:SetText(Locale.ToUpper(kData.Name))
-    kItemInstance.Top:LocalizeAndSetToolTip(kData.ToolTip)
-    kItemInstance.Top:SetTag(UITutorialManager:GetHash(kData.TechType)) -- Mark for tutorial dynamic element
+  kItemInstance.TechName:SetText(Locale.ToUpper(kData.Name))
+  kItemInstance.Top:LocalizeAndSetToolTip(kData.ToolTip)
+  kItemInstance.Top:SetTag(UITutorialManager:GetHash(kData.TechType)) -- Mark for tutorial dynamic element
 
-    RealizeMeterAndBoosts(kItemInstance, kData)
-    RealizeIcon(kItemInstance.Icon, kData.TechType, SIZE_ICON_SMALL)
-    RealizeTurnsLeft(kItemInstance, kData)
+  RealizeMeterAndBoosts(kItemInstance, kData)
+  RealizeIcon(kItemInstance.Icon, kData.TechType, SIZE_ICON_SMALL)
+  RealizeTurnsLeft(kItemInstance, kData)
 
-    local callback = nil
-    if not isDisabled then
-        callback = function()
-            ResetOverflowArrow(kItemInstance)
-            OnChooseResearch(kData.Hash)
-        end
+  local callback = nil
+  if not isDisabled then
+    callback = function()
+      ResetOverflowArrow(kItemInstance)
+      OnChooseResearch(kData.Hash)
     end
+  end
 
-    local numUnlockables = PopulateUnlockablesForTech(playerID, kData.ID,
-                                                      techUnlockIM, callback)
-    if numUnlockables ~= nil then
-        HandleOverflow(numUnlockables, kItemInstance, 5, 5)
-    end
+  local numUnlockables = PopulateUnlockablesForTech(playerID, kData.ID, techUnlockIM, callback)
+  if numUnlockables ~= nil then HandleOverflow(numUnlockables, kItemInstance, 5, 5) end
 
-    if kData.ResearchQueuePosition ~= -1 then
-        kItemInstance.QueueBadge:SetHide(false)
-        kItemInstance.NodeNumber:SetHide(false)
-        if (kData.ResearchQueuePosition < 10) then
-            kItemInstance.NodeNumber:SetOffsetX(-2)
-        else
-            kItemInstance.NodeNumber:SetOffsetX(-5)
-        end
-        kItemInstance.NodeNumber:SetText(tostring(kData.ResearchQueuePosition))
+  if kData.ResearchQueuePosition ~= -1 then
+    kItemInstance.QueueBadge:SetHide(false)
+    kItemInstance.NodeNumber:SetHide(false)
+    if (kData.ResearchQueuePosition < 10) then
+      kItemInstance.NodeNumber:SetOffsetX(-2)
     else
-        kItemInstance.QueueBadge:SetHide(true)
-        kItemInstance.NodeNumber:SetHide(true)
+      kItemInstance.NodeNumber:SetOffsetX(-5)
     end
+    kItemInstance.NodeNumber:SetText(tostring(kData.ResearchQueuePosition))
+  else
+    kItemInstance.QueueBadge:SetHide(true)
+    kItemInstance.NodeNumber:SetHide(true)
+  end
 
-    kItemInstance.Top:RegisterCallback(Mouse.eMouseEnter, function()
-        UI.PlaySound("Main_Menu_Mouse_Over")
-    end)
+  kItemInstance.Top:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
 
-    -- Set up callback that changes the current research
-    kItemInstance.Top:RegisterCallback(Mouse.eLClick, function()
-        ResetOverflowArrow(kItemInstance)
-        OnChooseResearch(kData.Hash)
-    end)
-    -- Only wire up Civilopedia handlers if not in a on-rails tutorial
-    if IsTutorialRunning() == false then
-        kItemInstance.Top:RegisterCallback(Mouse.eRClick, function()
-            LuaEvents.OpenCivilopedia(kData.TechType)
-        end)
-    end
-    kItemInstance.Top:SetDisabled(isDisabled)
+  -- Set up callback that changes the current research
+  kItemInstance.Top:RegisterCallback(Mouse.eLClick, function()
+    ResetOverflowArrow(kItemInstance)
+    OnChooseResearch(kData.Hash)
+  end)
+  -- Only wire up Civilopedia handlers if not in a on-rails tutorial
+  if IsTutorialRunning() == false then
+    kItemInstance.Top:RegisterCallback(Mouse.eRClick, function() LuaEvents.OpenCivilopedia(kData.TechType) end)
+  end
+  kItemInstance.Top:SetDisabled(isDisabled)
 
-    -- Hide/Show Recommendation Icon
-    if kData.IsRecommended and kData.AdvisorType then
-        kItemInstance.RecommendedIcon:SetIcon(kData.AdvisorType)
-        kItemInstance.RecommendedIcon:SetHide(false)
-    else
-        kItemInstance.RecommendedIcon:SetHide(true)
-    end
+  -- Hide/Show Recommendation Icon
+  if kData.IsRecommended and kData.AdvisorType then
+    kItemInstance.RecommendedIcon:SetIcon(kData.AdvisorType)
+    kItemInstance.RecommendedIcon:SetHide(false)
+  else
+    kItemInstance.RecommendedIcon:SetHide(true)
+  end
 
-    return kItemInstance
+  return kItemInstance
 end
 
 -- ===========================================================================
 function OnChooseResearch(techHash)
-    if techHash == nil then
-        UI.DataError("Attempt to choose a research but a NIL hash!")
-        return
-    end
+  if techHash == nil then
+    UI.DataError("Attempt to choose a research but a NIL hash!")
+    return
+  end
 
-    local tParameters = {}
-    tParameters[PlayerOperations.PARAM_TECH_TYPE] = techHash
-    tParameters[PlayerOperations.PARAM_INSERT_MODE] =
-        PlayerOperations.VALUE_EXCLUSIVE
-    UI.RequestPlayerOperation(Game.GetLocalPlayer(), PlayerOperations.RESEARCH,
-                              tParameters)
-    UI.PlaySound("Confirm_Tech")
+  local tParameters = {}
+  tParameters[PlayerOperations.PARAM_TECH_TYPE] = techHash
+  tParameters[PlayerOperations.PARAM_INSERT_MODE] = PlayerOperations.VALUE_EXCLUSIVE
+  UI.RequestPlayerOperation(Game.GetLocalPlayer(), PlayerOperations.RESEARCH, tParameters)
+  UI.PlaySound("Confirm_Tech")
 
-    if m_isExpanded then OnClosePanel() end
+  if m_isExpanded then OnClosePanel() end
 end
 
 -- ===========================================================================
 function RealizeSize()
-    local _, screenY = UIManager:GetScreenSizeVal()
+  local _, screenY = UIManager:GetScreenSizeVal()
 
-    Controls.ResearchStack:CalculateSize()
-    Controls.ResearchStack:ReprocessAnchoring()
+  Controls.ResearchStack:CalculateSize()
+  Controls.ResearchStack:ReprocessAnchoring()
 
-    Controls.ChooseResearchList:SetSizeY(
-        screenY - Controls.ChooseResearchList:GetOffsetY() - 30)
-    Controls.ChooseResearchList:CalculateInternalSize()
+  Controls.ChooseResearchList:SetSizeY(screenY - Controls.ChooseResearchList:GetOffsetY() - 30)
+  Controls.ChooseResearchList:CalculateInternalSize()
 
-    if (Controls.ChooseResearchList:GetScrollBar():IsHidden()) then
-        Controls.ChooseResearchList:SetOffsetX(10)
-    else
-        Controls.ChooseResearchList:SetOffsetX(20)
-    end
+  if (Controls.ChooseResearchList:GetScrollBar():IsHidden()) then
+    Controls.ChooseResearchList:SetOffsetX(10)
+  else
+    Controls.ChooseResearchList:SetOffsetX(20)
+  end
 end
 
 -- ===========================================================================
 function OnOpenPanel()
-    LuaEvents.ResearchChooser_ForceHideWorldTracker()
-    UI.PlaySound("Tech_Tray_Slide_Open")
-    m_isExpanded = true
-    m_kSlideAnimator.Show()
+  LuaEvents.ResearchChooser_ForceHideWorldTracker()
+  UI.PlaySound("Tech_Tray_Slide_Open")
+  m_isExpanded = true
+  m_kSlideAnimator.Show()
 end
 
 -- ===========================================================================
@@ -296,15 +274,15 @@ function OnClosePanel() m_kSlideAnimator.Hide() end
 --	Callback from Slide Animator
 -- ===========================================================================
 function OnSlideAnimatorClose()
-    LuaEvents.ResearchChooser_RestoreWorldTracker()
-    UI.PlaySound("Tech_Tray_Slide_Closed")
-    m_isExpanded = false
+  LuaEvents.ResearchChooser_RestoreWorldTracker()
+  UI.PlaySound("Tech_Tray_Slide_Closed")
+  m_isExpanded = false
 end
 
 -- ===========================================================================
 function OnUpdateUI(type)
-    m_kSlideAnimator.OnUpdateUI()
-    if type == SystemUpdateUI.ScreenResize then RealizeSize() end
+  m_kSlideAnimator.OnUpdateUI()
+  if type == SystemUpdateUI.ScreenResize then RealizeSize() end
 end
 
 -- ===========================================================================
@@ -312,87 +290,77 @@ end
 --	City added to map, refresh for local player needed if it's the 1st city.
 -- ===========================================================================
 function OnCityInitialized(owner, cityID)
-    local localPlayer = Game.GetLocalPlayer()
-    if owner == localPlayer then m_needsRefresh = true end
+  local localPlayer = Game.GetLocalPlayer()
+  if owner == localPlayer then m_needsRefresh = true end
 end
 
 -- ===========================================================================
 --	Game Engine EVENT
 -- ===========================================================================
 function OnLocalPlayerTurnBegin()
-    local localPlayer = Game.GetLocalPlayer()
-    if localPlayer >= 0 then
-        local pPlayerTechs = Players[localPlayer]:GetTechs()
-        m_currentID = pPlayerTechs:GetResearchingTech()
+  local localPlayer = Game.GetLocalPlayer()
+  if localPlayer >= 0 then
+    local pPlayerTechs = Players[localPlayer]:GetTechs()
+    m_currentID = pPlayerTechs:GetResearchingTech()
 
-        m_needsRefresh = true
-    end
+    m_needsRefresh = true
+  end
 end
 
 -- ===========================================================================
 --	Game Engine EVENT
 -- ===========================================================================
-function OnPhaseBegin()
-    if Game.GetLocalPlayer() >= 0 then m_needsRefresh = true end
-end
+function OnPhaseBegin() if Game.GetLocalPlayer() >= 0 then m_needsRefresh = true end end
 
 -- ===========================================================================
 --	Game Engine EVENT
 --	May be active or value boosted for an item further in the list.
 -- ===========================================================================
-function OnResearchChanged(ePlayer, eTech)
-    m_needsRefresh = ShouldRefreshWhenResearchChanges(ePlayer)
-end
+function OnResearchChanged(ePlayer, eTech) m_needsRefresh = ShouldRefreshWhenResearchChanges(ePlayer) end
 
 -- ===========================================================================
 --	This function was separated so behavior can be modified in mods/expasions
 -- ===========================================================================
 function ShouldRefreshWhenResearchChanges(ePlayer)
-    local localPlayer = Game.GetLocalPlayer()
-    if localPlayer ~= -1 and localPlayer == ePlayer then
-        local pPlayerTechs = Players[localPlayer]:GetTechs()
-        m_currentID = pPlayerTechs:GetResearchingTech()
+  local localPlayer = Game.GetLocalPlayer()
+  if localPlayer ~= -1 and localPlayer == ePlayer then
+    local pPlayerTechs = Players[localPlayer]:GetTechs()
+    m_currentID = pPlayerTechs:GetResearchingTech()
 
-        -- Only reset last completed tech once a new tech has been selected
-        if m_currentID >= 0 then m_lastCompletedID = -1 end
+    -- Only reset last completed tech once a new tech has been selected
+    if m_currentID >= 0 then m_lastCompletedID = -1 end
 
-        return true
-    end
-    return false
+    return true
+  end
+  return false
 end
 
 -- ===========================================================================
 function OnResearchCompleted(ePlayer, eTech)
-    if ePlayer == Game.GetLocalPlayer() then
-        m_lastCompletedID = eTech
-        m_currentID = -1
-        -- CUI: repeat
-        local futureTech = CuiIsFutureTechAndGet(eTech)
-        if futureTech then CuiRepeatTech(futureTech.Hash) end
-        --
-        m_needsRefresh = true
-    end
+  if ePlayer == Game.GetLocalPlayer() then
+    m_lastCompletedID = eTech
+    m_currentID = -1
+    -- CUI: repeat
+    local futureTech = CuiIsFutureTechAndGet(eTech)
+    if futureTech then CuiRepeatTech(futureTech.Hash) end
+    --
+    m_needsRefresh = true
+  end
 end
 
 -- ===========================================================================
-function OnResearchYieldChanged(ePlayer)
-    if ePlayer == Game.GetLocalPlayer() then m_needsRefresh = true end
-end
+function OnResearchYieldChanged(ePlayer) if ePlayer == Game.GetLocalPlayer() then m_needsRefresh = true end end
 
 -- ===========================================================================
 -- This will get called after a series of game events (before any other events or
 -- input processing) so we can defer the rebuild until here.
 -- ===========================================================================
-function FlushChanges()
-    if m_needsRefresh and ContextPtr:IsVisible() then Refresh() end
-end
+function FlushChanges() if m_needsRefresh and ContextPtr:IsVisible() then Refresh() end end
 
 -- ===========================================================================
 --	UI Event
 -- ===========================================================================
-function OnInputHandler(kInputStruct)
-    return m_kSlideAnimator.OnInputHandler(kInputStruct)
-end
+function OnInputHandler(kInputStruct) return m_kSlideAnimator.OnInputHandler(kInputStruct) end
 
 -- ===========================================================================
 --
@@ -400,16 +368,16 @@ end
 --
 -- ===========================================================================
 function OnInit(isReload)
-    if isReload then
-        LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
-    else
-        local localPlayer = Game.GetLocalPlayer()
-        if (localPlayer >= 0) then
-            local pPlayerTechs = Players[localPlayer]:GetTechs()
-            m_currentID = pPlayerTechs:GetResearchingTech()
-            Refresh()
-        end
+  if isReload then
+    LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
+  else
+    local localPlayer = Game.GetLocalPlayer()
+    if (localPlayer >= 0) then
+      local pPlayerTechs = Players[localPlayer]:GetTechs()
+      m_currentID = pPlayerTechs:GetResearchingTech()
+      Refresh()
     end
+  end
 end
 
 -- ===========================================================================
@@ -417,41 +385,38 @@ function OnShow() Refresh() end
 
 -- ===========================================================================
 function OnShutdown()
-    LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "m_currentID", m_currentID)
-    LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "m_isExpanded", m_isExpanded)
-    LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "m_lastCompletedID",
-                                 m_lastCompletedID)
+  LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "m_currentID", m_currentID)
+  LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "m_isExpanded", m_isExpanded)
+  LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "m_lastCompletedID", m_lastCompletedID)
 end
 -- ===========================================================================
 function OnGameDebugReturn(context, contextTable)
-    if context == RELOAD_CACHE_ID then
-        m_currentID = contextTable["m_currentID"]
-        m_lastCompletedID = contextTable["m_lastCompletedID"]
-        Refresh()
-        if contextTable["m_isExpanded"] ~= nil and contextTable["m_isExpanded"] then
-            OnOpenPanel()
-        else
-            LuaEvents.ResearchChooser_RestoreWorldTracker()
-        end
+  if context == RELOAD_CACHE_ID then
+    m_currentID = contextTable["m_currentID"]
+    m_lastCompletedID = contextTable["m_lastCompletedID"]
+    Refresh()
+    if contextTable["m_isExpanded"] ~= nil and contextTable["m_isExpanded"] then
+      OnOpenPanel()
+    else
+      LuaEvents.ResearchChooser_RestoreWorldTracker()
     end
+  end
 end
 
 -- CUI =======================================================================
 function CuiRepeatTech(techHash)
-    if techHash == nil then
-        UI.DataError("Attempt to choose a research but a NIL hash!")
-        return
-    end
-    ResetOverflowArrow(Controls)
-    if (Game.GetLocalPlayer() >= 0) then
-        local tParameters = {}
-        tParameters[PlayerOperations.PARAM_TECH_TYPE] = techHash
-        tParameters[PlayerOperations.PARAM_INSERT_MODE] =
-            PlayerOperations.VALUE_EXCLUSIVE
-        UI.RequestPlayerOperation(Game.GetLocalPlayer(),
-                                  PlayerOperations.RESEARCH, tParameters)
-        UI.PlaySound("Confirm_Tech")
-    end
+  if techHash == nil then
+    UI.DataError("Attempt to choose a research but a NIL hash!")
+    return
+  end
+  ResetOverflowArrow(Controls)
+  if (Game.GetLocalPlayer() >= 0) then
+    local tParameters = {}
+    tParameters[PlayerOperations.PARAM_TECH_TYPE] = techHash
+    tParameters[PlayerOperations.PARAM_INSERT_MODE] = PlayerOperations.VALUE_EXCLUSIVE
+    UI.RequestPlayerOperation(Game.GetLocalPlayer(), PlayerOperations.RESEARCH, tParameters)
+    UI.PlaySound("Confirm_Tech")
+  end
 end
 
 -- ===========================================================================
@@ -459,75 +424,65 @@ end
 -- ===========================================================================
 function Initialize()
 
-    -- Hot-reload events
-    ContextPtr:SetInitHandler(OnInit)
-    ContextPtr:SetShowHandler(OnShow)
-    ContextPtr:SetShutdown(OnShutdown)
-    LuaEvents.GameDebug_Return.Add(OnGameDebugReturn)
+  -- Hot-reload events
+  ContextPtr:SetInitHandler(OnInit)
+  ContextPtr:SetShowHandler(OnShow)
+  ContextPtr:SetShutdown(OnShutdown)
+  LuaEvents.GameDebug_Return.Add(OnGameDebugReturn)
 
-    -- Animation controller and events
-    m_kSlideAnimator = CreateScreenAnimation(Controls.SlideAnim,
-                                             OnSlideAnimatorClose)
+  -- Animation controller and events
+  m_kSlideAnimator = CreateScreenAnimation(Controls.SlideAnim, OnSlideAnimatorClose)
 
-    -- Screen events
-    LuaEvents.Tutorial_ResearchOpen.Add(OnOpenPanel)
-    LuaEvents.ActionPanel_OpenChooseResearch.Add(OnOpenPanel)
-    LuaEvents.WorldTracker_OpenChooseResearch.Add(OnOpenPanel)
-    LuaEvents.LaunchBar_CloseChoosers.Add(OnClosePanel)
+  -- Screen events
+  LuaEvents.Tutorial_ResearchOpen.Add(OnOpenPanel)
+  LuaEvents.ActionPanel_OpenChooseResearch.Add(OnOpenPanel)
+  LuaEvents.WorldTracker_OpenChooseResearch.Add(OnOpenPanel)
+  LuaEvents.LaunchBar_CloseChoosers.Add(OnClosePanel)
 
-    -- Game events
-    Events.CityInitialized.Add(OnCityInitialized)
-    Events.LocalPlayerTurnBegin.Add(OnLocalPlayerTurnBegin)
-    Events.LocalPlayerChanged.Add(OnLocalPlayerTurnBegin)
-    Events.PhaseBegin.Add(OnPhaseBegin)
-    Events.ResearchChanged.Add(OnResearchChanged)
-    Events.ResearchCompleted.Add(OnResearchCompleted)
-    Events.ResearchYieldChanged.Add(OnResearchYieldChanged)
-    Events.SystemUpdateUI.Add(OnUpdateUI)
-    Events.GameCoreEventPublishComplete.Add(FlushChanges) -- This event is raised directly after a series of gamecore events.
+  -- Game events
+  Events.CityInitialized.Add(OnCityInitialized)
+  Events.LocalPlayerTurnBegin.Add(OnLocalPlayerTurnBegin)
+  Events.LocalPlayerChanged.Add(OnLocalPlayerTurnBegin)
+  Events.PhaseBegin.Add(OnPhaseBegin)
+  Events.ResearchChanged.Add(OnResearchChanged)
+  Events.ResearchCompleted.Add(OnResearchCompleted)
+  Events.ResearchYieldChanged.Add(OnResearchYieldChanged)
+  Events.SystemUpdateUI.Add(OnUpdateUI)
+  Events.GameCoreEventPublishComplete.Add(FlushChanges) -- This event is raised directly after a series of gamecore events.
 
-    -- UI Event / Callbacks
-    ContextPtr:SetInputHandler(OnInputHandler, true)
-    Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
-    Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function()
-        UI.PlaySound("Main_Menu_Mouse_Over")
+  -- UI Event / Callbacks
+  ContextPtr:SetInputHandler(OnInputHandler, true)
+  Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
+  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.TitleButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
+  Controls.IconButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
+  Controls.IconButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+
+  if (HasCapability("CAPABILITY_TECH_TREE")) then
+    Controls.OpenTreeButton:SetHide(false)
+    Controls.OpenTreeButton:RegisterCallback(Mouse.eLClick, function()
+      LuaEvents.ResearchChooser_RaiseTechTree()
+      OnClosePanel()
     end)
-    Controls.TitleButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
-    Controls.IconButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
-    Controls.IconButton:RegisterCallback(Mouse.eMouseEnter, function()
-        UI.PlaySound("Main_Menu_Mouse_Over")
-    end)
+    Controls.OpenTreeButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  else
+    Controls.OpenTreeButton:SetHide(true)
+  end
 
-    if (HasCapability("CAPABILITY_TECH_TREE")) then
-        Controls.OpenTreeButton:SetHide(false)
-        Controls.OpenTreeButton:RegisterCallback(Mouse.eLClick, function()
-            LuaEvents.ResearchChooser_RaiseTechTree()
-            OnClosePanel()
-        end)
-        Controls.OpenTreeButton:RegisterCallback(Mouse.eMouseEnter, function()
-            UI.PlaySound("Main_Menu_Mouse_Over")
-        end)
-    else
-        Controls.OpenTreeButton:SetHide(true)
+  -- Populate static controls
+  Controls.Title:SetText(Locale.Lookup(Locale.ToUpper("LOC_RESEARCH_CHOOSER_CHOOSE_RESEARCH")))
+  Controls.OpenTreeButton:SetText(Locale.Lookup("LOC_RESEARCH_CHOOSER_OPEN_TECH_TREE"))
+
+  -- To make it render beneath the banner image
+  Controls.MainPanel:SetOffsetX(Controls.Background:GetOffsetX() * -1)
+  Controls.MainPanel:ChangeParent(Controls.Background)
+
+  local mods = Modding.GetActiveMods()
+  for i, v in ipairs(mods) do
+    if v.Id == TUTORIAL_ID then
+      m_isTutorial = true
+      break
     end
-
-    -- Populate static controls
-    Controls.Title:SetText(Locale.Lookup(
-                               Locale.ToUpper(
-                                   "LOC_RESEARCH_CHOOSER_CHOOSE_RESEARCH")))
-    Controls.OpenTreeButton:SetText(Locale.Lookup(
-                                        "LOC_RESEARCH_CHOOSER_OPEN_TECH_TREE"))
-
-    -- To make it render beneath the banner image
-    Controls.MainPanel:SetOffsetX(Controls.Background:GetOffsetX() * -1)
-    Controls.MainPanel:ChangeParent(Controls.Background)
-
-    local mods = Modding.GetActiveMods()
-    for i, v in ipairs(mods) do
-        if v.Id == TUTORIAL_ID then
-            m_isTutorial = true
-            break
-        end
-    end
+  end
 end
 Initialize()

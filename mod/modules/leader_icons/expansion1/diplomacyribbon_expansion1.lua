@@ -10,27 +10,25 @@ BASE_AddLeader = AddLeader
 
 -- ===========================================================================
 function AddLeader(iconName, playerID, kProps)
-    local leaderIcon, instance = BASE_AddLeader(iconName, playerID, kProps)
-    local localPlayer = Players[Game.GetLocalPlayer()]
+  local leaderIcon, instance = BASE_AddLeader(iconName, playerID, kProps)
+  local localPlayer = Players[Game.GetLocalPlayer()]
 
-    -- CUI
-    if playerID == Game.GetLocalPlayer() or
-        localPlayer:GetDiplomacy():HasMet(playerID) then
-        instance.GameEras:SetHide(false)
-        local pGameEras = Game.GetEras()
-        if pGameEras:HasHeroicGoldenAge(playerID) then
-            instance.GameEras:SetText("[ICON_GLORY_SUPER_GOLDEN_AGE]")
-        elseif pGameEras:HasGoldenAge(playerID) then
-            instance.GameEras:SetText("[ICON_GLORY_GOLDEN_AGE]")
-        elseif pGameEras:HasDarkAge(playerID) then
-            instance.GameEras:SetText("[ICON_GLORY_DARK_AGE]")
-        else
-            instance.GameEras:SetText("[ICON_GLORY_NORMAL_AGE]")
-        end
+  -- CUI
+  if playerID == Game.GetLocalPlayer() or localPlayer:GetDiplomacy():HasMet(playerID) then
+    instance.GameEras:SetHide(false)
+    local pGameEras = Game.GetEras()
+    if pGameEras:HasHeroicGoldenAge(playerID) then
+      instance.GameEras:SetText("[ICON_GLORY_SUPER_GOLDEN_AGE]")
+    elseif pGameEras:HasGoldenAge(playerID) then
+      instance.GameEras:SetText("[ICON_GLORY_GOLDEN_AGE]")
+    elseif pGameEras:HasDarkAge(playerID) then
+      instance.GameEras:SetText("[ICON_GLORY_DARK_AGE]")
+    else
+      instance.GameEras:SetText("[ICON_GLORY_NORMAL_AGE]")
     end
-    local allianceData = CuiGetAllianceData(playerID)
-    LuaEvents.CuiLeaderIconToolTip(instance.Portrait, playerID)
-    LuaEvents.CuiRelationshipToolTip(instance.Relationship, playerID,
-                                     allianceData)
-    --
+  end
+  local allianceData = CuiGetAllianceData(playerID)
+  LuaEvents.CuiLeaderIconToolTip(instance.Portrait, playerID)
+  LuaEvents.CuiRelationshipToolTip(instance.Relationship, playerID, allianceData)
+  --
 end
