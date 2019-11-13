@@ -871,6 +871,7 @@ end
 
 -- CUI =======================================================================
 function CuiInit()
+    Events.LoadGameViewStateDone.Add(Rebuild)
     LuaEvents.CuiToggleImprovedIcons.Add(Rebuild)
     Events.ImprovementAddedToMap.Add(OnResourceChanged)
     Events.ImprovementRemovedFromMap.Add(OnResourceChanged)

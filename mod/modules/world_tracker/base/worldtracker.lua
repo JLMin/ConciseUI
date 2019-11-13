@@ -995,11 +995,14 @@ function CuiInit()
     -- Events
     Events.StatusMessage.Add(CuiUpdateLog)
     Events.LocalPlayerTurnEnd.Add(CuiLogCounterReset)
-
+    --
+    Events.ImprovementAddedToMap.Add(CuiTrackerRefresh)
+    Events.ImprovementRemovedFromMap.Add(CuiTrackerRefresh)
+    --
     Events.LoadGameViewStateDone.Add(CuiTrackerRefresh)
     Events.TurnBegin.Add(CuiTrackerRefresh)
     LuaEvents.DiplomacyActionView_ShowIngameUI.Add(CuiTrackerRefresh)
-
+    --
     CuiLogPanelRefresh()
 
     CuiTrackerRefresh()
