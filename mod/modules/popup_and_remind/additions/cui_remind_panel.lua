@@ -11,6 +11,7 @@ include("cui_tech_civic_support")
 
 local isAttached = false
 local isAnyRemind = false
+local testMode = false
 
 -- ---------------------------------------------------------------------------
 function RefreshTech(localPlayer, eTech)
@@ -52,6 +53,8 @@ end
 
 -- ---------------------------------------------------------------------------
 function RefreshAll()
+  if testMode then ReminderTest() return end
+
   local localPlayer = Game.GetLocalPlayer()
   if localPlayer ~= -1 then
     isAnyRemind = false
@@ -60,15 +63,31 @@ function RefreshAll()
     RefreshGovernment(localPlayer)
     RefreshGovernor(localPlayer)
   end
+  
+  ResizeBubble()
+end
 
+-- ---------------------------------------------------------------------------
+function ResizeBubble()
   Controls.RemindStack:CalculateSize()
   Controls.Bubble:SetHide(not isAnyRemind)
   if isAnyRemind then
     local stackX = Controls.RemindStack:GetSizeX()
     local stackY = Controls.RemindStack:GetSizeY()
-    Controls.Bubble:SetSizeX(stackX + 60)
-    Controls.Bubble:SetSizeY(stackY + 98)
+    Controls.Bubble:SetSizeX(stackX + 34)
+    Controls.Bubble:SetSizeY(stackY + 50)
   end
+end
+
+-- ---------------------------------------------------------------------------
+function ReminderTest()
+  isAnyRemind = true
+  Controls.TechReady:SetHide(false)
+  Controls.CivicReady:SetHide(false)
+  Controls.GovernmentReady:SetHide(false)
+  Controls.GovernorReady:SetHide(false)
+
+  ResizeBubble()
 end
 
 -- ---------------------------------------------------------------------------

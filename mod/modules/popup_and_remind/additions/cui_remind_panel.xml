@@ -2,34 +2,34 @@
 <!-- Cui Remind Panel, eudaimonia, 11/11/2019 -->
 
 <Context Name="CuiOptions">
-    <Container ID="RemindContainer" Size="200,100" Anchor="L,B" Offset="0,92">
-        <Grid ID="Bubble" Anchor="L,T" Size="200,100" Texture="bubble.dds" SliceCorner="44,28" SliceTextureSize="64,72" Color="255,255,255,200">
-            <Stack ID="RemindStack" Size="200,100" Anchor="C,C" Offset="0,8" StackGrowth="Right" Padding="20">
-                <Image ID="TechReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34" Hidden="1">
-                    <Image Anchor="C,C" Size="43,43" Offset="0,-30" Texture="CombatPreview_CombatStat">
-                        <Image ID="ResearchIcon" Anchor="C,C" Size="38,38" Texture="LaunchBar_Hook_TechTree"/>
-                    </Image>
-                    <Image Anchor="C,C" Texture="BoostTechOn"/>
-                </Image>
-                <Image ID="CivicReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34" Hidden="1">
-                    <Image Anchor="C,C" Size="43,43" Offset="0,-30" Texture="CombatPreview_CombatStat">
-                        <Image ID="CultureIcon" Anchor="C,C" Size="38,38" Texture="LaunchBar_Hook_CivicsTree"/>
-                    </Image>
-                    <Image Anchor="C,C" Texture="BoostCivicOn"/>
-                </Image>
-                <Image ID="GovernmentReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34" Hidden="1">
-                    <Image Anchor="C,C" Size="43,43" Offset="0,-30" Texture="CombatPreview_CombatStat">
-                        <Image ID="GovernmentIcon" Anchor="C,C" Size="38,38" Offset="-1,-2" Texture="LaunchBar_Hook_Government"/>
-                    </Image>
-                    <Label Anchor="C,C" Style="BodyText14" String="[Icon_New]" Offset="0,3"/>
-                </Image>
-                <Image ID="GovernorReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34" Hidden="1">
-                    <Image Anchor="C,C" Size="43,43" Offset="0,-30" Texture="CombatPreview_CombatStat">
-                        <Image ID="GovernorIcon" Anchor="C,C" Size="38,38" Offset="-1,0" Texture="LaunchBar_Hook_Governors"/>
-                    </Image>
-                    <Label Anchor="C,C" Style="BodyText14" String="[Icon_New]" Offset="0,3"/>
-                </Image>
-            </Stack>
+  <Container ID="RemindContainer" Anchor="L,B" Offset="0,60">
+    <Grid ID="Bubble" Anchor="L,B" Texture="bubble.dds" SliceCorner="44,28" SliceTextureSize="64,72" Color="255,255,255,200">
+      <Stack ID="RemindStack" Anchor="C,T" Offset="1,16" StackGrowth="Right" Padding="10">
+        <Grid ID="TechReady" Size="45,46" Hidden="1">
+          <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
+            <Image Anchor="C,C" Size="38,38" Texture="LaunchBar_Hook_TechTree"/>
+            <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
+          </Image>
         </Grid>
-    </Container>
+        <Grid ID="CivicReady" Size="45,46" Hidden="1">
+          <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
+            <Image Anchor="C,C" Size="38,38" Texture="LaunchBar_Hook_CivicsTree"/>
+            <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
+          </Image>
+        </Grid>
+        <Grid ID="GovernmentReady" Size="45,46" Hidden="1">
+          <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
+            <Image Anchor="C,C" Size="38,38" Offset="-1,-2" Texture="LaunchBar_Hook_Government"/>
+            <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
+          </Image>
+        </Grid>
+        <Grid ID="GovernorReady" Size="45,46" Hidden="1">
+          <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
+            <Image Anchor="C,C" Size="38,38" Offset="-1,0" Texture="LaunchBar_Hook_Governors"/>
+            <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
+          </Image>
+        </Grid>
+      </Stack>
+    </Grid>
+  </Container>
 </Context>
