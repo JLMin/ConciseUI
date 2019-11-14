@@ -11,8 +11,10 @@ include("cui_settings")
 local boolean_text = {"LOC_OPTIONS_ENABLED", "LOC_OPTIONS_DISABLED"}
 
 local tabs = {
-  {Controls.VictoryTab, Controls.VictoryOptions, 0}, {Controls.LogTab, Controls.LogOptions, 0},
-  {Controls.PopupTab, Controls.PopupOptions, 0}, {Controls.RemindTab, Controls.RemindOptions, 0}
+  {Controls.VictoryTab, Controls.VictoryOptions},
+  {Controls.LogTab,     Controls.LogOptions},
+  {Controls.PopupTab,   Controls.PopupOptions},
+  {Controls.RemindTab,  Controls.RemindOptions}
 }
 
 -- ---------------------------------------------------------------------------
@@ -101,7 +103,10 @@ function LoadVictorySettings()
     CuiSettings:SetBoolean(CuiSettings.SCIENCE, v)
     UpdateVictory()
   end
-  PopulatePullDown(Controls.SetScience, options, CuiSettings:GetBoolean(CuiSettings.SCIENCE), ScienceHandler,
+  PopulatePullDown(Controls.SetScience,
+                   options,
+                   CuiSettings:GetBoolean(CuiSettings.SCIENCE),
+                   ScienceHandler,
                    Game.IsVictoryEnabled("VICTORY_TECHNOLOGY"))
 
   -- Culture
@@ -109,7 +114,10 @@ function LoadVictorySettings()
     CuiSettings:SetBoolean(CuiSettings.CULTURE, v)
     UpdateVictory()
   end
-  PopulatePullDown(Controls.SetCulture, options, CuiSettings:GetBoolean(CuiSettings.CULTURE), CultureHandler,
+  PopulatePullDown(Controls.SetCulture,
+                   options,
+                   CuiSettings:GetBoolean(CuiSettings.CULTURE),
+                   CultureHandler,
                    Game.IsVictoryEnabled("VICTORY_CULTURE"))
 
   -- Domination
@@ -117,7 +125,10 @@ function LoadVictorySettings()
     CuiSettings:SetBoolean(CuiSettings.DOMINATION, v)
     UpdateVictory()
   end
-  PopulatePullDown(Controls.SetDomination, options, CuiSettings:GetBoolean(CuiSettings.DOMINATION), DominationHandler,
+  PopulatePullDown(Controls.SetDomination,
+                   options,
+                   CuiSettings:GetBoolean(CuiSettings.DOMINATION),
+                   DominationHandler,
                    Game.IsVictoryEnabled("VICTORY_CONQUEST"))
 
   -- Religious
@@ -125,16 +136,27 @@ function LoadVictorySettings()
     CuiSettings:SetBoolean(CuiSettings.RELIGION, v)
     UpdateVictory()
   end
-  PopulatePullDown(Controls.SetReligious, options, CuiSettings:GetBoolean(CuiSettings.RELIGION), ReligiousHandler,
-                   Game.IsVictoryEnabled("VICTORY_RELIGIOUS"))
+  PopulatePullDown(Controls.SetReligious,
+                  options,
+                  CuiSettings:GetBoolean(CuiSettings.RELIGION),
+                  ReligiousHandler,
+                  Game.IsVictoryEnabled("VICTORY_RELIGIOUS"))
 
   -- Diplomatic
-  local DiplomaticHandler = function(v)
-    CuiSettings:SetBoolean(CuiSettings.DIPLOMATIC, v)
-    UpdateVictory()
+  local isEnabled = isExpansion1 or isExpansion2
+  if isEnabled then
+    local DiplomaticHandler = function(v)
+      CuiSettings:SetBoolean(CuiSettings.DIPLOMATIC, v)
+      UpdateVictory()
+    end
+    PopulatePullDown(Controls.SetDiplomatic,
+                     options,
+                     CuiSettings:GetBoolean(CuiSettings.DIPLOMATIC),
+                     DiplomaticHandler,
+                     Game.IsVictoryEnabled("VICTORY_DIPLOMATIC"))
+  else
+    Controls.OptionGovernor:SetHide(true)
   end
-  PopulatePullDown(Controls.SetDiplomatic, options, CuiSettings:GetBoolean(CuiSettings.DIPLOMATIC), DiplomaticHandler,
-                   Game.IsVictoryEnabled("VICTORY_DIPLOMATIC"))
 end
 
 -- ---------------------------------------------------------------------------
@@ -143,7 +165,9 @@ function UpdateVictory() LuaEvents.CuiVictorySettingChange() end
 -- ---------------------------------------------------------------------------
 function LoadLogSettings()
   local options = {
-    {"LOC_CUI_OPTIONS_LOG_SHOW_NONE", 0}, {"LOC_CUI_OPTIONS_LOG_DEFAULT", 1}, {"LOC_CUI_OPTIONS_LOG_WORLDTRACKER", 2},
+    {"LOC_CUI_OPTIONS_LOG_SHOW_NONE", 0},
+    {"LOC_CUI_OPTIONS_LOG_DEFAULT", 1},
+    {"LOC_CUI_OPTIONS_LOG_WORLDTRACKER", 2},
     {"LOC_CUI_OPTIONS_LOG_BOTH", 3}
   }
 
@@ -179,23 +203,43 @@ function LoadPopupSettings()
 
   -- Research
   local ResearchHandler = function(v) CuiSettings:SetBoolean(CuiSettings.POPUP_RESEARCH, v) end
-  PopulatePullDown(Controls.SetResearch, options, CuiSettings:GetBoolean(CuiSettings.POPUP_RESEARCH), ResearchHandler, true)
+  PopulatePullDown(Controls.SetResearch,
+                   options,
+                   CuiSettings:GetBoolean(CuiSettings.POPUP_RESEARCH),
+                   ResearchHandler,
+                   true)
 
   -- PlayAudio
   local AudioHandler = function(v) CuiSettings:SetBoolean(CuiSettings.AUDIO_RESEARCH, v) end
-  PopulatePullDown(Controls.SetPlayAudio, options, CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH), AudioHandler, true)
+  PopulatePullDown(Controls.SetPlayAudio,
+                   options,
+                   CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH),
+                   AudioHandler,
+                   true)
 
   -- EraScore
   local EraScoreHandler = function(v) CuiSettings:SetBoolean(CuiSettings.POPUP_HISTORIC, v) end
-  PopulatePullDown(Controls.SetEraScore, options, CuiSettings:GetBoolean(CuiSettings.POPUP_HISTORIC), EraScoreHandler, true)
+  PopulatePullDown(Controls.SetEraScore,
+                   options,
+                   CuiSettings:GetBoolean(CuiSettings.POPUP_HISTORIC),
+                   EraScoreHandler,
+                   true)
 
   -- GreatWork
   local GreatWorkHandler = function(v) CuiSettings:SetBoolean(CuiSettings.POPUP_CREATWORK, v) end
-  PopulatePullDown(Controls.SetGreatWork, options, CuiSettings:GetBoolean(CuiSettings.POPUP_CREATWORK), GreatWorkHandler, true)
+  PopulatePullDown(Controls.SetGreatWork,
+                   options,
+                   CuiSettings:GetBoolean(CuiSettings.POPUP_CREATWORK),
+                   GreatWorkHandler,
+                   true)
 
   -- Relic
   local RelicHandler = function(v) CuiSettings:SetBoolean(CuiSettings.POPUP_RELIC, v) end
-  PopulatePullDown(Controls.SetRelic, options, CuiSettings:GetBoolean(CuiSettings.POPUP_RELIC), RelicHandler, true)
+  PopulatePullDown(Controls.SetRelic,
+                   options,
+                   CuiSettings:GetBoolean(CuiSettings.POPUP_RELIC),
+                   RelicHandler,
+                   true)
 end
 
 -- ---------------------------------------------------------------------------
@@ -212,29 +256,49 @@ function LoadRemindSettings()
     CuiSettings:SetBoolean(CuiSettings.REMIND_TECH, v)
     UpdateRemind()
   end
-  PopulatePullDown(Controls.SetTechRemind, options, CuiSettings:GetBoolean(CuiSettings.REMIND_TECH), TechRemindHandler, true)
+  PopulatePullDown(Controls.SetTechRemind,
+                   options,
+                   CuiSettings:GetBoolean(CuiSettings.REMIND_TECH),
+                   TechRemindHandler,
+                   true)
 
   -- CivicRemind
   local CivicRemindHandler = function(v)
     CuiSettings:SetBoolean(CuiSettings.REMIND_CIVIC, v)
     UpdateRemind()
   end
-  PopulatePullDown(Controls.SetCivicRemind, options, CuiSettings:GetBoolean(CuiSettings.REMIND_CIVIC), CivicRemindHandler, true)
+  PopulatePullDown(Controls.SetCivicRemind,
+                   options,
+                   CuiSettings:GetBoolean(CuiSettings.REMIND_CIVIC),
+                   CivicRemindHandler,
+                   true)
 
   -- GovernmentRemind
   local GovernmentRemindHandler = function(v)
     CuiSettings:SetBoolean(CuiSettings.REMIND_GOVERNMENT, v)
     UpdateRemind()
   end
-  PopulatePullDown(Controls.SetGovernmentRemind, options, CuiSettings:GetBoolean(CuiSettings.REMIND_GOVERNMENT), GovernmentRemindHandler,
+  PopulatePullDown(Controls.SetGovernmentRemind,
+                   options,
+                   CuiSettings:GetBoolean(CuiSettings.REMIND_GOVERNMENT),
+                   GovernmentRemindHandler,
                    true)
 
   -- GovernorRemind
-  local GovernorRemindHandler = function(v)
-    CuiSettings:SetBoolean(CuiSettings.REMIND_GOVERNOR, v)
-    UpdateRemind()
+  local isEnabled = isExpansion1 or isExpansion2
+  if isEnabled then
+    local GovernorRemindHandler = function(v)
+      CuiSettings:SetBoolean(CuiSettings.REMIND_GOVERNOR, v)
+      UpdateRemind()
+    end
+    PopulatePullDown(Controls.SetGovernorRemind,
+                     options,
+                     CuiSettings:GetBoolean(CuiSettings.REMIND_GOVERNOR),
+                     GovernorRemindHandler,
+                     isEnabled)
+  else
+    Controls.OptionDiplomatic:SetHide(true)
   end
-  PopulatePullDown(Controls.SetGovernorRemind, options, CuiSettings:GetBoolean(CuiSettings.REMIND_GOVERNOR), GovernorRemindHandler, true)
 end
 
 -- ---------------------------------------------------------------------------
@@ -282,7 +346,11 @@ function OnConfirm()
 end
 
 -- ---------------------------------------------------------------------------
-function OnInit(isReload) if isReload then if not ContextPtr:IsHidden() then Open() end end end
+function OnInit(isReload)
+  if isReload then
+    if not ContextPtr:IsHidden() then Open() end
+  end
+end
 
 -- ---------------------------------------------------------------------------
 function OnInputHandler(pInputStruct)

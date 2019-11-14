@@ -3,6 +3,7 @@
 -- eudaimonia, 11/11/2019
 -- ===========================================================================
 include("InstanceManager")
+include("cui_helper")
 include("cui_settings")
 include("cui_tech_civic_support")
 
@@ -13,50 +14,40 @@ local isAnyRemind = false
 
 -- ---------------------------------------------------------------------------
 function RefreshTech(localPlayer, eTech)
-  if not CuiSettings:GetBoolean(CuiSettings.REMIND_TECH) then
-    Controls.TechReady:SetHide(true)
-    return
+  if CuiSettings:GetBoolean(CuiSettings.REMIND_TECH) then
+    local isReady = CuiIsTechReady(localPlayer)
+    Controls.TechReady:SetHide(not isReady)
+    if isReady then isAnyRemind = true end
   end
-
-  local isReady = CuiIsTechReady(localPlayer)
-  Controls.TechReady:SetHide(not isReady)
-  if isReady then isAnyRemind = true end
 end
 
 -- ---------------------------------------------------------------------------
 function RefreshCivic(localPlayer, eCivic)
-  if not CuiSettings:GetBoolean(CuiSettings.REMIND_CIVIC) then
-    Controls.CivicReady:SetHide(true)
-    return
+  if CuiSettings:GetBoolean(CuiSettings.REMIND_CIVIC) then
+    local isReady = CuiIsCivicReady(localPlayer)
+    Controls.CivicReady:SetHide(not isReady)
+    if isReady then isAnyRemind = true end
   end
-
-  local isReady = CuiIsCivicReady(localPlayer)
-  Controls.CivicReady:SetHide(not isReady)
-  if isReady then isAnyRemind = true end
 end
 
 -- ---------------------------------------------------------------------------
 function RefreshGovernment(localPlayer)
-  if not CuiSettings:GetBoolean(CuiSettings.REMIND_GOVERNMENT) then
-    Controls.GovernmentReady:SetHide(true)
-    return
+  if CuiSettings:GetBoolean(CuiSettings.REMIND_GOVERNMENT) then
+    local isReady = CuiIsGovernmentReady(localPlayer)
+    Controls.GovernmentReady:SetHide(not isReady)
+    if isReady then isAnyRemind = true end
   end
-
-  local isReady = CuiIsGovernmentReady(localPlayer)
-  Controls.GovernmentReady:SetHide(not isReady)
-  if isReady then isAnyRemind = true end
 end
 
 -- ---------------------------------------------------------------------------
 function RefreshGovernor(localPlayer)
-  if not CuiSettings:GetBoolean(CuiSettings.REMIND_GOVERNOR) then
-    Controls.GovernorReady:SetHide(true)
-    return
-  end
+  if not isExpansion1 or not isExpansion2 then return end
 
-  local isReady = CuiIsGovernorReady(localPlayer)
-  Controls.GovernorReady:SetHide(not isReady)
-  if isReady then isAnyRemind = true end
+  if CuiSettings:GetBoolean(CuiSettings.REMIND_GOVERNOR) then
+    local isReady = CuiIsGovernorReady(localPlayer)
+    Controls.GovernorReady:SetHide(not isReady)
+    if isReady then isAnyRemind = true end
+  end
 end
 
 -- ---------------------------------------------------------------------------

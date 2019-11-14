@@ -45,7 +45,7 @@
                                 <PullDown ID="SetReligious" Style="PullDownBlue" ScrollThreshold="400" Size="200,24" Offset="0,0" SpaceForScroll="0"/>
                                 <Label Anchor="L,C" Style="ShellOptionText" WrapWidth="175" String="LOC_VICTORY_RELIGIOUS_NAME"/>
                             </Stack>
-                            <Stack Anchor="R,T" StackGrowth="Left" Padding="15">
+                            <Stack ID="OptionDiplomatic" Anchor="R,T" StackGrowth="Left" Padding="15">
                                 <PullDown ID="SetDiplomatic" Style="PullDownBlue" ScrollThreshold="400" Size="200,24" Offset="0,0" SpaceForScroll="0"/>
                                 <Label Anchor="L,C" Style="ShellOptionText" WrapWidth="175" String="LOC_VICTORY_DIPLOMATIC_NAME"/>
                             </Stack>
@@ -104,7 +104,7 @@
                                 <PullDown ID="SetGovernmentRemind" Style="PullDownBlue" ScrollThreshold="400" Size="200,24" Offset="0,0" SpaceForScroll="0"/>
                                 <Label Anchor="L,C" Style="ShellOptionText" WrapWidth="175" String="LOC_CUI_OPTIONS_REMIND_GOVERNMENT"/>
                             </Stack>
-                            <Stack Anchor="R,T" StackGrowth="Left" Padding="15">
+                            <Stack ID="OptionGovernor" Anchor="R,T" StackGrowth="Left" Padding="15">
                                 <PullDown ID="SetGovernorRemind" Style="PullDownBlue" ScrollThreshold="400" Size="200,24" Offset="0,0" SpaceForScroll="0"/>
                                 <Label Anchor="L,C" Style="ShellOptionText" WrapWidth="175" String="LOC_CUI_OPTIONS_REMIND_GOVERNOR"/>
                             </Stack>

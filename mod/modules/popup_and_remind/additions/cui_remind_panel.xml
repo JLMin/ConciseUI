@@ -5,25 +5,25 @@
     <Container ID="RemindContainer" Size="200,100" Anchor="L,B" Offset="0,92">
         <Grid ID="Bubble" Anchor="L,T" Size="200,100" Texture="bubble.dds" SliceCorner="44,28" SliceTextureSize="64,72" Color="255,255,255,200">
             <Stack ID="RemindStack" Size="200,100" Anchor="C,C" Offset="0,8" StackGrowth="Right" Padding="20">
-                <Image ID="TechReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34">
+                <Image ID="TechReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34" Hidden="1">
                     <Image Anchor="C,C" Size="43,43" Offset="0,-30" Texture="CombatPreview_CombatStat">
                         <Image ID="ResearchIcon" Anchor="C,C" Size="38,38" Texture="LaunchBar_Hook_TechTree"/>
                     </Image>
                     <Image Anchor="C,C" Texture="BoostTechOn"/>
                 </Image>
-                <Image ID="CivicReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34">
+                <Image ID="CivicReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34" Hidden="1">
                     <Image Anchor="C,C" Size="43,43" Offset="0,-30" Texture="CombatPreview_CombatStat">
                         <Image ID="CultureIcon" Anchor="C,C" Size="38,38" Texture="LaunchBar_Hook_CivicsTree"/>
                     </Image>
                     <Image Anchor="C,C" Texture="BoostCivicOn"/>
                 </Image>
-                <Image ID="GovernmentReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34">
+                <Image ID="GovernmentReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34" Hidden="1">
                     <Image Anchor="C,C" Size="43,43" Offset="0,-30" Texture="CombatPreview_CombatStat">
                         <Image ID="GovernmentIcon" Anchor="C,C" Size="38,38" Offset="-1,-2" Texture="LaunchBar_Hook_Government"/>
                     </Image>
                     <Label Anchor="C,C" Style="BodyText14" String="[Icon_New]" Offset="0,3"/>
                 </Image>
-                <Image ID="GovernorReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34">
+                <Image ID="GovernorReady" Texture="Controls_SubHeader3" Size="34,34" SliceCorner="16,16" SliceTextureSize="34,34" Hidden="1">
                     <Image Anchor="C,C" Size="43,43" Offset="0,-30" Texture="CombatPreview_CombatStat">
                         <Image ID="GovernorIcon" Anchor="C,C" Size="38,38" Offset="-1,0" Texture="LaunchBar_Hook_Governors"/>
                     </Image>
