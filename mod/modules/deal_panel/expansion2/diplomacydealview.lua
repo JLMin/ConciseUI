@@ -10,6 +10,7 @@ include("ToolTipHelper_PlayerYields")
 include("CivilizationIcon")
 include("GreatWorksSupport")
 include("cui_helper") -- CUI
+include("cui_deal_support") -- CUI
 
 -- ===========================================================================
 --	Globals
@@ -35,11 +36,9 @@ local ms_TopDownListIM = InstanceManager:new("TopDownList", "List", Controls.Top
 local ms_AgreementOptionIM = InstanceManager:new("AgreementOptionInstance", "AgreementOptionButton", Controls.ValueEditStack)
 
 -- CUI: instances
+local CuiIconOnlyIM = InstanceManager:new("CuiIconOnly", "SelectButton", Controls.IconOnlyContainer)
 local CuiGroupListIM = InstanceManager:new("CuiGroupList", "List", Controls.LeftRightListContainer)
 local CuiEditGroupIM = InstanceManager:new("CuiEditGroup", "Top", Controls.IconOnlyContainer)
-local CuiDefaultColor = UI.GetColorValueFromHexLiteral(0xFFFFFFFF)
-local CuiRedColor = UI.GetColorValueFromHexLiteral(0xFF0000FF)
-local CuiGreenColor = UI.GetColorValueFromHexLiteral(0xFF00FF00)
 
 local OTHER_PLAYER = 0
 local LOCAL_PLAYER = 1
@@ -1574,80 +1573,41 @@ function PopulateAvailableResources(player, iconList, className)
   local pForDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
   local possibleResources = DealManager.GetPossibleDealItems(player:GetID(), GetOtherPlayer(player):GetID(), DealItemTypes.RESOURCES,
                                                              pForDeal)
-  if (possibleResources ~= nil) then
-    for i, entry in ipairs(possibleResources) do
-
+  -- CUI overwrite - resources check
+  if possibleResources then
+    for _, entry in ipairs(possibleResources) do
       local resourceDesc = GameInfo.Resources[entry.ForType]
-      if (resourceDesc ~= nil) then
+      if resourceDesc then
         -- Do we have some and is it a luxury item?
-        if (entry.MaxAmount > 0 and resourceDesc.ResourceClassType == className) then
-          local icon = g_IconOnlyIM:GetInstance(iconList.ListStack)
-          SetIconToSize(icon.Icon, "ICON_" .. resourceDesc.ResourceType, 36) -- CUI: smaller icon
+        if entry.MaxAmount > 0 and resourceDesc.ResourceClassType == className then
+        
+          local resourceType = entry.ForType
+          local resource = GameInfo.Resources[resourceType]
+          
+          local icon = CuiIconOnlyIM:GetInstance(iconList.ListStack)
+          SetIconToSize(icon.Icon, "ICON_" .. resourceDesc.ResourceType, 36)
           icon.AmountText:SetText(tostring(entry.MaxAmount))
           icon.AmountText:SetHide(false)
-
-          local resourceType = entry.ForType
-          -- CUI: resources check
-          icon.Turns:SetHide(true) -- CUI
-          local resource = GameInfo.Resources[resourceType]
-          local localResources = Players[ms_LocalPlayer:GetID()]:GetResources()
-          local otherResources = Players[ms_OtherPlayer:GetID()]:GetResources()
-          local needMask = false
-          local addTooltip = ""
-
-          if (resource ~= nil and resource.ResourceClassType == "RESOURCECLASS_LUXURY") then
-            -- their inventory
-            if player == ms_OtherPlayer then
-              -- we already have
-              if localResources:HasResource(resource.Index) then
-                needMask = true
-                addTooltip = "[NEWLINE][COLOR_Red]" .. Locale.Lookup("LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP") .. "[ENDCOLOR]"
-              end
-              -- blocked deal, for AI only
-              if entry.MaxAmount == 1 and not Players[ms_OtherPlayer:GetID()]:IsHuman() then
-                needMask = true
-                addTooltip = addTooltip .. "[NEWLINE][COLOR_Red]" .. Locale.Lookup("LOC_DIPLO_DEAL_UNACCEPTABLE_ITEM_TOOLTIP") ..
-                                 "[ENDCOLOR]"
-              end
-            end
-
-            -- our inventory
-            if player == ms_LocalPlayer then
-              -- thay already have
-              needMask = otherResources:HasResource(resource.Index)
-              addTooltip = "[NEWLINE][COLOR_Red]" .. Locale.Lookup("LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP") .. "[ENDCOLOR]"
-            end
+          icon.Turns:SetHide(true)
+          icon.Icon:SetColor(1, 1, 1)
+          
+          if resource and resource.ResourceClassType == "RESOURCECLASS_LUXURY" then
+            local luxuryData = CuiGetLuxuryData(player, ms_LocalPlayer, ms_OtherPlayer, entry)
+            local color, tooltip = CuiGetButtonStyleByData(luxuryData)
+            --
             icon.SelectButton:SetDisabled(false)
-            icon.Icon:SetColor(1, 1, 1)
-            if needMask then
-              icon.SelectButton:SetColor(CuiRedColor)
-              icon.SelectButton:SetToolTipString(Locale.Lookup(resourceDesc.Name) .. addTooltip)
-            else
-              icon.SelectButton:SetColor(CuiGreenColor)
-              icon.SelectButton:SetToolTipString(Locale.Lookup(resourceDesc.Name))
-            end
-          elseif (resource ~= nil and resource.ResourceClassType == "RESOURCECLASS_STRATEGIC") then
-            if entry.IsValid then
-              icon.SelectButton:LocalizeAndSetToolTip(resourceDesc.Name)
-              icon.SelectButton:SetDisabled(false)
-              icon.SelectButton:SetColor(CuiGreenColor)
-              icon.Icon:SetColor(1, 1, 1)
-            else
-              addTooltip = Locale.Lookup(resourceDesc.Name) .. "[NEWLINE][COLOR_RED]"
-              if player ~= g_LocalPlayer then
-                addTooltip = addTooltip .. Locale.Lookup("LOC_DEAL_PLAYER_HAS_NO_CAP_ROOM")
-                icon.SelectButton:SetToolTipString(addTooltip)
-              else
-                addTooltip = addTooltip .. Locale.Lookup("LOC_DEAL_AI_HAS_NO_CAP_ROOM")
-                icon.SelectButton:SetToolTipString(addTooltip)
-              end
-              icon.SelectButton:SetDisabled(true)
-              icon.SelectButton:SetColor(CuiRedColor)
-              icon.Icon:SetColor(0.5, 0.5, 0.5)
-            end
+            icon.ColorBG:SetColorByName(color)
+            icon.SelectButton:SetToolTipString(Locale.Lookup(resourceDesc.Name) .. tooltip)
+          elseif resource and resource.ResourceClassType == "RESOURCECLASS_STRATEGIC" then
+            local strategicData = CuiGetStrategicData(player, ms_LocalPlayer, entry)
+            local color, tooltip = CuiGetButtonStyleByDataXP2(strategicData)
+            --
+            icon.SelectButton:SetDisabled(not entry.IsValid)
+            icon.ColorBG:SetColorByName(color)
+            icon.SelectButton:SetToolTipString(Locale.Lookup(resourceDesc.Name) .. tooltip)
           end
-          icon.UnacceptableIcon:SetHide(true)
 
+          icon.UnacceptableIcon:SetHide(true)
           -- What to do when double clicked/tapped.
           icon.SelectButton:RegisterCallback(Mouse.eLClick, function() OnClickAvailableResource(player, resourceType) end)
           -- Set a tool tip
@@ -2051,18 +2011,14 @@ function PopulateDealResources(player, iconList)
         local dealItemID = pDealItem:GetID()
         -- Gold?
         if (type == DealItemTypes.GOLD) then
-          local icon
+          local icon = g_IconOnlyIM:GetInstance(iconList)
           if (iDuration == 0) then
             -- One time
-            icon = g_IconOnlyIM:GetInstance(iconList)
-            icon.SelectButton:SetColor(CuiDefaultColor) -- CUI: reset color
             icon.SelectButton:SetDisabled(false)
             icon.Icon:SetColor(1, 1, 1)
             icon.Turns:SetHide(true)
           else
             -- Multi-turn
-            icon = g_IconOnlyIM:GetInstance(iconList)
-            icon.SelectButton:SetColor(CuiDefaultColor) -- CUI: reset color
             icon.Turns:SetHide(false)
           end
           SetIconToSize(icon.Icon, "ICON_YIELD_GOLD_5")
@@ -2084,18 +2040,14 @@ function PopulateDealResources(player, iconList)
           if (type == DealItemTypes.RESOURCES) then
 
             local resourceType = pDealItem:GetValueType()
-            local icon
+            local icon = g_IconOnlyIM:GetInstance(iconList)
             if (iDuration == 0) then
               -- One time
-              icon = g_IconOnlyIM:GetInstance(iconList)
-              icon.SelectButton:SetColor(CuiDefaultColor) -- CUI: reset color
               icon.Turns:SetHide(true)
               icon.SelectButton:SetDisabled(false)
               icon.Icon:SetColor(1, 1, 1)
             else
               -- Multi-turn
-              icon = g_IconOnlyIM:GetInstance(iconList)
-              icon.SelectButton:SetColor(CuiDefaultColor) -- CUI: reset color
               icon.Turns:SetHide(false)
             end
             local resourceDesc = GameInfo.Resources[resourceType]
@@ -2530,6 +2482,7 @@ function OnShow()
   Controls.ValueEditPopupBackground:SetHide(true)
 
   CuiResetEditGroup() -- CUI
+  CuiIconOnlyIM:ResetInstances()
 
   g_IconOnlyIM:ResetInstances()
   g_IconAndTextIM:ResetInstances()

@@ -12,7 +12,6 @@ include("DiplomacyDealView.lua")
 local ms_DefaultOneTimeFavorAmount = 1
 
 -- CUI
-local CuiDefaultColor = UI.GetColorValueFromHexLiteral(0xFFFFFFFF)
 local cuiSPC = 5 -- Strategic Per Click
 
 -- ===========================================================================
@@ -156,7 +155,6 @@ function PopulateDealResources(player, iconList)
             icon.AmountText:SetText(tostring(pDealItem:GetAmount()))
             icon.AmountText:SetHide(false)
             icon.Icon:SetColor(1, 1, 1)
-            icon.SelectButton:SetColor(CuiDefaultColor) -- CUI: reset color
             icon.Turns:SetHide(true) -- CUI
 
             -- Show/hide unacceptable item notification

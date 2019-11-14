@@ -17,6 +17,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                       "L-Klick Hinzufügen, R-Click Abziehen"),
 ("de_DE", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "Das haben sie schon"),
 ("de_DE", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "Das haben wir schon"),
+("de_DE", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "We only have one"),
 
 -- =============================================================================
 -- Diplomatic Banner

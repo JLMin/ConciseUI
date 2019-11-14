@@ -17,6 +17,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("fr_FR", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                       "Clique gauche pour ajouter ; clique droit pour soustraire"),
 ("fr_FR", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "Ils possèdent déjà"),
 ("fr_FR", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "Nous possédons déjà"),
+("fr_FR", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "We only have one"),
 
 -- =============================================================================
 -- Diplomatic Banner

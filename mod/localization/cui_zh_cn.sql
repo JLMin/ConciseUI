@@ -17,6 +17,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("zh_Hans_CN", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                  "左键增加，右键减少"),
 ("zh_Hans_CN", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                             "他们已拥有"),
 ("zh_Hans_CN", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                               "我们已拥有"),
+("zh_Hans_CN", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                           "我们仅有一份"),
 
 -- =============================================================================
 -- Diplomatic Banner

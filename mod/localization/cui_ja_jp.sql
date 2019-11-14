@@ -17,6 +17,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ja_JP", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                       "左クリックで追加 / 右クリックで撤回"),
 ("ja_JP", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "相手が所有している"),
 ("ja_JP", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "自分が所有している"),
+("ja_JP", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "We only have one"),
 
 -- =============================================================================
 -- Diplomatic Banner
