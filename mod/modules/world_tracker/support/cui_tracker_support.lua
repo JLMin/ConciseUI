@@ -55,7 +55,7 @@ function GetWonderData()
     local color1, color2 = UI.GetPlayerColors(playerID)
     local config = PlayerConfigurations[playerID]
     local civName = Locale.Lookup(config:GetCivilizationDescription())
-    if pData.isLocalPlayer then civName = Locale.Lookup("LOC_CLIMATE_YOU", civName) end
+    if pData.isLocalPlayer then civName = Locale.Lookup("LOC_GAMESUMMARY_CONTEXT_LOCAL", civName) end
     local shouldShow = pData.isLocalPlayer or pData.isMet or pData.isHuman
     if not shouldShow then
       civName = Locale.Lookup("LOC_DIPLOPANEL_UNMET_PLAYER")
