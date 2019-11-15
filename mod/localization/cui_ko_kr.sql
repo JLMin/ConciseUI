@@ -75,8 +75,8 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ko_KR", "LOC_CUI_RS_SHOW_CITY_DETAILS",                                       "도시 상세정보 보기"),
 ("ko_KR", "LOC_CUI_RS_BUILDING_NUMBER",                                         "지어진 건물"),
 ("ko_KR", "LOC_CUI_RS_TOTALS",                                                  "전체: {1_num}"),
-("ko_KR", "LOC_CUI_RS_DEALS_OUTGOING",                                          "Outgoing"),
-("ko_KR", "LOC_CUI_RS_DEALS_INCOMING",                                          "Incoming"),
+("ko_KR", "LOC_CUI_RS_DEALS_OUTGOING",                                          "수출"),
+("ko_KR", "LOC_CUI_RS_DEALS_INCOMING",                                          "수입"),
 
 -- =============================================================================
 -- SpyInfo
