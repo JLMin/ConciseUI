@@ -22,8 +22,6 @@ CuiSettings = {
   DF_COMBAT_LOG     = {field = "DefaultCombatLog",  default = false},
   GOSSIP_LOG_STATE  = {field = "GossipLogState",    default = 1},
   COMBAT_LOG_STATE  = {field = "CombatLogState",    default = 1},
-  -- unit list
-  SHOW_UNIT_DETAILS = {field = "ShowUnitDetails",   default = true},
   -- production panel
   QUEUE_BY_DEFAULT  = {field = "QueueByDefault",    default = false},
   -- great works

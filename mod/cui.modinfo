@@ -33,7 +33,9 @@
       <File>assets/icon_no.dds</File>
       <File>assets/icon_ready.dds</File>
       <File>assets/icon_yes.dds</File>
+      <File>assets/note_turn_back.dds</File>
       <File>assets/screenshot.dds</File>
+      <File>assets/unit_icon_back.dds</File>
       <File>assets/wrench.dds</File>
     </ImportFiles>
     <UpdateText id="Cui_Text">
@@ -198,7 +200,9 @@
     <File>assets/icon_no.dds</File>
     <File>assets/icon_ready.dds</File>
     <File>assets/icon_yes.dds</File>
+    <File>assets/note_turn_back.dds</File>
     <File>assets/screenshot.dds</File>
+    <File>assets/unit_icon_back.dds</File>
     <File>assets/wrench.dds</File>
     <File>config/cui_config.sql</File>
     <File>config/cui_config.xml</File>

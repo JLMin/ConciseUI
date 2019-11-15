@@ -73,8 +73,8 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
 -- SpyInfo
-("zh_Hans_CN", "LOC_CUI_SI_SPY_AVAILABLE",                                      "{1_num} [ICON_Unit] 间谍可用"),
-("zh_Hans_CN", "LOC_CUI_SI_SPY_CAPACITY",                                       "{1_num} [ICON_Unit] 间谍上限"),
+("zh_Hans_CN", "LOC_CUI_SI_SPY_AVAILABLE",                                      "{1_num}名 [ICON_Unit] 间谍可用"),
+("zh_Hans_CN", "LOC_CUI_SI_SPY_CAPACITY",                                       "{1_num}名 [ICON_Unit] 间谍上限"),
 
 -- =============================================================================
 -- World Tracker
@@ -119,7 +119,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 -- =============================================================================
 -- Notes
 ("zh_Hans_CN", "LOC_CUI_NOTES",                                                 "备忘录"),
-("zh_Hans_CN", "LOC_CUI_NOTE_LAST_EDIT",                                        "[ 最后编辑于：{1_num}回合 ]"),
+("zh_Hans_CN", "LOC_CUI_NOTE_LAST_EDIT",                                        "[ 回合：{1_num} ]"),
 ("zh_Hans_CN", "LOC_CUI_NOTE_EMPTY",                                            "无记录"),
 
 -- =============================================================================

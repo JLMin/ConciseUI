@@ -24,7 +24,7 @@ local UNIT_GROUP = {
   SPY = {name = "LOC_UNIT_SPY_NAME"},
   TRADE = {name = "LOC_UNIT_TRADER_NAME"}
 }
-local showDetails
+local showDetails = true
 local m_tabs
 local windowHeight = 0
 local TOP_PANEL_OFFSET = 29
@@ -222,7 +222,6 @@ function AddUnitToUnitList(pUnit, stackControl)
   if showDetails then
     unitEntry.Top:SetSizeX(230)
     unitEntry.Details:SetHide(false)
-    unitEntry.DummyButton:SetHide(false)
 
     -- unit name with charges
     local charges = 0
@@ -314,7 +313,6 @@ function AddUnitToUnitList(pUnit, stackControl)
   else
     unitEntry.Top:SetSizeX(48)
     unitEntry.Details:SetHide(true)
-    unitEntry.DummyButton:SetHide(true)
   end
 
   -- button call back
@@ -385,8 +383,8 @@ function Open()
     UIManager:QueuePopup(ContextPtr, PopupPriority.Low, kParameters)
     UI.PlaySound("UI_Screen_Open")
   end
-
-  SelectTab()
+  
+  RefreshUnitList()
 
   Controls.Vignette:SetSizeY(windowHeight)
   -- FullScreenVignetteConsumer
@@ -397,7 +395,6 @@ end
 -- ===========================================================================
 function Close()
   if not ContextPtr:IsHidden() then UI.PlaySound("UI_Screen_Close") end
-
   UIManager:DequeuePopup(ContextPtr)
 end
 
@@ -412,26 +409,21 @@ end
 
 -- ===========================================================================
 function OnNormalMode()
-  CuiSettings:SetBoolean(CuiSettings.SHOW_UNIT_DETAILS, false)
-  SelectTab()
+  showDetails = false
+  Controls.NormalMode:SetSelected(true)
+  Controls.SelectedNormal:SetHide(false)
+  Controls.DetailMode:SetSelected(false)
+  Controls.SelectedDetail:SetHide(true)
+  RefreshUnitList()
 end
 
 -- ===========================================================================
 function OnDetailMode()
-  CuiSettings:SetBoolean(CuiSettings.SHOW_UNIT_DETAILS, true)
-  SelectTab()
-end
-
--- ===========================================================================
-function SelectTab()
-  showDetails = CuiSettings:GetBoolean(CuiSettings.SHOW_UNIT_DETAILS)
-
-  Controls.NormalMode:SetSelected(not showDetails)
-  Controls.SelectedNormal:SetHide(showDetails)
-
-  Controls.DetailMode:SetSelected(showDetails)
-  Controls.SelectedDetail:SetHide(not showDetails)
-
+  showDetails = true
+  Controls.NormalMode:SetSelected(false)
+  Controls.SelectedNormal:SetHide(true)
+  Controls.DetailMode:SetSelected(true)
+  Controls.SelectedDetail:SetHide(false)
   RefreshUnitList()
 end
 
@@ -441,6 +433,7 @@ function BuildTabs()
   m_tabs.AddTab(Controls.NormalMode, OnNormalMode)
   m_tabs.AddTab(Controls.DetailMode, OnDetailMode)
   m_tabs.CenterAlignTabs(-30)
+  m_tabs.SelectTab(Controls.NormalMode)
 end
 
 -- ===========================================================================
@@ -464,7 +457,6 @@ end
 -- ===========================================================================
 function Initialize()
   BuildTabs()
-  SelectTab()
 
   ContextPtr:SetHide(true)
   ContextPtr:SetInitHandler(OnInit)

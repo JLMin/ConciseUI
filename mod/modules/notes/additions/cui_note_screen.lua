@@ -161,7 +161,6 @@ end
 -- ===========================================================================
 function Close()
   if not ContextPtr:IsHidden() then UI.PlaySound("UI_Screen_Close") end
-
   UIManager:DequeuePopup(ContextPtr)
 end
 

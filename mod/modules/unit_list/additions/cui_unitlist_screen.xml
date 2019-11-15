@@ -7,7 +7,12 @@
 
   <Container ID="PopupContainer" Anchor="C,C" Size="1024,768">
     <Box Anchor="C,C" Size="parent,768" Color="22,22,22,255">
-      <Image Anchor="C,C" Size="parent,parent" Texture="Climate_BG" Color="100,100,100,255"/>
+      <Image Size="parent,parent-46" Texture="WorldBuilder_BG" StretchMode="Tile" Color="80,80,80,255">
+        <Image ID="ArtParchmentDecoTop" Offset="0,50" Size="parent,103" Texture="Parchment_BorderDeco" FlipY="1" StretchMode="Tile" Alpha="0.2"/>
+        <Image ID="ArtParchmentDecoBottom" Anchor="L,B" Offset="0,10" Size="parent,103" Texture="Parchment_BorderDeco" FlipY="0" StretchMode="Tile" Alpha="0.2"/>
+        <Image ID="ArtParchmentRippleTop" Size="parent,217" Texture="Parchment_Ripple" FlipY="1" StretchMode="Tile" Alpha="1.0"/>
+        <Image ID="ArtParchmentRippleBottom" Anchor="L,B" Size="parent,217" Texture="Parchment_Ripple" FlipY="0" StretchMode="Tile" Alpha="1.0"/>
+      </Image>
       <Image Size="parent,40" Texture="Controls_SubHeader2"/>
       <Container Size="parent,40">
         <Label Anchor="C,C" Style="FontFlair24" String="LOC_PEDIA_UNITS_TITLE" FontStyle="glow" ColorSet="ShellHeader" SmallCaps="28" SmallCapsLeading="0" SmallCapsType="EveryWord"/>
@@ -19,18 +24,18 @@
 
     <!-- Body -->
     <Container Anchor="C,T" Offset="0,80" Size="1024,parent-80">
-      <Container ID="OverviewPane" Size="parent,parent-32">
+      <Container ID="OverviewPanel" Size="parent,parent-32">
         <Grid ID="Body" Anchor="C,T" Size="parent,parent">
-          <ScrollPanel ID="Scroll" Anchor="C,T" Size="parent,parent-20" Vertical="1" AutoScrollBar="1">
-            <ScrollBar Anchor="R,C" Offset="0,0" Size="11,parent" AnchorSide="I,I" Style="ScrollVerticalBar"/>
-            <Stack ID="UnitGroupStack" Size="parent,auto" Offset="20,10" StackGrowth="Bottom" StackPadding="20"/>
+          <ScrollPanel ID="Scroll" Anchor="C,T" Offset="0,2" Size="parent,parent-22" Vertical="1" AutoScrollBar="1">
+            <ScrollBar Anchor="R,C" Size="11,parent" AnchorSide="I,I" Style="ScrollVerticalBar"/>
+            <Stack ID="UnitGroupStack" Size="parent,auto" Offset="16,10" StackGrowth="Bottom" StackPadding="20"/>
           </ScrollPanel>
         </Grid>
       </Container>
 
       <Grid Anchor="C,B" Offset="0,40" Size="parent,8" Style="Divider3Grid" />
 
-      <Grid Anchor="L,B" Offset="34,7" Size="auto,32" SliceCorner="16,16" SliceSize="1,1" SliceTextureSize="32,32" Texture="Controls_LineItem" Color="200,199,212,255">
+      <Grid Anchor="L,B" Offset="34,7" Size="auto,32" SliceCorner="16,16" SliceSize="1,1" SliceTextureSize="32,32" Texture="Controls_LineItem" Color="100,100,100,255">
         <Stack StackGrowth="Right" Offset="10,10">
           <Label ID="UnitExpenses" Anchor="L,C" Size="parent,20" Style="ReportValueText" String="G" Color="White"/>
           <Grid Size="6,10" />
@@ -43,7 +48,7 @@
       <Image Anchor="C,C" Size="439,27" Texture="Controls_TabLedge2_Fill" StretchMode="Tile" />
       <Grid Anchor="C,T" Size="580,61" Texture="Controls_TabLedge2" SliceCorner="194,18" SliceSize="52,26" SliceTextureSize="438,61">
         <Container ID="TabContainer" Anchor="C,T" Offset="0,13" Size="parent-80,34">
-          <GridButton ID="NormalMode" Size="200,34" Style="TabButton" FontSize="14" TextOffset="0,2" String="LOC_CLIMATE_TAB_OVERVIEW">
+          <GridButton ID="NormalMode" Size="200,34" Style="TabButton" FontSize="14" TextOffset="0,2" String="LOC_REPORTS_LIST_OVERVIEW">
             <GridButton ID="SelectedNormal" Size="parent,parent" Style="TabButtonSelected" />
           </GridButton>
           <GridButton ID="DetailMode" Size="200,34" Style="TabButton" FontSize="14" TextOffset="0,2" String="LOC_WORLD_RANKINGS_SHOW_DETAILS">
@@ -66,21 +71,20 @@
   </Instance>
 
   <Instance Name="UnitEntryInstance">
-    <Container ID="Top" Offset="0,0" Size="230,48">
-      <GridButton ID="DummyButton" Disabled="true" Anchor="L,T" Size="230,24" Offset="0,2" Texture="Controls_ButtonControl.dds" SliceCorner="10,10" SliceSize="1,1" SliceTextureSize="24,24" StateOffsetIncrement="0,24" TruncateWidth="150"/>
-      <GridButton ID="Button" Anchor="L,T" Size="48,48" Texture="Controls_ButtonControl.dds" SliceCorner="10,10" SliceSize="1,1" SliceTextureSize="24,24" StateOffsetIncrement="0,24" TruncateWidth="150">
+    <Container ID="Top" Offset="0,0" Size="230,52">
+      <GridButton ID="Button" Anchor="L,T" Size="52,52">
+        <Image Texture="unit_icon_back.dds" Size="52,52" SliceCorner="24,24" SliceSize="1,1" SliceTextureSize="52,52"/>
         <Image ID="UnitTypeIcon" Anchor="C,C" Size="38,38" Texture="Units38" Offset="0,0"/>
-        <Label ID="UnitSuffix" Anchor="R,B" Size="22,22" Offset="2,3"/>
+        <Label ID="UnitSuffix" Anchor="R,B" Size="22,22" Offset="6,2"/>
       </GridButton>
       <Grid ID="Details" Anchor="L,T" Size="194,44" Offset="38,0">
-        <Label ID="UnitName" Anchor="L,T" Size="180,22" Offset="14,8" String="Unit Name" TruncateWidth="140" Style="FontFlair14" Color0="214,214,214,255" Color1="0,0,0,55"/>
-        <Button ID="UpgradeButton" Anchor="R,T" Size="22,22" Offset="28,3">
+        <Image Anchor="L,T" Size="180,43" Offset="13,4" Texture="Controls_ScrollMaskUpper"/>
+        <Label ID="UnitName" Anchor="L,T" Size="180,22" Offset="15,9" String="Unit Name" TruncateWidth="140" Style="FontFlair14" Color0="214,214,214,255" Color1="0,0,0,55"/>
+        <Button ID="UpgradeButton" Anchor="R,T" Size="22,22" Offset="28,5">
           <Image Texture="Stats22" Size="22,22" Anchor="R,C" Icon="ICON_UNITCOMMAND_UPGRADE"/>
         </Button>
-        <Image ID="UnitStatusIcon" Anchor="R,T" Size="22,22" Offset="6,3" Texture="Stats22"/>
-        <Image Size="parent-10,21" Offset="5,24" Texture="Controls_GradientSmall" FlipY="1" Color="39,89,137,125"/>
-        <Box Size="2,19" Offset="5,26" Anchor="R,T" Color="46,70,95,128"/>
-        <Stack ID="PromotionsStack" Anchor="L,T" Offset="7,21" StackGrowth="Right" StackPadding="-7"/>
+        <Image ID="UnitStatusIcon" Anchor="R,T" Size="22,22" Offset="6,5" Texture="Stats22"/>
+        <Stack ID="PromotionsStack" Anchor="L,T" Offset="9,22" StackGrowth="Right" StackPadding="-9"/>
       </Grid>
     </Container>
   </Instance>

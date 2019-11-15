@@ -7,7 +7,7 @@
 
   <Container ID="PopupContainer" Anchor="C,C" Size="1024,768">
     <Box Anchor="C,C" Size="parent,768" Color="22,22,22,255">
-      <Image Anchor="C,C" Size="parent,parent" Texture="Climate_BG" Color="100,100,100,255"/>
+      <Image Anchor="C,C" Size="parent,parent" Texture="Diplomacy_PlaceholderBG" Color="100,100,100,255"/>
       <Image Size="parent,40" Texture="Controls_SubHeader2"/>
       <Container Size="parent,40">
         <Label Anchor="C,C" Style="FontFlair24" String="LOC_CUI_NOTES" FontStyle="glow" ColorSet="ShellHeader" SmallCaps="28" SmallCapsLeading="0" SmallCapsType="EveryWord"/>
@@ -19,7 +19,7 @@
 
     <!-- Body -->
     <Container ID="NoteContainer" Anchor="C,T" Offset="0,44" Size="1024,parent-80">
-      <Stack ID="NoteStack" Size="parent,auto" Offset="0,14" StackGrowth="Down" StackPadding="8" />
+      <Stack ID="NoteStack" Size="parent,auto" Offset="0,22" StackGrowth="Down" StackPadding="8" />
     </Container>
   </Container>
 
@@ -27,14 +27,14 @@
   <!--	Instances																													-->
   <!-- ==================================================================	-->
   <Instance Name="NoteEnter">
-    <Container ID="Top" Anchor="C,T" Offset="0,0" Size="parent,62">
-      <Grid Size="parent-30,10" Anchor="C,T" Offset="0,38" Style="DividerGrid" Color="80,69,48">
-        <Label ID="LastEdit" Anchor="R,T" Style="FontNormal14" Offset="20,-36" Color="164,164,164,255" />
-        <GridButton ID="EditButton" Size="parent,32" Offset="0,4" Anchor="L,B" Texture="Controls_TextEntry" SliceCorner="30,0" SliceTextureSize="44,26" StateOffsetIncrement="0,26">
-          <EditBox ID="EditNote" Size="800,22" Offset="35,5" Anchor="L,C" Style="FontNormal16" EditMode="1" String="Empty Note" MaxLength="100" Hidden="1" />
-          <Label ID="Overview" Size="800,22" Offset="35,5" Anchor="L,C" Style="FontNormal16" TruncateWidth="750" />
-        </GridButton>
-      </Grid>
+    <Container ID="Top" Anchor="C,T" Size="parent-40,62">
+      <Image Size="171,48" Anchor="R,T" Offset="0,-12" Texture="note_turn_back.dds">
+        <Label ID="LastEdit" Anchor="C,T" Style="FontFlair14" Offset="0,10"/>
+      </Image>
+      <GridButton ID="EditButton" Size="parent,34" Anchor="L,C" Texture="Controls_TitleBarDark" SliceCorner="30,0" SliceTextureSize="44,34">
+        <EditBox ID="EditNote" Size="800,22" Offset="35,0" Anchor="L,C" Style="FontNormal16" EditMode="1" String="Empty Note" MaxLength="100" Hidden="1" />
+        <Label ID="Overview" Size="800,22" Offset="35,0" Anchor="L,C" Style="FontNormal16" TruncateWidth="750" />
+      </GridButton>
     </Container>
   </Instance>
 </Context>

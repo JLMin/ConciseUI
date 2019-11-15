@@ -119,7 +119,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 -- =============================================================================
 -- Notes
 ("en_US", "LOC_CUI_NOTES",                                                      "Notes"),
-("en_US", "LOC_CUI_NOTE_LAST_EDIT",                                             "[ Last edited at turn: {1_num} ]"),
+("en_US", "LOC_CUI_NOTE_LAST_EDIT",                                             "[ Turn: {1_num} ]"),
 ("en_US", "LOC_CUI_NOTE_EMPTY",                                                 "Empty Note"),
 
 -- =============================================================================
