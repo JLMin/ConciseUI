@@ -42,7 +42,12 @@ CuiSettings = {
   REMIND_TECH       = {field = "RemindTech",        default = true},
   REMIND_CIVIC      = {field = "RemindCivic",       default = true},
   REMIND_GOVERNMENT = {field = "RemindGovernment",  default = true},
-  REMIND_GOVERNOR   = {field = "RemindGovernor",    default = true}
+  REMIND_GOVERNOR   = {field = "RemindGovernor",    default = true},
+  -- quick combat & movement
+  PLAYER_COMBAT     = {field = "PlayerCombat",      default = true},
+  PLAYER_MOVEMENT   = {field = "PlayerMovement",    default = true},
+  AI_COMBAT         = {field = "AICombat",          default = true},
+  AI_MOVEMENT       = {field = "AIMovement",        default = true}
 }
 CuiSettings.__index = CuiSettings
 

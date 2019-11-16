@@ -128,10 +128,12 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("fr_FR", "LOC_CUI_OPTIONS_TAB_LOG",                                            "Logs"),
 ("fr_FR", "LOC_CUI_OPTIONS_TAB_POPUP",                                          "Popups"),
 ("fr_FR", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "Remind"),
+--
 ("fr_FR", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "Please select the victory you want to track."),
-("fr_FR", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Please elect where the logs will be displayed."),
-("fr_FR", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Please select the popover you want to enable."),
-("fr_FR", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Please select the reminder you want to use."),
+("fr_FR", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Please select where the logs will be displayed."),
+("fr_FR", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Please select the popups you want to enable."),
+("fr_FR", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Please select the reminders you want to use."),
+("fr_FR", "LOC_CUI_OPTIONS_DESC_SPEED",                                         "Please select quick combat & movement objects."),
 --
 ("fr_FR", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "Disable"),
 ("fr_FR", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                        "Default position"),
@@ -148,6 +150,11 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("fr_FR", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "Civic complete by inspire"),
 ("fr_FR", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Free government chance"),
 ("fr_FR", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Governor titles available"),
+--
+("fr_FR", "LOC_CUI_OPTIONS_QUICK_COMBAT",                                       "Combat rapide"),
+("fr_FR", "LOC_CUI_OPTIONS_QUICK_MOVEMENT",                                     "Déplacement rapide"),
+("fr_FR", "LOC_CUI_OPTIONS_SPEED_PLAYER_ONLY",                                  "Player Only"),
+("fr_FR", "LOC_CUI_OPTIONS_SPEED_AI_ONLY",                                      "AI Only"),
 
 -- =============================================================================
 -- Screenshot

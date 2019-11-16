@@ -20,6 +20,7 @@
                             <GridButton ID="LogTab" Style="ShellTabSmall" Size="200,32" String="LOC_CUI_OPTIONS_TAB_LOG" />
                             <GridButton ID="PopupTab" Style="ShellTabSmall" Size="200,32" String="LOC_CUI_OPTIONS_TAB_POPUP" />
                             <GridButton ID="RemindTab" Style="ShellTabSmall" Size="200,32" String="LOC_CUI_OPTIONS_TAB_REMIND" />
+                            <GridButton ID="ExtraTab" Style="ShellTabSmall" Size="200,32" String="LOC_OPTIONS_GAME_OPTIONS" />
                         </Stack>
                     </Grid>
                 </Grid>
@@ -51,19 +52,21 @@
                             </Stack>
                         </Stack>
                     </Container>
+
                     <Container ID="LogOptions" Size="parent,parent" Hidden="1">
                         <Stack Anchor="C,T" StackGrowth="Down" Padding="20" Offset="0,24" Size="parent-24,auto">
                             <Label Anchor="L,T" WrapWidth="parent-10" String="LOC_CUI_OPTIONS_DESC_LOG" Style="BlueGlow"/>
                             <Stack Anchor="R,T" StackGrowth="Left" Padding="15">
-                                <PullDown ID="SetGossip" Style="PullDownBlue" ScrollThreshold="400" Size="200,24" Offset="0,0" SpaceForScroll="0"/>
+                                <PullDown ID="SetGossipLog" Style="PullDownBlue" ScrollThreshold="400" Size="200,24" Offset="0,0" SpaceForScroll="0"/>
                                 <Label Anchor="L,C" Style="ShellOptionText" WrapWidth="175" String="LOC_CUI_WT_GOSSIP_LOG"/>
                             </Stack>
                             <Stack Anchor="R,T" StackGrowth="Left" Padding="15">
-                                <PullDown ID="SetCombat" Style="PullDownBlue" ScrollThreshold="400" Size="200,24" Offset="0,0" SpaceForScroll="0"/>
+                                <PullDown ID="SetCombatLog" Style="PullDownBlue" ScrollThreshold="400" Size="200,24" Offset="0,0" SpaceForScroll="0"/>
                                 <Label Anchor="L,C" Style="ShellOptionText" WrapWidth="175" String="LOC_CUI_WT_COMBAT_LOG"/>
                             </Stack>
                         </Stack>
                     </Container>
+
                     <Container ID="PopupOptions" Size="parent,parent" Hidden="1">
                         <Stack Anchor="C,T" StackGrowth="Down" Padding="20" Offset="0,24" Size="parent-24,auto">
                             <Label Anchor="L,T" WrapWidth="parent-10" String="LOC_CUI_OPTIONS_DESC_POPUP" Style="BlueGlow"/>
@@ -89,6 +92,7 @@
                             </Stack>
                         </Stack>
                     </Container>
+
                     <Container ID="RemindOptions" Size="parent,parent" Hidden="1">
                         <Stack Anchor="C,T" StackGrowth="Down" Padding="20" Offset="0,24" Size="parent-24,auto">
                             <Label Anchor="L,T" WrapWidth="parent-10" String="LOC_CUI_OPTIONS_DESC_REMIND" Style="BlueGlow"/>
@@ -107,6 +111,20 @@
                             <Stack ID="OptionGovernor" Anchor="R,T" StackGrowth="Left" Padding="15">
                                 <PullDown ID="SetGovernorRemind" Style="PullDownBlue" ScrollThreshold="400" Size="200,24" Offset="0,0" SpaceForScroll="0"/>
                                 <Label Anchor="L,C" Style="ShellOptionText" WrapWidth="175" String="LOC_CUI_OPTIONS_REMIND_GOVERNOR"/>
+                            </Stack>
+                        </Stack>
+                    </Container>
+
+                    <Container ID="ExtraOptions" Size="parent,parent" Hidden="1">
+                        <Stack Anchor="C,T" StackGrowth="Down" Padding="20" Offset="0,24" Size="parent-24,auto">
+                            <Label Anchor="L,T" WrapWidth="parent-10" String="LOC_CUI_OPTIONS_DESC_SPEED" Style="BlueGlow"/>
+                            <Stack Anchor="R,T" StackGrowth="Left" Padding="15">
+                                <PullDown ID="SetCombatSpeed" Style="PullDownBlue" ScrollThreshold="400" Size="200,24" Offset="0,0" SpaceForScroll="0"/>
+                                <Label Anchor="L,C" Style="ShellOptionText" WrapWidth="175" String="LOC_CUI_OPTIONS_QUICK_COMBAT"/>
+                            </Stack>
+                            <Stack Anchor="R,T" StackGrowth="Left" Padding="15">
+                                <PullDown ID="SetMovementSpeed" Style="PullDownBlue" ScrollThreshold="400" Size="200,24" Offset="0,0" SpaceForScroll="0"/>
+                                <Label Anchor="L,C" Style="ShellOptionText" WrapWidth="175" String="LOC_CUI_OPTIONS_QUICK_MOVEMENT"/>
                             </Stack>
                         </Stack>
                     </Container>

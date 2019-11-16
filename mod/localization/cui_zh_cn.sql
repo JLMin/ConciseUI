@@ -128,10 +128,12 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_TAB_LOG",                                       "消息显示"),
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_TAB_POPUP",                                     "弹窗设置"),
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_TAB_REMIND",                                    "提示信息"),
+--
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_DESC_VICTORY",                                  "请选择需要追踪的胜利方式"),
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_DESC_LOG",                                      "请选择消息的显示位置"),
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_DESC_POPUP",                                    "请选择需要开启的弹窗"),
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_DESC_REMIND",                                   "请选择需要开启的提示"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_DESC_SPEED",                                    "请选择快速战斗和移动的对象"),
 --
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                 "不显示"),
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                   "默认位置"),
@@ -148,6 +150,12 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                  "市政可靠鼓舞完成"),
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                             "免费更换市政"),
 ("zh_Hans_CN", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                               "有可用的总督头衔"),
+--
+("zh_Hans_CN", "LOC_CUI_OPTIONS_QUICK_COMBAT",                                  "快速战斗"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_QUICK_MOVEMENT",                                "快速移动"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_SPEED_PLAYER_ONLY",                             "仅玩家"),
+("zh_Hans_CN", "LOC_CUI_OPTIONS_SPEED_AI_ONLY",                                 "仅电脑"),
+
 
 -- =============================================================================
 -- Screenshot

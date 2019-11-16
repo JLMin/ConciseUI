@@ -128,10 +128,12 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ja_JP", "LOC_CUI_OPTIONS_TAB_LOG",                                            "Logs"),
 ("ja_JP", "LOC_CUI_OPTIONS_TAB_POPUP",                                          "Popups"),
 ("ja_JP", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "Remind"),
+--
 ("ja_JP", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "Please select the victory you want to track."),
-("ja_JP", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Please elect where the logs will be displayed."),
-("ja_JP", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Please select the popover you want to enable."),
-("ja_JP", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Please select the reminder you want to use."),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Please select where the logs will be displayed."),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Please select the popups you want to enable."),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Please select the reminders you want to use."),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_SPEED",                                         "Please select quick combat & movement objects."),
 --
 ("ja_JP", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "Disable"),
 ("ja_JP", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                        "Default position"),
@@ -148,6 +150,11 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ja_JP", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "Civic complete by inspire"),
 ("ja_JP", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Free government chance"),
 ("ja_JP", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Governor titles available"),
+--
+("ja_JP", "LOC_CUI_OPTIONS_QUICK_COMBAT",                                       "クイック戦闘"),
+("ja_JP", "LOC_CUI_OPTIONS_QUICK_MOVEMENT",                                     "クイック移動"),
+("ja_JP", "LOC_CUI_OPTIONS_SPEED_PLAYER_ONLY",                                  "Player Only"),
+("ja_JP", "LOC_CUI_OPTIONS_SPEED_AI_ONLY",                                      "AI Only"),
 
 -- =============================================================================
 -- Screenshot
