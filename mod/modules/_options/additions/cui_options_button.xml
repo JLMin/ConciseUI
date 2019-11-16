@@ -2,9 +2,12 @@
 <!-- Cui Options Button, eudaimonia, 11/10/2019 -->
 
 <Context>
-  <Container ID="CuiOptionContainer" Size="68,68" Anchor="L,B" Offset="10,-6">
+  <Container ID="CuiOptionContainer" Size="68,84" Anchor="L,B" Offset="10,-22">
     <Button ID="CuiOptionButton" Size="68,68" ConsumeAllMouse="1">
       <Image Size="68,68" Anchor="C,C" Texture="advisor.dds"/>
     </Button>
+    <Grid Anchor="C,B" Size="68,16" Offset="0,2" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
+      <Label ID="LastUpdate" Anchor="C,C" Size="68,16" Style="FontNormal14" Color="White" String="??/??/??"/>
+    </Grid>
   </Container>
 </Context>

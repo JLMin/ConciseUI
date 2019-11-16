@@ -55,6 +55,7 @@
       </Properties>
       <File>lib/cui_helper.lua</File>
       <File>lib/cui_settings.lua</File>
+      <File>lib/cui_update.lua</File>
     </ImportFiles>
     <ImportFiles id="Cui_Support">
       <Properties>
@@ -208,6 +209,7 @@
     <File>config/cui_config.xml</File>
     <File>lib/cui_helper.lua</File>
     <File>lib/cui_settings.lua</File>
+    <File>lib/cui_update.lua</File>
     <File>localization/cui_de_de.sql</File>
     <File>localization/cui_en_us.sql</File>
     <File>localization/cui_es_es.sql</File>
