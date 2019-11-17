@@ -116,6 +116,8 @@ end
 -- ---------------------------------------------------------------------------
 function GetCuiGameInfo()
   CuiGameInfo = {
+    -- version
+    Version = UI.GetAppVersion(),
     -- game
     IsRiseAndFall = false,
     IsGatheringStorm = false,
