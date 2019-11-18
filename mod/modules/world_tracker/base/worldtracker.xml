@@ -101,9 +101,11 @@
           <Image ID="ResourceIcon" Size="38,38" />
           <Image ID="BorderIcon" Size="38,38" />
           <Image ID="TradeIcon" Size="38,38" />
-          <Image ID="TempAIcon" Size="38,38" ToolTip="Place Holder" />
-          <Image ID="TempBIcon" Size="38,38" ToolTip="Place Holder" />
-          <Image ID="TempCIcon" Size="38,38" ToolTip="Place Holder" />
+          <Image ID="TempAIcon" Size="38,38" Color="0,0,0,0" />
+          <Image ID="TempBIcon" Size="38,38" Color="0,0,0,0" />
+          <Image ID="CityIcon" Size="32,32" Offset="0,2">
+            <Button ID="CuiCityManager" Size="32,32" ToolTip="LOC_HOF_REPORTS_CITY_STATUS"/>
+          </Image>
         </Stack>
       </Box>
     </Grid>

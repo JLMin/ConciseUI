@@ -8,6 +8,7 @@ include("AnimSidePanelSupport")
 include("CitySupport")
 include("Civ6Common")
 include("SupportFunctions")
+include("cui_data")
 
 -- ===========================================================================
 --	CONSTANTS
@@ -87,13 +88,13 @@ function AddCity(city)
   cityInstance.CityPopulation:SetText("[ICON_Citizen] " .. city:GetPopulation())
 
   -- yields
-  local yields = CuiGetCityYieldPerTurn(city, 0)
-  cityInstance.CityFood:SetText(yields.FoodPT)
-  cityInstance.CityProduction:SetText(yields.ProductionPT)
-  cityInstance.CityGold:SetText(yields.GoldPT)
-  cityInstance.CityScience:SetText(yields.SciencePT)
-  cityInstance.CityCulture:SetText(yields.CulturePT)
-  cityInstance.CityFaith:SetText(yields.FaithPT)
+  local yields = CuiGetCityYield(city, 0)
+  cityInstance.CityFood:SetText(yields.Food)
+  cityInstance.CityProduction:SetText(yields.Production)
+  cityInstance.CityGold:SetText(yields.Gold)
+  cityInstance.CityScience:SetText(yields.Science)
+  cityInstance.CityCulture:SetText(yields.Culture)
+  cityInstance.CityFaith:SetText(yields.Faith)
 
   -- CUI: button adjust
   if cui_newCity ~= nil and cui_newCity == city then
@@ -235,36 +236,6 @@ end
 
 -- CUI =======================================================================
 function CuiOnChangeOriginCity() if cui_newCity then TeleportToCity(cui_newCity) end end
-
--- CUI =======================================================================
-function CuiGetCityYieldPerTurn(city, round)
-  local yields = {}
-
-  local data = GetCityData(city)
-  local iModifiedFood
-  local totalFood
-  if data.TurnsUntilGrowth > -1 then
-    local growthModifier = math.max(1 + (data.HappinessGrowthModifier / 100) + data.OtherGrowthModifiers, 0)
-    iModifiedFood = Round(data.FoodSurplus * growthModifier, 2)
-    if data.Occupied then
-      totalFood = iModifiedFood * data.OccupationMultiplier
-    else
-      totalFood = iModifiedFood * data.HousingMultiplier
-    end
-  else
-    totalFood = data.FoodSurplus
-  end
-
-  local n = round == nil and 1 or round
-  yields.FoodPT = Round(totalFood, n)
-  yields.ProductionPT = Round(data.ProductionPerTurn, n)
-  yields.GoldPT = Round(data.GoldPerTurn, n)
-  yields.SciencePT = Round(data.SciencePerTurn, n)
-  yields.CulturePT = Round(data.CulturePerTurn, n)
-  yields.FaithPT = Round(data.FaithPerTurn, n)
-
-  return yields
-end
 
 -- CUI =======================================================================
 function CuiInit()

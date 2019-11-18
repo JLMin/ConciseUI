@@ -41,9 +41,8 @@ LuaEvents.CuiLogSettingChange.Add(CuiLogReset)
 function OnStatusMessage(message, displayTime, type, subType)
 
   -- CUI
-  if (not cui_UseVanilaGossip and type == ReportingStatusTypes.GOSSIP) or (not cui_UseVanilaCombat and type == ReportingStatusTypes.DEFAULT) then
-    return
-  end
+  if (not cui_UseVanilaGossip and type == ReportingStatusTypes.GOSSIP) or
+      (not cui_UseVanilaCombat and type == ReportingStatusTypes.DEFAULT) then return end
   --
 
   if (type == ReportingStatusTypes.GOSSIP) then AddGossip(subType, message, displayTime) end
@@ -78,13 +77,19 @@ function AddGossip(eGossipType, message, optionalDisplayTime)
     uiInstance.Icon:SetIcon("ICON_GOSSIP_" .. kGossipData.GroupType)
     uiInstance.IconBack:SetIcon("ICON_GOSSIP_" .. kGossipData.GroupType)
   else
-    UI.DataError("The gossip type '" .. tostring(eGossipType) .. "' could not be found in the database; icon will not be set.")
+    UI.DataError("The gossip type '" .. tostring(eGossipType) ..
+                     "' could not be found in the database; icon will not be set.")
   end
 
   uiInstance.Message:SetText(message)
 
   -- Add the data (including reference to visual)
-  local kEntry = {eGossipType = eGossipType, message = message, displayTime = optionalDisplayTime, uiInstance = uiInstance}
+  local kEntry = {
+    eGossipType = eGossipType,
+    message = message,
+    displayTime = optionalDisplayTime,
+    uiInstance = uiInstance
+  }
   table.insert(m_kGossip, kEntry)
 
   local GOSSIP_VERTICAL_PADDING = 20
@@ -294,7 +299,8 @@ end
 --	Testing: When on the "G" and "D" keys generate messages.
 -- ===========================================================================
 function DebugTest()
-  OnStatusMessage("Press D,F or G to generate gossip.  Hold Shift+D or G to generate notifications.", 7, ReportingStatusTypes.DEFAULT)
+  OnStatusMessage("Press D,F or G to generate gossip.  Hold Shift+D or G to generate notifications.", 7,
+                  ReportingStatusTypes.DEFAULT)
   ContextPtr:SetInputHandler(function(pInputStruct)
     local uiMsg = pInputStruct:GetMessageType()
     if uiMsg == KeyEvents.KeyUp then

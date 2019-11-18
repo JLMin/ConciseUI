@@ -2,7 +2,6 @@
 -- Cui Trade Route Support Functions
 -- eudaimonia, 3/22/2019
 -- ===========================================================================
--- ===========================================================================
 function CuiGetTradeRouteInfo(originCity, destinationCity)
   local data = {}
   local eSpeed = GameConfiguration.GetGameSpeedType()

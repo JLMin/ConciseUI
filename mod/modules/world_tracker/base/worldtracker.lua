@@ -310,7 +310,8 @@ function UpdateCivicsPanel(hideCivics)
     TruncateStringWithTooltip(m_civicsInstance.TitleButton, MAX_BEFORE_TRUNC_TITLE,
                               Locale.ToUpper(Locale.Lookup("LOC_WORLD_TRACKER_CHOOSE_CIVIC")))
   else
-    TruncateStringWithTooltip(m_civicsInstance.TitleButton, MAX_BEFORE_TRUNC_TITLE, m_civicsInstance.TitleButton:GetText())
+    TruncateStringWithTooltip(m_civicsInstance.TitleButton, MAX_BEFORE_TRUNC_TITLE,
+                              m_civicsInstance.TitleButton:GetText())
     -- CUI: add tooltip for civics
     m_civicsInstance.IconButton:SetToolTipString(Locale.Lookup(kCivicData.ToolTip))
   end
@@ -823,6 +824,11 @@ function UpdateTradeToolTip()
 end
 
 -- ===========================================================================
+--	CUI City Manager Functions
+-- ---------------------------------------------------------------------------
+function CuiOnCityManager() LuaEvents.CuiOnToggleCityManager() end
+
+-- ===========================================================================
 --	CUI Log Functions
 -- ---------------------------------------------------------------------------
 function CuiUpdateLog(logString, displayTime, logType)
@@ -968,7 +974,8 @@ function CuiTrackPanelSetup()
   cui_TrackBar.TradeIcon:SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_VIEW_TRADE", 38))
   cui_TrackBar.TempAIcon:SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_DECLARE_SURPRISE_WAR", 38))
   cui_TrackBar.TempBIcon:SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_ALLIANCE", 38))
-  cui_TrackBar.TempCIcon:SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_USE_NUCLEAR_WEAPON", 38))
+  cui_TrackBar.CityIcon:SetTexture(IconManager:FindIconAtlas("ICON_DISTRICT_CITY_CENTER", 32))
+  cui_TrackBar.CuiCityManager:RegisterCallback(Mouse.eLClick, CuiOnCityManager)
 end
 
 -- ---------------------------------------------------------------------------
@@ -1067,7 +1074,9 @@ function AttachDynamicUI()
   for i, kData in ipairs(g_TrackedItems) do
     local uiInstance = {}
     ContextPtr:BuildInstanceForControl(kData.InstanceType, uiInstance, Controls.PanelStack)
-    if uiInstance.IconButton then uiInstance.IconButton:RegisterCallback(Mouse.eLClick, function() kData.SelectFunc() end) end
+    if uiInstance.IconButton then
+      uiInstance.IconButton:RegisterCallback(Mouse.eLClick, function() kData.SelectFunc() end)
+    end
     table.insert(g_TrackedInstances, uiInstance)
 
     if (uiInstance.TitleButton) then uiInstance.TitleButton:LocalizeAndSetText(kData.Name) end
@@ -1172,7 +1181,8 @@ function Initialize()
   -- Create semi-dynamic instances; hack: change parent back to self for ordering:
   ContextPtr:BuildInstanceForControl("ResearchInstance", m_researchInstance, Controls.PanelStack)
   ContextPtr:BuildInstanceForControl("CivicInstance", m_civicsInstance, Controls.PanelStack)
-  m_researchInstance.IconButton:RegisterCallback(Mouse.eLClick, function() LuaEvents.WorldTracker_OpenChooseResearch() end)
+  m_researchInstance.IconButton:RegisterCallback(Mouse.eLClick,
+                                                 function() LuaEvents.WorldTracker_OpenChooseResearch() end)
   m_civicsInstance.IconButton:RegisterCallback(Mouse.eLClick, function() LuaEvents.WorldTracker_OpenChooseCivic() end)
 
   CuiInit() -- CUI

@@ -13,6 +13,7 @@ include("ToolTipHelper")
 include("GameCapabilities")
 include("MapUtilities")
 
+include("cui_data") -- CUI
 include("cui_settings") -- CUI
 
 -- ===========================================================================
@@ -236,7 +237,7 @@ function ViewMain(data)
   end
 
   -- Set icons and values for the yield checkboxes
-  Controls.FoodCheck:GetTextButton():SetText("[ICON_Food]" .. toPlusMinusString(CuiGetFoodIncrement(data))) -- CUI
+  Controls.FoodCheck:GetTextButton():SetText("[ICON_Food]" .. toPlusMinusString(CuiGetFoodPerTurn(data))) -- CUI
   Controls.ProductionCheck:GetTextButton():SetText("[ICON_Production]" .. toPlusMinusString(data.ProductionPerTurn))
   Controls.GoldCheck:GetTextButton():SetText("[ICON_Gold]" .. toPlusMinusString(data.GoldPerTurn))
   Controls.ScienceCheck:GetTextButton():SetText("[ICON_Science]" .. toPlusMinusString(data.SciencePerTurn))
@@ -1182,24 +1183,6 @@ function CuiGetFoodToolTip(data)
     foodToolTip = foodToolTip .. "[NEWLINE]" .. "x" .. data.OccupationMultiplier .. Locale.Lookup("LOC_HUD_CITY_OCCUPATION_MULTIPLIER")
   end
   return foodToolTip
-end
-
--- CUI =======================================================================
-function CuiGetFoodIncrement(data)
-  local iModifiedFood
-  local foodIncrement
-  if data.TurnsUntilGrowth > -1 then
-    local growthModifier = math.max(1 + (data.HappinessGrowthModifier / 100) + data.OtherGrowthModifiers, 0)
-    iModifiedFood = Round(data.FoodSurplus * growthModifier, 2)
-    if data.Occupied then
-      foodIncrement = iModifiedFood * data.OccupationMultiplier
-    else
-      foodIncrement = iModifiedFood * data.HousingMultiplier
-    end
-  else
-    foodIncrement = data.FoodSurplus
-  end
-  return foodIncrement
 end
 
 -- CUI =======================================================================

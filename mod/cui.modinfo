@@ -53,6 +53,7 @@
       <Properties>
         <LoadOrder>10</LoadOrder>
       </Properties>
+      <File>lib/cui_data.lua</File>
       <File>lib/cui_helper.lua</File>
       <File>lib/cui_settings.lua</File>
       <File>lib/cui_update.lua</File>
@@ -172,6 +173,8 @@
       <File>modules/unit_list/additions/cui_unitlist_screen.xml</File>
       <File>modules/victory_tracking/additions/cui_victory_tracking.lua</File>
       <File>modules/victory_tracking/additions/cui_victory_tracking.xml</File>
+      <File>modules/world_tracker/additions/cui_city_status.lua</File>
+      <File>modules/world_tracker/additions/cui_city_status.xml</File>
     </ImportFiles>
     <AddUserInterfaces id="Cui_UI">
       <Properties>
@@ -191,6 +194,7 @@
       <File>modules/unit_list/additions/cui_unitlist_button.xml</File>
       <File>modules/unit_list/additions/cui_unitlist_screen.xml</File>
       <File>modules/victory_tracking/additions/cui_victory_tracking.xml</File>
+      <File>modules/world_tracker/additions/cui_city_status.xml</File>
     </AddUserInterfaces>
   </InGameActions>
   <Files>
@@ -207,6 +211,7 @@
     <File>assets/wrench.dds</File>
     <File>config/cui_config.sql</File>
     <File>config/cui_config.xml</File>
+    <File>lib/cui_data.lua</File>
     <File>lib/cui_helper.lua</File>
     <File>lib/cui_settings.lua</File>
     <File>lib/cui_update.lua</File>
@@ -309,5 +314,7 @@
     <File>modules/unit_list/additions/cui_unitlist_screen.xml</File>
     <File>modules/victory_tracking/additions/cui_victory_tracking.lua</File>
     <File>modules/victory_tracking/additions/cui_victory_tracking.xml</File>
+    <File>modules/world_tracker/additions/cui_city_status.lua</File>
+    <File>modules/world_tracker/additions/cui_city_status.xml</File>
   </Files>
 </Mod>

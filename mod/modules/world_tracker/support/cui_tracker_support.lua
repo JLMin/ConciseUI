@@ -23,7 +23,8 @@ function SupportInit()
   localDiplomacy = localPlayer:GetDiplomacy()
   metPlayers, uniqueLeaders = GetMetPlayersAndUniqueLeaders()
   --
-  table.sort(aliveMajors, function(a, b) return localDiplomacy:GetMetTurn(a:GetID()) < localDiplomacy:GetMetTurn(b:GetID()) end)
+  table.sort(aliveMajors,
+             function(a, b) return localDiplomacy:GetMetTurn(a:GetID()) < localDiplomacy:GetMetTurn(b:GetID()) end)
 end
 SupportInit()
 
@@ -104,7 +105,9 @@ function GetResourceData()
     local icon = "ICON_" .. resource.ResourceType
     local amount = localPlayer:GetResources():GetResourceAmount(resource.Index)
     if resource.ResourceClassType == "RESOURCECLASS_LUXURY" then
-      if amount > 0 then table.insert(r_luxury, {Icon = icon, Amount = amount, CanTrade = false, Duplicate = false}) end
+      if amount > 0 then
+        table.insert(r_luxury, {Icon = icon, Amount = amount, CanTrade = false, Duplicate = false})
+      end
     elseif resource.ResourceClassType == "RESOURCECLASS_STRATEGIC" then
       local order = 0
       if resource.ResourceType == "RESOURCE_HORSES" then
@@ -155,7 +158,8 @@ function GetResourceData()
   end
 
   local pForDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, localPlayerID, localPlayerID)
-  local possibleResources = DealManager.GetPossibleDealItems(localPlayerID, localPlayerID, DealItemTypes.RESOURCES, pForDeal)
+  local possibleResources = DealManager.GetPossibleDealItems(localPlayerID, localPlayerID, DealItemTypes.RESOURCES,
+                                                             pForDeal)
   if (possibleResources ~= nil) then
     for i, resource in ipairs(possibleResources) do
       local resourceDesc = GameInfo.Resources[resource.ForType]
@@ -222,7 +226,8 @@ function GetBorderData()
       -- can import
       if not hasImport then
         local pForDealFrom = DealManager.GetWorkingDeal(DealDirection.OUTGOING, playerID, localPlayerID)
-        local possibleAgreementsFrom = DealManager.GetPossibleDealItems(playerID, localPlayerID, DealItemTypes.AGREEMENTS, pForDealFrom)
+        local possibleAgreementsFrom = DealManager.GetPossibleDealItems(playerID, localPlayerID,
+                                                                        DealItemTypes.AGREEMENTS, pForDealFrom)
         if (possibleAgreementsFrom ~= nil) then
           for i, entry in ipairs(possibleAgreementsFrom) do
             if entry.SubTypeName == "LOC_DIPLOACTION_OPEN_BORDERS_NAME" then canImport = true end
@@ -232,7 +237,8 @@ function GetBorderData()
       -- can export
       if not hasExport then
         local pForDealTo = DealManager.GetWorkingDeal(DealDirection.OUTGOING, localPlayerID, playerID)
-        local possibleAgreementsTo = DealManager.GetPossibleDealItems(localPlayerID, playerID, DealItemTypes.AGREEMENTS, pForDealTo)
+        local possibleAgreementsTo = DealManager.GetPossibleDealItems(localPlayerID, playerID, DealItemTypes.AGREEMENTS,
+                                                                      pForDealTo)
         if (possibleAgreementsTo ~= nil) then
           for i, entry in ipairs(possibleAgreementsTo) do
             if entry.SubTypeName == "LOC_DIPLOACTION_OPEN_BORDERS_NAME" then canExport = true end
@@ -279,7 +285,9 @@ function GetTradeData()
     if (not pData.isLocalPlayer) and (pData.isMet or pData.isHuman) then
       local isTraded = false
       local playerCities = player:GetCities()
-      for _, city in playerCities:Members() do if city:GetTrade():HasTradeRouteFrom(localPlayerID) then isTraded = true end end
+      for _, city in playerCities:Members() do
+        if city:GetTrade():HasTradeRouteFrom(localPlayerID) then isTraded = true end
+      end
       local isWar = IsAtWar(localPlayerID, playerID)
       table.insert(leaders, {Icon = pData.leaderIcon, IsTraded = isTraded, IsWar = isWar, IsMet = pData.isMet})
     end
