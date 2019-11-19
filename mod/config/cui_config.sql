@@ -83,17 +83,17 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_OPEN_NOTES",          "ja_JP", "Open Notes"),
 
 -- ===========================================================================
--- untranslated
+-- [Korean] by [firefanda] 22/10/2019
 -- ===========================================================================
 ("LOC_CUI_CONFIG_CATEGORY",            "ko_KR", "Concise UI"),
-("LOC_CUI_CONFIG_PLACE_MAP_PIN",       "ko_KR", "Add Map Tack"),
-("LOC_CUI_CONFIG_TOGGLE_IMPROVED",     "ko_KR", "Toggle Improved Resource"),
-("LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",   "ko_KR", "Toggle Unit Flags"),
-("LOC_CUI_CONFIG_TOGGLE_TRADERS",      "ko_KR", "Toggle Trader Icons"),
-("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "ko_KR", "Toggle Religion Icons"),
-("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "ko_KR", "Toggle City Banners"),
-("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "ko_KR", "Open Unit List"),
-("LOC_CUI_CONFIG_OPEN_NOTES",          "ko_KR", "Open Notes"),
+("LOC_CUI_CONFIG_PLACE_MAP_PIN",       "ko_KR", "맵 트래커 추가"),
+("LOC_CUI_CONFIG_TOGGLE_IMPROVED",     "ko_KR", "향상된 자원 토글"),
+("LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",   "ko_KR", "유닛 플래그 토글"),
+("LOC_CUI_CONFIG_TOGGLE_TRADERS",      "ko_KR", "교역로 아이콘 토글"),
+("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "ko_KR", "종교 아이콘 토글"),
+("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "ko_KR", "도시 배너 토글"),
+("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "ko_KR", "유닛 목록 열기"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "ko_KR", "노트 열기"),
 
 -- ===========================================================================
 -- untranslated
