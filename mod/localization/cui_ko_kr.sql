@@ -17,6 +17,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ko_KR", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                       "좌클릭으로 증가, 우클릭으로 감소"),
 ("ko_KR", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "상대방이 이 물품을 이미 가지고 있습니다."),
 ("ko_KR", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "우리는 이 물품을 이미 가지고 있습니다."),
+("ko_KR", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "우린 하나밖에 없다"),
 
 -- =============================================================================
 -- Diplomatic Banner

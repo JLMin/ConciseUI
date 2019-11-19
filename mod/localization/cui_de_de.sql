@@ -156,7 +156,6 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_OPTIONS_SPEED_PLAYER_ONLY",                                  "Player Only"),
 ("de_DE", "LOC_CUI_OPTIONS_SPEED_AI_ONLY",                                      "AI Only"),
 
-
 -- =============================================================================
 -- Screenshot
 ("de_DE", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Screenshot-Modus aufrufen[NEWLINE][NEWLINE]Im Screenshot-Modus werden die meisten UI-Elemente verborgen.[NEWLINE][NEWLINE]Linksklick verbirgt alle UI Elemente[NEWLINE]Rechtsklick verbirgt alle UI Elemente außer Stadtbanner[NEWLINE]Halte ALT gedrückt um den Bildschirm zu rotieren[NEWLINE]Drücke ESC um den Screenshot-Modus zu verlassen."),
