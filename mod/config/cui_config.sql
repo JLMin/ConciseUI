@@ -125,14 +125,14 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 -- untranslated
 -- ===========================================================================
 ("LOC_CUI_CONFIG_CATEGORY",            "ru_RU", "Concise UI"),
-("LOC_CUI_CONFIG_PLACE_MAP_PIN",       "ru_RU", "Add Map Tack"),
-("LOC_CUI_CONFIG_TOGGLE_IMPROVED",     "ru_RU", "Toggle Improved Resource"),
-("LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",   "ru_RU", "Toggle Unit Flags"),
-("LOC_CUI_CONFIG_TOGGLE_TRADERS",      "ru_RU", "Toggle Trader Icons"),
-("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "ru_RU", "Toggle Religion Icons"),
-("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "ru_RU", "Toggle City Banners"),
-("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "ru_RU", "Open Unit List"),
-("LOC_CUI_CONFIG_OPEN_NOTES",          "ru_RU", "Open Notes"),
+("LOC_CUI_CONFIG_PLACE_MAP_PIN",       "ru_RU", "Добавить метку"),
+("LOC_CUI_CONFIG_TOGGLE_IMPROVED",     "ru_RU", "Переключить улучшения ресурсов"),
+("LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",   "ru_RU", "Переключить значки юнитов"),
+("LOC_CUI_CONFIG_TOGGLE_TRADERS",      "ru_RU", "Переключить значки торговцев"),
+("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "ru_RU", "Переключить значки религий"),
+("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "ru_RU", "Переключить баннеры городов"),
+("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "ru_RU", "Открыть список юнитов"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "ru_RU", "Открыть заметки"),
 
 -- ===========================================================================
 -- [Simplified Chinese] by [eudaimonia]

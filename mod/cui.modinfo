@@ -47,6 +47,7 @@
       <File>localization/cui_it_it.sql</File>
       <File>localization/cui_ja_jp.sql</File>
       <File>localization/cui_ko_kr.sql</File>
+      <File>localization/cui_ru_ru.sql</File>
       <File>localization/cui_zh_cn.sql</File>
       <File>localization/template.sql</File>
     </UpdateText>
@@ -223,6 +224,7 @@
     <File>localization/cui_it_it.sql</File>
     <File>localization/cui_ja_jp.sql</File>
     <File>localization/cui_ko_kr.sql</File>
+    <File>localization/cui_ru_ru.sql</File>
     <File>localization/cui_zh_cn.sql</File>
     <File>localization/template.sql</File>
     <File>modules/_options/base/options.lua</File>
