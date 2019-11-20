@@ -68,12 +68,13 @@
   <Instance Name="CityInstance">
     <Container ID="Top" Size="322,148">
       <Grid ID="BGL" Anchor="L,T" Offset="0,1" Size="250,145" MinSize="0,32" Texture="Controls_ItemContainerDark" SliceCorner="8,8" SliceTextureSize="16,16">
-        <GridButton ID="CityButton" Anchor="L,T" Size="parent,60" Style="ButtonControlTan">
+        <GridButton ID="CityButton" Anchor="L,T" Size="parent,60" Style="ButtonControl">
           <!-- City Name and Capital Indicator -->
-          <Label ID="CapitalIcon" Anchor="L,T" Offset="4,10" Style="FontNormal16" String="[ICON_Capital]"/>
+          <Label ID="CapitalIcon" Anchor="L,T" Offset="4,8" Style="FontNormal16" String="[ICON_Capital]"/>
           <Label ID="CityName" Offset="30,10" Style="FontNormal16" TruncateWidth="220" String="City Name"/>
+          <Label ID="NewPopulation" String="[ICON_New]" Anchor="R,T" Offset="4,14" Hidden="1"/>
           <!-- Current Production -->
-          <Grid ID="CurrentProductionGrid" Disabled="1" Size="parent-8,32" Anchor="C,T" Offset="0,28" Style="ButtonControlBrown">
+          <Grid ID="CurrentProductionGrid" Disabled="1" Size="parent-8,32" Anchor="C,T" Offset="0,28" Style="ButtonControl">
             <Container Size="32,32" Anchor="L,C" Offset="2,0">
               <Image ID="Icon" Size="28,28" Anchor="C,C" Offset="2,0" Texture="Projects32"/>
             </Container>

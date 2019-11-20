@@ -55,33 +55,3 @@ function CuiGetCityTourism(city)
 
   return tourism
 end
-
--- ---------------------------------------------------------------------------
-function CuiGetCityCurrentProduction(city)
-  local data = GetCityData(city)
-  local production = data.ProductionQueue[1]
-  pCityInstance.CurrentProduction:SetHide(production == nil)
-  if production ~= nil then
-    local tooltip = production.Name .. " [ICON_Turn]" .. tostring(production.Turns) ..
-                        string.format(" (%d%%)", production.PercentComplete * 100)
-    if production.Description ~= nil then tooltip = tooltip .. "[NEWLINE]" .. Locale.Lookup(production.Description) end
-    pCityInstance.CurrentProduction:SetToolTipString(tooltip)
-
-    if production.Icons ~= nil then
-      pCityInstance.CityBannerBackground:SetHide(false)
-      -- Gathering Storm - there are 5 icons returned now
-      for _, iconName in ipairs(production.Icons) do
-        if iconName ~= nil and pCityInstance.CurrentProduction:TrySetIcon(iconName) then
-          print(iconName)
-          break
-        end
-      end
-      pCityInstance.CityProductionMeter:SetPercent(production.PercentComplete)
-      pCityInstance.CityProductionNextTurn:SetPercent(production.PercentCompleteNextTurn)
-      pCityInstance.ProductionBorder:SetHide(production.Type == ProductionType.DISTRICT)
-    else
-      pCityInstance.CityBannerBackground:SetHide(true)
-    end
-  end
-end
-

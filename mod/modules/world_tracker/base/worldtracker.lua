@@ -931,34 +931,6 @@ end
 -- ===========================================================================
 --	CUI Panel Functions
 -- ---------------------------------------------------------------------------
-function CuiInit()
-
-  ContextPtr:BuildInstanceForControl("CuiTrackerInstance", cui_TrackBar, Controls.PanelStack)
-  CuiTrackPanelSetup()
-
-  ContextPtr:BuildInstanceForControl("GossipLogInstance", cui_GossipPanel, Controls.PanelStack)
-  ContextPtr:BuildInstanceForControl("CombatLogInstance", cui_CombatPanel, Controls.PanelStack)
-  CuiLogPanelSetup()
-
-  -- Events
-  Events.StatusMessage.Add(CuiUpdateLog)
-  Events.LocalPlayerTurnEnd.Add(CuiLogCounterReset)
-  --
-  Events.ImprovementAddedToMap.Add(CuiTrackerRefresh)
-  Events.ImprovementRemovedFromMap.Add(CuiTrackerRefresh)
-  --
-  Events.LoadGameViewStateDone.Add(CuiTrackerRefresh)
-  Events.TurnBegin.Add(CuiTrackerRefresh)
-  LuaEvents.DiplomacyActionView_ShowIngameUI.Add(CuiTrackerRefresh)
-  --
-  CuiLogPanelRefresh()
-
-  CuiTrackerRefresh()
-
-  LuaEvents.CuiLogSettingChange.Add(CuiLogPanelRefresh)
-end
-
--- ---------------------------------------------------------------------------
 function CuiLogPanelSetup()
   CuiRegCallback(cui_GossipPanel.TitleButton, CuiExpandGossipLog, CuiContractGossipLog)
   CuiRegCallback(cui_CombatPanel.TitleButton, CuiExpandCombatLog, CuiContractCombatLog)
@@ -976,6 +948,11 @@ function CuiTrackPanelSetup()
   cui_TrackBar.TempBIcon:SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_ALLIANCE", 38))
   cui_TrackBar.CityIcon:SetTexture(IconManager:FindIconAtlas("ICON_DISTRICT_CITY_CENTER", 32))
   cui_TrackBar.CuiCityManager:RegisterCallback(Mouse.eLClick, CuiOnCityManager)
+end
+
+-- ---------------------------------------------------------------------------
+function CuiOnPopulationChanged(isChanged)
+  CuiChangeIconColor(cui_TrackBar.CityIcon, isChanged)
 end
 
 -- ---------------------------------------------------------------------------
@@ -1040,6 +1017,37 @@ function CuiOnLogCheckClick()
   RealizeEmptyMessage()
   RealizeStack()
 end
+
+
+-- ===========================================================================
+function CuiInit()
+
+  ContextPtr:BuildInstanceForControl("CuiTrackerInstance", cui_TrackBar, Controls.PanelStack)
+  CuiTrackPanelSetup()
+
+  ContextPtr:BuildInstanceForControl("GossipLogInstance", cui_GossipPanel, Controls.PanelStack)
+  ContextPtr:BuildInstanceForControl("CombatLogInstance", cui_CombatPanel, Controls.PanelStack)
+  CuiLogPanelSetup()
+
+  -- Log Events
+  Events.StatusMessage.Add(CuiUpdateLog)
+  Events.LocalPlayerTurnEnd.Add(CuiLogCounterReset)
+
+  -- Tracker Events
+  Events.ImprovementAddedToMap.Add(CuiTrackerRefresh)
+  Events.ImprovementRemovedFromMap.Add(CuiTrackerRefresh)
+  Events.LoadGameViewStateDone.Add(CuiTrackerRefresh)
+  Events.LocalPlayerTurnBegin.Add(CuiTrackerRefresh)
+  LuaEvents.DiplomacyActionView_ShowIngameUI.Add(CuiTrackerRefresh)
+
+  -- Refresh
+  CuiLogPanelRefresh()
+  CuiTrackerRefresh()
+
+  LuaEvents.CuiLogSettingChange.Add(CuiLogPanelRefresh)
+  LuaEvents.CuiPlayerPopulationChanged.Add(CuiOnPopulationChanged)
+end
+
 
 -- ===========================================================================
 -- Handling chat panel expansion

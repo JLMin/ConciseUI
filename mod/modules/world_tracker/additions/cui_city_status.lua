@@ -17,6 +17,7 @@ include("cui_settings")
 local cui_CityIM = InstanceManager:new("CityInstance", "Top", Controls.CityListStack)
 local cui_DistrictsIM = InstanceManager:new("DistrictInstance", "Top", Controls.DistrictInstanceContainer)
 local m_tabs
+local PopulationTrack = {}
 
 -- ===========================================================================
 -- Support functions
@@ -44,13 +45,13 @@ end
 function PopulateTabs()
 
   m_tabs = CreateTabs(Controls.TabRow, 44, UI.GetColorValueFromHexLiteral(0xFF331D05))
-  m_tabs.AddTab(Controls.CitizenTab, Dummy)
-  m_tabs.AddTab(Controls.HouseTab, Dummy)
-  m_tabs.AddTab(Controls.ProductionTab, Dummy)
-  m_tabs.AddTab(Controls.GoldTab, Dummy)
-  m_tabs.AddTab(Controls.ScienceTab, Dummy)
-  m_tabs.AddTab(Controls.CultureTab, Dummy)
-  m_tabs.AddTab(Controls.FaithTab, Dummy)
+  m_tabs.AddTab(Controls.CitizenTab, Foo)
+  m_tabs.AddTab(Controls.HouseTab, Foo)
+  m_tabs.AddTab(Controls.ProductionTab, Foo)
+  m_tabs.AddTab(Controls.GoldTab, Foo)
+  m_tabs.AddTab(Controls.ScienceTab, Foo)
+  m_tabs.AddTab(Controls.CultureTab, Foo)
+  m_tabs.AddTab(Controls.FaithTab, Foo)
 
   m_tabs.SelectTab(Controls.CitizenTab)
   m_tabs.CenterAlignTabs(0, 350, 44)
@@ -75,7 +76,6 @@ function PopulateCityStack()
     if cityData.ProductionQueue then
       local currentProduction = cityData.ProductionQueue[1]
       if currentProduction and currentProduction.Icons then
-        cityInstance.Icon:SetHide(false)
         cityInstance.ProgressStack:SetHide(false)
         for _, iconName in ipairs(currentProduction.Icons) do
           if iconName and cityInstance.Icon:TrySetIcon(iconName) then break end
@@ -84,7 +84,6 @@ function PopulateCityStack()
         cityInstance.ProductionName:SetText(currentProduction.Name)
         cityInstance.ProductionTurn:SetText(currentProduction.Turns .. "[ICON_TURN]")
       else
-        cityInstance.Icon:SetHide(true)
         cityInstance.ProgressStack:SetHide(true)
       end
     end
@@ -94,6 +93,26 @@ function PopulateCityStack()
       UI.SelectCity(cityData.City)
     end)
     cityInstance.CityButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+    -- if population changed
+    cityInstance.CityButton:SetTexture("Controls_ButtonControl")
+    cityInstance.CurrentProductionGrid:SetTexture("Controls_ButtonControl_Gray")
+    cityInstance.NewPopulation:SetHide(true)
+    if PopulationTrack[playerID] and PopulationTrack[playerID][city:GetName()] then
+      local cpData = PopulationTrack[playerID][city:GetName()]
+      if cpData.HasChanged then
+        local amount = ""
+        if cpData.Amount > 0 then
+          amount = "[COLOR_Civ6Green]+" .. cpData.Amount .. "[ENDCOLOR]"
+        else
+          amount = "[COLOR_Civ6Red]" .. cpData.Amount .. "[ENDCOLOR]"
+        end
+        local cpToolTip = Locale.Lookup("LOC_RAZE_CITY_POPULATION_LABEL") .. amount
+        cityInstance.CityButton:SetTexture("Controls_ButtonControl_Tan")
+        cityInstance.CurrentProductionGrid:SetTexture("Controls_ButtonControl_Brown")
+        cityInstance.NewPopulation:SetHide(false)
+        cityInstance.NewPopulation:SetToolTipString(cpToolTip)
+      end
+    end
 
     cityInstance.GrowthTurnsBar:SetPercent(cityData.CurrentFoodPercent)
     cityInstance.GrowthTurnsBar:SetShadowPercent(cityData.FoodPercentNextTurn)
@@ -138,8 +157,7 @@ function PopulateCityStack()
     cityInstance.CityCulture:SetText(yields.Culture)
     cityInstance.CityFaith:SetText(yields.Faith)
     cityInstance.CityTourism:SetText(yields.Tourism)
-
-    --
+    
   end
 end
 
@@ -157,8 +175,51 @@ function PopulateDistrict(instance, data)
 end
 
 -- ---------------------------------------------------------------------------
-function Dummy() end
+function Foo() end
 
+-- ===========================================================================
+-- Population functions
+-- ---------------------------------------------------------------------------
+function BuildPopulationData(playerID)
+  PopulationTrack[playerID] = {}
+  local player = Players[playerID]
+  local cities = player:GetCities()
+  local data = {}
+  for i, city in cities:Members() do
+    local name = city:GetName()
+    data[name] = {
+      Owner = city:GetOwner(),
+      Population = city:GetPopulation(),
+      HasChanged = false,
+      Amount = 0
+    }
+  end
+  PopulationTrack[playerID] = data
+end
+
+-- ---------------------------------------------------------------------------
+function UpdatePopulationChanged(playerID)
+  local data = PopulationTrack[playerID]
+  local player = Players[playerID]
+  local cities = player:GetCities()
+  local hasChanged = false
+  for i, city in cities:Members() do
+    local name = city:GetName()
+    if data[name] and data[name].Owner == city:GetOwner() then
+      if data[name].Population ~= city:GetPopulation() then
+        data[name].Amount = city:GetPopulation() - data[name].Population
+        hasChanged = true
+        data[name].HasChanged = true
+      end
+    end
+  end
+  PopulationTrack[playerID] = data
+  
+  return hasChanged
+end
+
+-- ===========================================================================
+-- Event functions
 -- ---------------------------------------------------------------------------
 function Open()
   UI.PlaySound("Production_Panel_Open")
@@ -199,6 +260,29 @@ function OnToggleCityManager()
   end
 end
 
+-- ---------------------------------------------------------------------------
+function OnPlayerTurnActivated()
+  local playerID = Game.GetLocalPlayer()
+  if playerID == PlayerTypes.NONE then
+    return
+  end
+  if isNil(PopulationTrack[playerID]) then
+    LuaEvents.CuiPlayerPopulationChanged(false)
+  else
+    local hasChanged = UpdatePopulationChanged(playerID)
+    LuaEvents.CuiPlayerPopulationChanged(hasChanged)
+  end
+end
+
+-- ---------------------------------------------------------------------------
+function OnPlayerTurnEnd()
+  local playerID = Game.GetLocalPlayer()
+  if playerID == PlayerTypes.NONE then
+    return
+  end
+  BuildPopulationData(playerID)
+end
+
 -- ===========================================================================
 function Refresh()
   local playerID = Game.GetLocalPlayer()
@@ -210,12 +294,13 @@ end
 
 -- ===========================================================================
 function Initialize()
-  LuaEvents.CuiOnToggleCityManager.Add(OnToggleCityManager)
-
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, Close)
   Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
   Controls.PauseDismissWindow:RegisterEndCallback(OnCloseEnd)
-  Refresh()
+  
+  LuaEvents.CuiOnToggleCityManager.Add(OnToggleCityManager)
   LuaEvents.CityPanelOverview_Opened.Add(Close)
+  Events.PlayerTurnActivated.Add(OnPlayerTurnActivated)
+  Events.LocalPlayerTurnEnd.Add(OnPlayerTurnEnd)
 end
 Initialize()
