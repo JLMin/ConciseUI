@@ -73,7 +73,7 @@
   <Instance Name="UnitEntryInstance">
     <Container ID="Top" Offset="0,0" Size="230,52">
       <GridButton ID="Button" Anchor="L,T" Size="52,52">
-        <Image Texture="unit_icon_back.dds" Size="52,52" SliceCorner="24,24" SliceSize="1,1" SliceTextureSize="52,52"/>
+        <Image Texture="button_unit.dds" Size="52,52" SliceCorner="24,24" SliceSize="1,1" SliceTextureSize="52,52"/>
         <Image ID="UnitTypeIcon" Anchor="C,C" Size="38,38" Texture="Units38" Offset="0,0"/>
         <Label ID="UnitSuffix" Anchor="R,B" Size="22,22" Offset="6,2"/>
       </GridButton>

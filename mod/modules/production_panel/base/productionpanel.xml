@@ -536,7 +536,7 @@
   <Container ID="CuiItemContainer" Hidden="1"/>
   <Instance Name="CuiItemInstance">
     <Container ID="Top" Size="320,32">
-      <Image ID="Branch" Size="6,35" Texture="branch.dds" Offset="-3,-17" Hidden="1"/>
+      <Image ID="Branch" Size="6,35" Texture="production_branch.dds" Offset="-3,-17" Hidden="1"/>
       <Stack StackGrowth="Left" StackPadding="0" Anchor="R,T">
         <GridButton ID="GoldButton" Size="32,32" Style="ButtonControl" Anchor="R,T">
           <Label ID="GoldCost" Size="68,32" String="[ICON_GOLD]" Anchor="R,C" Offset="5,1" Hidden="1" Style="WhiteSemiBold14"/>
@@ -556,7 +556,7 @@
           </Container>
           <Container Size="32,32" Anchor="L,C" Offset="2,0">
             <Image ID="Icon" Size="28,28" Anchor="C,C" Offset="2,0" Texture="Projects32"/>
-            <Image ID="Wrench" Size="20,20" Anchor="C,C" Offset="2,0" Texture="wrench.dds" StretchMode="Fill" Hidden="1"/>
+            <Image ID="Wrench" Size="20,20" Anchor="C,C" Offset="2,0" Texture="production_wrench.dds" StretchMode="Fill" Hidden="1"/>
           </Container>
           <Container Size="200,32" Anchor="L,C" Offset="44,0">
             <Label ID="Name" String="Dummy Item" Style="WhiteSemiBold14" Anchor="L,C" WrapWidth="150" Offset="0,1"/>

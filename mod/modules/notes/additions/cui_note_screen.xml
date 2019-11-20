@@ -28,7 +28,7 @@
   <!-- ==================================================================	-->
   <Instance Name="NoteEnter">
     <Container ID="Top" Anchor="C,T" Size="parent-40,62">
-      <Image Size="171,48" Anchor="R,T" Offset="0,-12" Texture="note_turn_back.dds">
+      <Image Size="171,30" Anchor="R,T" Offset="0,-12" Texture="bg_note_turn.dds">
         <Label ID="LastEdit" Anchor="C,T" Style="FontFlair14" Offset="0,10"/>
       </Image>
       <GridButton ID="EditButton" Size="parent,34" Anchor="L,C" Texture="Controls_TitleBarDark" SliceCorner="30,0" SliceTextureSize="44,34">

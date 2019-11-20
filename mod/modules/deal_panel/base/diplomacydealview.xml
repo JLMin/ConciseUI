@@ -44,11 +44,11 @@
       <Stack ID="ListStack" StackGrowth="Right" StackPadding="22" Offset="10,0"/>
     </Stack>
   </Instance>
-  
+
   <Instance Name="CuiIconOnly">
     <!-- <GridButton ID="SelectButton" Style="ButtonDraggableGrid" Size="56,56" Offset="0,0" Anchor="L,T"> -->
     <GridButton ID="SelectButton" Size="56,56" Offset="0,0" Anchor="L,T">
-      <Image ID="ColorBG" Size="56,56" Anchor="C,C" Texture="deal_icon_bg.dds" InnerPadding="22,22" MinSize="50,50" StateOffsetIncrement="0,50" SliceCorner="25,25" SliceTextureSize="50,50">
+      <Image ID="ColorBG" Size="56,56" Anchor="C,C" Texture="button_resource.dds" InnerPadding="22,22" MinSize="50,50" StateOffsetIncrement="0,50" SliceCorner="25,25" SliceTextureSize="50,50">
         <Image ID="Icon" StretchMode="None" Size="64,64" Anchor="C,C"/>
         <Label ID="AmountText" Style="FontNormalBold14" Anchor="R,B" Offset="-5,-9" FontStyle="Stroke" Color="White"/>
         <Image ID="UnacceptableIcon" Anchor="R,T" Offset="-8,-8" Texture="Alert18" Size="18,18" ToolTip="LOC_DIPLO_DEAL_UNACCEPTABLE_ITEM_TOOLTIP" Hidden="1"/>

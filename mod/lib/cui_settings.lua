@@ -6,7 +6,7 @@ local SETTING_PREFIX = "CUI_SETTING_"
 
 CuiSettings = {
   -- map options
-  SHOW_IMPROVES     = {field = "ShowImproveS",      default = true},
+  SHOW_IMPROVES     = {field = "ShowImproveS",      default = false},
   SHOW_UNITS        = {field = "ShowUnits",         default = true},
   SHOW_TRADERS      = {field = "ShowTraders",       default = true},
   SHOW_RELIGIONS    = {field = "ShowReligions",     default = true},
