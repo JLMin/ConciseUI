@@ -83,7 +83,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_OPEN_NOTES",          "ja_JP", "Open Notes"),
 
 -- ===========================================================================
--- [Korean] by [firefanda] 22/10/2019
+-- [Korean] by [firefanda] 10/22/2019
 -- ===========================================================================
 ("LOC_CUI_CONFIG_CATEGORY",            "ko_KR", "Concise UI"),
 ("LOC_CUI_CONFIG_PLACE_MAP_PIN",       "ko_KR", "맵 트래커 추가"),
@@ -122,7 +122,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_OPEN_NOTES",          "pt_BR", "Open Notes"),
 
 -- ===========================================================================
--- untranslated
+-- [Russian] by [iMiAMi] 11/21/2019
 -- ===========================================================================
 ("LOC_CUI_CONFIG_CATEGORY",            "ru_RU", "Concise UI"),
 ("LOC_CUI_CONFIG_PLACE_MAP_PIN",       "ru_RU", "Добавить метку"),
