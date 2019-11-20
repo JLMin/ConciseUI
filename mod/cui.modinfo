@@ -47,9 +47,11 @@
       <File>localization/cui_it_it.sql</File>
       <File>localization/cui_ja_jp.sql</File>
       <File>localization/cui_ko_kr.sql</File>
+      <File>localization/cui_pl_pl.sql</File>
+      <File>localization/cui_pt_br.sql</File>
       <File>localization/cui_ru_ru.sql</File>
       <File>localization/cui_zh_cn.sql</File>
-      <File>localization/template.sql</File>
+      <File>localization/cui_zh_hk.sql</File>
     </UpdateText>
     <ImportFiles id="Cui_Lib">
       <Properties>
@@ -224,9 +226,11 @@
     <File>localization/cui_it_it.sql</File>
     <File>localization/cui_ja_jp.sql</File>
     <File>localization/cui_ko_kr.sql</File>
+    <File>localization/cui_pl_pl.sql</File>
+    <File>localization/cui_pt_br.sql</File>
     <File>localization/cui_ru_ru.sql</File>
     <File>localization/cui_zh_cn.sql</File>
-    <File>localization/template.sql</File>
+    <File>localization/cui_zh_hk.sql</File>
     <File>modules/_options/base/options.lua</File>
     <File>modules/city_panel/base/citypanel.lua</File>
     <File>modules/city_panel/base/citypanel.xml</File>
