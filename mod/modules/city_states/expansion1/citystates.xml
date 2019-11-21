@@ -42,7 +42,7 @@
 			</Grid>
 
 			<ScrollPanel ID="CityStateScroll" Offset="12,164" Size="490,parent-174" Vertical="1" AutoScrollBar="1">
-				<Stack ID="CityStateStack" Anchor="L,T" Offset="0,1" StackPadding="2" />
+				<Stack ID="CityStateStack" Anchor="L,T" Offset="0,1" StackPadding="4" />
 				<ScrollBar Anchor="R,C" Offset="-1,0" AnchorSide="O,I" Style="ScrollVerticalBarAlt" />
 			</ScrollPanel>
 
@@ -204,15 +204,15 @@
 	</Instance>
 
 	<Instance Name="CityStateRowInstance">
-		<GridButton ID="CityStateBase" Size="parent,68" Style="SubContainer4" Color="59,62,63,255">
+		<GridButton ID="CityStateBase" Size="parent,66" Style="SubContainer4" Color="99,102,103,255">
 			<BoxButton ID="Button" Anchor="L,T" Offset="8,0" Size="40,40" Color="0,0,0,0">
-				<Image ID="Icon" Anchor="L,C" Size="36,36" Texture="CivSymbols36" />
-				<Image ID="DiplomacyPip" Anchor="L,B" Offset="-10,-6" Size="23,23" Texture="Diplomacy_RelationshipPips" />
+				<Image ID="Icon" Anchor="L,C" Size="36,36" Offset="0,2" Texture="CivSymbols36" />
+				<Image ID="DiplomacyPip" Anchor="L,B" Offset="-8,-6" Size="23,23" Texture="Diplomacy_RelationshipPips" />
 				<Label ID="QuestIcon" Hidden="1" Anchor="L,T" Offset="-9,0" String="[ICON_CityStateQuest]" Size="28,28"/>
 			</BoxButton>
 
 			<GridButton ID="NameButton" Offset="42,9" Size="126,33" Texture="Controls_CityBannerSmall" SliceCorner="14,9" SliceSize="5,4" SliceTextureSize="33,28" Color="50,50,50,255">
-				<Label ID="NameLabel" Anchor="C,C" Offset="0,-2" Style="FontFlair11" SmallCaps="16" SmallCapsStyle="EveryWord" String="Name"/>
+				<Label ID="NameLabel" Anchor="C,C" Offset="0,-2" Style="FontFlair12" SmallCaps="16" SmallCapsStyle="EveryWord" String="Name"/>
 			</GridButton>
 
 			<Image ID="Envoy" Anchor="L,T" Offset="190,3" Size="40,40" Texture="Controls_CircleRim40">
@@ -257,10 +257,9 @@
 			-->
 
 			<!-- CUI Quest -->
-			<Line Start="3,44" End="parent-3,44" Color="59,62,63,255"/>
-			<Grid Anchor="L,B" Offset="10,10" Size="parent,16">
-				<Label ID="CuiCityStateQuestIcon" Anchor="L,C" Offset="4,6" String="$Icon$" Size="28,28"/>
-				<Label ID="CuiCityStateQuest" Anchor="L,C" Offset="30,6" String="$Quest$" Style="FontFlair14" SmallCaps="18" SmallCapsType="EveryWord" Color="255,255,255,120" />
+			<Grid ID="CuiQuestGrid" Size="parent,20" Anchor="C,B" Offset="0,1">
+				<Line Start="3,0" End="parent-3,0" Color="59,62,63,255"/>
+				<Label ID="CuiCityStateQuest" Anchor="L,C" Offset="15,0" String="$Quest$" Style="FontFlair12" SmallCaps="18" SmallCapsType="EveryWord" Color="255,255,255,120" />
 			</Grid>
 		</GridButton>
 	</Instance>

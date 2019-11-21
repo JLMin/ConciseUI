@@ -894,13 +894,11 @@ function AddCityStateRow(kCityState)
   -- kInst.QuestIcon:SetHide(numQuests <= 0);
   -- kInst.QuestIcon:SetToolTipString(questToolTip);
   if numQuests > 0 then
-    kInst.CuiCityStateQuestIcon:SetString("[ICON_CityStateQuest]")
     kInst.CuiCityStateQuest:SetString(questToolTip)
-    kInst.CuiCityStateQuest:SetColorByName("White")
+    kInst.CuiCityStateQuest:SetColor(kCityState.ColorSecondary)
   else
-    kInst.CuiCityStateQuestIcon:SetString("[ICON_CheckMark]")
     kInst.CuiCityStateQuest:SetString(Locale.Lookup("LOC_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_MESSAGE"))
-    kInst.CuiCityStateQuest:SetColorByName("Gray")
+    kInst.CuiCityStateQuest:SetColor(COLOR_TEXT_BONUS_OFF)
   end
   --
 
