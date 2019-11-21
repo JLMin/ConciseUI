@@ -67,7 +67,7 @@
 			<!-- CUI: add total envoys sent -->
 			<Grid ID="TotalFrame" Anchor="C,B" Offset="0,10" Size="parent,60" Texture="Controls_TitleBarDark" SliceCorner="21,17" SliceTextureSize="42,34">
 				<Image Size="parent,parent" Texture="Controls_Gradient_HalfRadial" Color="170,176,180,35"/>
-				<Label ID="Totals" Anchor="C,T" Offset="0,10" Size="parent,parent" Style="FontFlair18" Color0="170,176,180" String="Envoys Sent: n, Suzerain: m" />
+				<Label ID="Totals" Anchor="C,T" Offset="0,10" Size="parent,parent" Style="FontFlair16" Color0="170,176,180" String="Envoys Sent: n, Suzerain: m" />
 				<Stack ID="SuzerainStack" Anchor="C,B" Offset="0,6" StackGrowth="Right" StackPadding="20"/>
 			</Grid>
 
@@ -198,7 +198,7 @@
 	<Instance Name="CuiSuzerainInstance">
 		<Container ID="Top" Anchor="L,T" Size="30,26">
 			<Image ID="SuzerainImage" Size="26,26" Texture="EnvoyBonuses26" TextureOffset="104,0">
-				<Label ID="SuzerainNumber" Style="FontFlair18" Offset="26,6" String="0"/>
+				<Label ID="SuzerainNumber" Style="FontFlair16" Offset="26,6" String="0"/>
 			</Image>
 		</Container>
 	</Instance>
