@@ -2,7 +2,72 @@ include("CitySupport")
 include("SupportFunctions")
 
 -- ---------------------------------------------------------------------------
--- Yield
+
+GameDistrictsTypes = {
+  CITY_CENTER = {
+    "DISTRICT_CITY_CENTER"
+  },
+  GOVERNMENT = {
+    "DISTRICT_GOVERNMENT"
+  },
+  WONDER = {
+    "DISTRICT_WONDER"
+  },
+  HOLY_SITE = {
+    "DISTRICT_HOLY_SITE",
+    "DISTRICT_LAVRA" -- Russia
+  },
+  CAMPUS = {
+    "DISTRICT_CAMPUS",
+    "DISTRICT_SEOWON" -- Korea
+  },
+  THEATER = {
+    "DISTRICT_THEATER",
+    "DISTRICT_ACROPOLIS" -- Greece
+  },
+  ENCAMPMENT = {
+    "DISTRICT_ENCAMPMENT",
+    "DISTRICT_IKANDA" -- Zulu
+  },
+  COMMERCIAL_HUB = {
+    "DISTRICT_COMMERCIAL_HUB", "DISTRICT_SUGUBA" -- Mali
+  },
+  HARBOR = {
+    "DISTRICT_HARBOR", "DISTRICT_COTHON", -- Phoenicia
+    "DISTRICT_ROYAL_NAVY_DOCKYARD" -- England
+  },
+  ENTERTAINMENT_COMPLEX = {
+    "DISTRICT_ENTERTAINMENT_COMPLEX",
+    "DISTRICT_STREET_CARNIVAL", -- Brazil
+    "DISTRICT_WATER_ENTERTAINMENT_COMPLEX",
+    "DISTRICT_WATER_STREET_CARNIVAL" -- Brazil
+  },
+  INDUSTRIAL_ZONE = {
+    "DISTRICT_INDUSTRIAL_ZONE",
+    "DISTRICT_HANSA" -- Germany
+  },
+  AERODROME = {
+    "DISTRICT_AERODROME"
+  },
+  SPACEPORT = {
+    "DISTRICT_SPACEPORT"
+  },
+  AQUEDUCT = {
+    "DISTRICT_AQUEDUCT",
+    "DISTRICT_BATH" -- Rome
+  },
+  CANAL = {
+    "DISTRICT_CANAL"
+  },
+  NEIGHBORHOOD = {
+    "DISTRICT_NEIGHBORHOOD",
+    "DISTRICT_MBANZA" -- Kongo
+  },
+  DAM = {
+    "DISTRICT_DAM"
+  }
+}
+
 -- ---------------------------------------------------------------------------
 function CuiGetCityYield(city, round)
   local data = GetCityData(city)
@@ -14,7 +79,7 @@ function CuiGetCityYield(city, round)
   yields.Science = Round(data.SciencePerTurn, n)
   yields.Culture = Round(data.CulturePerTurn, n)
   yields.Faith = Round(data.FaithPerTurn, n)
-  yields.Tourism = Round(CuiGetCityTourism(city), n)
+  -- yields.Tourism = Round(CuiGetCityTourism(city), n)
 
   return yields
 end
@@ -48,10 +113,11 @@ function CuiGetCityTourism(city)
   end
   local player = Players[playerID]
   local pCulture = player:GetCulture()
-  local cityPlots  = Map.GetCityPlots():GetPurchasedPlots(city)
-	for _, plotID in ipairs(cityPlots) do
-    tourism = tourism + pCulture:GetTourismAt(plotID)
-  end
+  local cityPlots = Map.GetCityPlots():GetPurchasedPlots(city)
+  for _, plotID in ipairs(cityPlots) do tourism = tourism + pCulture:GetTourismAt(plotID) end
 
   return tourism
 end
+
+-- ---------------------------------------------------------------------------
+function CuiGetDistrictIcon(dType) end

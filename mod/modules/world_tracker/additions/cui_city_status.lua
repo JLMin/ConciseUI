@@ -18,6 +18,18 @@ local cui_CityIM = InstanceManager:new("CityInstance", "Top", Controls.CityListS
 local cui_DistrictsIM = InstanceManager:new("DistrictInstance", "Top", Controls.DistrictInstanceContainer)
 local m_tabs
 local PopulationTrack = {}
+local DistrictsTypes = {
+  "HOLY_SITE",
+  "CAMPUS",
+  "THEATER",
+  "ENCAMPMENT",
+  "COMMERCIAL_HUB",
+  "HARBOR",
+  "INDUSTRIAL_ZONE",
+  "ENTERTAINMENT_COMPLEX",
+  "AERODROME",
+  "SPACEPORT"
+}
 
 -- ===========================================================================
 -- Support functions
@@ -36,6 +48,13 @@ function GetHappinessColor(eHappiness)
     if (happinessInfo.GrowthModifier < 0) then return "StatBadCS" end
     if (happinessInfo.GrowthModifier > 0) then return "StatGoodCS" end
   end
+  return "White"
+end
+
+-- ---------------------------------------------------------------------------
+function GetLoyaltyColor(loyalty)
+  if loyalty < 0 then return "StatBadCS" end
+  if loyalty > 0 then return "StatGoodCS" end
   return "White"
 end
 
@@ -76,15 +95,14 @@ function PopulateCityStack()
     if cityData.ProductionQueue then
       local currentProduction = cityData.ProductionQueue[1]
       if currentProduction and currentProduction.Icons then
-        cityInstance.ProgressStack:SetHide(false)
+        cityInstance.ProductionProgressGrid:SetHide(false)
         for _, iconName in ipairs(currentProduction.Icons) do
           if iconName and cityInstance.Icon:TrySetIcon(iconName) then break end
         end
         cityInstance.ProductionProgress:SetPercent(currentProduction.PercentComplete)
-        cityInstance.ProductionName:SetText(currentProduction.Name)
         cityInstance.ProductionTurn:SetText(currentProduction.Turns .. "[ICON_TURN]")
       else
-        cityInstance.ProgressStack:SetHide(true)
+        cityInstance.ProductionProgressGrid:SetHide(true)
       end
     end
 
@@ -95,7 +113,6 @@ function PopulateCityStack()
     cityInstance.CityButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
     -- if population changed
     cityInstance.CityButton:SetTexture("Controls_ButtonControl")
-    cityInstance.CurrentProductionGrid:SetTexture("Controls_ButtonControl_Gray")
     cityInstance.NewPopulation:SetHide(true)
     if PopulationTrack[playerID] and PopulationTrack[playerID][city:GetName()] then
       local cpData = PopulationTrack[playerID][city:GetName()]
@@ -108,27 +125,17 @@ function PopulateCityStack()
         end
         local cpToolTip = Locale.Lookup("LOC_RAZE_CITY_POPULATION_LABEL") .. amount
         cityInstance.CityButton:SetTexture("Controls_ButtonControl_Tan")
-        cityInstance.CurrentProductionGrid:SetTexture("Controls_ButtonControl_Brown")
         cityInstance.NewPopulation:SetHide(false)
         cityInstance.NewPopulation:SetToolTipString(cpToolTip)
       end
     end
 
     cityInstance.GrowthTurnsBar:SetPercent(cityData.CurrentFoodPercent)
-    cityInstance.GrowthTurnsBar:SetShadowPercent(cityData.FoodPercentNextTurn)
-    cityInstance.GrowthNum:SetText(math.abs(cityData.TurnsUntilGrowth))
-    if cityData.Occupied then
-      cityInstance.GrowthLabel:SetColorByName("StatBadCS")
-      cityInstance.GrowthLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_HUD_CITY_GROWTH_OCCUPIED")))
-    elseif cityData.TurnsUntilGrowth >= 0 then
-      cityInstance.GrowthLabel:SetColorByName("StatGoodCS")
-      cityInstance.GrowthLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_HUD_CITY_TURNS_UNTIL_GROWTH",
-                                                                    cityData.TurnsUntilGrowth)))
-    else
-      cityInstance.GrowthLabel:SetColorByName("StatBadCS")
-      cityInstance.GrowthLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_HUD_CITY_TURNS_UNTIL_LOSS",
-                                                                    math.abs(cityData.TurnsUntilGrowth))))
-    end
+    local iconColor = cityData.Occupied and "Red" or "White"
+    cityInstance.CitizenIcon:SetColorByName(iconColor)
+    local growthArrow = cityData.TurnsUntilGrowth >= 0 and "[ICON_PressureUp]" or "[ICON_PressureDown]"
+    cityInstance.GrowthArrow:SetText(growthArrow)
+    cityInstance.GrowthTurn:SetText(math.abs(cityData.TurnsUntilGrowth) .. "[ICON_TURN]")
 
     local colorName = "White"
     --
@@ -144,7 +151,18 @@ function PopulateCityStack()
     --
     cityInstance.ReligionNum:SetText(cityData.ReligionFollowers)
     --
-    cityInstance.DistrickNum:SetText(cityData.DistrictsNum .. "/" .. cityData.DistrictsPossibleNum)
+    if isExpansion1 or isExpansion2 then
+      local culturalIdentity = cityData.City:GetCulturalIdentity();
+      local loyaltyPerTurn = culturalIdentity:GetLoyaltyPerTurn();
+      colorName = GetLoyaltyColor(loyaltyPerTurn)
+      cityInstance.SwitchableIcon:SetIcon("ICON_STAT_CULTURAL_FLAG")
+      cityInstance.SwitchableNum:SetText(toPlusMinusString(loyaltyPerTurn))
+      cityInstance.SwitchableNum:SetColorByName(colorName)
+    else
+      cityInstance.SwitchableIcon:SetIcon("ICON_BUILDINGS")
+      cityInstance.SwitchableNum:SetText(cityData.DistrictsNum .. "/" .. cityData.DistrictsPossibleNum)
+      cityInstance.SwitchableNum:SetColorByName("White")
+    end
     --
     PopulateDistrict(cityInstance, cityData)
 
@@ -156,18 +174,31 @@ function PopulateCityStack()
     cityInstance.CityScience:SetText(yields.Science)
     cityInstance.CityCulture:SetText(yields.Culture)
     cityInstance.CityFaith:SetText(yields.Faith)
-    cityInstance.CityTourism:SetText(yields.Tourism)
-    
+
   end
 end
 
 -- ---------------------------------------------------------------------------
 function PopulateDistrict(instance, data)
   for _, district in ipairs(data.BuildingsAndDistricts) do
-    if district.isBuilt then
-      if "DISTRICT_CITY_CENTER" ~= district.Type then
-        local districtInstance = cui_DistrictsIM:GetInstance(instance.DistrictStack)
-        CuiSetIconToSize(districtInstance.Icon, district.Icon, 22)
+    if district.isBuilt and district.Type == "DISTRICT_GOVERNMENT" then
+      CuiSetIconToSize(instance.GovernmentIcon, "ICON_DISTRICT_GOVERNMENT", 22)
+      break
+    end
+  end
+
+  for _, groupName in ipairs(DistrictsTypes) do
+    local dGroup = GameDistrictsTypes[groupName]
+    local districtInstance = cui_DistrictsIM:GetInstance(instance.DistrictStack)
+    CuiSetIconToSize(districtInstance.Icon, "ICON_" .. dGroup[1], 22)
+    districtInstance.Icon:SetAlpha(0.1)
+    for _, dType in ipairs(dGroup) do
+      for _, district in ipairs(data.BuildingsAndDistricts) do
+        if district.isBuilt and district.Type == dType then
+          CuiSetIconToSize(districtInstance.Icon, "ICON_" .. dType, 22)
+          districtInstance.Icon:SetAlpha(1)
+          break
+        end
       end
     end
   end
@@ -214,7 +245,7 @@ function UpdatePopulationChanged(playerID)
     end
   end
   PopulationTrack[playerID] = data
-  
+
   return hasChanged
 end
 
@@ -297,7 +328,7 @@ function Initialize()
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, Close)
   Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
   Controls.PauseDismissWindow:RegisterEndCallback(OnCloseEnd)
-  
+
   LuaEvents.CuiOnToggleCityManager.Add(OnToggleCityManager)
   LuaEvents.CityPanelOverview_Opened.Add(Close)
   Events.PlayerTurnActivated.Add(OnPlayerTurnActivated)

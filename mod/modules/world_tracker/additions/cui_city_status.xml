@@ -66,103 +66,91 @@
 
   <!-- =========================== Instances ========================== -->
   <Instance Name="CityInstance">
-    <Container ID="Top" Size="322,148">
-      <Grid ID="BGL" Anchor="L,T" Offset="0,1" Size="250,145" MinSize="0,32" Texture="Controls_ItemContainerDark" SliceCorner="8,8" SliceTextureSize="16,16">
+    <Container ID="Top" Size="322,128">
+      <Grid ID="BGL" Anchor="L,T" Offset="0,1" Size="250,125" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
         <GridButton ID="CityButton" Anchor="L,T" Size="parent,60" Style="ButtonControl">
           <!-- City Name and Capital Indicator -->
           <Label ID="CapitalIcon" Anchor="L,T" Offset="4,8" Style="FontNormal16" String="[ICON_Capital]"/>
-          <Label ID="CityName" Offset="30,10" Style="FontNormal16" TruncateWidth="220" String="City Name"/>
-          <Label ID="NewPopulation" String="[ICON_New]" Anchor="R,T" Offset="4,14" Hidden="1"/>
-          <!-- Current Production -->
-          <Grid ID="CurrentProductionGrid" Disabled="1" Size="parent-8,32" Anchor="C,T" Offset="0,28" Style="ButtonControl">
-            <Container Size="32,32" Anchor="L,C" Offset="2,0">
+          <Label ID="CityName" Offset="30,10" Style="FontNormal14" TruncateWidth="220" String="City Name"/>
+          <Label ID="NewPopulation" String="[ICON_New]" Anchor="R,T" Offset="4,12" Hidden="1"/>
+          <!-- Current progress grid -->
+          <Grid ID="CurrentProgressGrid" Size="parent-12,28" Anchor="C,T" Offset="0,28" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
+            <Grid Size="28,28" Anchor="L,C" Offset="2,0">
               <Image ID="Icon" Size="28,28" Anchor="C,C" Offset="2,0" Texture="Projects32"/>
-            </Container>
-            <Container Size="200,32" Anchor="L,C" Offset="38,0">
-              <Label ID="ProductionName" String="" Style="WhiteSemiBold14" Anchor="L,C" WrapWidth="150" Offset="0,1"/>
-            </Container>
-            <Stack ID="ProgressStack" Anchor="R,C" StackGrowth="Left" Padding="0">
-              <Container Size="71,32" Anchor="R,C" Offset="3,0">
-                <Image ID="ProductionProgressArea" Texture="CityPanel_MeterSmallBacking" Size="71,21" Anchor="R,C" Offset="5,0">
-                  <TextureBar ID="ProductionProgress" Texture="CityPanel_ProductionMeterSmall" Size="67,17" Anchor="C,C" Speed="1" Direction="Right"/>
-                </Image>
-                <Label ID="ProductionTurn" Style="WhiteSemiBold14" Anchor="R,C" Offset="5,1"/>
-              </Container>
-            </Stack>
+            </Grid>
+            <Grid ID="ProductionProgressGrid" Anchor="L,C" Offset="30,1">
+              <Image ID="ProductionProgressArea" Texture="CityPanel_MeterSmallBacking" Size="71,21" Anchor="L,C" Offset="5,0">
+                <TextureBar ID="ProductionProgress" Texture="CityPanel_ProductionMeterSmall" Size="67,17" Anchor="C,C" Speed="1" Direction="Right"/>
+                <Label ID="ProductionTurn" Style="CityPanelProgressText" Anchor="R,C" Offset="5,1"/>
+              </Image>
+            </Grid>
+
+            <Grid Size="28,28" Anchor="L,C" Offset="120,0">
+               <Image ID="CitizenIcon" Size="28,28" Anchor="C,C" Texture="Stats32" Icon="ICON_CITIZEN"/>
+            </Grid>
+            <Grid ID="GrowthProgressGrid" Anchor="L,C" Offset="145,1">
+              <Image ID="GrowthProgressArea" Texture="CityPanel_MeterSmallBacking" Size="71,21" Anchor="L,C" Offset="5,0">
+                <TextureBar ID="GrowthTurnsBar" Texture="CityPanel_CitizenMeter" Size="67,17" Anchor="C,C" Speed="1" Direction="Right"/>
+                <Label ID="GrowthTurn" Style="CityPanelProgressText" Anchor="R,C" Offset="5,1"/>
+              </Image>
+              <Label ID="GrowthArrow" Anchor="L,C" Offset="73,1" String="[ICON_PressureUp]"/>
+            </Grid>
           </Grid>
         </GridButton>
 
-        <Grid ID="DetailGrid">
-          <Grid Anchor="L,C" Offset="4,62">
-            <Image Texture="Stats22" Icon="ICON_CITIZEN" Size="22,22" />
-            <Grid Anchor="L,T" Size="215,21" Offset="25,1">
-              <Image ID="GrowthTurns" Size="parent,21" Texture="CityPanel_MeterBacking">
-                <TextureBar ID="GrowthTurnsBar" Anchor="L,T" Offset="2,2" Size="parent-4,parent-3" Texture="CityPanel_CitizenMeter" ShadowColor="255,255,255,100">
-                  <Stack Anchor="L,C" Offset="5,1" StackGrowth="Right" StackPadding="4">
-                    <Label ID="GrowthNum" Style="CityPanelNumLarge" String="-" />
-                    <Label ID="GrowthLabel" Style="CityPanelProgressText" String="n/a" ColorSet="GrowthCS" />
-                  </Stack>
-                </TextureBar>
-              </Image>
+        <Grid ID="DetailGrid" Offset="1,64">
+          <Stack Anchor="L,T" Offset="4,0" StackGrowth="Right" StackPadding="6">
+            <Grid Anchor="L,C" Size="24,24">
+              <Image ID="GovernmentIcon" Anchor="L,T" Size="22,22"/>
             </Grid>
-          </Grid>
-
-          <Grid Anchor="L,C" Offset="4,87">
-            <Image Texture="Stats22" Icon="ICON_HOUSING" Size="22,22"/>
-            <Label ID="HousingNum" Offset="24,6" Style="FontFlair14" String="10/16" />
-          </Grid>
-
-          <Grid Anchor="L,C" Offset="80,87">
-            <Image Texture="Stats22" Icon="ICON_AMENITIES" Size="22,22"/>
-            <Label ID="AmenitiesNum" Offset="24,6" Style="FontFlair14" String="10/16" />
-          </Grid>
-
-          <Grid Anchor="L,C" Offset="130,87">
-            <Image Texture="Stats22" Icon="ICON_RELIGION" Size="22,22"/>
-            <Label ID="ReligionNum" Offset="24,6" Style="FontFlair14" String="10/16" />
-          </Grid>
-
-          <Grid Anchor="L,C" Offset="180,87">
-            <Image Texture="Stats22" Icon="ICON_BUILDINGS" Size="22,22" Offset="0,-2"/>
-            <Label ID="DistrickNum" Offset="24,6" Style="FontFlair14" String="3/4" />
-          </Grid>
-
-          <Grid Anchor="L,C" Offset="4,114">
-            <Stack ID="DistrictStack" StackGrowth="Right" StackPadding="0" />
+            <Grid Anchor="L,C" Size="auto,22">
+              <Image Texture="Stats22" Icon="ICON_HOUSING" Size="22,22"/>
+              <Label ID="HousingNum" Offset="24,6" Style="FontNormal12" String="10/16" />
+            </Grid>
+            <Grid Anchor="L,C" Size="auto,22">
+              <Image Texture="Stats22" Icon="ICON_AMENITIES" Size="22,22"/>
+              <Label ID="AmenitiesNum" Offset="24,6" Style="FontNormal12" String="10/16" />
+            </Grid>
+            <Grid Anchor="L,C" Size="auto,22">
+              <Image Texture="Stats22" Icon="ICON_RELIGION" Size="22,22"/>
+              <Label ID="ReligionNum" Offset="24,6" Style="FontNormal12" String="10/16" />
+            </Grid>
+            <Grid Anchor="L,C" Size="auto,22">
+              <Image ID="SwitchableIcon" Texture="Stats22" Icon="ICON_STAT_CULTURAL_FLAG" Size="22,22" Offset="0,-2"/>
+              <Label ID="SwitchableNum" Offset="24,6" Style="FontNormal12" String="3/4" />
+            </Grid>
+          </Stack>
+          <Grid Anchor="L,T" Offset="4,30" Size="auto,22">
+            <Stack ID="DistrictStack" StackGrowth="Right" StackPadding="2" />
           </Grid>
         </Grid>
       </Grid>
-
-      <Grid ID="BGR" Anchor="R,T" Offset="0,1" Size="70,145" MinSize="0,32" Texture="Controls_ItemContainerDark" SliceCorner="8,8" SliceTextureSize="16,16">
+      <Grid ID="BGR" Anchor="R,T" Offset="0,1" Size="70,125" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">
         <!-- Yield -->
         <Stack ID="ResourceList" Anchor="L,T" Offset="2,7" StackGrowth="Down" WrapWidth="320" StackPadding="6">
           <Grid Size="70,14">
             <Label Anchor="L,C" Style="FontNormal14" String="[Icon_Food]"/>
-            <Label ID="CityFood" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0" Color="Food"/>
+            <Label ID="CityFood" Anchor="L,C" Style="FontNormal12" String="12.3" Offset="22,0" Color="Food"/>
           </Grid>
           <Grid Size="70,14">
             <Label Anchor="L,C" Style="FontNormal14" String="[ICON_Production]"/>
-            <Label ID="CityProduction" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0" Color="Production"/>
+            <Label ID="CityProduction" Anchor="L,C" Style="FontNormal12" String="12.3" Offset="22,0" Color="Production"/>
           </Grid>
           <Grid Size="70,14">
             <Label Anchor="L,C" Style="FontNormal14" String="[ICON_Gold]"/>
-            <Label ID="CityGold" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0" Color="Gold"/>
+            <Label ID="CityGold" Anchor="L,C" Style="FontNormal12" String="12.3" Offset="22,0" Color="Gold"/>
           </Grid>
           <Grid Size="70,14">
             <Label Anchor="L,C" Style="FontNormal14" String="[ICON_Science]"/>
-            <Label ID="CityScience" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0" Color="Science"/>
+            <Label ID="CityScience" Anchor="L,C" Style="FontNormal12" String="12.3" Offset="22,0" Color="Science"/>
           </Grid>
           <Grid Size="70,14">
             <Label Anchor="L,C" Style="FontNormal14" String="[ICON_Culture]"/>
-            <Label ID="CityCulture" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0" Color="Culture"/>
+            <Label ID="CityCulture" Anchor="L,C" Style="FontNormal12" String="12.3" Offset="22,0" Color="Culture"/>
           </Grid>
           <Grid Size="70,14">
             <Label Anchor="L,C" Style="FontNormal14" String="[ICON_Faith]"/>
-            <Label ID="CityFaith" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0" Color="Faith"/>
-          </Grid>
-          <Grid Size="70,14">
-            <Label Anchor="L,C" Style="FontNormal14" String="[ICON_Tourism]"/>
-            <Label ID="CityTourism" Anchor="L,C" Style="FontNormal14" String="12.3" Offset="22,0" Color="Tourism"/>
+            <Label ID="CityFaith" Anchor="L,C" Style="FontNormal12" String="12.3" Offset="22,0" Color="Faith"/>
           </Grid>
         </Stack>
       </Grid>
@@ -173,7 +161,7 @@
   <Container ID="DistrictInstanceContainer" Hidden="1"/>
   <Instance Name="DistrictInstance">
     <Grid ID="Top" Size="22,22">
-      <Image ID="Icon" Anchor="L,T" Texture="Districts22" Size="22,22" />
+      <Image ID="Icon" Anchor="L,T" Size="22,22" />
     </Grid>
   </Instance>
 </Context>
