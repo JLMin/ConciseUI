@@ -71,7 +71,7 @@
         <GridButton ID="CityButton" Anchor="L,T" Size="parent,60" Style="ButtonControl">
           <!-- City Name and Capital Indicator -->
           <Label ID="CapitalIcon" Anchor="L,T" Offset="4,8" Style="FontNormal16" String="[ICON_Capital]"/>
-          <Label ID="CityName" Offset="30,10" Style="FontNormal14" TruncateWidth="220" String="City Name"/>
+          <Label ID="CityName" Offset="30,10" Style="FontFlair16" TruncateWidth="220" String="City Name"/>
           <Label ID="NewPopulation" String="[ICON_New]" Anchor="R,T" Offset="4,12" Hidden="1"/>
           <!-- Current progress grid -->
           <Grid ID="CurrentProgressGrid" Size="parent-12,28" Anchor="C,T" Offset="0,28" Texture="Controls_ItemContainer" SliceCorner="8,8" SliceTextureSize="16,16">

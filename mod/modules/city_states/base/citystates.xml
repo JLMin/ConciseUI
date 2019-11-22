@@ -258,7 +258,7 @@
 			<!-- CUI Quest -->
 			<Grid ID="CuiQuestGrid" Size="parent,20" Anchor="C,B" Offset="0,1">
 				<Line Start="3,0" End="parent-3,0" Color="59,62,63,255"/>
-				<Label ID="CuiCityStateQuest" Anchor="L,C" Offset="15,0" String="$Quest$" Style="FontFlair12" SmallCaps="18" SmallCapsType="EveryWord" Color="255,255,255,120" />
+				<Label ID="CuiCityStateQuest" Anchor="L,C" Offset="15,0" String="$Quest$" Style="FontNormal12"/>
 			</Grid>
 		</GridButton>
 	</Instance>
