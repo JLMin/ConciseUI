@@ -52,17 +52,27 @@ local CUI_SORT_BUTTON = {
 local cui_sortBy = -1
 
 -- ===========================================================================
-function GetOriginCity() if m_originCityOwner ~= -1 then return CityManager.GetCity(m_originCityOwner, m_originCityID) end end
+function GetOriginCity()
+  if m_originCityOwner ~= -1 then
+    return CityManager.GetCity(m_originCityOwner, m_originCityID)
+  end
+end
 
 -- ===========================================================================
 function GetDestinationCity()
-  if m_destinationCityOwner ~= -1 then return CityManager.GetCity(m_destinationCityOwner, m_destinationCityID) end
+  if m_destinationCityOwner ~= -1 then
+    return CityManager.GetCity(m_destinationCityOwner, m_destinationCityID)
+  end
 end
 
 -- ===========================================================================
 function FindDestinationEntry(cityOwner, cityID)
 
-  for index, entry in ipairs(m_unfilteredDestinations) do if entry.id == cityID and entry.owner == cityOwner then return entry end end
+  for index, entry in ipairs(m_unfilteredDestinations) do
+    if entry.id == cityID and entry.owner == cityOwner then
+      return entry
+    end
+  end
 
 end
 
@@ -96,7 +106,8 @@ end
 function RefreshHeader()
   local originCity = GetOriginCity()
   if originCity then
-    Controls.Header_OriginText:SetText(Locale.Lookup("LOC_ROUTECHOOSER_TO_DESTINATION", Locale.ToUpper(originCity:GetName())))
+    Controls.Header_OriginText:SetText(Locale.Lookup("LOC_ROUTECHOOSER_TO_DESTINATION",
+                                                     Locale.ToUpper(originCity:GetName())))
   end
 end
 
@@ -135,9 +146,11 @@ function RefreshTopPanel()
     if (questsManager ~= nil and Game.GetLocalPlayer() ~= nil) then
       local tradeRouteQuestInfo = GameInfo.Quests["QUEST_SEND_TRADE_ROUTE"]
       if (tradeRouteQuestInfo ~= nil) then
-        if (questsManager:HasActiveQuestFromPlayer(Game.GetLocalPlayer(), destinationCity:GetOwner(), tradeRouteQuestInfo.Index)) then
+        if (questsManager:HasActiveQuestFromPlayer(Game.GetLocalPlayer(), destinationCity:GetOwner(),
+                                                   tradeRouteQuestInfo.Index)) then
           questTooltip = questTooltip .. "[NEWLINE]" .. tradeRouteQuestInfo.IconString ..
-                             questsManager:GetActiveQuestName(Game.GetLocalPlayer(), destinationCity:GetOwner(), tradeRouteQuestInfo.Index)
+                           questsManager:GetActiveQuestName(Game.GetLocalPlayer(), destinationCity:GetOwner(),
+                                                            tradeRouteQuestInfo.Index)
           Controls.CityStateQuestIcon:SetHide(false)
           Controls.CityStateQuestIcon:SetToolTipString(questTooltip)
         end
@@ -161,7 +174,8 @@ function RefreshTopPanel()
     Controls.OriginResourceList:DestroyAllChildren()
     Controls.OriginReligiousPressure:DestroyAllChildren()
 
-    local originYields_Values, originYields_SourceText, originYields_FromRouteBonus = GetYieldsForCity(destinationCity, true)
+    local originYields_Values, originYields_SourceText, originYields_FromRouteBonus =
+      GetYieldsForCity(destinationCity, true)
 
     local yieldIndex
     -- local yieldCount = #originYields_Values;
@@ -174,7 +188,9 @@ function RefreshTopPanel()
         local yieldInfo = GameInfo.Yields[yieldIndex - 1]
 
         local sourceText = originYields_SourceText[yieldIndex]
-        if (originTooltipText ~= "") then originTooltipText = originTooltipText .. "[NEWLINE]" end
+        if (originTooltipText ~= "") then
+          originTooltipText = originTooltipText .. "[NEWLINE]"
+        end
         originTooltipText = originTooltipText .. sourceText
         AddYieldResourceEntry(yieldInfo, yieldValue, sourceText, Controls.OriginResourceList)
         originReceivedResources = true
@@ -188,18 +204,20 @@ function RefreshTopPanel()
     if (destinationMajorityReligion > 0) then
       local pressureValue, sourceText = GetReligiousPressureForCity(destinationMajorityReligion, destinationCity, true)
       if (pressureValue ~= 0) then
-        if (originTooltipText ~= "") then originTooltipText = originTooltipText .. "[NEWLINE]" end
+        if (originTooltipText ~= "") then
+          originTooltipText = originTooltipText .. "[NEWLINE]"
+        end
         originTooltipText = originTooltipText .. sourceText
-        AddReligiousPressureResourceEntry(GameInfo.Religions[destinationMajorityReligion], pressureValue, true, sourceText,
-                                          Controls.OriginReligiousPressure)
+        AddReligiousPressureResourceEntry(GameInfo.Religions[destinationMajorityReligion], pressureValue, true,
+                                          sourceText, Controls.OriginReligiousPressure)
         originReceivedResources = true
       end
     end
     Controls.OriginResources:SetToolTipString(originTooltipText)
     -- CUI Controls.OriginResourceHeader:SetText(Locale.Lookup("LOC_ROUTECHOOSER_RECEIVES_RESOURCE", Locale.Lookup(originCity:GetName())));
     Controls.OriginResources:RegisterSizeChanged(function()
-      ResizeResourceBackgroundColumns(Controls.OriginResources, Controls.OriginResourcesLeftColumn, Controls.OriginResourcesMidColumn,
-                                      Controls.OriginResourcesRightColumn)
+      ResizeResourceBackgroundColumns(Controls.OriginResources, Controls.OriginResourcesLeftColumn,
+                                      Controls.OriginResourcesMidColumn, Controls.OriginResourcesRightColumn)
     end)
 
     if originReceivedResources then
@@ -216,7 +234,7 @@ function RefreshTopPanel()
     Controls.DestinationReligiousPressure:DestroyAllChildren()
 
     local destinationYields_Values, destinationYields_SourceText, destinationYields_FromRouteBonus =
-        GetYieldsForCity(destinationCity, false)
+      GetYieldsForCity(destinationCity, false)
 
     -- yieldCount = #destinationYields_Values;
     yieldCount = 6 -- CUI: add empty
@@ -228,7 +246,9 @@ function RefreshTopPanel()
         local yieldInfo = GameInfo.Yields[yieldIndex - 1]
 
         local sourceText = destinationYields_SourceText[yieldIndex]
-        if (destinationTooltipText ~= "") then destinationTooltipText = destinationTooltipText .. "[NEWLINE]" end
+        if (destinationTooltipText ~= "") then
+          destinationTooltipText = destinationTooltipText .. "[NEWLINE]"
+        end
         destinationTooltipText = destinationTooltipText .. sourceText
         AddYieldResourceEntry(yieldInfo, yieldValue, sourceText, Controls.DestinationResourceList)
         destinationReceivedResources = true
@@ -241,7 +261,9 @@ function RefreshTopPanel()
     if (originMajorityReligion > 0) then
       local pressureValue, sourceText = GetReligiousPressureForCity(originMajorityReligion, destinationCity, false)
       if (pressureValue ~= 0) then
-        if (destinationTooltipText ~= "") then destinationTooltipText = destinationTooltipText .. "[NEWLINE]" end
+        if (destinationTooltipText ~= "") then
+          destinationTooltipText = destinationTooltipText .. "[NEWLINE]"
+        end
         destinationTooltipText = destinationTooltipText .. sourceText
         AddReligiousPressureResourceEntry(GameInfo.Religions[originMajorityReligion], pressureValue, false, sourceText,
                                           Controls.DestinationReligiousPressure)
@@ -273,10 +295,11 @@ function RefreshTopPanel()
 
     HideConfirmGrid(false)
 
-    if originCity:GetID() == prevOriginComponentID.id and originCity:GetOwner() == prevOriginComponentID.player and destinationCity:GetID() ==
-        prevDestComponentID.id and destinationCity:GetOwner() == prevDestComponentID.player then
+    if originCity:GetID() == prevOriginComponentID.id and originCity:GetOwner() == prevOriginComponentID.player and
+      destinationCity:GetID() == prevDestComponentID.id and destinationCity:GetOwner() == prevDestComponentID.player then
       -- Make sure we are able to repeat this trade (not at war, etc)
-      if tradeManager:CanStartRoute(originCity:GetOwner(), originCity:GetID(), destinationCity:GetOwner(), destinationCity:GetID()) then
+      if tradeManager:CanStartRoute(originCity:GetOwner(), originCity:GetID(), destinationCity:GetOwner(),
+                                    destinationCity:GetID()) then
         Controls.BeginRouteLabel:SetText(Locale.Lookup("LOC_ROUTECHOOSER_REPEAT_ROUTE_BUTTON"))
       else
         HideConfirmGrid(true)
@@ -297,7 +320,8 @@ end
 -- ===========================================================================
 function OnTopGridSizeChanged()
   -- CUI
-  Controls.BottomGrid:SetSizeY(Controls.RouteChooser:GetSizeY() - Controls.TopGrid:GetSizeY() - Controls.MidGrid:GetSizeY() + 2)
+  Controls.BottomGrid:SetSizeY(Controls.RouteChooser:GetSizeY() - Controls.TopGrid:GetSizeY() -
+                                 Controls.MidGrid:GetSizeY() + 2)
   Controls.BottomGrid:SetOffsetY(Controls.TopGrid:GetSizeY() + Controls.MidGrid:GetSizeY() - 2)
 end
 
@@ -339,7 +363,9 @@ function RefreshFilters()
       -- If the city's owner can receive influence then it is a city state so skip it
       local playerConfig = PlayerConfigurations[entry.owner]
       local name = Locale.Lookup(GameInfo.Civilizations[playerConfig:GetCivilizationTypeID()].Name)
-      AddFilter(name, function() FilterByCiv(playerConfig:GetCivilizationTypeID()) end)
+      AddFilter(name, function()
+        FilterByCiv(playerConfig:GetCivilizationTypeID())
+      end)
     end
   end
 
@@ -363,7 +389,9 @@ function RefreshFilters()
   ]]
 
   -- Add filters to pulldown
-  for index, filter in ipairs(m_filterList) do AddFilterEntry(index) end
+  for index, filter in ipairs(m_filterList) do
+    AddFilterEntry(index)
+  end
 
   -- Different traders have different filters and filter orders
   m_filterSelected = GetFilterIndex(m_filterSelectedName) or 1
@@ -377,12 +405,20 @@ function RefreshFilters()
 end
 
 -- ===========================================================================
-function GetFilterIndex(filterName) for index, filter in ipairs(m_filterList) do if filter.FilterText == filterName then return index end end end
+function GetFilterIndex(filterName)
+  for index, filter in ipairs(m_filterList) do
+    if filter.FilterText == filterName then
+      return index
+    end
+  end
+end
 
 -- ===========================================================================
 function AddFilter(filterName, filterFunction)
   -- Make sure we don't add duplicate filters
-  if not GetFilterIndex(filterName) then table.insert(m_filterList, {FilterText = filterName, FilterFunction = filterFunction}) end
+  if not GetFilterIndex(filterName) then
+    table.insert(m_filterList, {FilterText = filterName, FilterFunction = filterFunction})
+  end
 end
 
 -- ===========================================================================
@@ -410,7 +446,9 @@ function FilterByCiv(civTypeID)
   -- Filter by Civ Type ID
   for index, entry in ipairs(m_unfilteredDestinations) do
     local playerConfig = PlayerConfigurations[entry.owner]
-    if playerConfig:GetCivilizationTypeID() == civTypeID then table.insert(m_filteredDestinations, index) end
+    if playerConfig:GetCivilizationTypeID() == civTypeID then
+      table.insert(m_filteredDestinations, index)
+    end
   end
 end
 
@@ -433,7 +471,9 @@ function FilterByResource(yieldIndex)
     end
   end
 
-  table.sort(m_filteredDestinations, function(A, B) return cachedYields[A] > cachedYields[B] end)
+  table.sort(m_filteredDestinations, function(A, B)
+    return cachedYields[A] > cachedYields[B]
+  end)
 end
 
 -- ===========================================================================
@@ -465,7 +505,9 @@ function AddTradeRoutePath(entry, color)
 
     -- Prepend an exit portal if one exists
     local pExit = entry.portalExits[i]
-    if (pExit and pExit >= 0) then table.insert(pPathSegment, pExit) end
+    if (pExit and pExit >= 0) then
+      table.insert(pPathSegment, pExit)
+    end
 
     -- Add the next plot to the segment
     table.insert(pPathSegment, plot)
@@ -492,7 +534,9 @@ function RefreshChooserPanel()
   m_filteredDestinations = {}
 
   local originCity = GetOriginCity()
-  if originCity == nil then return end
+  if originCity == nil then
+    return
+  end
 
   -- Gather All Possible Destinations, starting with ourselves
   if (Game.GetLocalPlayer() ~= nil) then
@@ -500,7 +544,11 @@ function RefreshChooserPanel()
     if (localPlayer ~= nil) then
       local players = {}
       table.insert(players, localPlayer)
-      for i, player in ipairs(Game.GetPlayers()) do if (player:GetID() ~= localPlayer:GetID()) then table.insert(players, player) end end
+      for i, player in ipairs(Game.GetPlayers()) do
+        if (player:GetID() ~= localPlayer:GetID()) then
+          table.insert(players, player)
+        end
+      end
       for i, player in ipairs(players) do
         local cities = player:GetCities()
         for j, city in cities:Members() do
@@ -510,7 +558,8 @@ function RefreshChooserPanel()
           if CheckTradeRoute(m_selectedUnit, city) then
             -- We know we can possibly start a route, now see if we can get a route
             local pathPlots = {}
-            pathPlots, portalEntrances, portalExits = tradeManager:GetTradeRoutePath(m_originCityOwner, m_originCityID, cityOwner, cityID)
+            pathPlots, portalEntrances, portalExits = tradeManager:GetTradeRoutePath(m_originCityOwner, m_originCityID,
+                                                                                     cityOwner, cityID)
             if pathPlots ~= nil and table.count(pathPlots) > 0 then
               local entry = {}
               entry.owner = cityOwner
@@ -534,7 +583,9 @@ function RefreshChooserPanel()
   RefreshStack()
 
   -- Make sure the correct lens is active
-  if not UILens.IsLensActive(m_TradeRoute) then UILens.SetActive(m_TradeRoute) end
+  if not UILens.IsLensActive(m_TradeRoute) then
+    UILens.SetActive(m_TradeRoute)
+  end
 
   -- Send Trade Route Paths to Engine
   UILens.ClearLayerHexes(m_TradeRoute)
@@ -546,19 +597,25 @@ function RefreshChooserPanel()
   local kUnselectedColor = DEFAULT_TINT
 
   local destinationCity = GetDestinationCity()
-  if (destinationCity ~= nil) then kUnselectedColor = FADED_TINT end
+  if (destinationCity ~= nil) then
+    kUnselectedColor = FADED_TINT
+  end
 
   -- Show all paths that aren't selected
   local pathPlots = {}
   for index, entryIndex in ipairs(m_filteredDestinations) do
     local entry = m_unfilteredDestinations[entryIndex]
-    if (entry.owner ~= m_destinationCityOwner or entry.id ~= m_destinationCityID) then AddTradeRoutePath(entry, kUnselectedColor) end
+    if (entry.owner ~= m_destinationCityOwner or entry.id ~= m_destinationCityID) then
+      AddTradeRoutePath(entry, kUnselectedColor)
+    end
   end
 
   -- Show the selected path last if it exists so it's on top
   if destinationCity ~= nil then
     local entry = FindDestinationEntry(m_destinationCityOwner, m_destinationCityID)
-    if entry ~= nil then AddTradeRoutePath(entry, DEFAULT_TINT) end
+    if entry ~= nil then
+      AddTradeRoutePath(entry, DEFAULT_TINT)
+    end
   end
 end
 
@@ -571,7 +628,9 @@ function RefreshStack()
   if m_filterList[m_filterSelected].FilterFunction ~= nil then
     m_filterList[m_filterSelected].FilterFunction()
   else
-    for index, value in ipairs(m_unfilteredDestinations) do table.insert(m_filteredDestinations, index) end
+    for index, value in ipairs(m_unfilteredDestinations) do
+      table.insert(m_filteredDestinations, index)
+    end
   end
 
   CuiSortDestinations() -- CUI: sort
@@ -615,7 +674,9 @@ function AddCityToDestinationStack(city)
 
   local destinationCity = GetDestinationCity()
   local originCity = GetOriginCity()
-  if originCity == nil then return end
+  if originCity == nil then
+    return
+  end
 
   -- Update Selector Brace
   if destinationCity ~= nil and city:GetName() == destinationCity:GetName() then
@@ -652,7 +713,8 @@ function AddCityToDestinationStack(city)
     if (tradeRouteQuestInfo ~= nil) then
       if (questsManager:HasActiveQuestFromPlayer(Game.GetLocalPlayer(), city:GetOwner(), tradeRouteQuestInfo.Index)) then
         local questTooltip = questTooltip .. "[NEWLINE]" .. tradeRouteQuestInfo.IconString ..
-                                 questsManager:GetActiveQuestName(Game.GetLocalPlayer(), city:GetOwner(), tradeRouteQuestInfo.Index)
+                               questsManager:GetActiveQuestName(Game.GetLocalPlayer(), city:GetOwner(),
+                                                                tradeRouteQuestInfo.Index)
         cityEntry.CityStateQuestIcon:SetHide(false)
         cityEntry.CityStateQuestIcon:SetToolTipString(questTooltip)
       end
@@ -685,7 +747,9 @@ function AddCityToDestinationStack(city)
       local yieldInfo = GameInfo.Yields[yieldIndex - 1]
 
       local sourceText = yields_SourceText[yieldIndex]
-      if (tooltipText ~= "") then tooltipText = tooltipText .. "[NEWLINE]" end
+      if (tooltipText ~= "") then
+        tooltipText = tooltipText .. "[NEWLINE]"
+      end
       tooltipText = tooltipText .. sourceText
       AddYieldResourceEntry(yieldInfo, yieldValue, sourceText, cityEntry.ResourceList)
       bHasAnyFromRouteBonus = bHasAnyFromRouteBonus and true or yields_FromRouteBonus[yieldIndex]
@@ -697,7 +761,9 @@ function AddCityToDestinationStack(city)
   if (cityMajorityReligion > 0) then
     local pressureValue, sourceText = GetReligiousPressureForCity(cityMajorityReligion, city, true)
     if (pressureValue ~= 0) then
-      if (tooltipText ~= "") then tooltipText = tooltipText .. "[NEWLINE]" end
+      if (tooltipText ~= "") then
+        tooltipText = tooltipText .. "[NEWLINE]"
+      end
       tooltipText = tooltipText .. sourceText
       AddReligiousPressureResourceEntry(GameInfo.Religions[cityMajorityReligion], pressureValue, true, sourceText,
                                         cityEntry.ReligiousPressure)
@@ -712,12 +778,14 @@ function AddCityToDestinationStack(city)
   -- Setup callback
   cityEntry.Button:SetVoids(city:GetOwner(), city:GetID())
   cityEntry.Button:RegisterCallback(Mouse.eLClick, OnTradeRouteSelected)
-  cityEntry.BonusIconStack:RegisterSizeChanged(function() OnBonusIconStackSizeChanged(cityEntry) end)
+  cityEntry.BonusIconStack:RegisterSizeChanged(function()
+    OnBonusIconStackSizeChanged(cityEntry)
+  end)
 
   -- Resize resource background columns to fit parent
   cityEntry.ResourceInfoGrid:RegisterSizeChanged(function()
-    ResizeResourceBackgroundColumns(cityEntry.ResourceInfoGrid, cityEntry.ResourceInfoLeftColumn, cityEntry.ResourceInfoMidColumn,
-                                    cityEntry.ResourceInfoRightColumn)
+    ResizeResourceBackgroundColumns(cityEntry.ResourceInfoGrid, cityEntry.ResourceInfoLeftColumn,
+                                    cityEntry.ResourceInfoMidColumn, cityEntry.ResourceInfoRightColumn)
   end)
 end
 
@@ -769,7 +837,9 @@ end
 function FormatYieldText(yieldInfo, yieldAmount)
   local text = ""
 
-  if yieldInfo == nil then return "", "" end
+  if yieldInfo == nil then
+    return "", ""
+  end
 
   local iconString = ""
   if (yieldInfo.YieldType == "YIELD_FOOD") then
@@ -841,7 +911,9 @@ function RealizeLookAtDestinationCity()
   local screenXOff = 0.6
 
   -- Change offset if the TradeOveriew (exists and) is open as well.
-  if m_pTradeOverviewContext and (not m_pTradeOverviewContext:IsHidden()) then screenXOff = 0.42 end
+  if m_pTradeOverviewContext and (not m_pTradeOverviewContext:IsHidden()) then
+    screenXOff = 0.42
+  end
 
   UI.LookAtPlotScreenPosition(locX, locY, screenXOff, 0.5) -- Look at 60% over from left side of screen
 end
@@ -864,7 +936,9 @@ function CheckTradeRoute(unit, city)
     operationParams[UnitOperationTypes.PARAM_Y0] = city:GetY()
     operationParams[UnitOperationTypes.PARAM_X1] = unit:GetX()
     operationParams[UnitOperationTypes.PARAM_Y1] = unit:GetY()
-    if (UnitManager.CanStartOperation(unit, UnitOperationTypes.MAKE_TRADE_ROUTE, nil, operationParams)) then return true end
+    if (UnitManager.CanStartOperation(unit, UnitOperationTypes.MAKE_TRADE_ROUTE, nil, operationParams)) then
+      return true
+    end
   end
 
   return false
@@ -900,52 +974,66 @@ function GetYieldForCityWithText(yieldIndex, city, originCity)
   local partialValue = 0
   local sourceText = ""
 
-  if city == nil then return 0, "" end
+  if city == nil then
+    return 0, ""
+  end
 
   local cityOwner = city:GetOwner()
   local cityID = city:GetID()
 
   -- From route
   if (originCity) then
-    partialValue = tradeManager:CalculateOriginYieldFromPotentialRoute(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex)
+    partialValue = tradeManager:CalculateOriginYieldFromPotentialRoute(m_originCityOwner, m_originCityID, cityOwner,
+                                                                       cityID, yieldIndex)
   else
-    partialValue =
-        tradeManager:CalculateDestinationYieldFromPotentialRoute(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex)
+    partialValue = tradeManager:CalculateDestinationYieldFromPotentialRoute(m_originCityOwner, m_originCityID,
+                                                                            cityOwner, cityID, yieldIndex)
   end
   totalValue = totalValue + partialValue
   if (partialValue > 0 and yieldInfo ~= nil) then
-    if (sourceText ~= "") then sourceText = sourceText .. "[NEWLINE]" end
+    if (sourceText ~= "") then
+      sourceText = sourceText .. "[NEWLINE]"
+    end
     sourceText = sourceText ..
-                     Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_DISTRICTS", partialValue, yieldInfo.IconString, yieldInfo.Name,
-                                   city:GetName())
+                   Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_DISTRICTS", partialValue, yieldInfo.IconString,
+                                 yieldInfo.Name, city:GetName())
   end
   -- From path
   local bFromRouteBonus = false
   if (originCity) then
-    partialValue = tradeManager:CalculateOriginYieldFromPath(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex)
+    partialValue = tradeManager:CalculateOriginYieldFromPath(m_originCityOwner, m_originCityID, cityOwner, cityID,
+                                                             yieldIndex)
   else
-    partialValue = tradeManager:CalculateDestinationYieldFromPath(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex)
+    partialValue = tradeManager:CalculateDestinationYieldFromPath(m_originCityOwner, m_originCityID, cityOwner, cityID,
+                                                                  yieldIndex)
   end
   totalValue = totalValue + partialValue
   if (partialValue > 0 and yieldInfo ~= nil) then
     bFromRouteBonus = true
-    if (sourceText ~= "") then sourceText = sourceText .. "[NEWLINE]" end
+    if (sourceText ~= "") then
+      sourceText = sourceText .. "[NEWLINE]"
+    end
     sourceText = sourceText ..
-                     Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_TRADING_POSTS", partialValue, yieldInfo.IconString, yieldInfo.Name)
+                   Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_TRADING_POSTS", partialValue, yieldInfo.IconString,
+                                 yieldInfo.Name)
   end
   -- From modifiers
   local resourceID = -1
   if (originCity) then
-    partialValue = tradeManager:CalculateOriginYieldFromModifiers(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex,
-                                                                  resourceID)
+    partialValue = tradeManager:CalculateOriginYieldFromModifiers(m_originCityOwner, m_originCityID, cityOwner, cityID,
+                                                                  yieldIndex, resourceID)
   else
-    partialValue = tradeManager:CalculateDestinationYieldFromModifiers(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex,
-                                                                       resourceID)
+    partialValue = tradeManager:CalculateDestinationYieldFromModifiers(m_originCityOwner, m_originCityID, cityOwner,
+                                                                       cityID, yieldIndex, resourceID)
   end
   totalValue = totalValue + partialValue
   if (partialValue > 0 and yieldInfo ~= nil) then
-    if (sourceText ~= "") then sourceText = sourceText .. "[NEWLINE]" end
-    sourceText = sourceText .. Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_BONUSES", partialValue, yieldInfo.IconString, yieldInfo.Name)
+    if (sourceText ~= "") then
+      sourceText = sourceText .. "[NEWLINE]"
+    end
+    sourceText = sourceText ..
+                   Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_BONUSES", partialValue, yieldInfo.IconString,
+                                 yieldInfo.Name)
   end
 
   return totalValue, sourceText, bFromRouteBonus
@@ -959,37 +1047,44 @@ function GetYieldForCity(yieldIndex, city, originCity)
   local totalValue = 0
   local partialValue = 0
 
-  if city == nil then return 0 end
+  if city == nil then
+    return 0
+  end
 
   local cityOwner = city:GetOwner()
   local cityID = city:GetID()
 
   -- From route
   if (originCity) then
-    partialValue = tradeManager:CalculateOriginYieldFromPotentialRoute(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex)
+    partialValue = tradeManager:CalculateOriginYieldFromPotentialRoute(m_originCityOwner, m_originCityID, cityOwner,
+                                                                       cityID, yieldIndex)
   else
-    partialValue =
-        tradeManager:CalculateDestinationYieldFromPotentialRoute(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex)
+    partialValue = tradeManager:CalculateDestinationYieldFromPotentialRoute(m_originCityOwner, m_originCityID,
+                                                                            cityOwner, cityID, yieldIndex)
   end
   totalValue = totalValue + partialValue
 
   -- From path
   local bFromRouteBonus = false
   if (originCity) then
-    partialValue = tradeManager:CalculateOriginYieldFromPath(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex)
+    partialValue = tradeManager:CalculateOriginYieldFromPath(m_originCityOwner, m_originCityID, cityOwner, cityID,
+                                                             yieldIndex)
   else
-    partialValue = tradeManager:CalculateDestinationYieldFromPath(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex)
+    partialValue = tradeManager:CalculateDestinationYieldFromPath(m_originCityOwner, m_originCityID, cityOwner, cityID,
+                                                                  yieldIndex)
   end
   totalValue = totalValue + partialValue
-  if (partialValue > 0) then bFromRouteBonus = true end
+  if (partialValue > 0) then
+    bFromRouteBonus = true
+  end
   -- From modifiers
   local resourceID = -1
   if (originCity) then
-    partialValue = tradeManager:CalculateOriginYieldFromModifiers(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex,
-                                                                  resourceID)
+    partialValue = tradeManager:CalculateOriginYieldFromModifiers(m_originCityOwner, m_originCityID, cityOwner, cityID,
+                                                                  yieldIndex, resourceID)
   else
-    partialValue = tradeManager:CalculateDestinationYieldFromModifiers(m_originCityOwner, m_originCityID, cityOwner, cityID, yieldIndex,
-                                                                       resourceID)
+    partialValue = tradeManager:CalculateDestinationYieldFromModifiers(m_originCityOwner, m_originCityID, cityOwner,
+                                                                       cityID, yieldIndex, resourceID)
   end
   totalValue = totalValue + partialValue
 
@@ -1005,7 +1100,9 @@ end
 function GetYieldsForCity(city, originCity)
   local tradeManager = Game.GetTradeManager()
 
-  if city == nil then return 0, "" end
+  if city == nil then
+    return 0, ""
+  end
 
   local cityOwner = city:GetOwner()
   local cityID = city:GetID()
@@ -1013,9 +1110,11 @@ function GetYieldsForCity(city, originCity)
   -- From route
   local routeYields = {}
   if (originCity) then
-    routeYields = tradeManager:CalculateOriginYieldsFromPotentialRoute(m_originCityOwner, m_originCityID, cityOwner, cityID)
+    routeYields = tradeManager:CalculateOriginYieldsFromPotentialRoute(m_originCityOwner, m_originCityID, cityOwner,
+                                                                       cityID)
   else
-    routeYields = tradeManager:CalculateDestinationYieldsFromPotentialRoute(m_originCityOwner, m_originCityID, cityOwner, cityID)
+    routeYields = tradeManager:CalculateDestinationYieldsFromPotentialRoute(m_originCityOwner, m_originCityID,
+                                                                            cityOwner, cityID)
   end
 
   -- From path
@@ -1031,9 +1130,11 @@ function GetYieldsForCity(city, originCity)
   local modifierYields = {}
 
   if (originCity) then
-    modifierYields = tradeManager:CalculateOriginYieldsFromModifiers(m_originCityOwner, m_originCityID, cityOwner, cityID)
+    modifierYields = tradeManager:CalculateOriginYieldsFromModifiers(m_originCityOwner, m_originCityID, cityOwner,
+                                                                     cityID)
   else
-    modifierYields = tradeManager:CalculateDestinationYieldsFromModifiers(m_originCityOwner, m_originCityID, cityOwner, cityID)
+    modifierYields = tradeManager:CalculateDestinationYieldsFromModifiers(m_originCityOwner, m_originCityID, cityOwner,
+                                                                          cityID)
   end
 
   local yieldSourceText = {}
@@ -1054,25 +1155,33 @@ function GetYieldsForCity(city, originCity)
     if yieldInfo ~= nil then
       local routeValue = routeYields[yieldIndex]
       if (routeValue > 0) then
-        if (sourceText ~= "") then sourceText = sourceText .. "[NEWLINE]" end
+        if (sourceText ~= "") then
+          sourceText = sourceText .. "[NEWLINE]"
+        end
         sourceText = sourceText ..
-                         Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_DISTRICTS", routeValue, yieldInfo.IconString, yieldInfo.Name,
-                                       city:GetName())
+                       Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_DISTRICTS", routeValue, yieldInfo.IconString,
+                                     yieldInfo.Name, city:GetName())
       end
 
       local pathValue = pathYields[yieldIndex]
       if (pathValue > 0) then
         bFromRouteBonus = true
-        if (sourceText ~= "") then sourceText = sourceText .. "[NEWLINE]" end
+        if (sourceText ~= "") then
+          sourceText = sourceText .. "[NEWLINE]"
+        end
         sourceText = sourceText ..
-                         Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_TRADING_POSTS", pathValue, yieldInfo.IconString, yieldInfo.Name)
+                       Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_TRADING_POSTS", pathValue, yieldInfo.IconString,
+                                     yieldInfo.Name)
       end
 
       local modifierValue = modifierYields[yieldIndex]
       if (modifierValue > 0) then
-        if (sourceText ~= "") then sourceText = sourceText .. "[NEWLINE]" end
+        if (sourceText ~= "") then
+          sourceText = sourceText .. "[NEWLINE]"
+        end
         sourceText = sourceText ..
-                         Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_BONUSES", modifierValue, yieldInfo.IconString, yieldInfo.Name)
+                       Locale.Lookup("LOC_ROUTECHOOSER_YIELD_SOURCE_BONUSES", modifierValue, yieldInfo.IconString,
+                                     yieldInfo.Name)
       end
 
       -- Put the total into routeYields
@@ -1095,23 +1204,29 @@ function GetReligiousPressureForCity(religionIndex, destinationCity, forOriginCi
   local tradeManager = Game.GetTradeManager()
 
   local originCity = GetOriginCity()
-  if originCity == nil or destinationCity == nil then return 0, "" end
+  if originCity == nil or destinationCity == nil then
+    return 0, ""
+  end
 
   if (forOriginCity) then
-    pressureValue = tradeManager:CalculateOriginReligiousPressureFromPotentialRoute(originCity:GetOwner(), originCity:GetID(),
-                                                                                    destinationCity:GetOwner(), destinationCity:GetID(),
+    pressureValue = tradeManager:CalculateOriginReligiousPressureFromPotentialRoute(originCity:GetOwner(),
+                                                                                    originCity:GetID(),
+                                                                                    destinationCity:GetOwner(),
+                                                                                    destinationCity:GetID(),
                                                                                     religionIndex)
     pressureIconString = "[ICON_PressureLeft]"
     cityName = destinationCity:GetName()
   else
-    pressureValue = tradeManager:CalculateDestinationReligiousPressureFromPotentialRoute(originCity:GetOwner(), originCity:GetID(),
+    pressureValue = tradeManager:CalculateDestinationReligiousPressureFromPotentialRoute(originCity:GetOwner(),
+                                                                                         originCity:GetID(),
                                                                                          destinationCity:GetOwner(),
-                                                                                         destinationCity:GetID(), religionIndex)
+                                                                                         destinationCity:GetID(),
+                                                                                         religionIndex)
     pressureIconString = "[ICON_PressureRight]"
     cityName = originCity:GetName()
   end
-  local sourceText = Locale.Lookup("LOC_ROUTECHOOSER_RELIGIOUS_PRESSURE_SOURCE_MAJORITY_RELIGION", pressureValue, pressureIconString,
-                                   Game.GetReligion():GetName(religionIndex), cityName)
+  local sourceText = Locale.Lookup("LOC_ROUTECHOOSER_RELIGIOUS_PRESSURE_SOURCE_MAJORITY_RELIGION", pressureValue,
+                                   pressureIconString, Game.GetReligion():GetName(religionIndex), cityName)
   return pressureValue, sourceText
 end
 
@@ -1130,15 +1245,21 @@ end
 --	Rise/Hide and refresh Trade UI
 -- ===========================================================================
 function OnInterfaceModeChanged(oldMode, newMode)
-  if (oldMode == InterfaceModeTypes.MAKE_TRADE_ROUTE) then Close() end
-  if (newMode == InterfaceModeTypes.MAKE_TRADE_ROUTE) then Open() end
+  if (oldMode == InterfaceModeTypes.MAKE_TRADE_ROUTE) then
+    Close()
+  end
+  if (newMode == InterfaceModeTypes.MAKE_TRADE_ROUTE) then
+    Open()
+  end
 end
 
 -- ===========================================================================
 function OnClose()
   Close()
 
-  if UI.GetInterfaceMode() == InterfaceModeTypes.MAKE_TRADE_ROUTE then UI.SetInterfaceMode(InterfaceModeTypes.SELECTION) end
+  if UI.GetInterfaceMode() == InterfaceModeTypes.MAKE_TRADE_ROUTE then
+    UI.SetInterfaceMode(InterfaceModeTypes.SELECTION)
+  end
 end
 
 -- ===========================================================================
@@ -1234,13 +1355,19 @@ function CheckNeedsToOpen()
   end
 
   -- If we're open and this unit is not a trade unit then close
-  if not ContextPtr:IsHidden() then Close() end
+  if not ContextPtr:IsHidden() then
+    Close()
+  end
 end
 
 -- ===========================================================================
 --	UI Event
 -- ===========================================================================
-function OnInit(isReload) if isReload then LuaEvents.GameDebug_GetValues("TradeRouteChooser") end end
+function OnInit(isReload)
+  if isReload then
+    LuaEvents.GameDebug_GetValues("TradeRouteChooser")
+  end
+end
 
 -- ===========================================================================
 --	UI EVENT
@@ -1257,7 +1384,9 @@ end
 --	Set cached values back after a hotload.
 -- ===========================================================================s
 function OnGameDebugReturn(context, contextTable)
-  if context ~= "TradeRouteChooser" then return end
+  if context ~= "TradeRouteChooser" then
+    return
+  end
 
   m_filterSelected = contextTable["filterIndex"]
   m_destinationCityOwner = contextTable["destinationCityOwner"]
@@ -1271,7 +1400,9 @@ end
 --	City was selected so close route chooser
 -- ===========================================================================
 function OnCitySelectionChanged(owner, ID, i, j, k, bSelected, bEditable)
-  if not ContextPtr:IsHidden() and owner == Game.GetLocalPlayer() then Close() end
+  if not ContextPtr:IsHidden() and owner == Game.GetLocalPlayer() then
+    Close()
+  end
 end
 
 -- ===========================================================================
@@ -1281,27 +1412,41 @@ end
 function OnUnitSelectionChanged(playerID, unitID, hexI, hexJ, hexK, bSelected, bEditable)
 
   -- Make sure we're the local player and not observing
-  if playerID ~= Game.GetLocalPlayer() or playerID == -1 then return end
+  if playerID ~= Game.GetLocalPlayer() or playerID == -1 then
+    return
+  end
 
   -- If this is a de-selection event then don't do anything
-  if not bSelected then return end
+  if not bSelected then
+    return
+  end
 
   CheckNeedsToOpen()
 end
 
 ------------------------------------------------------------------------------------------------
-function OnLocalPlayerTurnEnd() if (GameConfiguration.IsHotseat()) then Close() end end
+function OnLocalPlayerTurnEnd()
+  if (GameConfiguration.IsHotseat()) then
+    Close()
+  end
+end
 
 -- ===========================================================================
 function OnUnitActivityChanged(playerID, unitID, eActivityType)
   -- Make sure we're the local player and not observing
-  if playerID ~= Game.GetLocalPlayer() or playerID == -1 then return end
+  if playerID ~= Game.GetLocalPlayer() or playerID == -1 then
+    return
+  end
 
   CheckNeedsToOpen()
 end
 
 -- ===========================================================================
-function OnPolicyChanged(ePlayer) if not ContextPtr:IsHidden() and ePlayer == Game.GetLocalPlayer() then Refresh() end end
+function OnPolicyChanged(ePlayer)
+  if not ContextPtr:IsHidden() and ePlayer == Game.GetLocalPlayer() then
+    Refresh()
+  end
+end
 
 -- ===========================================================================
 --	Input
@@ -1319,7 +1464,9 @@ end
 function OnInputHandler(pInputStruct)
   local uiMsg = pInputStruct:GetMessageType()
 
-  if uiMsg == KeyEvents.KeyUp then return KeyHandler(pInputStruct:GetKey()) end
+  if uiMsg == KeyEvents.KeyUp then
+    return KeyHandler(pInputStruct:GetKey())
+  end
 
   return false
 end
@@ -1346,11 +1493,17 @@ function OnWorldInputMakeTradeRoute(plotId)
 
   local plotX, plotY = Map.GetPlotLocation(plotId)
   local pCity = Cities.GetCityInPlot(plotX, plotY)
-  if pCity then TradeRouteSelected(pCity:GetOwner(), pCity:GetID()) end
+  if pCity then
+    TradeRouteSelected(pCity:GetOwner(), pCity:GetID())
+  end
 end
 
 -- CUI ========================================================================
-function CuiSortDestinations() if cui_sortBy ~= -1 then CuiSortByYield(cui_sortBy) end end
+function CuiSortDestinations()
+  if cui_sortBy ~= -1 then
+    CuiSortByYield(cui_sortBy)
+  end
+end
 
 -- CUI ========================================================================
 function CuiSortByYield(yieldID)
@@ -1363,7 +1516,9 @@ function CuiSortByYield(yieldID)
     table.insert(yieldValues, item)
   end
   m_filteredDestinations = {}
-  for _, item in SortedTable(yieldValues, function(t, a, b) return t[a].val > t[b].val end) do
+  for _, item in SortedTable(yieldValues, function(t, a, b)
+    return t[a].val > t[b].val
+  end) do
     table.insert(m_filteredDestinations, item.id)
   end
 end
@@ -1373,8 +1528,12 @@ function CuiGetYieldValue(cityID, yieldID)
   local entry = m_unfilteredDestinations[cityID]
   local city = nil
   local value = -1
-  if entry ~= nil then city = CityManager.GetCity(entry.owner, entry.id) end
-  if city ~= nil then value = GetYieldForCity(yieldID - 1, city, true) end
+  if entry ~= nil then
+    city = CityManager.GetCity(entry.owner, entry.id)
+  end
+  if city ~= nil then
+    value = GetYieldForCity(yieldID - 1, city, true)
+  end
   if value > 0 then
     return value
   else
@@ -1396,18 +1555,32 @@ end
 
 -- CUI ========================================================================
 function CuiResetSorter()
-  for _, img in ipairs(CUI_SORT_BUTTON) do Controls[img]:SetHide(true) end
+  for _, img in ipairs(CUI_SORT_BUTTON) do
+    Controls[img]:SetHide(true)
+  end
   cui_sortBy = -1
 end
 
 -- CUI ========================================================================
 function CuiInit()
-  Controls.FoodSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(1) end)
-  Controls.ProductionSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(2) end)
-  Controls.GoldSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(3) end)
-  Controls.ScienceSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(4) end)
-  Controls.CultureSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(5) end)
-  Controls.FaithSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(6) end)
+  Controls.FoodSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(1)
+  end)
+  Controls.ProductionSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(2)
+  end)
+  Controls.GoldSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(3)
+  end)
+  Controls.ScienceSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(4)
+  end)
+  Controls.CultureSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(5)
+  end)
+  Controls.FaithSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(6)
+  end)
 end
 
 -- ===========================================================================
@@ -1438,13 +1611,17 @@ function Initialize()
 
   -- Control Events
   Controls.BeginRouteButton:RegisterCallback(Mouse.eLClick, RequestTradeRoute)
-  Controls.BeginRouteButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.BeginRouteButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   -- CUI Controls.CancelButton:RegisterCallback( Mouse.eLClick, ClearSelection );
   Controls.FilterButton:RegisterCallback(Mouse.eLClick, UpdateFilterArrow)
   Controls.DestinationFilterPulldown:RegisterSelectionCallback(OnFilterSelected)
   Controls.Header_CloseButton:RegisterCallback(Mouse.eLClick, OnClose)
   Controls.TopGrid:RegisterSizeChanged(OnTopGridSizeChanged)
-  Controls.BonusIconStack:RegisterSizeChanged(function() OnBonusIconStackSizeChanged(Controls) end)
+  Controls.BonusIconStack:RegisterSizeChanged(function()
+    OnBonusIconStackSizeChanged(Controls)
+  end)
 
   -- Obtain refrence to another context.
   m_pTradeOverviewContext = ContextPtr:LookUpControl("/InGame/TradeOverview")

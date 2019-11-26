@@ -15,7 +15,8 @@ local CuiVictoryTT = {}
 TTManager:GetTypeControlTable("CuiVictoryTT", CuiVictoryTT)
 
 local victoryIconInstance = InstanceManager:new("VictoryIconInstance", "Top", Controls.VictoryIconInstanceContainer)
-local victoryLeaderInstance = InstanceManager:new("VictoryLeaderInstance", "Top", Controls.VictoryLeaderInstanceContainer)
+local victoryLeaderInstance = InstanceManager:new("VictoryLeaderInstance", "Top",
+                                                  Controls.VictoryLeaderInstanceContainer)
 
 local ranks = {}
 local scienceData = {}
@@ -62,10 +63,14 @@ function PopulateVictoryIcons()
           -- set tooltip
           instance.VictoryIcon:ClearToolTipCallback()
           instance.VictoryIcon:SetToolTipType("CuiVictoryTT")
-          instance.VictoryIcon:SetToolTipCallback(function() UpdateVictoryToolTip(vType) end)
+          instance.VictoryIcon:SetToolTipCallback(function()
+            UpdateVictoryToolTip(vType)
+          end)
           -- set rank
           local rankText = ranks[vType]
-          if rankText == 1 then rankText = "[COLOR_GREEN]" .. rankText .. "[ENDCOLOR]" end
+          if rankText == 1 then
+            rankText = "[COLOR_GREEN]" .. rankText .. "[ENDCOLOR]"
+          end
           instance.Text:SetText("#" .. rankText)
         end
       end
@@ -76,7 +81,9 @@ end
 -- ---------------------------------------------------------------------------
 function UpdateVictoryToolTip(vType)
   local localPlayerID = Game.GetLocalPlayer()
-  if localPlayerID == -1 then return end
+  if localPlayerID == -1 then
+    return
+  end
 
   local leaders
   if vType == "SCIENCE" then
@@ -123,7 +130,8 @@ function SetVictoryLeaderInstance(vType, leader, instance)
       local progressText = ""
       local progress = leader.progresses
       if isExpansion2 then
-        text2 = Locale.Lookup("LOC_CUI_DB_EXOPLANET_EXPEDITION", progress[1], progress[2], progress[3], progress[4], progress[5])
+        text2 = Locale.Lookup("LOC_CUI_DB_EXOPLANET_EXPEDITION", progress[1], progress[2], progress[3], progress[4],
+                              progress[5])
       else
         text2 = Locale.Lookup("LOC_CUI_DB_MARS_PROJECT", progress[1], progress[2], progress[3])
       end

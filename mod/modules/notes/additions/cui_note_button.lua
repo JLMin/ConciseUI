@@ -7,7 +7,9 @@ local notesButtonInstance = {}
 local pipInstance = {}
 
 -- ===========================================================================
-function OnToggleNoteScreen() LuaEvents.Cui_ToggleNoteScreen() end
+function OnToggleNoteScreen()
+  LuaEvents.Cui_ToggleNoteScreen()
+end
 
 -- ===========================================================================
 function AttachToTopPanel()
@@ -38,9 +40,13 @@ end
 
 -- ===========================================================================
 function CuiOnIngameAction(actionId)
-  if Game.GetLocalPlayer() == -1 then return end
+  if Game.GetLocalPlayer() == -1 then
+    return
+  end
 
-  if actionId == Input.GetActionId("CuiActionToggleNotes") then OnToggleNoteScreen() end
+  if actionId == Input.GetActionId("CuiActionToggleNotes") then
+    OnToggleNoteScreen()
+  end
 end
 
 -- ===========================================================================

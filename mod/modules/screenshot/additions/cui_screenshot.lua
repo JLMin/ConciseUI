@@ -18,13 +18,15 @@ local UIStatus = {}
 local ScreenshotMode = {
   FULLY_HIDE = {
     "/InGame/WorldViewControls", --
-    "/InGame/HUD", "/InGame/PartialScreens", "/InGame/Screens", "/InGame/TopLevelHUD", "/InGame/WorldPopups", "/InGame/Civilopedia"
+    "/InGame/HUD", "/InGame/PartialScreens", "/InGame/Screens", "/InGame/TopLevelHUD", "/InGame/WorldPopups",
+    "/InGame/Civilopedia"
   },
   KEEP_CITY = {
     "/InGame/WorldViewIconsManager", "/InGame/DistrictPlotIconManager", "/InGame/PlotInfo", "/InGame/UnitFlagManager",
     "/InGame/TourismBannerManager", "/InGame/MapPinManager", "/InGame/SelectedUnit", "/InGame/SelectedMapPinContainer",
     "/InGame/SelectedUnitContainer", "/InGame/WorldViewPlotMessages", --
-    "/InGame/HUD", "/InGame/PartialScreens", "/InGame/Screens", "/InGame/TopLevelHUD", "/InGame/WorldPopups", "/InGame/Civilopedia"
+    "/InGame/HUD", "/InGame/PartialScreens", "/InGame/Screens", "/InGame/TopLevelHUD", "/InGame/WorldPopups",
+    "/InGame/Civilopedia"
   }
 }
 
@@ -58,7 +60,9 @@ end
 -- ===========================================================================
 ScreenshotInputHandler[MouseEvents.LButtonDown] = function(uiKey)
   isMouseDown = true
-  if isAltDown then startX, startY = UIManager:GetNormalizedMousePos() end
+  if isAltDown then
+    startX, startY = UIManager:GetNormalizedMousePos()
+  end
   return true
 end
 
@@ -72,10 +76,14 @@ ScreenshotInputHandler[MouseEvents.LButtonUp] = function(uiKey)
 end
 
 -- ===========================================================================
-ScreenshotInputHandler[MouseEvents.RButtonDown] = function(uiKey) return true end
+ScreenshotInputHandler[MouseEvents.RButtonDown] = function(uiKey)
+  return true
+end
 
 -- ===========================================================================
-ScreenshotInputHandler[MouseEvents.RButtonUp] = function(uiKey) return true end
+ScreenshotInputHandler[MouseEvents.RButtonUp] = function(uiKey)
+  return true
+end
 
 -- ===========================================================================
 ScreenshotInputHandler[MouseEvents.MouseMove] = function(uiKey)
@@ -102,7 +110,9 @@ end
 
 -- ===========================================================================
 function ExitScreenshotMode()
-  for sName, bHidden in pairs(UIStatus) do ContextPtr:LookUpControl(sName):SetHide(bHidden) end
+  for sName, bHidden in pairs(UIStatus) do
+    ContextPtr:LookUpControl(sName):SetHide(bHidden)
+  end
   UIStatus = {}
   if isEnterMode then
     isEnterMode = false
@@ -145,7 +155,9 @@ function Initialize()
   ContextPtr:SetHide(false)
   ContextPtr:SetInputHandler(OnInputHandler, true)
   Events.LoadGameViewStateDone.Add(AttachToMinimap)
-  Controls.ScreenshotButton:RegisterCallback(Mouse.eLClick, function() EnterScreenshotMode(ScreenshotMode.FULLY_HIDE) end)
+  Controls.ScreenshotButton:RegisterCallback(Mouse.eLClick, function()
+    EnterScreenshotMode(ScreenshotMode.FULLY_HIDE)
+  end)
   Controls.ScreenshotButton:RegisterCallback(Mouse.eRClick, function()
     EnterScreenshotMode(ScreenshotMode.KEEP_CITY)
     UI.PlaySound("Play_UI_Click")

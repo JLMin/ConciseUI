@@ -153,7 +153,9 @@ UnitFlag.__index = UnitFlag
 --	RETURNS: flag object (if found), nil otherwise
 -- ===========================================================================
 function GetUnitFlag(playerID, unitID)
-  if m_UnitFlagInstances[playerID] == nil then return nil end
+  if m_UnitFlagInstances[playerID] == nil then
+    return nil
+  end
   return m_UnitFlagInstances[playerID][unitID]
 end
 
@@ -167,7 +169,9 @@ function UnitFlag.new(self, playerID, unitID, flagType, flagStyle)
 
   o:Initialize(playerID, unitID, flagType, flagStyle)
 
-  if (m_UnitFlagInstances[playerID] == nil) then m_UnitFlagInstances[playerID] = {} end
+  if (m_UnitFlagInstances[playerID] == nil) then
+    m_UnitFlagInstances[playerID] = {}
+  end
 
   m_UnitFlagInstances[playerID][unitID] = o
 end
@@ -184,7 +188,9 @@ function UnitFlag.destroy(self)
       end
 
       -- Release any attention markers
-      if (self.bHasAttentionMarker == true) then m_AttentionMarkerIM:ReleaseInstanceByParent(self.m_Instance.FlagRoot) end
+      if (self.bHasAttentionMarker == true) then
+        m_AttentionMarkerIM:ReleaseInstanceByParent(self.m_Instance.FlagRoot)
+      end
 
       self.m_InstanceManager:ReleaseInstance(self.m_Instance)
     end
@@ -236,7 +242,9 @@ function UnitFlag.Initialize(self, playerID, unitID, flagType, flagStyle)
     self:UpdatePosition()
     self:UpdateVisibility()
     self:UpdateStats()
-    if (playerID == Game.GetLocalPlayer()) then self:UpdateReadyState() end
+    if (playerID == Game.GetLocalPlayer()) then
+      self:UpdateReadyState()
+    end
     self:UpdateDimmedState()
     self:SetColor() -- Ensure this happens near the end in case we need to color addon instances like AirUnitInstance
 
@@ -248,7 +256,9 @@ end
 function OnUnitFlagClick(playerID, unitID)
 
   local pPlayer = Players[playerID]
-  if (pPlayer == nil) then return end
+  if (pPlayer == nil) then
+    return
+  end
 
   local pUnit = pPlayer:GetUnits():FindID(unitID)
   if (pUnit == nil) then
@@ -283,14 +293,18 @@ end
 
 ------------------------------------------------------------------
 function CanSelectUnit(playerID, unitID)
-  if playerID < 0 or m_isMapDeselectDisabled then return false end
+  if playerID < 0 or m_isMapDeselectDisabled then
+    return false
+  end
 
   -- Only allow a unit selection when in one of the following modes:
   local interfaceMode = UI.GetInterfaceMode()
-  if interfaceMode ~= InterfaceModeTypes.SELECTION and interfaceMode ~= InterfaceModeTypes.MAKE_TRADE_ROUTE and interfaceMode ~=
-      InterfaceModeTypes.SPY_CHOOSE_MISSION and interfaceMode ~= InterfaceModeTypes.SPY_TRAVEL_TO_CITY and interfaceMode ~=
-      InterfaceModeTypes.CITY_RANGE_ATTACK and interfaceMode ~= InterfaceModeTypes.DISTRICT_RANGE_ATTACK and interfaceMode ~=
-      InterfaceModeTypes.VIEW_MODAL_LENS then return false end
+  if interfaceMode ~= InterfaceModeTypes.SELECTION and interfaceMode ~= InterfaceModeTypes.MAKE_TRADE_ROUTE and
+    interfaceMode ~= InterfaceModeTypes.SPY_CHOOSE_MISSION and interfaceMode ~= InterfaceModeTypes.SPY_TRAVEL_TO_CITY and
+    interfaceMode ~= InterfaceModeTypes.CITY_RANGE_ATTACK and interfaceMode ~= InterfaceModeTypes.DISTRICT_RANGE_ATTACK and
+    interfaceMode ~= InterfaceModeTypes.VIEW_MODAL_LENS then
+    return false
+  end
 
   return Game.GetLocalPlayer() == playerID
 end
@@ -335,13 +349,17 @@ function UnitFlag.SetInteractivity(self)
         ]]
   end)
 
-  self.m_Instance.FlagRoot:RegisterMouseExitCallback(function() LuaEvents.UnitFlagManager_PointerExited(flagPlayerID, unitID) end)
+  self.m_Instance.FlagRoot:RegisterMouseExitCallback(function()
+    LuaEvents.UnitFlagManager_PointerExited(flagPlayerID, unitID)
+  end)
 end
 
 ------------------------------------------------------------------
 function UnitFlag.UpdateReadyState(self)
   local pUnit = self:GetUnit()
-  if (pUnit ~= nil and pUnit:IsHuman()) then self:SetDim(not pUnit:IsReadyToSelect()) end
+  if (pUnit ~= nil and pUnit:IsHuman()) then
+    self:SetDim(not pUnit:IsReadyToSelect())
+  end
 end
 
 ------------------------------------------------------------------
@@ -442,7 +460,9 @@ function OnUnitSelected(playerID, unitID)
     local playerUnits = Players[playerID]:GetUnits()
     if playerUnits then
       local selectedUnit = playerUnits:FindID(unitID)
-      if selectedUnit then UI.SelectUnit(selectedUnit) end
+      if selectedUnit then
+        UI.SelectUnit(selectedUnit)
+      end
     end
   end
 end
@@ -476,9 +496,13 @@ function UnitFlag.SetFlagUnitEmblem(self)
   if individual >= 0 then
     local individualType = GameInfo.GreatPersonIndividuals[individual].GreatPersonIndividualType
     local iconModifier = GameInfo.GreatPersonIndividualIconModifiers[individualType]
-    if iconModifier then icon = iconModifier.OverrideUnitIcon end
+    if iconModifier then
+      icon = iconModifier.OverrideUnitIcon
+    end
   end
-  if not icon then icon = "ICON_" .. GameInfo.Units[pUnit:GetUnitType()].UnitType end
+  if not icon then
+    icon = "ICON_" .. GameInfo.Units[pUnit:GetUnitType()].UnitType
+  end
   self.m_Instance.UnitIcon:SetIcon(icon)
 end
 
@@ -530,7 +554,9 @@ end
 function UnitFlag.SetHide(self, bHide)
   local isPreviouslyVisible = self.m_IsCurrentlyVisible
   self.m_IsCurrentlyVisible = not bHide
-  if self.m_IsCurrentlyVisible ~= isPreviouslyVisible then self:UpdateVisibility() end
+  if self.m_IsCurrentlyVisible ~= isPreviouslyVisible then
+    self:UpdateVisibility()
+  end
 end
 
 ------------------------------------------------------------------
@@ -546,7 +572,9 @@ end
 function UnitFlag.UpdateFlagType(self)
 
   local pUnit = self:GetUnit()
-  if pUnit == nil then return end
+  if pUnit == nil then
+    return
+  end
 
   local textureName
 
@@ -582,11 +610,15 @@ end
 function UnitFlag.UpdateHealth(self)
 
   local pUnit = self:GetUnit()
-  if pUnit == nil then return end
+  if pUnit == nil then
+    return
+  end
 
   local healthPercent = 0
   local maxDamage = pUnit:GetMaxDamage()
-  if (maxDamage > 0) then healthPercent = math.max(math.min((maxDamage - pUnit:GetDamage()) / maxDamage, 1), 0) end
+  if (maxDamage > 0) then
+    healthPercent = math.max(math.min((maxDamage - pUnit:GetDamage()) / maxDamage, 1), 0)
+  end
 
   -- going to damaged state
   if (healthPercent < 1) then
@@ -649,7 +681,9 @@ function UnitFlag.UpdateVisibility(self)
       -- One case where a unit flag is first created, if this check isn't done
       -- it will pop into existance and then immediately fade out in the FOW.
       if self.m_IsInitialized then
-        self.m_Instance.FlagRoot:RegisterEndCallback(function() self.m_Instance.Anchor:SetHide(not self.m_IsCurrentlyVisible) end)
+        self.m_Instance.FlagRoot:RegisterEndCallback(function()
+          self.m_Instance.Anchor:SetHide(not self.m_IsCurrentlyVisible)
+        end)
         self.m_Instance.FlagRoot:SetToEnd()
         self.m_Instance.FlagRoot:Reverse()
       else
@@ -747,8 +781,8 @@ function UnitFlag.UpdateName(self)
     local pPlayerCfg = PlayerConfigurations[self.m_Player:GetID()]
     local nameString
     if (GameConfiguration.IsAnyMultiplayer() and pPlayerCfg:IsHuman()) then
-      nameString = Locale.Lookup(pPlayerCfg:GetCivilizationShortDescription()) .. " (" .. Locale.Lookup(pPlayerCfg:GetPlayerName()) ..
-                       ") - " .. Locale.Lookup(unitName)
+      nameString = Locale.Lookup(pPlayerCfg:GetCivilizationShortDescription()) .. " (" ..
+                     Locale.Lookup(pPlayerCfg:GetPlayerName()) .. ") - " .. Locale.Lookup(unitName)
     else
       nameString = Locale.Lookup(pPlayerCfg:GetCivilizationShortDescription()) .. " - " .. Locale.Lookup(unitName)
     end
@@ -756,7 +790,9 @@ function UnitFlag.UpdateName(self)
     local pUnitDef = GameInfo.Units[pUnit:GetUnitType()]
     if pUnitDef then
       local unitTypeName = pUnitDef.Name
-      if unitName ~= unitTypeName then nameString = nameString .. " " .. Locale.Lookup("LOC_UNIT_UNIT_TYPE_NAME_SUFFIX", unitTypeName) end
+      if unitName ~= unitTypeName then
+        nameString = nameString .. " " .. Locale.Lookup("LOC_UNIT_UNIT_TYPE_NAME_SUFFIX", unitTypeName)
+      end
     end
 
     -- display military formation indicator(s)
@@ -806,8 +842,8 @@ function UnitFlag.UpdateName(self)
           local eGWType = Game.GetGreatWorkType(iGreatWorkIndex)
           local eGWPlayer = Game.GetGreatWorkPlayer(iGreatWorkIndex)
           nameString = nameString .. "[NEWLINE]" ..
-                           Locale.Lookup("LOC_UNITFLAG_ARCHAEOLOGY_ARTIFACT", GameInfo.GreatWorks[eGWType].Name,
-                                         PlayerConfigurations[eGWPlayer]:GetPlayerName())
+                         Locale.Lookup("LOC_UNITFLAG_ARCHAEOLOGY_ARTIFACT", GameInfo.GreatWorks[eGWType].Name,
+                                       PlayerConfigurations[eGWPlayer]:GetPlayerName())
         end
       end
     end
@@ -815,15 +851,17 @@ function UnitFlag.UpdateName(self)
     -- display religion info
     if (pUnit:GetReligiousStrength() > 0) then
       local eReligion = pUnit:GetReligionType()
-      if (eReligion > 0) then nameString = nameString .. " (" .. Game.GetReligion():GetName(eReligion) .. ")" end
+      if (eReligion > 0) then
+        nameString = nameString .. " (" .. Game.GetReligion():GetName(eReligion) .. ")"
+      end
     end
 
     -- display levy status
     local iLevyTurnsRemaining = GetLevyTurnsRemaining(pUnit)
     if (iLevyTurnsRemaining >= 0 and PlayerConfigurations[pUnit:GetOriginalOwner()] ~= nil) then
       nameString = nameString .. "[NEWLINE]" ..
-                       Locale.Lookup("LOC_UNITFLAG_LEVY_ACTIVE", PlayerConfigurations[pUnit:GetOriginalOwner()]:GetPlayerName(),
-                                     iLevyTurnsRemaining)
+                     Locale.Lookup("LOC_UNITFLAG_LEVY_ACTIVE",
+                                   PlayerConfigurations[pUnit:GetOriginalOwner()]:GetPlayerName(), iLevyTurnsRemaining)
     end
 
     self.m_Instance.UnitIcon:SetToolTipString(Locale.Lookup(nameString))
@@ -844,7 +882,9 @@ end
 -- Update the position of the flag to match the current unit position.
 function UnitFlag.UpdatePosition(self)
   local pUnit = self:GetUnit()
-  if (pUnit ~= nil) then self:SetPosition(UI.GridToWorld(pUnit:GetX(), pUnit:GetY())) end
+  if (pUnit ~= nil) then
+    self:SetPosition(UI.GridToWorld(pUnit:GetX(), pUnit:GetY()))
+  end
 end
 
 ------------------------------------------------------------------
@@ -893,7 +933,7 @@ function UnitFlag.SetPosition(self, worldX, worldY, worldZ)
 
       if unitX == -9999 or unitY == -9999 then
         UI.DataError("Unable to set a unit #" .. tostring(pUnit:GetID()) .. " (" .. tostring(pUnit:GetName()) ..
-                         ") flag due to an invalid position: " .. unitX .. "," .. unitY)
+                       ") flag due to an invalid position: " .. unitX .. "," .. unitY)
         return
       end
 
@@ -906,7 +946,9 @@ function UnitFlag.SetPosition(self, worldX, worldY, worldZ)
           if (pCity ~= nil) then
             -- If the city can attack, offset the unit flag icon so that we can see the ranged attack action icon
             local pDistrict = pCity:GetDistricts():FindID(pCity:GetDistrictID())
-            if (pCity:GetOwner() == Game.GetLocalPlayer() and CanRangeAttack(pDistrict)) then rangedAttackXOffset = 30 - 0.8 * 15 end
+            if (pCity:GetOwner() == Game.GetLocalPlayer() and CanRangeAttack(pDistrict)) then
+              rangedAttackXOffset = 30 - 0.8 * 15
+            end
           end
 
           cityBannerZOffset = -15
@@ -930,7 +972,9 @@ function UnitFlag.SetPosition(self, worldX, worldY, worldZ)
               cityBannerZOffset = -15
               cityBannerYOffset = 30
             end
-            if (GameInfo.Districts[eDistrictType].AirSlots > 0) then cityBannerZOffset = -15 end
+            if (GameInfo.Districts[eDistrictType].AirSlots > 0) then
+              cityBannerZOffset = -15
+            end
           end
         end
       end
@@ -978,7 +1022,9 @@ end
 -- ===========================================================================
 function CreateUnitFlag(playerID, unitID, unitX, unitY)
   -- If a flag already exists for this player/unit combo... just return.
-  if (m_UnitFlagInstances[playerID] ~= nil and m_UnitFlagInstances[playerID][unitID] ~= nil) then return end
+  if (m_UnitFlagInstances[playerID] ~= nil and m_UnitFlagInstances[playerID][unitID] ~= nil) then
+    return
+  end
 
   -- Allocate a new flag.
   local pPlayer = Players[playerID]
@@ -1021,7 +1067,9 @@ function OnUnitRemovedFromMap(playerID, unitID)
     m_UnitFlagInstances[playerID][unitID] = nil
 
     local pUnit = flagInstance:GetUnit()
-    if (pUnit ~= nil) then UpdateIconStack(pUnit:GetX(), pUnit:GetY()) end
+    if (pUnit ~= nil) then
+      UpdateIconStack(pUnit:GetX(), pUnit:GetY())
+    end
 
   end
 
@@ -1035,22 +1083,30 @@ function OnUnitVisibilityChanged(playerID, unitID, eVisibility)
     flagInstance:UpdatePosition()
 
     local pUnit = flagInstance:GetUnit()
-    if (pUnit ~= nil) then UpdateIconStack(pUnit:GetX(), pUnit:GetY()) end
+    if (pUnit ~= nil) then
+      UpdateIconStack(pUnit:GetX(), pUnit:GetY())
+    end
   end
 end
 
 ------------------------------------------------------------------
 function OnUnitEmbarkedStateChanged(playerID, unitID, bEmbarkedState)
   local flagInstance = GetUnitFlag(playerID, unitID)
-  if (flagInstance ~= nil) then flagInstance:UpdateFlagType() end
+  if (flagInstance ~= nil) then
+    flagInstance:UpdateFlagType()
+  end
 end
 
 ------------------------------------------------------------------
 function OnUnitSelectionChanged(playerID, unitID, hexI, hexJ, hexK, bSelected, bEditable)
   local flagInstance = GetUnitFlag(playerID, unitID)
-  if (flagInstance ~= nil) then flagInstance:UpdateSelected(bSelected) end
+  if (flagInstance ~= nil) then
+    flagInstance:UpdateSelected(bSelected)
+  end
 
-  if (bSelected) then UpdateIconStack(hexI, hexJ) end
+  if (bSelected) then
+    UpdateIconStack(hexI, hexJ)
+  end
 end
 
 ------------------------------------------------------------------
@@ -1091,10 +1147,14 @@ end
 function OnCityVisibilityChanged(playerID, cityID, eVisibility)
 
   local pPlayer = Players[playerID]
-  if (pPlayer == nil) then return end
+  if (pPlayer == nil) then
+    return
+  end
 
   local pCity = pPlayer:GetCities():FindID(cityID)
-  if (pCity == nil) then return end
+  if (pCity == nil) then
+    return
+  end
 
   -- Update unit flags on the city's plot
   local cityX = pCity:GetX()
@@ -1103,11 +1163,15 @@ function OnCityVisibilityChanged(playerID, cityID, eVisibility)
 
   -- Update units to the east, if it isn't the edge of the map
   local pWestPlot = Map.GetAdjacentPlot(cityX, cityY, DirectionTypes.DIRECTION_WEST)
-  if pWestPlot ~= nil then UpdateFlagPositions(pWestPlot:GetX(), pWestPlot:GetY()) end
+  if pWestPlot ~= nil then
+    UpdateFlagPositions(pWestPlot:GetX(), pWestPlot:GetY())
+  end
 
   -- Update units to the west, if it isn't the edge of the map
   local pEastPlot = Map.GetAdjacentPlot(cityX, cityY, DirectionTypes.DIRECTION_EAST)
-  if pEastPlot ~= nil then UpdateFlagPositions(pEastPlot:GetX(), pEastPlot:GetY()) end
+  if pEastPlot ~= nil then
+    UpdateFlagPositions(pEastPlot:GetX(), pEastPlot:GetY())
+  end
 end
 
 -------------------------------------------------
@@ -1117,7 +1181,9 @@ function OnEnterFormation(playerID1, unitID1, playerID2, unitID2)
   local pPlayer = Players[playerID1]
   if (pPlayer ~= nil) then
     local pUnit = pPlayer:GetUnits():FindID(unitID1)
-    if (pUnit ~= nil) then UpdateIconStack(pUnit:GetX(), pUnit:GetY()) end
+    if (pUnit ~= nil) then
+      UpdateIconStack(pUnit:GetX(), pUnit:GetY())
+    end
   end
 end
 
@@ -1132,7 +1198,9 @@ function UpdateFlagPositions(plotX, plotY)
       local eOwner = pUnit:GetOwner()
 
       local pFlag = GetUnitFlag(eOwner, eUnitID)
-      if pFlag ~= nil then pFlag:UpdatePosition() end
+      if pFlag ~= nil then
+        pFlag:UpdatePosition()
+      end
     end
   end
 end
@@ -1178,7 +1246,8 @@ function UpdateIconStack(plotX, plotY)
             if (formationClassString == "FORMATION_CLASS_LAND_COMBAT") then
               flag.m_Instance.FlagRoot:SetOffsetVal(landCombatOffsetX + m_FlagOffsets[1][1], m_FlagOffsets[1][2])
               landCombatOffsetX = landCombatOffsetX - multiSpacingX
-            elseif (formationClassString == "FORMATION_CLASS_CIVILIAN" or formationClassString == "FORMATION_CLASS_SUPPORT") then
+            elseif (formationClassString == "FORMATION_CLASS_CIVILIAN" or formationClassString ==
+              "FORMATION_CLASS_SUPPORT") then
               flag.m_Instance.FlagRoot:SetOffsetVal(civilianOffsetX + m_FlagOffsets[2][1], m_FlagOffsets[2][2])
               civilianOffsetX = civilianOffsetX + multiSpacingX
             elseif (formationClassString == "FORMATION_CLASS_NAVAL") then
@@ -1290,13 +1359,19 @@ function ShouldHideFlag(pUnit)
   local shouldHideFlag = false
 
   local activityType = UnitManager.GetActivityType(pUnit)
-  if (activityType == ActivityTypes.ACTIVITY_INTERCEPT) then return false end
+  if (activityType == ActivityTypes.ACTIVITY_INTERCEPT) then
+    return false
+  end
 
   if unitInfo.Domain == "DOMAIN_AIR" then
     -- Hide air unit if we're stationed at a airstrip
     local tPlotAirUnits = unitPlot:GetAirUnits()
     if tPlotAirUnits then
-      for i, unit in ipairs(tPlotAirUnits) do if unitOwner == unit:GetOwner() and unitID == unit:GetID() then shouldHideFlag = true end end
+      for i, unit in ipairs(tPlotAirUnits) do
+        if unitOwner == unit:GetOwner() and unitID == unit:GetID() then
+          shouldHideFlag = true
+        end
+      end
     end
 
     -- Hide air unit if we're stationed at an aerodrome
@@ -1310,7 +1385,9 @@ function ShouldHideFlag(pUnit)
           local bHasAirUnits, tAirUnits = pDistrict:GetAirUnits()
           if (bHasAirUnits and tAirUnits ~= nil) then
             for _, unit in ipairs(tAirUnits) do
-              if unitOwner == unit:GetOwner() and unitID == unit:GetID() then shouldHideFlag = true end
+              if unitOwner == unit:GetOwner() and unitID == unit:GetID() then
+                shouldHideFlag = true
+              end
             end
           end
         end
@@ -1322,7 +1399,9 @@ function ShouldHideFlag(pUnit)
       local unitsInPlot = Units.GetUnitsInPlot(unitPlot)
       for i, unit in ipairs(unitsInPlot) do
         -- If we have any air unit slots then hide the stationed units flag
-        if unit:GetAirSlots() > 0 then shouldHideFlag = true end
+        if unit:GetAirSlots() > 0 then
+          shouldHideFlag = true
+        end
       end
     end
   end
@@ -1335,11 +1414,17 @@ end
 -- ===========================================================================
 function OnPlayerTurnActivated(ePlayer, bFirstTimeThisTurn)
 
-  if ePlayer == -1 then return end
+  if ePlayer == -1 then
+    return
+  end
 
-  if Players[ePlayer] == nil then return end
+  if Players[ePlayer] == nil then
+    return
+  end
 
-  if m_UnitFlagInstances[ePlayer] == nil then return end
+  if m_UnitFlagInstances[ePlayer] == nil then
+    return
+  end
 
   local idLocalPlayer = Game.GetLocalPlayer()
   if (ePlayer == idLocalPlayer and bFirstTimeThisTurn) then
@@ -1402,10 +1487,16 @@ function OnPlayerConnectChanged(iPlayerID)
   -- When a human player connects/disconnects, their unit flag tooltips need to be updated.
   local pPlayer = Players[iPlayerID]
   if (pPlayer ~= nil) then
-    if (m_UnitFlagInstances[iPlayerID] == nil) then return end
+    if (m_UnitFlagInstances[iPlayerID] == nil) then
+      return
+    end
 
     local playerFlagInstances = m_UnitFlagInstances[iPlayerID]
-    for id, flag in pairs(playerFlagInstances) do if (flag ~= nil) then flag:UpdateName() end end
+    for id, flag in pairs(playerFlagInstances) do
+      if (flag ~= nil) then
+        flag:UpdateName()
+      end
+    end
   end
 end
 
@@ -1466,7 +1557,9 @@ function OnUnitFortificationChanged(playerID, unitID)
     local pUnit = pPlayer:GetUnits():FindID(unitID)
     if (pUnit ~= nil) then
       local flag = GetUnitFlag(playerID, pUnit:GetID())
-      if (flag ~= nil) then flag:UpdateStats() end
+      if (flag ~= nil) then
+        flag:UpdateStats()
+      end
     end
   end
 end
@@ -1478,7 +1571,9 @@ function OnUnitPromotionChanged(playerID, unitID)
     local pUnit = pPlayer:GetUnits():FindID(unitID)
     if (pUnit ~= nil) then
       local flag = GetUnitFlag(playerID, pUnit:GetID())
-      if (flag ~= nil) then flag:UpdateStats() end
+      if (flag ~= nil) then
+        flag:UpdateStats()
+      end
     end
   end
 end
@@ -1491,7 +1586,9 @@ function OnObjectPairingChanged(eSubType, parentOwner, parentType, parentID, chi
       local pUnit = pPlayer:GetUnits():FindID(parentID)
       if (pUnit ~= nil) then
         local flag = GetUnitFlag(parentOwner, pUnit:GetID())
-        if (flag ~= nil) then flag:UpdateStats() end
+        if (flag ~= nil) then
+          flag:UpdateStats()
+        end
       end
     end
   end
@@ -1504,7 +1601,9 @@ function OnUnitArtifactChanged(playerID, unitID)
     local pUnit = pPlayer:GetUnits():FindID(unitID)
     if (pUnit ~= nil) then
       local flag = GetUnitFlag(playerID, pUnit:GetID())
-      if (flag ~= nil) then flag:UpdateName() end
+      if (flag ~= nil) then
+        flag:UpdateName()
+      end
     end
   end
 end
@@ -1516,7 +1615,9 @@ function OnUnitActivityChanged(playerID, unitID, eActivityType)
     local pUnit = pPlayer:GetUnits():FindID(unitID)
     if (pUnit ~= nil) then
       local flag = GetUnitFlag(playerID, pUnit:GetID())
-      if (flag ~= nil) then flag:UpdateName() end
+      if (flag ~= nil) then
+        flag:UpdateName()
+      end
     end
   end
 end
@@ -1528,7 +1629,9 @@ function OnUnitMovementPointsChanged(playerID, unitID)
     local pUnit = pPlayer:GetUnits():FindID(unitID)
     if (pUnit ~= nil) then
       local flag = GetUnitFlag(playerID, pUnit:GetID())
-      if (flag ~= nil) then flag:UpdateReadyState() end
+      if (flag ~= nil) then
+        flag:UpdateReadyState()
+      end
     end
   end
 end
@@ -1611,14 +1714,18 @@ function Refresh()
 
         -- If flag doesn't exist for this combo, create it:
         if (m_UnitFlagInstances[playerID] == nil or m_UnitFlagInstances[playerID][unitID] == nil) then
-          if not unit:IsDead() and not unit:IsDelayedDeath() then CreateUnitFlag(playerID, unitID, locX, locY) end
+          if not unit:IsDead() and not unit:IsDelayedDeath() then
+            CreateUnitFlag(playerID, unitID, locX, locY)
+          end
         end
 
         -- If flag is visible, ensure it's being viewed that way; set plot for an update call.
         -- While event will handle in normal case, this is necessary for hotloading and flags are re-created.
         if pLocalPlayerVis:IsVisible(locX, locY) then
           OnUnitVisibilityChanged(playerID, unitID, RevealedState.VISIBLE)
-          if plotsToUpdate[locX] == nil then plotsToUpdate[locX] = {} end
+          if plotsToUpdate[locX] == nil then
+            plotsToUpdate[locX] = {}
+          end
           plotsToUpdate[locX][locY] = true -- Mark for update
         end
 
@@ -1626,7 +1733,11 @@ function Refresh()
     end
 
     -- Update only the plots requiring a refresh.
-    for locX, ys in pairs(plotsToUpdate) do for locY, _ in pairs(ys) do UpdateIconStack(locX, locY) end end
+    for locX, ys in pairs(plotsToUpdate) do
+      for locY, _ in pairs(ys) do
+        UpdateIconStack(locX, locY)
+      end
+    end
 
   end
 end
@@ -1635,7 +1746,9 @@ end
 function OnUnitCommandStarted(playerID, unitID, hCommand, iData1)
   if (hCommand == GameInfo.Types["UNITCOMMAND_NAME_UNIT"].Hash) then
     local flagInstance = GetUnitFlag(playerID, unitID)
-    if (flagInstance ~= nil) then flagInstance:UpdateName() end
+    if (flagInstance ~= nil) then
+      flagInstance:UpdateName()
+    end
   end
 end
 
@@ -1727,7 +1840,8 @@ end
 --	or when a player explicitly turns off the layer from the "player" lens.
 -- ===========================================================================
 function OnLensLayerOn(layerNum)
-  if layerNum == g_UnitsMilitary or layerNum == g_UnitsReligious or layerNum == g_UnitsCivilian or layerNum == g_UnitsArcheology then
+  if layerNum == g_UnitsMilitary or layerNum == g_UnitsReligious or layerNum == g_UnitsCivilian or layerNum ==
+    g_UnitsArcheology then
     ContextPtr:SetHide(false)
   end
 end
@@ -1738,7 +1852,8 @@ end
 --	or when a player explicitly turns off the layer from the "player" lens.
 -- ===========================================================================
 function OnLensLayerOff(layerNum)
-  if layerNum == g_UnitsMilitary or layerNum == g_UnitsReligious or layerNum == g_UnitsCivilian or layerNum == g_UnitsArcheology then
+  if layerNum == g_UnitsMilitary or layerNum == g_UnitsReligious or layerNum == g_UnitsCivilian or layerNum ==
+    g_UnitsArcheology then
     ContextPtr:SetHide(true)
   end
 end
@@ -1749,7 +1864,9 @@ function OnLevyCounterChanged(originalOwnerID)
     local suzerainID = pOriginalOwner:GetInfluence():GetSuzerain()
     local pSuzerain = Players[suzerainID]
     if (pSuzerain ~= nil) then
-      if (m_UnitFlagInstances[suzerainID] == nil) then return end
+      if (m_UnitFlagInstances[suzerainID] == nil) then
+        return
+      end
 
       local suzerainFlagInstances = m_UnitFlagInstances[suzerainID]
       for id, flag in pairs(suzerainFlagInstances) do
@@ -1767,7 +1884,11 @@ function OnLocalPlayerChanged()
 
   -- Hide all the flags, we will get updates later
   for _, playerFlagInstances in pairs(m_UnitFlagInstances) do
-    for id, flag in pairs(playerFlagInstances) do if (flag ~= nil) then flag:SetFogState(RevealedState.HIDDEN) end end
+    for id, flag in pairs(playerFlagInstances) do
+      if (flag ~= nil) then
+        flag:SetFogState(RevealedState.HIDDEN)
+      end
+    end
   end
 
   m_DirtyComponents:Clear()
@@ -1786,14 +1907,18 @@ end
 --	LUA Event
 --	Tutorial system is disabling selection.
 -- ===========================================================================
-function OnTutorial_DisableMapSelect(isDisabled) m_isMapDeselectDisabled = isDisabled end
+function OnTutorial_DisableMapSelect(isDisabled)
+  m_isMapDeselectDisabled = isDisabled
+end
 
 -- ===========================================================================
 --	UI Callback
 -- ===========================================================================
 function OnInit(isHotload)
   -- If hotloading, rebuild from scratch.
-  if isHotload then Refresh() end
+  if isHotload then
+    Refresh()
+  end
 end
 
 -- ===========================================================================

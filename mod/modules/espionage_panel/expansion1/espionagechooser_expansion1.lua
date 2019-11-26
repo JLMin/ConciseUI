@@ -17,6 +17,10 @@ BASE_CuiCivCheck = CuiCivCheck
 function CuiCivCheck(player)
   local localPlayer = Players[Game.GetLocalPlayer()]
   if (player:GetID() == localPlayer:GetID() or player:GetTeam() == -1 or localPlayer:GetTeam() == -1 or player:GetTeam() ~=
-      localPlayer:GetTeam()) then if (not player:IsFreeCities()) then return true end end
+    localPlayer:GetTeam()) then
+    if (not player:IsFreeCities()) then
+      return true
+    end
+  end
   return false
 end

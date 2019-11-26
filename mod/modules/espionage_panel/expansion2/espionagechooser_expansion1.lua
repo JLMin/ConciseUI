@@ -18,9 +18,17 @@ BASE_CuiInit = CuiInit
 function CuiCivCheck(player)
   local localPlayer = Players[Game.GetLocalPlayer()]
   if (player:GetID() == localPlayer:GetID() or player:GetTeam() == -1 or localPlayer:GetTeam() == -1 or player:GetTeam() ~=
-      localPlayer:GetTeam()) then if (not player:IsFreeCities()) then return true end end
+    localPlayer:GetTeam()) then
+    if (not player:IsFreeCities()) then
+      return true
+    end
+  end
   return false
 end
 -- CUI =======================================================================
-function CuiInit() Controls.DamSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(8) end) end
+function CuiInit()
+  Controls.DamSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(8)
+  end)
+end
 CuiInit()

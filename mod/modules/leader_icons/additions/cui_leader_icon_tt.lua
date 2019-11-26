@@ -35,10 +35,12 @@ function GetPlayerData(playerID)
   -- government
   local pGovernment = pPlayer:GetCulture():GetCurrentGovernment()
   data.government = (pGovernment ~= -1) and Locale.Lookup(GameInfo.Governments[pGovernment].Name) or
-                        Locale.Lookup("LOC_GOVERNMENT_ANARCHY_NAME")
+                      Locale.Lookup("LOC_GOVERNMENT_ANARCHY_NAME")
 
   local cities = 0
-  for _, city in pPlayer:GetCities():Members() do cities = cities + 1 end
+  for _, city in pPlayer:GetCities():Members() do
+    cities = cities + 1
+  end
   data.cities = cities
 
   local religionType = pPlayer:GetReligion():GetReligionTypeCreated()
@@ -82,12 +84,13 @@ function GetRelationShip(tPlayerID, allianceData)
   -- relationship level
   data.atWar = false
   if (eState == DiplomaticStates.WAR) then
-    local bValidAction, tResults = Players[lPlayerID]:GetDiplomacy():IsDiplomaticActionValid("DIPLOACTION_PROPOSE_PEACE_DEAL", tPlayerID,
-                                                                                             true)
+    local bValidAction, tResults = Players[lPlayerID]:GetDiplomacy():IsDiplomaticActionValid(
+                                     "DIPLOACTION_PROPOSE_PEACE_DEAL", tPlayerID, true)
     data.atWar = true
     data.peaceDeal = bValidAction
-    data.warTurns = Game.GetGameDiplomacy():GetMinPeaceDuration() + lPlayer:GetDiplomacy():GetAtWarChangeTurn(tPlayerID) -
-                        Game.GetCurrentGameTurn()
+    data.warTurns =
+      Game.GetGameDiplomacy():GetMinPeaceDuration() + lPlayer:GetDiplomacy():GetAtWarChangeTurn(tPlayerID) -
+        Game.GetCurrentGameTurn()
     data.level = 0
   elseif (eState == DiplomaticStates.ALLIED) then
     data.level = 100
@@ -98,7 +101,11 @@ function GetRelationShip(tPlayerID, allianceData)
   -- relationship modification
   local modSum = 0
   local modifiers = tPlayer:GetDiplomaticAI():GetDiplomaticModifiers(lPlayerID)
-  if modifiers then for _, mod in ipairs(modifiers) do modSum = modSum + mod.Score end end
+  if modifiers then
+    for _, mod in ipairs(modifiers) do
+      modSum = modSum + mod.Score
+    end
+  end
   data.modifier = modSum
 
   -- tooltip & remaining turns
@@ -113,16 +120,20 @@ function GetRelationShip(tPlayerID, allianceData)
       local iTheirDenounceTurn = Players[tPlayerID]:GetDiplomacy():GetDenounceTurn(lPlayerID)
       local iPlayerOrderAdjustment = 0
       if (iTheirDenounceTurn >= iOurDenounceTurn) then
-        if (tPlayerID > lPlayerID) then iPlayerOrderAdjustment = 1 end
+        if (tPlayerID > lPlayerID) then
+          iPlayerOrderAdjustment = 1
+        end
       else
-        if (lPlayerID > tPlayerID) then iPlayerOrderAdjustment = 1 end
+        if (lPlayerID > tPlayerID) then
+          iPlayerOrderAdjustment = 1
+        end
       end
       if (iOurDenounceTurn >= iTheirDenounceTurn) then
-        iRemainingTurns = 1 + iOurDenounceTurn + Game.GetGameDiplomacy():GetDenounceTimeLimit() - Game.GetCurrentGameTurn() +
-                              iPlayerOrderAdjustment
+        iRemainingTurns = 1 + iOurDenounceTurn + Game.GetGameDiplomacy():GetDenounceTimeLimit() -
+                            Game.GetCurrentGameTurn() + iPlayerOrderAdjustment
       else
-        iRemainingTurns = 1 + iTheirDenounceTurn + Game.GetGameDiplomacy():GetDenounceTimeLimit() - Game.GetCurrentGameTurn() +
-                              iPlayerOrderAdjustment
+        iRemainingTurns = 1 + iTheirDenounceTurn + Game.GetGameDiplomacy():GetDenounceTimeLimit() -
+                            Game.GetCurrentGameTurn() + iPlayerOrderAdjustment
       end
     elseif (GameInfo.DiplomaticStates[iState].StateType == "DIPLO_STATE_DECLARED_FRIEND") then
       local iFriendshipTurn = lPlayerDiplomacy:GetDeclaredFriendshipTurn(tPlayerID)
@@ -154,12 +165,14 @@ function GetResourceList(otherPlayerID)
 
     -- local player
     local localForDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, localPlayerID, otherPlayerID)
-    local localPossibleResources = DealManager.GetPossibleDealItems(localPlayerID, otherPlayerID, DealItemTypes.RESOURCES, localForDeal)
+    local localPossibleResources = DealManager.GetPossibleDealItems(localPlayerID, otherPlayerID,
+                                                                    DealItemTypes.RESOURCES, localForDeal)
     local localResources = Players[localPlayerID]:GetResources()
 
     -- other player
     local otherForDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, otherPlayerID, localPlayerID)
-    local otherPossibleResources = DealManager.GetPossibleDealItems(otherPlayerID, localPlayerID, DealItemTypes.RESOURCES, otherForDeal)
+    local otherPossibleResources = DealManager.GetPossibleDealItems(otherPlayerID, localPlayerID,
+                                                                    DealItemTypes.RESOURCES, otherForDeal)
     local otherResources = Players[otherPlayerID]:GetResources()
 
     -- other player offer
@@ -168,9 +181,12 @@ function GetResourceList(otherPlayerID)
       for _, entry in ipairs(otherPossibleResources) do
         local resource = GameInfo.Resources[entry.ForType]
         if (resource ~= nil and
-            (resource.ResourceClassType == "RESOURCECLASS_LUXURY" or resource.ResourceClassType == "RESOURCECLASS_STRATEGIC")) then
-          local logic_AI = entry.MaxAmount > 1 and not localResources:HasResource(resource.Index) and not Players[otherPlayerID]:IsHuman()
-          local logic_Human = entry.MaxAmount > 0 and not localResources:HasResource(resource.Index) and Players[otherPlayerID]:IsHuman()
+          (resource.ResourceClassType == "RESOURCECLASS_LUXURY" or resource.ResourceClassType ==
+            "RESOURCECLASS_STRATEGIC")) then
+          local logic_AI = entry.MaxAmount > 1 and not localResources:HasResource(resource.Index) and
+                             not Players[otherPlayerID]:IsHuman()
+          local logic_Human = entry.MaxAmount > 0 and not localResources:HasResource(resource.Index) and
+                                Players[otherPlayerID]:IsHuman()
           if logic_AI or logic_Human then
             local icon = "ICON_" .. resource.ResourceType
             local amount = logic_AI and (entry.MaxAmount - 1) or entry.MaxAmount
@@ -186,7 +202,8 @@ function GetResourceList(otherPlayerID)
       for _, entry in ipairs(localPossibleResources) do
         local resource = GameInfo.Resources[entry.ForType]
         if (resource ~= nil and
-            (resource.ResourceClassType == "RESOURCECLASS_LUXURY" or resource.ResourceClassType == "RESOURCECLASS_STRATEGIC")) then
+          (resource.ResourceClassType == "RESOURCECLASS_LUXURY" or resource.ResourceClassType ==
+            "RESOURCECLASS_STRATEGIC")) then
           if (entry.MaxAmount > 0 and not otherResources:HasResource(resource.Index)) then
             local icon = "ICON_" .. resource.ResourceType
             local amount = entry.MaxAmount
@@ -212,12 +229,14 @@ function GetGSResourceList(otherPlayerID)
 
     -- local player
     local localForDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, localPlayerID, otherPlayerID)
-    local localPossibleResources = DealManager.GetPossibleDealItems(localPlayerID, otherPlayerID, DealItemTypes.RESOURCES, localForDeal)
+    local localPossibleResources = DealManager.GetPossibleDealItems(localPlayerID, otherPlayerID,
+                                                                    DealItemTypes.RESOURCES, localForDeal)
     local localResources = Players[localPlayerID]:GetResources()
 
     -- other player
     local otherForDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, otherPlayerID, localPlayerID)
-    local otherPossibleResources = DealManager.GetPossibleDealItems(otherPlayerID, localPlayerID, DealItemTypes.RESOURCES, otherForDeal)
+    local otherPossibleResources = DealManager.GetPossibleDealItems(otherPlayerID, localPlayerID,
+                                                                    DealItemTypes.RESOURCES, otherForDeal)
     local otherResources = Players[otherPlayerID]:GetResources()
 
     -- other player offer
@@ -227,8 +246,10 @@ function GetGSResourceList(otherPlayerID)
         local resource = GameInfo.Resources[entry.ForType]
         if resource ~= nil then
           if resource.ResourceClassType == "RESOURCECLASS_LUXURY" then
-            local logic_AI = entry.MaxAmount > 1 and not localResources:HasResource(resource.Index) and not Players[otherPlayerID]:IsHuman()
-            local logic_Human = entry.MaxAmount > 0 and not localResources:HasResource(resource.Index) and Players[otherPlayerID]:IsHuman()
+            local logic_AI = entry.MaxAmount > 1 and not localResources:HasResource(resource.Index) and
+                               not Players[otherPlayerID]:IsHuman()
+            local logic_Human = entry.MaxAmount > 0 and not localResources:HasResource(resource.Index) and
+                                  Players[otherPlayerID]:IsHuman()
             if logic_AI or logic_Human then
               local icon = "ICON_" .. resource.ResourceType
               local amount = logic_AI and (entry.MaxAmount - 1) or entry.MaxAmount
@@ -299,7 +320,7 @@ function GetAccessLevelTooltip(otherPlayerID)
   local localPlayerDiplomacy = localPlayer:GetDiplomacy()
   local iAccessLevel = localPlayerDiplomacy:GetVisibilityOn(otherPlayerID)
   tooltip = Locale.Lookup("LOC_DIPLOMACY_OVERVIEW_ACCESS_LEVEL") .. Locale.Lookup("LOC_CUI_COLON") ..
-                Locale.Lookup(GameInfo.Visibilities[iAccessLevel].Name)
+              Locale.Lookup(GameInfo.Visibilities[iAccessLevel].Name)
   return tooltip
 end
 
@@ -311,15 +332,16 @@ function UpdateLeaderIconTooltip(tControl, playerID)
     -- update leader icon
     local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas("ICON_" .. pData.leaderTypeName, 55)
     if (textureSheet == nil or textureSheet == "") then
-      UI.DataError("Could not find icon in UpdateLeaderTooltip: icon=\"" .. "ICON_" .. leaderTypeName .. "\", iconSize=55")
+      UI.DataError("Could not find icon in UpdateLeaderTooltip: icon=\"" .. "ICON_" .. leaderTypeName ..
+                     "\", iconSize=55")
     else
       CuiLeaderIconTT.Icon:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
     end
     -- update description
     local desc = ""
     if GameConfiguration.IsAnyMultiplayer() and Players[playerID]:IsHuman() then
-      desc = Locale.Lookup("LOC_DIPLOMACY_DEAL_PLAYER_PANEL_TITLE", pData.leaderName, pData.civDesc) .. "[NEWLINE]" .. " (" ..
-                 pData.playerName .. ")"
+      desc = Locale.Lookup("LOC_DIPLOMACY_DEAL_PLAYER_PANEL_TITLE", pData.leaderName, pData.civDesc) .. "[NEWLINE]" ..
+               " (" .. pData.playerName .. ")"
       CuiLeaderIconTT.Desc:SetOffsetY(2)
     else
       desc = Locale.Lookup("LOC_DIPLOMACY_DEAL_PLAYER_PANEL_TITLE", pData.leaderName, pData.civDesc)
@@ -362,7 +384,8 @@ function UpdateLeaderIconTooltip(tControl, playerID)
     local pGold = "[ICON_Gold] " .. pData.balance .. " ( " .. TwoColorNumber(pData.gold, "GoldDark", "Civ6Red") .. " )"
     CuiLeaderIconTT.Gold:SetText(pGold)
     if isExpansion2 then
-      local pFavor = "[ICON_Favor] " .. pData.favor .. " ( " .. TwoColorNumber(pData.favorPT, "GoldDark", "Civ6Red") .. " )"
+      local pFavor = "[ICON_Favor] " .. pData.favor .. " ( " .. TwoColorNumber(pData.favorPT, "GoldDark", "Civ6Red") ..
+                       " )"
       CuiLeaderIconTT.GoldAndFavor:SetText(Locale.Lookup("LOC_CUI_DB_GOLD_AND_FAVOR"))
       CuiLeaderIconTT.Favor:SetText(pFavor)
     else
@@ -424,13 +447,15 @@ function UpdateRelationShipTooltip(tControl, playerID, allianceData)
 
   -- relationship
   local relationship = Locale.Lookup("LOC_CUI_DB_RELATIONSHIP", data.level) .. " (" ..
-                           TwoColorNumber(data.modifier, "ModStatusGreen", "Civ6Red") .. ")"
+                         TwoColorNumber(data.modifier, "ModStatusGreen", "Civ6Red") .. ")"
   CuiRelationshipTT.Relationship:SetText(relationship)
   local selectedPlayerDiplomaticAI = Players[playerID]:GetDiplomaticAI()
   local toolTips = selectedPlayerDiplomaticAI:GetDiplomaticModifiers(Game.GetLocalPlayer())
   reasonInstance:ResetInstances()
   if (toolTips) then
-    table.sort(toolTips, function(a, b) return a.Score > b.Score end)
+    table.sort(toolTips, function(a, b)
+      return a.Score > b.Score
+    end)
     for i, tip in ipairs(toolTips) do
       local score = tip.Score
       local text = tip.Text
@@ -448,7 +473,9 @@ function UpdateRelationShipTooltip(tControl, playerID, allianceData)
 
   -- grivance
   CuiRelationshipTT.Grievance:SetHide(not isExpansion2)
-  if isExpansion2 then CuiRelationshipTT.Grievance:SetText(GetGrievanceTooltip(playerID)) end
+  if isExpansion2 then
+    CuiRelationshipTT.Grievance:SetText(GetGrievanceTooltip(playerID))
+  end
 
   -- access level
   CuiRelationshipTT.AccessLevel:SetText(GetAccessLevelTooltip(playerID))
@@ -480,7 +507,9 @@ function SetLeaderIconToolTip(tControl, playerID)
   if playerID == Game.GetLocalPlayer() or localPlayer:GetDiplomacy():HasMet(playerID) then
     tControl:SetToolTipType("CuiLeaderIconTT")
     tControl:ClearToolTipCallback()
-    tControl:SetToolTipCallback(function() UpdateLeaderIconTooltip(tControl, playerID) end)
+    tControl:SetToolTipCallback(function()
+      UpdateLeaderIconTooltip(tControl, playerID)
+    end)
   end
 end
 
@@ -493,7 +522,9 @@ function SetRelationShipToolTip(tControl, playerID, allianceData)
     end
     tControl:SetToolTipType("CuiRelationshipTT")
     tControl:ClearToolTipCallback()
-    tControl:SetToolTipCallback(function() UpdateRelationShipTooltip(tControl, playerID, allianceData) end)
+    tControl:SetToolTipCallback(function()
+      UpdateRelationShipTooltip(tControl, playerID, allianceData)
+    end)
   end
 end
 

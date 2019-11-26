@@ -69,7 +69,9 @@ function RefreshMissionStats(parentControl, operation, result, spy, city, target
     local kDistrictInfo = GameInfo.Districts[targetPlot:GetDistrictType()]
     parentControl.MissionDistrictName:SetText(Locale.Lookup(kDistrictInfo.Name))
     local iconString = "ICON_" .. kDistrictInfo.DistrictType
-    if parentControl.MissionDistrictIcon then parentControl.MissionDistrictIcon:SetIcon(iconString) end
+    if parentControl.MissionDistrictIcon then
+      parentControl.MissionDistrictIcon:SetIcon(iconString)
+    end
   elseif result and result[UnitOperationResults.PLOTS] then
     for i, districtPlotID in ipairs(result[UnitOperationResults.PLOTS]) do
       local districts = city:GetDistricts()
@@ -79,7 +81,9 @@ function RefreshMissionStats(parentControl, operation, result, spy, city, target
           local districtInfo = GameInfo.Districts[district:GetType()]
           parentControl.MissionDistrictName:SetText(Locale.Lookup(districtInfo.Name))
           local iconString = "ICON_" .. districtInfo.DistrictType
-          if parentControl.MissionDistrictIcon then parentControl.MissionDistrictIcon:SetIcon(iconString) end
+          if parentControl.MissionDistrictIcon then
+            parentControl.MissionDistrictIcon:SetIcon(iconString)
+          end
         end
       end
     end
@@ -108,7 +112,9 @@ end
 
 -- ===========================================================================
 function GetMissionDescriptionString(mission, noloot, withloot)
-  if mission.LootInfo >= 0 then return Locale.Lookup(withloot, GetMissionLootString(mission), mission.CityName) end
+  if mission.LootInfo >= 0 then
+    return Locale.Lookup(withloot, GetMissionLootString(mission), mission.CityName)
+  end
 
   return Locale.Lookup(noloot, mission.CityName)
 end
@@ -121,12 +127,14 @@ function GetMissionOutcomeDetails(mission)
   if kOpDef ~= nil and kOpDef.Hash == UnitOperationTypes.SPY_COUNTERSPY then
     -- Counterspy specific
     outcomeDetails.Success = true
-    outcomeDetails.Description = Locale.Lookup("LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_COUNTERSPY", mission.CityName)
+    outcomeDetails.Description = Locale.Lookup("LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_COUNTERSPY",
+                                               mission.CityName)
     outcomeDetails.SpyStatus = ""
   elseif mission.InitialResult == EspionageResultTypes.SUCCESS_UNDETECTED then
     -- Success and undetected
     outcomeDetails.Success = true
-    outcomeDetails.Description = GetMissionDescriptionString(mission, "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_UNDETECTED",
+    outcomeDetails.Description = GetMissionDescriptionString(mission,
+                                                             "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_UNDETECTED",
                                                              "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_UNDETECTED_STOLELOOT")
     outcomeDetails.SpyStatus = ""
   elseif mission.InitialResult == EspionageResultTypes.SUCCESS_MUST_ESCAPE then
@@ -134,26 +142,30 @@ function GetMissionOutcomeDetails(mission)
     if mission.EscapeResult == EspionageResultTypes.FAIL_MUST_ESCAPE then
       -- Success and escaped
       outcomeDetails.Success = true
-      outcomeDetails.Description = GetMissionDescriptionString(mission, "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_DETECTED_ESCAPED",
+      outcomeDetails.Description = GetMissionDescriptionString(mission,
+                                                               "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_DETECTED_ESCAPED",
                                                                "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_DETECTED_STOLELOOT")
       outcomeDetails.SpyStatus = ""
     elseif mission.EscapeResult == EspionageResultTypes.KILLED then
       -- Success and killed
       outcomeDetails.Success = false
-      outcomeDetails.Description = GetMissionDescriptionString(mission, "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_DETECTED_KILLED",
+      outcomeDetails.Description = GetMissionDescriptionString(mission,
+                                                               "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_DETECTED_KILLED",
                                                                "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_DETECTED_KILLED_STOLELOOT")
       outcomeDetails.SpyStatus = Locale.ToUpper("LOC_ESPIONAGEOVERVIEW_SPYKILLED")
     elseif mission.EscapeResult == EspionageResultTypes.CAPTURED then
       -- Success and captured
       outcomeDetails.Success = false
-      outcomeDetails.Description = GetMissionDescriptionString(mission, "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_DETECTED_CAPTURED",
+      outcomeDetails.Description = GetMissionDescriptionString(mission,
+                                                               "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_DETECTED_CAPTURED",
                                                                "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_SUCCESS_DETECTED_CAPTURED_STOLELOOT")
       outcomeDetails.SpyStatus = Locale.ToUpper("LOC_ESPIONAGEOVERVIEW_SPYCAUGHT")
     end
   elseif mission.InitialResult == EspionageResultTypes.FAIL_UNDETECTED then
     -- Failure but undetected
     outcomeDetails.Success = false
-    outcomeDetails.Description = GetMissionDescriptionString(mission, "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_UNDETECTED",
+    outcomeDetails.Description = GetMissionDescriptionString(mission,
+                                                             "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_UNDETECTED",
                                                              "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_UNDETECTED_STOLELOOT")
     outcomeDetails.SpyStatus = ""
   elseif mission.InitialResult == EspionageResultTypes.FAIL_MUST_ESCAPE then
@@ -161,19 +173,22 @@ function GetMissionOutcomeDetails(mission)
     if mission.EscapeResult == EspionageResultTypes.FAIL_MUST_ESCAPE then
       -- Failure and escaped
       outcomeDetails.Success = false
-      outcomeDetails.Description = GetMissionDescriptionString(mission, "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_DETECTED_ESCAPED",
+      outcomeDetails.Description = GetMissionDescriptionString(mission,
+                                                               "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_DETECTED_ESCAPED",
                                                                "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_DETECTED_ESCAPED_STOLELOOT")
       outcomeDetails.SpyStatus = ""
     elseif mission.EscapeResult == EspionageResultTypes.KILLED then
       -- Failure and killed
       outcomeDetails.Success = false
-      outcomeDetails.Description = GetMissionDescriptionString(mission, "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_DETECTED_KILLED",
+      outcomeDetails.Description = GetMissionDescriptionString(mission,
+                                                               "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_DETECTED_KILLED",
                                                                "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_DETECTED_KILLED_STOLELOOT")
       outcomeDetails.SpyStatus = Locale.ToUpper("LOC_ESPIONAGEOVERVIEW_SPYKILLED")
     elseif mission.EscapeResult == EspionageResultTypes.CAPTURED then
       -- Failure and captured
       outcomeDetails.Success = false
-      outcomeDetails.Description = GetMissionDescriptionString(mission, "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_DETECTED_CAPTURED",
+      outcomeDetails.Description = GetMissionDescriptionString(mission,
+                                                               "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_DETECTED_CAPTURED",
                                                                "LOC_ESPIONAGEOVERVIEW_MISSIONOUTCOME_FAILURE_DETECTED_CAPTURED_STOLELOOT")
       outcomeDetails.SpyStatus = Locale.ToUpper("LOC_ESPIONAGEOVERVIEW_SPYCAUGHT")
     end
@@ -220,7 +235,8 @@ end
 -- ===========================================================================
 function CanMissionBeRenewed(mission)
   local kOperationInfo = GameInfo.UnitOperations[mission.Operation]
-  if kOperationInfo.Hash == UnitOperationTypes.SPY_LISTENING_POST or kOperationInfo.Hash == UnitOperationTypes.SPY_COUNTERSPY then
+  if kOperationInfo.Hash == UnitOperationTypes.SPY_LISTENING_POST or kOperationInfo.Hash ==
+    UnitOperationTypes.SPY_COUNTERSPY then
     return true
   end
 

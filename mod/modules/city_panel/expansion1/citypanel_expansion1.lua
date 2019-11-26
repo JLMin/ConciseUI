@@ -24,8 +24,12 @@ end
 
 -- ===========================================================================
 function OnCityLoyaltyChanged(ownerPlayerID, cityID)
-  if UI.IsCityIDSelected(ownerPlayerID, cityID) then UI.DeselectCityID(ownerPlayerID, cityID) end
+  if UI.IsCityIDSelected(ownerPlayerID, cityID) then
+    UI.DeselectCityID(ownerPlayerID, cityID)
+  end
 end
 
 -- ===========================================================================
-function LateInitialize() Events.CityLoyaltyChanged.Add(OnCityLoyaltyChanged) end
+function LateInitialize()
+  Events.CityLoyaltyChanged.Add(OnCityLoyaltyChanged)
+end

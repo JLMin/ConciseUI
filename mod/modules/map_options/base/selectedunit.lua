@@ -30,7 +30,9 @@ function RealizeMoveRadius(kUnit)
 
   if kUnit ~= nil and (not GameInfo.Units[kUnit:GetUnitType()].IgnoreMoves) and (not UI.IsGameCoreBusy()) then
 
-    if not (kUnit:GetMovesRemaining() > 0) then return end
+    if not (kUnit:GetMovesRemaining() > 0) then
+      return
+    end
 
     local eLocalPlayer = Game.GetLocalPlayer()
     local kUnitInfo = GameInfo.Units[kUnit:GetUnitType()]
@@ -48,7 +50,9 @@ function RealizeMoveRadius(kUnit)
       if not kUnit:HasMovedIntoZOC() then
         kMovePlots = UnitManager.GetReachableMovement(kUnit)
         kZOCPlots = UnitManager.GetReachableZonesOfControl(kUnit, true) -- Only plots visible to the unit.
-        if kZOCPlots == nil then kZOCPlots = {} end
+        if kZOCPlots == nil then
+          kZOCPlots = {}
+        end
       else
         kMovePlots = {}
         kZOCPlots = {}
@@ -59,7 +63,9 @@ function RealizeMoveRadius(kUnit)
 
       -- Extract attack indicator locations and extensions to movement range
       if isShowingTarget and kAttackPlots ~= nil and table.count(kAttackPlots) > 0 then
-        if kMovePlots == nil then kMovePlots = {} end
+        if kMovePlots == nil then
+          kMovePlots = {}
+        end
         for _, plot in ipairs(kAttackPlots) do
           table.insert(kAttackIndicators, {"AttackRange_Target", plot})
           table.insert(kMovePlots, plot)
@@ -81,7 +87,9 @@ function RealizeMoveRadius(kUnit)
                 break
               end
             end
-            if isUnique then table.insert(kAttackIndicators, {"AttackRange_Target", kPlotId}) end
+            if isUnique then
+              table.insert(kAttackIndicators, {"AttackRange_Target", kPlotId})
+            end
           end
         end
       end
@@ -92,7 +100,9 @@ function RealizeMoveRadius(kUnit)
       end
 
       -- Lay down movement border around movable and attack-movable hexes
-      if kMovePlots ~= nil and table.count(kMovePlots) > 0 then UILens.SetLayerHexesArea(m_MovementRange, eLocalPlayer, kMovePlots) end
+      if kMovePlots ~= nil and table.count(kMovePlots) > 0 then
+        UILens.SetLayerHexesArea(m_MovementRange, eLocalPlayer, kMovePlots)
+      end
     end
   end
 end
@@ -100,7 +110,9 @@ end
 -- ===========================================================================
 function RealizeGreatPersonLens(kUnit)
   UILens.ClearLayerHexes(m_HexColoringGreatPeople)
-  if UILens.IsLayerOn(m_HexColoringGreatPeople) then UILens.ToggleLayerOff(m_HexColoringGreatPeople) end
+  if UILens.IsLayerOn(m_HexColoringGreatPeople) then
+    UILens.ToggleLayerOff(m_HexColoringGreatPeople)
+  end
   if kUnit ~= nil and (not UI.IsGameCoreBusy()) then
     local playerID = kUnit:GetOwner()
     if playerID == Game.GetLocalPlayer() then
@@ -115,9 +127,12 @@ function RealizeGreatPersonLens(kUnit)
         end
         -- Highlight the plots the Great Person could use its action on
         local activationPlots = {}
-        if (greatPersonInfo ~= nil and greatPersonInfo.ActionEffectTileHighlighting ~= nil and greatPersonInfo.ActionEffectTileHighlighting) then
+        if (greatPersonInfo ~= nil and greatPersonInfo.ActionEffectTileHighlighting ~= nil and
+          greatPersonInfo.ActionEffectTileHighlighting) then
           local rawActivationPlots = kUnitGreatPerson:GetActivationHighlightPlots()
-          for _, plotIndex in ipairs(rawActivationPlots) do table.insert(activationPlots, {"Great_People", plotIndex}) end
+          for _, plotIndex in ipairs(rawActivationPlots) do
+            table.insert(activationPlots, {"Great_People", plotIndex})
+          end
         end
         UILens.SetLayerHexesArea(m_HexColoringGreatPeople, playerID, areaHighlightPlots, activationPlots)
         UILens.ToggleLayerOn(m_HexColoringGreatPeople)
@@ -125,14 +140,18 @@ function RealizeGreatPersonLens(kUnit)
         -- Highlight plots that can activated by Archaeologists
         local activationPlots = {}
         local rawActivationPlots = kUnitArchaeology:GetActivationHighlightPlots()
-        for _, plotIndex in ipairs(rawActivationPlots) do table.insert(activationPlots, {"Great_People", plotIndex}) end
+        for _, plotIndex in ipairs(rawActivationPlots) do
+          table.insert(activationPlots, {"Great_People", plotIndex})
+        end
 
         UILens.SetLayerHexesArea(m_HexColoringGreatPeople, playerID, {}, activationPlots)
         UILens.ToggleLayerOn(m_HexColoringGreatPeople)
       elseif GameInfo.Units[kUnit:GetUnitType()].ParkCharges > 0 then -- Highlight plots that can activated by Naturalists
         local parkPlots = {}
         local rawParkPlots = Game.GetNationalParks():GetPossibleParkTiles(playerID)
-        for _, plotIndex in ipairs(rawParkPlots) do table.insert(parkPlots, {"Great_People", plotIndex}) end
+        for _, plotIndex in ipairs(rawParkPlots) do
+          table.insert(parkPlots, {"Great_People", plotIndex})
+        end
         UILens.SetLayerHexesArea(m_HexColoringGreatPeople, playerID, {}, parkPlots)
         UILens.ToggleLayerOn(m_HexColoringGreatPeople)
       end
@@ -142,17 +161,22 @@ end
 -- ===========================================================================
 --	Game Engine Event
 -- ===========================================================================
-function OnUnitVisibilityChanged(playerID, unitID, eVisibility) end
+function OnUnitVisibilityChanged(playerID, unitID, eVisibility)
+end
 
 -- ===========================================================================
 --	Game Engine Event
 -- ===========================================================================
 function OnUnitSelectionChanged(playerID, unitID, hexI, hexJ, hexK, isSelected, isEditable)
-  if playerID ~= Game.GetLocalPlayer() then return end
+  if playerID ~= Game.GetLocalPlayer() then
+    return
+  end
 
   -- Mode(s) to skip selecting a unit
   local eMode = UI.GetInterfaceMode()
-  if eMode == InterfaceModeTypes.CINEMATIC then return end -- (Still) in Cinematic mode; one may have just queued up after the other.
+  if eMode == InterfaceModeTypes.CINEMATIC then
+    return
+  end -- (Still) in Cinematic mode; one may have just queued up after the other.
 
   local kUnit = nil
   local pPlayer = Players[playerID]
@@ -161,10 +185,14 @@ function OnUnitSelectionChanged(playerID, unitID, hexI, hexJ, hexK, isSelected, 
 
     if isSelected then
       -- If a selection is occuring and the modal lens interface mode is up, take it down.
-      if UI.GetInterfaceMode() == InterfaceModeTypes.VIEW_MODAL_LENS then UI.SetInterfaceMode(InterfaceModeTypes.SELECTION) end
+      if UI.GetInterfaceMode() == InterfaceModeTypes.VIEW_MODAL_LENS then
+        UI.SetInterfaceMode(InterfaceModeTypes.SELECTION)
+      end
 
       -- If a selection is occuring and the city attack interface mode is up, take it down.
-      if UI.GetInterfaceMode() == InterfaceModeTypes.CITY_RANGE_ATTACK then UI.SetInterfaceMode(InterfaceModeTypes.SELECTION) end
+      if UI.GetInterfaceMode() == InterfaceModeTypes.CITY_RANGE_ATTACK then
+        UI.SetInterfaceMode(InterfaceModeTypes.SELECTION)
+      end
 
       UILens.SetActive("Default")
 
@@ -173,7 +201,8 @@ function OnUnitSelectionChanged(playerID, unitID, hexI, hexJ, hexK, isSelected, 
 			if religiousStrength > 0 and not UILens.IsLensActive("Religion") then
 				UILens.SetActive("Religion");
 			else]]
-      if GameInfo.Units[kUnit:GetUnitType()].FoundCity and (not m_isDisableWaterAvailLens) and pPlayer:GetCities():GetCount() > 0 then
+      if GameInfo.Units[kUnit:GetUnitType()].FoundCity and (not m_isDisableWaterAvailLens) and
+        pPlayer:GetCities():GetCount() > 0 then
         UILens.ToggleLayerOn(m_HexColoringWaterAvail) -- Used on the settler lens
       end
     else
@@ -190,7 +219,9 @@ function OnUnitSelectionChanged(playerID, unitID, hexI, hexJ, hexK, isSelected, 
       else
         -- No selected unit, if a missionary just consumed themselves,
         -- kUnit will be nul but the lens still needs to be turned off.
-        if UILens.IsLensActive("Religion") then UILens.SetActive("Default") end
+        if UILens.IsLensActive("Religion") then
+          UILens.SetActive("Default")
+        end
       end
     end
   end
@@ -203,7 +234,9 @@ end
 --	Game Engine Event
 -- ===========================================================================
 function UnitSimPositionChanged(playerID, unitID, worldX, worldY, worldZ, bVisible, isComplete)
-  if playerID ~= Game.GetLocalPlayer() then return end
+  if playerID ~= Game.GetLocalPlayer() then
+    return
+  end
   local kUnit = nil
   if isComplete then
     local pPlayer = Players[playerID]
@@ -230,12 +263,18 @@ end
 -- ===========================================================================
 --	Game Engine Event
 -- ===========================================================================
-function OnEndWonderReveal() UILens.ToggleLayerOn(m_Selection) end
+function OnEndWonderReveal()
+  UILens.ToggleLayerOn(m_Selection)
+end
 
 -- ===========================================================================
 --	Game Engine Event
 -- ===========================================================================
-function OnInterfaceModeChanged(eOldMode, eNewMode) if eNewMode == InterfaceModeTypes.VIEW_MODAL_LENS then UI.DeselectAll() end end
+function OnInterfaceModeChanged(eOldMode, eNewMode)
+  if eNewMode == InterfaceModeTypes.VIEW_MODAL_LENS then
+    UI.DeselectAll()
+  end
+end
 
 -- ===========================================================================
 --	Game Engine Event
@@ -243,7 +282,9 @@ function OnInterfaceModeChanged(eOldMode, eNewMode) if eNewMode == InterfaceMode
 function OnLensLayerOn(layerNum)
   if layerNum == m_MovementRange then
     local pUnit = UI.GetHeadSelectedUnit()
-    if pUnit ~= nil then RealizeMoveRadius(pUnit) end
+    if pUnit ~= nil then
+      RealizeMoveRadius(pUnit)
+    end
   end
 end
 
@@ -263,11 +304,17 @@ function OnCombatVisEnd(aCombatVisData)
 
   -- Only do this if the local player was involved
   local localPlayerID = Game.GetLocalPlayer()
-  if (localPlayerID == -1) then return end
+  if (localPlayerID == -1) then
+    return
+  end
 
   local isInvolvesLocalPlayer = false
 
-  for _, i in ipairs(aCombatVisData) do if i.playerID == localPlayerID then isInvolvesLocalPlayer = true end end
+  for _, i in ipairs(aCombatVisData) do
+    if i.playerID == localPlayerID then
+      isInvolvesLocalPlayer = true
+    end
+  end
 
   if isInvolvesLocalPlayer then
 
@@ -275,7 +322,8 @@ function OnCombatVisEnd(aCombatVisData)
 
     -- Explicitly deselect the unit if they have no more moves, this allows
     -- UI pieces stop showing the previous unit's info.
-    if pUnit ~= nil and aCombatVisData[CombatVisType.ATTACKER].componentID == pUnit:GetID() and pUnit:GetMovesRemaining() == 0 then
+    if pUnit ~= nil and aCombatVisData[CombatVisType.ATTACKER].componentID == pUnit:GetID() and
+      pUnit:GetMovesRemaining() == 0 then
       UI.DeselectUnit(pUnit)
       -- Start the timer for the UI systems auto unit cycling code, which will handle selecting the next unit
       -- This is better than calling the selection advance directly because queued events may pending that want to control the camera.
@@ -291,7 +339,9 @@ function OnLocalPlayerTurnBegin()
   local idLocalPlayer = Game.GetLocalPlayer()
   local pPlayer = Players[idLocalPlayer]
 
-  if UI.GetInterfaceMode() == InterfaceModeTypes.VIEW_MODAL_LENS then UI.SetInterfaceMode(InterfaceModeTypes.SELECTION) end
+  if UI.GetInterfaceMode() == InterfaceModeTypes.VIEW_MODAL_LENS then
+    UI.SetInterfaceMode(InterfaceModeTypes.SELECTION)
+  end
   UILens.SetActive("Default")
 end
 
@@ -301,7 +351,9 @@ end
 function OnPlayerTurnActivated(ePlayer, isFirstTime)
   if ePlayer == Game.GetLocalPlayer() then
     local kUnit = UI.GetHeadSelectedUnit()
-    if (kUnit ~= nil) then RealizeMoveRadius(kUnit) end
+    if (kUnit ~= nil) then
+      RealizeMoveRadius(kUnit)
+    end
   end
 end
 
@@ -312,7 +364,9 @@ function OnUnitPromotionChanged(playerID, unitID)
   local idLocalPlayer = Game.GetLocalPlayer()
   if idLocalPlayer > -1 and playerID == idLocalPlayer then
     local kUnit = UI.GetHeadSelectedUnit()
-    if (kUnit ~= nil) then RealizeMoveRadius(kUnit) end
+    if (kUnit ~= nil) then
+      RealizeMoveRadius(kUnit)
+    end
   end
 end
 
@@ -335,14 +389,20 @@ end
 --	Local player changed; likely a hotseat game
 -- ===========================================================================
 function OnLocalPlayerChanged(eLocalPlayer, ePrevLocalPlayer)
-  if eLocalPlayer == -1 then return end
+  if eLocalPlayer == -1 then
+    return
+  end
   UI.DeselectAllUnits()
   UI.DeselectAllCities()
 
   -- Equivalent to original code, not sure if actually needed
-  if UILens.IsLensActive("Religion") then UILens.ClearLayerHexes(m_HexColoringReligion) end
+  if UILens.IsLensActive("Religion") then
+    UILens.ClearLayerHexes(m_HexColoringReligion)
+  end
 
-  if UI.GetInterfaceMode() == InterfaceModeTypes.VIEW_MODAL_LENS then UI.SetInterfaceMode(InterfaceModeTypes.SELECTION) end
+  if UI.GetInterfaceMode() == InterfaceModeTypes.VIEW_MODAL_LENS then
+    UI.SetInterfaceMode(InterfaceModeTypes.SELECTION)
+  end
   UILens.SetActive("Default")
 
   if (UILens.IsLayerOn(m_HexColoringGreatPeople)) then
@@ -369,12 +429,17 @@ end
 --	LUA Event
 --	Do not show "water" available lens when settler is selected.
 -- ===========================================================================
-function OnTutorialUIRoot_DisableSettleHintLens() m_isDisableWaterAvailLens = true end
+function OnTutorialUIRoot_DisableSettleHintLens()
+  m_isDisableWaterAvailLens = true
+end
 
 -- ===========================================================================
 --	UI Event
 -- ===========================================================================
-function OnContextInitialize(bHotload) if bHotload then end end
+function OnContextInitialize(bHotload)
+  if bHotload then
+  end
+end
 
 -- ===========================================================================
 --	Handle the UI shutting down.

@@ -22,33 +22,83 @@ local DATA_FIELD_NUM_INSTANCES = "DATA_FIELD_NUM_INSTANCES"
 local HISTORIC_MOMENT_HASH = DB.MakeHash("NOTIFICATION_PRIDE_MOMENT_RECORDED")
 
 local DATA_TYPE_MAP = {
-  [MomentDataTypes.MOMENT_DATA_BELIEF] = function(i) return GameInfo.Beliefs[i].BeliefType end,
-  [MomentDataTypes.MOMENT_DATA_BUILDING] = function(i) return GameInfo.Buildings[i].BuildingType end,
-  [MomentDataTypes.MOMENT_DATA_CITY_STATE_PLAYER] = function(i) return Players[i] end,
-  [MomentDataTypes.MOMENT_DATA_CIVIC] = function(i) return GameInfo.Civics[i].CivicType end,
-  [MomentDataTypes.MOMENT_DATA_CONTINENT] = function(i) return GameInfo.Continents[i].ContinentType end,
-  [MomentDataTypes.MOMENT_DATA_DISTRICT] = function(i) return GameInfo.Districts[i].DistrictType end,
-  [MomentDataTypes.MOMENT_DATA_EMERGENCY] = function(i) return GameInfo.EmergencyAlliances[i].EmergencyType end,
-  [MomentDataTypes.MOMENT_DATA_FEATURE] = function(i) return GameInfo.Features[i].FeatureType end,
-  [MomentDataTypes.MOMENT_DATA_GOVERNMENT] = function(i) return GameInfo.Governments[i].GovernmentType end,
-  [MomentDataTypes.MOMENT_DATA_GOVERNOR] = function(i) return GameInfo.Governors[i].GovernorType end,
-  [MomentDataTypes.MOMENT_DATA_GREAT_PERSON_INDIVIDUAL] = function(i) return GameInfo.GreatPersonIndividuals[i].GreatPersonIndividualType end,
-  [MomentDataTypes.MOMENT_DATA_GREAT_WORK] = function(i) return GameInfo.GreatWorks[i].GreatWorkType end,
-  [MomentDataTypes.MOMENT_DATA_IMPROVEMENT] = function(i) return GameInfo.Improvements[i].ImprovementType end,
-  [MomentDataTypes.MOMENT_DATA_OLD_RELIGION] = function(i) return GameInfo.Religions[i].ReligionType end,
-  [MomentDataTypes.MOMENT_DATA_PLAYER_ERA] = function(i) return GameInfo.Eras[i].EraType end,
-  [MomentDataTypes.MOMENT_DATA_PROJECT] = function(i) return GameInfo.Projects[i].ProjectType end,
-  [MomentDataTypes.MOMENT_DATA_RANDOM_EVENT] = function(i) return GameInfo.RandomEvents[i].RandomEventType end,
-  [MomentDataTypes.MOMENT_DATA_RELIGION] = function(i) return GameInfo.Religions[i].ReligionType end,
-  [MomentDataTypes.MOMENT_DATA_RESOURCE] = function(i) return GameInfo.Resources[i].ResourceType end,
-  [MomentDataTypes.MOMENT_DATA_TARGET_PLAYER] = function(i) return Players[i] end,
-  [MomentDataTypes.MOMENT_DATA_TARGET_PLAYER_ERA] = function(i) return GameInfo.Eras[i].EraType end,
-  [MomentDataTypes.MOMENT_DATA_TECHNOLOGY] = function(i) return GameInfo.Technologies[i].TechnologyType end,
-  [MomentDataTypes.MOMENT_DATA_UNIT] = function(i) return GameInfo.Units[i].UnitType end,
-  [MomentDataTypes.MOMENT_DATA_WAR] = function(i) return WarTypes[i] end
+  [MomentDataTypes.MOMENT_DATA_BELIEF] = function(i)
+    return GameInfo.Beliefs[i].BeliefType
+  end,
+  [MomentDataTypes.MOMENT_DATA_BUILDING] = function(i)
+    return GameInfo.Buildings[i].BuildingType
+  end,
+  [MomentDataTypes.MOMENT_DATA_CITY_STATE_PLAYER] = function(i)
+    return Players[i]
+  end,
+  [MomentDataTypes.MOMENT_DATA_CIVIC] = function(i)
+    return GameInfo.Civics[i].CivicType
+  end,
+  [MomentDataTypes.MOMENT_DATA_CONTINENT] = function(i)
+    return GameInfo.Continents[i].ContinentType
+  end,
+  [MomentDataTypes.MOMENT_DATA_DISTRICT] = function(i)
+    return GameInfo.Districts[i].DistrictType
+  end,
+  [MomentDataTypes.MOMENT_DATA_EMERGENCY] = function(i)
+    return GameInfo.EmergencyAlliances[i].EmergencyType
+  end,
+  [MomentDataTypes.MOMENT_DATA_FEATURE] = function(i)
+    return GameInfo.Features[i].FeatureType
+  end,
+  [MomentDataTypes.MOMENT_DATA_GOVERNMENT] = function(i)
+    return GameInfo.Governments[i].GovernmentType
+  end,
+  [MomentDataTypes.MOMENT_DATA_GOVERNOR] = function(i)
+    return GameInfo.Governors[i].GovernorType
+  end,
+  [MomentDataTypes.MOMENT_DATA_GREAT_PERSON_INDIVIDUAL] = function(i)
+    return GameInfo.GreatPersonIndividuals[i].GreatPersonIndividualType
+  end,
+  [MomentDataTypes.MOMENT_DATA_GREAT_WORK] = function(i)
+    return GameInfo.GreatWorks[i].GreatWorkType
+  end,
+  [MomentDataTypes.MOMENT_DATA_IMPROVEMENT] = function(i)
+    return GameInfo.Improvements[i].ImprovementType
+  end,
+  [MomentDataTypes.MOMENT_DATA_OLD_RELIGION] = function(i)
+    return GameInfo.Religions[i].ReligionType
+  end,
+  [MomentDataTypes.MOMENT_DATA_PLAYER_ERA] = function(i)
+    return GameInfo.Eras[i].EraType
+  end,
+  [MomentDataTypes.MOMENT_DATA_PROJECT] = function(i)
+    return GameInfo.Projects[i].ProjectType
+  end,
+  [MomentDataTypes.MOMENT_DATA_RANDOM_EVENT] = function(i)
+    return GameInfo.RandomEvents[i].RandomEventType
+  end,
+  [MomentDataTypes.MOMENT_DATA_RELIGION] = function(i)
+    return GameInfo.Religions[i].ReligionType
+  end,
+  [MomentDataTypes.MOMENT_DATA_RESOURCE] = function(i)
+    return GameInfo.Resources[i].ResourceType
+  end,
+  [MomentDataTypes.MOMENT_DATA_TARGET_PLAYER] = function(i)
+    return Players[i]
+  end,
+  [MomentDataTypes.MOMENT_DATA_TARGET_PLAYER_ERA] = function(i)
+    return GameInfo.Eras[i].EraType
+  end,
+  [MomentDataTypes.MOMENT_DATA_TECHNOLOGY] = function(i)
+    return GameInfo.Technologies[i].TechnologyType
+  end,
+  [MomentDataTypes.MOMENT_DATA_UNIT] = function(i)
+    return GameInfo.Units[i].UnitType
+  end,
+  [MomentDataTypes.MOMENT_DATA_WAR] = function(i)
+    return WarTypes[i]
+  end
 }
 
-local DATA_ILLUSTRATIONS_MAP = {[MomentDataTypes.MOMENT_DATA_RELIGION] = InstanceManager:new("ReligionIllustration", "Root")}
+local DATA_ILLUSTRATIONS_MAP = {
+  [MomentDataTypes.MOMENT_DATA_RELIGION] = InstanceManager:new("ReligionIllustration", "Root")
+}
 
 -- ===========================================================================
 --	VARIABLES
@@ -80,16 +130,24 @@ local m_isOpenFromEndGame = false
 local m_kQueuedPopups = {}
 
 -- Cause nil access on DATA_ILLUSTRATIONS_MAP to return m_LargeIllustrationIM
-setmetatable(DATA_ILLUSTRATIONS_MAP, {__index = function() return m_LargeIllustrationIM end})
+setmetatable(DATA_ILLUSTRATIONS_MAP, {
+  __index = function()
+    return m_LargeIllustrationIM
+  end
+})
 
 -- ===========================================================================
 --	FUNCTIONS
 -- ===========================================================================
-function GetPopupPriority() return m_isOpenFromEndGame and PopupPriority.Current or PopupPriority.Medium end
+function GetPopupPriority()
+  return m_isOpenFromEndGame and PopupPriority.Current or PopupPriority.Medium
+end
 
 -- ===========================================================================
 function GetPopupParameters()
-  if m_isOpenFromEndGame then return {RenderAtCurrentParent = true, InputAtCurrentParent = true, AlwaysVisibleInQueue = true} end
+  if m_isOpenFromEndGame then
+    return {RenderAtCurrentParent = true, InputAtCurrentParent = true, AlwaysVisibleInQueue = true}
+  end
   return {
     RenderAtCurrentParent = true,
     InputAtCurrentParent = true,
@@ -100,9 +158,8 @@ end
 
 -- ===========================================================================
 function DebugMomentData(momentData)
-  local debugInfo =
-      "(Turn = " .. momentData.Turn .. ", GameEra = " .. momentData.GameEra .. ", ActingPlayer = " .. momentData.ActingPlayer ..
-          ", ExtraData = "
+  local debugInfo = "(Turn = " .. momentData.Turn .. ", GameEra = " .. momentData.GameEra .. ", ActingPlayer = " ..
+                      momentData.ActingPlayer .. ", ExtraData = "
   for _, dataPair in ipairs(momentData.ExtraData) do
     if dataPair.DataType and dataPair.DataValue then
       local dataType = Locale.Lookup(GameInfo.MomentDataTypes[dataPair.DataType].Name)
@@ -119,12 +176,15 @@ function ShowNewTimelineMoment(popupData)
   UI.PlaySound("UI_Screen_Open")
   local localPlayerID = Game.GetLocalPlayer()
   local pPlayerConfig = PlayerConfigurations[localPlayerID]
-  Controls.ModalScreenTitle:SetText(Locale.ToUpper(Locale.Lookup("LOC_HISTORY_NEW_MOMENT", pPlayerConfig:GetCivilizationDescription())))
+  Controls.ModalScreenTitle:SetText(Locale.ToUpper(Locale.Lookup("LOC_HISTORY_NEW_MOMENT",
+                                                                 pPlayerConfig:GetCivilizationDescription())))
 end
 
 -- ===========================================================================
 function OnProcessNotification(playerID, notificationID, activatedByUser)
-  if not CuiSettings:GetBoolean(CuiSettings.POPUP_HISTORIC) then return end -- CUI
+  if not CuiSettings:GetBoolean(CuiSettings.POPUP_HISTORIC) then
+    return
+  end -- CUI
   if playerID == Game.GetLocalPlayer() then -- Was it for us?
     local pNotification = NotificationManager.Find(playerID, notificationID)
     if pNotification and pNotification:GetType() == HISTORIC_MOMENT_HASH then
@@ -141,7 +201,9 @@ function OnProcessNotification(playerID, notificationID, activatedByUser)
         if not activatedByUser then
           local momentData = Game.GetHistoryManager():GetMomentData(momentID)
           local momentInfo = momentData and GameInfo.Moments[momentData.Type] or nil
-          if momentInfo and momentInfo.InterestLevel < AUTO_SHOW_INTEREST_LEVEL then return end
+          if momentInfo and momentInfo.InterestLevel < AUTO_SHOW_INTEREST_LEVEL then
+            return
+          end
 
           UI.PlaySound("Pride_Moment")
 
@@ -156,8 +218,9 @@ function OnProcessNotification(playerID, notificationID, activatedByUser)
         ShowNewTimelineMoment(popupData)
 
       else
-        UI.DataError("Moment Notification received, but is missing 'MomentID' variant. PlayerID=" .. tostring(playerID) ..
-                         ", NotificationID=" .. tostring(notificationID))
+        UI.DataError(
+          "Moment Notification received, but is missing 'MomentID' variant. PlayerID=" .. tostring(playerID) ..
+            ", NotificationID=" .. tostring(notificationID))
       end
     end
   end
@@ -175,17 +238,23 @@ function ResetTimeline()
   m_SmallMomentStackIM:ResetInstances()
   m_EraLabelIM:ResetInstances()
   m_TimelinePaddingIM:ResetInstances()
-  for _, instanceManager in ipairs(DATA_ILLUSTRATIONS_MAP) do instanceManager:ResetInstances() end
+  for _, instanceManager in ipairs(DATA_ILLUSTRATIONS_MAP) do
+    instanceManager:ResetInstances()
+  end
 end
 
 -- ===========================================================================
 function DisplayTimeline(showAnim)
 
   -- Never show
-  if GameConfiguration.IsHotseat() and not m_isLocalPlayerTurn then return end
+  if GameConfiguration.IsHotseat() and not m_isLocalPlayerTurn then
+    return
+  end
 
   -- Ensure screen width is valid and up to date
-  if m_ScreenWidth <= 0 then m_ScreenWidth = UIManager:GetScreenSizeVal() end
+  if m_ScreenWidth <= 0 then
+    m_ScreenWidth = UIManager:GetScreenSizeVal()
+  end
 
   showAnim = showAnim and Options.GetUserOption("Interface", "PlayHistoricMomentAnimation") ~= 0
 
@@ -193,7 +262,8 @@ function DisplayTimeline(showAnim)
 
   local localPlayerID = Game.GetLocalPlayer()
   local pPlayerConfig = PlayerConfigurations[localPlayerID]
-  Controls.ModalScreenTitle:SetText(Locale.ToUpper(Locale.Lookup("LOC_HISTORY_TIMELINE_TITLE", pPlayerConfig:GetCivilizationDescription())))
+  Controls.ModalScreenTitle:SetText(Locale.ToUpper(Locale.Lookup("LOC_HISTORY_TIMELINE_TITLE",
+                                                                 pPlayerConfig:GetCivilizationDescription())))
 
   local allPrideMoments = Game.GetHistoryManager():GetAllMomentsData(localPlayerID, MIN_INTEREST_LEVEL)
   local numPrideMoments = table.count(allPrideMoments)
@@ -207,9 +277,12 @@ function DisplayTimeline(showAnim)
         AddEraSeparator(momentData.GameEra)
       end
 
-      AddMoment(momentData, showAnim and (m_CurrentMoment < 0 and i == numPrideMoments or momentData.ID == m_CurrentMoment))
+      AddMoment(momentData,
+                showAnim and (m_CurrentMoment < 0 and i == numPrideMoments or momentData.ID == m_CurrentMoment))
 
-      if m_CurrentMoment ~= -1 and momentData.ID == m_CurrentMoment then break end
+      if m_CurrentMoment ~= -1 and momentData.ID == m_CurrentMoment then
+        break
+      end
     end
 
     -- Add padding at the end of stack to keep last moment centered
@@ -257,7 +330,9 @@ function AddMoment(momentData, isNewMoment)
       return
     end
 
-    if momentData.HasEverBeenCommemorated then frameTexture = frameTexture .. "_Com" end
+    if momentData.HasEverBeenCommemorated then
+      frameTexture = frameTexture .. "_Com"
+    end
 
     local momentDate = Calendar.MakeYearStr(momentData.Turn)
     local momentScore = momentData.EraScore and momentData.EraScore or 0
@@ -265,14 +340,19 @@ function AddMoment(momentData, isNewMoment)
     instance.Frame:SetTexture(frameTexture)
     instance.Description:SetText(momentData.InstanceDescription)
     if (momentScore ~= 0) then
-      instance.Effect:SetText(Locale.Lookup("LOC_HISTORY_MOMENT_EFFECTS", momentDate, momentData.Turn, "+" .. momentScore))
+      instance.Effect:SetText(Locale.Lookup("LOC_HISTORY_MOMENT_EFFECTS", momentDate, momentData.Turn,
+                                            "+" .. momentScore))
     else
       instance.Effect:SetText(Locale.Lookup("LOC_HISTORY_MOMENT_EFFECTS_NO_SCORE", momentDate, momentData.Turn))
     end
 
-    if momentInfo.IconTexture then SetIconTexture(instance, momentInfo.IconTexture, momentInfo.MomentType) end
+    if momentInfo.IconTexture then
+      SetIconTexture(instance, momentInfo.IconTexture, momentInfo.MomentType)
+    end
 
-    if momentInfo.BackgroundTexture then AddIllustration(instance, momentInfo.BackgroundTexture, nil, momentInfo.MomentType) end
+    if momentInfo.BackgroundTexture then
+      AddIllustration(instance, momentInfo.BackgroundTexture, nil, momentInfo.MomentType)
+    end
 
     if momentInfo.MomentIllustrationType then
       local illustrations = m_CachedIllustrations[momentInfo.MomentIllustrationType]
@@ -286,16 +366,18 @@ function AddMoment(momentData, isNewMoment)
               local typeMap = DATA_TYPE_MAP[dataType]
               local textureKey = typeMap and typeMap(dataValue) or dataValue
               local texture = illustrationData[textureKey]
-              if texture then AddIllustration(instance, texture, dataType, momentInfo.MomentType) end
+              if texture then
+                AddIllustration(instance, texture, dataType, momentInfo.MomentType)
+              end
             end
           else
             UI.DataError("Malformed ExtraData in Moment { ID='" .. momentData.ID .. "', Type='" .. momentData.Type ..
-                             "' }, expected DataType and DataValue fields")
+                           "' }, expected DataType and DataValue fields")
           end
         end
       else
-        UI.DataError("No data was found on MomentIllustrations table where MomentIllustrationType='" .. momentInfo.MomentIllustrationType ..
-                         "'")
+        UI.DataError("No data was found on MomentIllustrations table where MomentIllustrationType='" ..
+                       momentInfo.MomentIllustrationType .. "'")
       end
     end
 
@@ -309,7 +391,7 @@ function AddMoment(momentData, isNewMoment)
     end
   else
     UI.DataError("No data was found on Moments table for Moment { ID='" .. tostring(momentData.ID) .. "', Type='" ..
-                     tostring(momentData.Type) .. "' }")
+                   tostring(momentData.Type) .. "' }")
   end
 end
 
@@ -320,7 +402,7 @@ function AddIllustration(instance, texture, dataType, momentType)
     instanceManager:GetInstance(instance.Illustrations).Root:SetTexture(texture)
   else
     UI.DataError("Moment '" .. momentType .. "' attempted to load illustration '" .. texture ..
-                     "' into a nil control. Check Moments data to ensure 'BackgroundTexture' only exists on InterestLevel 2 and 3 moments")
+                   "' into a nil control. Check Moments data to ensure 'BackgroundTexture' only exists on InterestLevel 2 and 3 moments")
   end
 end
 
@@ -335,7 +417,9 @@ function AddEraSeparator(era)
 end
 
 -- ===========================================================================
-function AddPadding(width) m_TimelinePaddingIM:GetInstance().Root:SetSizeX(width) end
+function AddPadding(width)
+  m_TimelinePaddingIM:GetInstance().Root:SetSizeX(width)
+end
 
 -- ===========================================================================
 function SetIconTexture(instance, texture, momentType)
@@ -343,14 +427,16 @@ function SetIconTexture(instance, texture, momentType)
     instance.Icon:SetTexture(texture)
   else
     UI.DataError("Moment '" .. momentType .. "' attempted to load icon '" .. texture ..
-                     "' into a nil control. Check Moments data to ensure 'IconTexture' only exists on InterestLevel 1 moments")
+                   "' into a nil control. Check Moments data to ensure 'IconTexture' only exists on InterestLevel 1 moments")
   end
 end
 
 -- ===========================================================================
 function OnScroll(scrollPanel, scrollAmount)
   if scrollAmount == 0 or scrollAmount == 1.0 then
-    if m_lastPercent == scrollAmount then return end
+    if m_lastPercent == scrollAmount then
+      return
+    end
     UI.PlaySound("UI_TechTree_ScrollTick_End")
   else
     UI.PlaySound("UI_TechTree_ScrollTick")
@@ -373,7 +459,9 @@ function RealizeStackSize()
   Controls.TimelineStack:SetOffsetX(shouldScroll and TIMELINE_STACK_X_OFFSET_SCROLL or TIMELINE_STACK_X_OFFSET_NO_SCROLL)
   Controls.TimelineScroller:HideScrollBar(not shouldScroll)
 
-  if shouldScroll then Controls.TimelineScroller:SetScrollValue(1) end
+  if shouldScroll then
+    Controls.TimelineScroller:SetScrollValue(1)
+  end
 end
 
 -- ===========================================================================
@@ -399,7 +487,8 @@ function Show()
     UIManager:QueuePopup(ContextPtr, priority, kParameters)
 
     -- Change our parent to be 'Screens' when raised from an active game so the navigational hooks draw on top of it
-    ContextPtr:ChangeParent(ContextPtr:LookUpControl("/InGame/" .. (m_isOpenFromEndGame and "AdditionalUserInterfaces" or "Screens")))
+    ContextPtr:ChangeParent(ContextPtr:LookUpControl("/InGame/" ..
+                                                       (m_isOpenFromEndGame and "AdditionalUserInterfaces" or "Screens")))
 
     -- From ModalScreen_PlayerYieldsHelper
     if not RefreshYields() then
@@ -421,11 +510,15 @@ function Close()
 end
 
 -- ===========================================================================
-function OnClose() Close() end
+function OnClose()
+  Close()
+end
 
 -- ===========================================================================
 function OnUpdateUI(type, tag, iData1, iData2, strData1)
-  if type == SystemUpdateUI.ScreenResize then m_ScreenWidth = UIManager:GetScreenSizeVal() end
+  if type == SystemUpdateUI.ScreenResize then
+    m_ScreenWidth = UIManager:GetScreenSizeVal()
+  end
 end
 
 -- ===========================================================================
@@ -484,20 +577,30 @@ end
 -- ===========================================================================
 function OnUIIdle()
   -- The UI is idle, are we waiting to show a popup?
-  if UI.CanShowPopup(GetPopupPriority()) then ShowNextQueuedPopup() end
+  if UI.CanShowPopup(GetPopupPriority()) then
+    ShowNextQueuedPopup()
+  end
 end
 
 -- ===========================================================================
-function OnLocalPlayerTurnBegin() m_isLocalPlayerTurn = true end
+function OnLocalPlayerTurnBegin()
+  m_isLocalPlayerTurn = true
+end
 
 -- ===========================================================================
 function OnLocalPlayerTurnEnd()
   m_isLocalPlayerTurn = false
-  if GameConfiguration.IsHotseat() and ContextPtr:IsVisible() then Close() end
+  if GameConfiguration.IsHotseat() and ContextPtr:IsVisible() then
+    Close()
+  end
 end
 
 -- ===========================================================================
-function OnEndGame() if UIManager:IsInPopupQueue(ContextPtr) then UIManager:DequeuePopup(ContextPtr) end end
+function OnEndGame()
+  if UIManager:IsInPopupQueue(ContextPtr) then
+    UIManager:DequeuePopup(ContextPtr)
+  end
+end
 
 -- ===========================================================================
 function Initialize()
@@ -525,4 +628,6 @@ function Initialize()
 
   m_TopPanelConsideredHeight = Controls.Vignette:GetSizeY() - TOP_PANEL_OFFSET
 end
-if HasCapability("CAPABILITY_HISTORIC_MOMENTS") then Initialize() end
+if HasCapability("CAPABILITY_HISTORIC_MOMENTS") then
+  Initialize()
+end

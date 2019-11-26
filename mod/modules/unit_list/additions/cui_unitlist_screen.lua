@@ -120,7 +120,9 @@ function GetUnitExpenses()
       unitMaintenance = UnitManager.GetUnitMaintenance(pUnitInfo.Hash)
     end
 
-    if (unitMaintenance > 0) then goldCost = goldCost + unitMaintenance - MaintenanceDiscountPerUnit end
+    if (unitMaintenance > 0) then
+      goldCost = goldCost + unitMaintenance - MaintenanceDiscountPerUnit
+    end
   end
   if goldCost > 0 then
     local iconName = "[ICON_GOLD]"
@@ -133,8 +135,8 @@ function GetUnitExpenses()
   if isExpansion2 then
     local pPlayerResources = player:GetResources()
     for resource in GameInfo.Resources() do
-      if (resource.ResourceClassType ~= nil and resource.ResourceClassType ~= "RESOURCECLASS_BONUS" and resource.ResourceClassType ~=
-          "RESOURCECLASS_LUXURY" and resource.ResourceClassType ~= "RESOURCECLASS_ARTIFACT") then
+      if (resource.ResourceClassType ~= nil and resource.ResourceClassType ~= "RESOURCECLASS_BONUS" and
+        resource.ResourceClassType ~= "RESOURCECLASS_LUXURY" and resource.ResourceClassType ~= "RESOURCECLASS_ARTIFACT") then
         local unitConsumptionPerTurn = pPlayerResources:GetUnitResourceDemandPerTurn(resource.ResourceType)
         if unitConsumptionPerTurn > 0 then
           local iconName = "[ICON_" .. resource.ResourceType .. "]"
@@ -171,11 +173,15 @@ end
 
 -- ===========================================================================
 function PopulateUnitList(units, group)
-  if units == nil or table.count(units) == 0 then return end
+  if units == nil or table.count(units) == 0 then
+    return
+  end
   local groupInstance = unitGroupIM:GetInstance()
   groupInstance.UnitList:DestroyAllChildren()
   groupInstance.GroupName:SetText(Locale.Lookup(group.name))
-  for _, pUnit in ipairs(units) do AddUnitToUnitList(pUnit, groupInstance.UnitList) end
+  for _, pUnit in ipairs(units) do
+    AddUnitToUnitList(pUnit, groupInstance.UnitList)
+  end
   groupInstance.UnitList:CalculateSize()
   groupInstance.UnitList:ReprocessAnchoring()
 end
@@ -187,7 +193,9 @@ function AddUnitToUnitList(pUnit, stackControl)
 
   -- unit icon
   local iconInfo, iconShadowInfo = GetUnitIcon(pUnit, 38, true)
-  if iconInfo.textureSheet then unitEntry.UnitTypeIcon:SetTexture(iconInfo.textureOffsetX, iconInfo.textureOffsetY, iconInfo.textureSheet) end
+  if iconInfo.textureSheet then
+    unitEntry.UnitTypeIcon:SetTexture(iconInfo.textureOffsetX, iconInfo.textureOffsetY, iconInfo.textureSheet)
+  end
 
   -- entry color if unit cannot take any action
   if pUnit:IsReadyToMove() then
@@ -215,7 +223,9 @@ function AddUnitToUnitList(pUnit, stackControl)
   local pUnitDef = GameInfo.Units[pUnit:GetUnitType()]
   if pUnitDef then
     local unitTypeName = pUnitDef.Name
-    if name ~= unitTypeName then tooltip = name .. " " .. Locale.Lookup("LOC_UNIT_UNIT_TYPE_NAME_SUFFIX", unitTypeName) end
+    if name ~= unitTypeName then
+      tooltip = name .. " " .. Locale.Lookup("LOC_UNIT_UNIT_TYPE_NAME_SUFFIX", unitTypeName)
+    end
   end
   unitEntry.Button:SetToolTipString(tooltip)
 
@@ -232,12 +242,16 @@ function AddUnitToUnitList(pUnit, stackControl)
         charges = pUnit:GetReligiousHealCharges()
         if charges == nil or charges < 1 then
           local unitGreatPerson = pUnit:GetGreatPerson()
-          if unitGreatPerson and unitGreatPerson:HasPassiveEffect() then charges = unitGreatPerson:GetActionCharges() end
+          if unitGreatPerson and unitGreatPerson:HasPassiveEffect() then
+            charges = unitGreatPerson:GetActionCharges()
+          end
         end
       end
     end
     local nameWithCharges = name
-    if charges ~= nil and charges > 0 then nameWithCharges = name .. " (" .. charges .. ")" end
+    if charges ~= nil and charges > 0 then
+      nameWithCharges = name .. " (" .. charges .. ")"
+    end
     unitEntry.UnitName:SetText(Locale.ToUpper(nameWithCharges))
 
     -- status icon
@@ -316,7 +330,9 @@ function AddUnitToUnitList(pUnit, stackControl)
   end
 
   -- button call back
-  unitEntry.Button:RegisterCallback(Mouse.eLClick, function() MoveToUnit(pUnit) end)
+  unitEntry.Button:RegisterCallback(Mouse.eLClick, function()
+    MoveToUnit(pUnit)
+  end)
 
 end
 
@@ -344,7 +360,8 @@ function AddUpgradeResourceCost(pUnit)
         local resourceName = Locale.Lookup(GameInfo.Resources[upgradeResource].Name)
         local resourceIcon = "[ICON_" .. GameInfo.Resources[upgradeResource].ResourceType .. "]"
         toolTipString = "[NEWLINE]" ..
-                            Locale.Lookup("LOC_UNITOPERATION_UPGRADE_RESOURCE_INFO", upgradeResourceCost, resourceIcon, resourceName)
+                          Locale.Lookup("LOC_UNITOPERATION_UPGRADE_RESOURCE_INFO", upgradeResourceCost, resourceIcon,
+                                        resourceName)
       end
     end
     return toolTipString
@@ -367,12 +384,16 @@ function CloseOtherPanel()
     LuaEvents.HistoricMoments_Close()
   end
 
-  if isExpansion2 then LuaEvents.Launchbar_Expansion2_ClimateScreen_Close() end
+  if isExpansion2 then
+    LuaEvents.Launchbar_Expansion2_ClimateScreen_Close()
+  end
 end
 
 -- ===========================================================================
 function Open()
-  if (Game.GetLocalPlayer() == -1) then return end
+  if (Game.GetLocalPlayer() == -1) then
+    return
+  end
   CloseOtherPanel()
 
   if not UIManager:IsInPopupQueue(ContextPtr) then
@@ -383,7 +404,7 @@ function Open()
     UIManager:QueuePopup(ContextPtr, PopupPriority.Low, kParameters)
     UI.PlaySound("UI_Screen_Open")
   end
-  
+
   RefreshUnitList()
 
   Controls.Vignette:SetSizeY(windowHeight)
@@ -394,7 +415,9 @@ end
 
 -- ===========================================================================
 function Close()
-  if not ContextPtr:IsHidden() then UI.PlaySound("UI_Screen_Close") end
+  if not ContextPtr:IsHidden() then
+    UI.PlaySound("UI_Screen_Close")
+  end
   UIManager:DequeuePopup(ContextPtr)
 end
 
@@ -437,7 +460,13 @@ function BuildTabs()
 end
 
 -- ===========================================================================
-function OnInit(isReload) if isReload then if not ContextPtr:IsHidden() then Open() end end end
+function OnInit(isReload)
+  if isReload then
+    if not ContextPtr:IsHidden() then
+      Open()
+    end
+  end
+end
 
 -- ===========================================================================
 function OnInputHandler(pInputStruct)
@@ -462,7 +491,9 @@ function Initialize()
   ContextPtr:SetInitHandler(OnInit)
   ContextPtr:SetInputHandler(OnInputHandler, true)
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, Close)
-  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   LuaEvents.CuiToggleUnitList.Add(ToggleUnitList)
   Events.UnitUpgraded.Add(RefreshUnitList)
 

@@ -10,12 +10,16 @@ include("cui_update")
 local isAttached = false
 
 -- ---------------------------------------------------------------------------
-function OpenOptionMenu() LuaEvents.CuiToggleOptions() end
+function OpenOptionMenu()
+  LuaEvents.CuiToggleOptions()
+end
 
 -- ---------------------------------------------------------------------------
 function SetupUI()
   Controls.LastUpdate:SetText(LastUpdate)
-  if not isNil(UpdateContent) then Controls.LastUpdate:SetToolTipString(UpdateContent) end
+  if not isNil(UpdateContent) then
+    Controls.LastUpdate:SetToolTipString(UpdateContent)
+  end
   CuiRegCallback(Controls.CuiOptionButton, OpenOptionMenu, OpenOptionMenu)
 end
 

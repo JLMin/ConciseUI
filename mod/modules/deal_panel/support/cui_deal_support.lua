@@ -1,7 +1,6 @@
 -- ===========================================================================
 -- Cui Deal Panel Support Functions
 -- ---------------------------------------------------------------------------
-
 include("cui_helper")
 
 -- ===========================================================================
@@ -27,7 +26,7 @@ local AINoCapTT = Locale.Lookup("LOC_DEAL_AI_HAS_NO_CAP_ROOM")
 -- ---------------------------------------------------------------------------
 function CuiGetResourceData(player, localPlayer, otherPlayer, entry)
   local data = {}
-  
+
   -- other inventory
   local weHave = false
   local blocked = false
@@ -40,7 +39,8 @@ function CuiGetResourceData(player, localPlayer, otherPlayer, entry)
   local localResources = Players[localPlayer:GetID()]:GetResources()
   local otherResources = Players[otherPlayer:GetID()]:GetResources()
 
-  if resource and resource.ResourceClassType == "RESOURCECLASS_LUXURY" or resource.ResourceClassType == "RESOURCECLASS_STRATEGIC" then
+  if resource and resource.ResourceClassType == "RESOURCECLASS_LUXURY" or resource.ResourceClassType ==
+    "RESOURCECLASS_STRATEGIC" then
     -- their inventory
     if player == otherPlayer then
       -- if we alredy have
@@ -48,7 +48,7 @@ function CuiGetResourceData(player, localPlayer, otherPlayer, entry)
       -- blocked deal, for AI only
       blocked = entry.MaxAmount == 1 and not Players[otherPlayer:GetID()]:IsHuman()
     end
-    
+
     -- our inventory
     if player == localPlayer then
       -- if they already have
@@ -59,7 +59,7 @@ function CuiGetResourceData(player, localPlayer, otherPlayer, entry)
       end
     end
   end
-  
+
   data.WeHave = weHave
   data.Blocked = blocked
   data.TheyHave = theyHave
@@ -68,13 +68,12 @@ function CuiGetResourceData(player, localPlayer, otherPlayer, entry)
   return data
 end
 
-
 -- ===========================================================================
 -- Expansion 2
 -- ---------------------------------------------------------------------------
 function CuiGetLuxuryData(player, localPlayer, otherPlayer, entry)
   local data = {}
-  
+
   -- other inventory
   local weHave = false
   local blocked = false
@@ -86,7 +85,7 @@ function CuiGetLuxuryData(player, localPlayer, otherPlayer, entry)
   local resource = GameInfo.Resources[resourceType]
   local localResources = Players[localPlayer:GetID()]:GetResources()
   local otherResources = Players[otherPlayer:GetID()]:GetResources()
-  
+
   -- luxury only
   if resource and resource.ResourceClassType == "RESOURCECLASS_LUXURY" then
     -- their inventory
@@ -96,7 +95,7 @@ function CuiGetLuxuryData(player, localPlayer, otherPlayer, entry)
       -- blocked deal, for AI only
       blocked = entry.MaxAmount == 1 and not Players[otherPlayer:GetID()]:IsHuman()
     end
-    
+
     -- our inventory
     if player == localPlayer then
       -- if they already have
@@ -105,12 +104,12 @@ function CuiGetLuxuryData(player, localPlayer, otherPlayer, entry)
       onlyOne = localResources:GetResourceAmount(resource.Index) == 1
     end
   end
-  
+
   data.WeHave = weHave
   data.Blocked = blocked
   data.TheyHave = theyHave
   data.OnlyOne = onlyOne
-  
+
   return data
 end
 
@@ -122,14 +121,13 @@ function CuiGetStrategicData(player, localPlayer, entry)
   return data
 end
 
-
 -- ===========================================================================
 -- UI Functions
 -- ---------------------------------------------------------------------------
 function CuiGetButtonStyleByData(data)
   local color = CuiRedColor
   local tooltip = ""
-  
+
   if data.WeHave or data.Blocked or data.TheyHave then
     color = CuiRedColor
   elseif data.OnlyOne then
@@ -137,12 +135,20 @@ function CuiGetButtonStyleByData(data)
   else
     color = CuiGreenColor
   end
-  
-  if data.WeHave then tooltip = tooltip .. WeHaveTT end
-  if data.Blocked then tooltip = tooltip .. BlockedTT end
-  if data.TheyHave then tooltip = tooltip .. TheyHaveTT end
-  if data.OnlyOne then tooltip = tooltip .. OnlyOneTT end
-  
+
+  if data.WeHave then
+    tooltip = tooltip .. WeHaveTT
+  end
+  if data.Blocked then
+    tooltip = tooltip .. BlockedTT
+  end
+  if data.TheyHave then
+    tooltip = tooltip .. TheyHaveTT
+  end
+  if data.OnlyOne then
+    tooltip = tooltip .. OnlyOneTT
+  end
+
   if not isNil(tooltip) then
     tooltip = "[COLOR_Red]" .. tooltip .. "[ENDCOLOR]"
   end
@@ -153,7 +159,7 @@ end
 function CuiGetButtonStyleByDataXP2(data)
   local color = CuiRedColor
   local tooltip = ""
-  
+
   if data.IsValid then
     color = CuiGreenColor
   else
@@ -164,7 +170,7 @@ function CuiGetButtonStyleByDataXP2(data)
       tooltip = tooltip .. PlayerNoCapTT
     end
   end
-  
+
   if not isNil(tooltip) then
     tooltip = "[NEWLINE][COLOR_Red]" .. tooltip .. "[ENDCOLOR]"
   end

@@ -46,7 +46,9 @@ function ShowCivicCompletedPopup(player, civic, quote, audio)
 
   local icon = "ICON_" .. civicType
   local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(icon, 160)
-  if textureSheet ~= nil then Controls.ResearchIcon:SetTexture(textureOffsetX, textureOffsetY, textureSheet) end
+  if textureSheet ~= nil then
+    Controls.ResearchIcon:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
+  end
 
   -- Update Research Name
   Controls.ResearchName:SetText(Locale.ToUpper(Locale.Lookup(civicInfo.Name)))
@@ -61,7 +63,8 @@ function ShowCivicCompletedPopup(player, civic, quote, audio)
   local unlockableTypes = GetUnlockablesForCivic(civicType, player)
 
   PopulateUnlockablesForCivic(player, civic, m_unlockIM)
-  Controls.UnlockCountLabel:SetText(Locale.Lookup("LOC_RESEARCH_COMPLETE_UNLOCKED_BY_CIVIC", m_unlockIM.m_iAllocatedInstances))
+  Controls.UnlockCountLabel:SetText(Locale.Lookup("LOC_RESEARCH_COMPLETE_UNLOCKED_BY_CIVIC",
+                                                  m_unlockIM.m_iAllocatedInstances))
 
   Controls.UnlockStack:CalculateSize()
 
@@ -71,7 +74,9 @@ function ShowCivicCompletedPopup(player, civic, quote, audio)
 
     if audio then
       Controls.QuoteAudio:SetHide(false)
-      Controls.QuoteButton:RegisterCallback(Mouse.eLClick, function() UI.PlaySound(audio) end)
+      Controls.QuoteButton:RegisterCallback(Mouse.eLClick, function()
+        UI.PlaySound(audio)
+      end)
     else
       Controls.QuoteAudio:SetHide(true)
       Controls.QuoteButton:ClearCallback(Mouse.eLClick)
@@ -85,7 +90,9 @@ function ShowCivicCompletedPopup(player, civic, quote, audio)
   -- Determine if we've unlocked a new government type
   for _, unlockItem in ipairs(unlockableTypes) do
     local typeInfo = GameInfo.Types[unlockItem[1]]
-    if (typeInfo and typeInfo.Kind == "KIND_GOVERNMENT") then isCivicUnlockGovernmentType = true end
+    if (typeInfo and typeInfo.Kind == "KIND_GOVERNMENT") then
+      isCivicUnlockGovernmentType = true
+    end
   end
 
   -- Update Government Button depending on if we unlocked a new government type
@@ -93,12 +100,16 @@ function ShowCivicCompletedPopup(player, civic, quote, audio)
     Controls.ChangeGovernmentButton:SetText(Locale.Lookup("LOC_GOVT_GOVERNMENT_UNLOCKED"))
     Controls.ChangeGovernmentButton:ClearCallback(Mouse.eLClick)
     Controls.ChangeGovernmentButton:RegisterCallback(Mouse.eLClick, OnChangeGovernment)
-    Controls.ChangeGovernmentButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+    Controls.ChangeGovernmentButton:RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
   else
     Controls.ChangeGovernmentButton:SetText(Locale.Lookup("LOC_GOVT_CHANGE_POLICIES"))
     Controls.ChangeGovernmentButton:ClearCallback(Mouse.eLClick)
     Controls.ChangeGovernmentButton:RegisterCallback(Mouse.eLClick, OnChangePolicy)
-    Controls.ChangeGovernmentButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+    Controls.ChangeGovernmentButton:RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
   end
 
   Controls.ChangeGovernmentButton:SetHide(false) -- Show Change Government Button
@@ -127,7 +138,9 @@ function ShowTechCompletedPopup(player, tech, quote, audio)
 
   local icon = "ICON_" .. techInfo.TechnologyType
   local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(icon, 160)
-  if textureSheet ~= nil then Controls.ResearchIcon:SetTexture(textureOffsetX, textureOffsetY, textureSheet) end
+  if textureSheet ~= nil then
+    Controls.ResearchIcon:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
+  end
 
   -- Update Research Name
   Controls.ResearchName:SetText(Locale.ToUpper(Locale.Lookup(techInfo.Name)))
@@ -138,7 +151,8 @@ function ShowTechCompletedPopup(player, tech, quote, audio)
   -- Update Unlocked Icons
   m_unlockIM:ResetInstances()
   PopulateUnlockablesForTech(player, tech, m_unlockIM)
-  Controls.UnlockCountLabel:SetText(Locale.Lookup("LOC_RESEARCH_COMPLETE_UNLOCKED_BY_TECH", m_unlockIM.m_iAllocatedInstances))
+  Controls.UnlockCountLabel:SetText(Locale.Lookup("LOC_RESEARCH_COMPLETE_UNLOCKED_BY_TECH",
+                                                  m_unlockIM.m_iAllocatedInstances))
 
   Controls.UnlockStack:CalculateSize()
 
@@ -148,7 +162,9 @@ function ShowTechCompletedPopup(player, tech, quote, audio)
 
     if audio then
       Controls.QuoteAudio:SetHide(false)
-      Controls.QuoteButton:RegisterCallback(Mouse.eLClick, function() UI.PlaySound(audio) end)
+      Controls.QuoteButton:RegisterCallback(Mouse.eLClick, function()
+        UI.PlaySound(audio)
+      end)
     else
       Controls.QuoteAudio:SetHide(true)
       Controls.QuoteButton:ClearCallback(Mouse.eLClick)
@@ -192,7 +208,8 @@ function AddCompletedPopup(player, civic, tech, isByUser)
         return
       end
       civicType = civicInfo.CivicType
-      results = DB.Query("SELECT Quote, QuoteAudio from CivicQuotes where CivicType = ? ORDER BY RANDOM() LIMIT 1", civicType)
+      results = DB.Query("SELECT Quote, QuoteAudio from CivicQuotes where CivicType = ? ORDER BY RANDOM() LIMIT 1",
+                         civicType)
     else
       local techInfo = GameInfo.Technologies[tech]
       if techInfo == nil then
@@ -200,7 +217,9 @@ function AddCompletedPopup(player, civic, tech, isByUser)
         return
       end
       techType = techInfo.TechnologyType
-      results = DB.Query("SELECT Quote, QuoteAudio from TechnologyQuotes where TechnologyType = ? ORDER BY RANDOM() LIMIT 1", techType)
+      results = DB.Query(
+                  "SELECT Quote, QuoteAudio from TechnologyQuotes where TechnologyType = ? ORDER BY RANDOM() LIMIT 1",
+                  techType)
     end
 
     -- Update (random) quote
@@ -228,7 +247,9 @@ function AddCompletedPopup(player, civic, tech, isByUser)
     -- CUI
     if CuiSettings:GetBoolean(CuiSettings.POPUP_RESEARCH) then
       -- If its the first (or only) popup data added then queue it in Forge.
-      if (UIManager:IsInPopupQueue(ContextPtr) == false) then UIManager:QueuePopup(ContextPtr, PopupPriority.Low, {DelayShow = true}) end
+      if (UIManager:IsInPopupQueue(ContextPtr) == false) then
+        UIManager:QueuePopup(ContextPtr, PopupPriority.Low, {DelayShow = true})
+      end
     elseif CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH) then
       UI.PlaySound(audio)
     end
@@ -241,7 +262,9 @@ end
 --	Because this is such a low priority popup, wait until it's triggered to
 --	show in the queue before displaying.
 -- ===========================================================================
-function OnShow() RealizeNextPopup() end
+function OnShow()
+  RealizeNextPopup()
+end
 
 -- ===========================================================================
 function RealizeNextPopup()
@@ -272,7 +295,9 @@ function RealizeNextPopup()
   UI.PlaySound("Resume_TechCivic_Speech")
   if (m_kCurrentData and m_kCurrentData.audio) then
     -- CUI
-    if CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH) then UI.PlaySound(m_kCurrentData.audio) end
+    if CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH) then
+      UI.PlaySound(m_kCurrentData.audio)
+    end
   end
 
   RefreshSize()
@@ -323,7 +348,9 @@ end
 -- ===========================================================================
 --	UI Callback
 -- ===========================================================================
-function OnClose() TryClose() end
+function OnClose()
+  TryClose()
+end
 
 -- ===========================================================================
 function OnInputHandler(input)
@@ -355,7 +382,11 @@ end
 -- ===========================================================================
 --	UI Event
 -- ===========================================================================
-function OnInit(isReload) if isReload then LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID) end end
+function OnInit(isReload)
+  if isReload then
+    LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
+  end
+end
 
 -- ===========================================================================
 --	UI EVENT
@@ -368,14 +399,20 @@ function OnShutdown()
 end
 
 -- ===========================================================================
-function OnLocalPlayerTurnEnd() if (GameConfiguration.IsHotseat()) then Close() end end
+function OnLocalPlayerTurnEnd()
+  if (GameConfiguration.IsHotseat()) then
+    Close()
+  end
+end
 
 -- ===========================================================================
 --	LUA Event
 --	Set cached values back after a hotload.
 -- ===========================================================================
 function OnGameDebugReturn(context, contextTable)
-  if context ~= RELOAD_CACHE_ID then return end
+  if context ~= RELOAD_CACHE_ID then
+    return
+  end
 
   m_kCurrentData = contextTable["m_kCurrentData"]
   if m_kCurrentData ~= nil then
@@ -387,18 +424,24 @@ end
 -- ===========================================================================
 --	LUA Event
 -- ===========================================================================
-function OnDisableTechAndCivicPopups() m_isDisabledByTutorial = true end
+function OnDisableTechAndCivicPopups()
+  m_isDisabledByTutorial = true
+end
 
 -- ===========================================================================
 --	LUA Event
 -- ===========================================================================
-function OnEnableTechAndCivicPopups() m_isDisabledByTutorial = false end
+function OnEnableTechAndCivicPopups()
+  m_isDisabledByTutorial = false
+end
 
 -- ===========================================================================
 --	LUA Event
 -- ===========================================================================
 function OnNotificationPanel_ShowTechDiscovered(ePlayer, techIndex, isByUser)
-  if CuiIsFutureTechAndGet(techIndex) then return end -- CUI: skip future tech
+  if CuiIsFutureTechAndGet(techIndex) then
+    return
+  end -- CUI: skip future tech
   AddCompletedPopup(ePlayer, nil, techIndex, isByUser)
 end
 
@@ -406,7 +449,9 @@ end
 --	LUA Event
 -- ===========================================================================
 function OnNotificationPanel_ShowCivicDiscovered(ePlayer, civicIndex, isByUser)
-  if CuiIsFutureCivicAndGet(civicIndex) then return end -- CUI: skip future civic
+  if CuiIsFutureCivicAndGet(civicIndex) then
+    return
+  end -- CUI: skip future civic
   AddCompletedPopup(ePlayer, civicIndex, nil, isByUser)
 end
 
@@ -419,7 +464,9 @@ function Initialize()
   ContextPtr:SetShowHandler(OnShow)
 
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClose)
-  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   -- LUA Events
   LuaEvents.GameDebug_Return.Add(OnGameDebugReturn)

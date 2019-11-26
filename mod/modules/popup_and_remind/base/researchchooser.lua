@@ -53,7 +53,9 @@ function GetData()
   -- Get recommendations
   local techRecommendations = {}
   local pGrandAI = pPlayer:GetGrandStrategicAI()
-  if pGrandAI then techRecommendations = pGrandAI:GetTechRecommendations() end
+  if pGrandAI then
+    techRecommendations = pGrandAI:GetTechRecommendations()
+  end
 
   pResearchQueue = pPlayerTechs:GetResearchQueue(pResearchQueue)
 
@@ -66,7 +68,11 @@ function GetData()
       kResearchData.IsCurrent = (iTech == m_currentID)
       kResearchData.IsLastCompleted = (iTech == m_lastCompletedID)
       kResearchData.ResearchQueuePosition = -1
-      for i, techNum in pairs(pResearchQueue) do if techNum == iTech then kResearchData.ResearchQueuePosition = i end end
+      for i, techNum in pairs(pResearchQueue) do
+        if techNum == iTech then
+          kResearchData.ResearchQueuePosition = i
+        end
+      end
 
       -- Determine if this tech is recommended
       kResearchData.IsRecommended = false
@@ -98,12 +104,16 @@ function View(playerID, kData)
     RealizeCurrentResearch(nil) -- No research done yet
   end
 
-  table.sort(kData, function(a, b) return Locale.Compare(a.Name, b.Name) == -1 end)
+  table.sort(kData, function(a, b)
+    return Locale.Compare(a.Name, b.Name) == -1
+  end)
 
   for i, data in ipairs(kData) do
     if data.IsCurrent or data.IsLastCompleted then
       RealizeCurrentResearch(playerID, data)
-      if data.Repeatable then AddAvailableResearch(playerID, data) end
+      if data.Repeatable then
+        AddAvailableResearch(playerID, data)
+      end
     else
       AddAvailableResearch(playerID, data)
     end
@@ -125,9 +135,13 @@ function View(playerID, kData)
           break
         end
       end
-      if tutorialControl then break end
+      if tutorialControl then
+        break
+      end
     end
-    if tutorialControl then Controls.ResearchStack:AddChildAtIndex(tutorialControl, tutorialIndex) end
+    if tutorialControl then
+      Controls.ResearchStack:AddChildAtIndex(tutorialControl, tutorialIndex)
+    end
   end
 
   RealizeSize()
@@ -161,7 +175,9 @@ end
 -- ===========================================================================
 function AddAvailableResearch(playerID, kData)
 
-  if playerID == -1 then return end -- Autoplay
+  if playerID == -1 then
+    return
+  end -- Autoplay
 
   local isDisabled = CanPlayerResearchAnything(playerID)
 
@@ -186,7 +202,9 @@ function AddAvailableResearch(playerID, kData)
   end
 
   local numUnlockables = PopulateUnlockablesForTech(playerID, kData.ID, techUnlockIM, callback)
-  if numUnlockables ~= nil then HandleOverflow(numUnlockables, kItemInstance, 5, 5) end
+  if numUnlockables ~= nil then
+    HandleOverflow(numUnlockables, kItemInstance, 5, 5)
+  end
 
   if kData.ResearchQueuePosition ~= -1 then
     kItemInstance.QueueBadge:SetHide(false)
@@ -202,7 +220,9 @@ function AddAvailableResearch(playerID, kData)
     kItemInstance.NodeNumber:SetHide(true)
   end
 
-  kItemInstance.Top:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  kItemInstance.Top:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   -- Set up callback that changes the current research
   kItemInstance.Top:RegisterCallback(Mouse.eLClick, function()
@@ -211,7 +231,9 @@ function AddAvailableResearch(playerID, kData)
   end)
   -- Only wire up Civilopedia handlers if not in a on-rails tutorial
   if IsTutorialRunning() == false then
-    kItemInstance.Top:RegisterCallback(Mouse.eRClick, function() LuaEvents.OpenCivilopedia(kData.TechType) end)
+    kItemInstance.Top:RegisterCallback(Mouse.eRClick, function()
+      LuaEvents.OpenCivilopedia(kData.TechType)
+    end)
   end
   kItemInstance.Top:SetDisabled(isDisabled)
 
@@ -239,7 +261,9 @@ function OnChooseResearch(techHash)
   UI.RequestPlayerOperation(Game.GetLocalPlayer(), PlayerOperations.RESEARCH, tParameters)
   UI.PlaySound("Confirm_Tech")
 
-  if m_isExpanded then OnClosePanel() end
+  if m_isExpanded then
+    OnClosePanel()
+  end
 end
 
 -- ===========================================================================
@@ -268,7 +292,9 @@ function OnOpenPanel()
 end
 
 -- ===========================================================================
-function OnClosePanel() m_kSlideAnimator.Hide() end
+function OnClosePanel()
+  m_kSlideAnimator.Hide()
+end
 
 -- ===========================================================================
 --	Callback from Slide Animator
@@ -282,7 +308,9 @@ end
 -- ===========================================================================
 function OnUpdateUI(type)
   m_kSlideAnimator.OnUpdateUI()
-  if type == SystemUpdateUI.ScreenResize then RealizeSize() end
+  if type == SystemUpdateUI.ScreenResize then
+    RealizeSize()
+  end
 end
 
 -- ===========================================================================
@@ -291,7 +319,9 @@ end
 -- ===========================================================================
 function OnCityInitialized(owner, cityID)
   local localPlayer = Game.GetLocalPlayer()
-  if owner == localPlayer then m_needsRefresh = true end
+  if owner == localPlayer then
+    m_needsRefresh = true
+  end
 end
 
 -- ===========================================================================
@@ -310,13 +340,19 @@ end
 -- ===========================================================================
 --	Game Engine EVENT
 -- ===========================================================================
-function OnPhaseBegin() if Game.GetLocalPlayer() >= 0 then m_needsRefresh = true end end
+function OnPhaseBegin()
+  if Game.GetLocalPlayer() >= 0 then
+    m_needsRefresh = true
+  end
+end
 
 -- ===========================================================================
 --	Game Engine EVENT
 --	May be active or value boosted for an item further in the list.
 -- ===========================================================================
-function OnResearchChanged(ePlayer, eTech) m_needsRefresh = ShouldRefreshWhenResearchChanges(ePlayer) end
+function OnResearchChanged(ePlayer, eTech)
+  m_needsRefresh = ShouldRefreshWhenResearchChanges(ePlayer)
+end
 
 -- ===========================================================================
 --	This function was separated so behavior can be modified in mods/expasions
@@ -328,7 +364,9 @@ function ShouldRefreshWhenResearchChanges(ePlayer)
     m_currentID = pPlayerTechs:GetResearchingTech()
 
     -- Only reset last completed tech once a new tech has been selected
-    if m_currentID >= 0 then m_lastCompletedID = -1 end
+    if m_currentID >= 0 then
+      m_lastCompletedID = -1
+    end
 
     return true
   end
@@ -342,25 +380,37 @@ function OnResearchCompleted(ePlayer, eTech)
     m_currentID = -1
     -- CUI: repeat
     local futureTech = CuiIsFutureTechAndGet(eTech)
-    if futureTech then CuiRepeatTech(futureTech.Hash) end
+    if futureTech then
+      CuiRepeatTech(futureTech.Hash)
+    end
     --
     m_needsRefresh = true
   end
 end
 
 -- ===========================================================================
-function OnResearchYieldChanged(ePlayer) if ePlayer == Game.GetLocalPlayer() then m_needsRefresh = true end end
+function OnResearchYieldChanged(ePlayer)
+  if ePlayer == Game.GetLocalPlayer() then
+    m_needsRefresh = true
+  end
+end
 
 -- ===========================================================================
 -- This will get called after a series of game events (before any other events or
 -- input processing) so we can defer the rebuild until here.
 -- ===========================================================================
-function FlushChanges() if m_needsRefresh and ContextPtr:IsVisible() then Refresh() end end
+function FlushChanges()
+  if m_needsRefresh and ContextPtr:IsVisible() then
+    Refresh()
+  end
+end
 
 -- ===========================================================================
 --	UI Event
 -- ===========================================================================
-function OnInputHandler(kInputStruct) return m_kSlideAnimator.OnInputHandler(kInputStruct) end
+function OnInputHandler(kInputStruct)
+  return m_kSlideAnimator.OnInputHandler(kInputStruct)
+end
 
 -- ===========================================================================
 --
@@ -381,7 +431,9 @@ function OnInit(isReload)
 end
 
 -- ===========================================================================
-function OnShow() Refresh() end
+function OnShow()
+  Refresh()
+end
 
 -- ===========================================================================
 function OnShutdown()
@@ -453,10 +505,14 @@ function Initialize()
   -- UI Event / Callbacks
   ContextPtr:SetInputHandler(OnInputHandler, true)
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
-  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.TitleButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
   Controls.IconButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
-  Controls.IconButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.IconButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   if (HasCapability("CAPABILITY_TECH_TREE")) then
     Controls.OpenTreeButton:SetHide(false)
@@ -464,7 +520,9 @@ function Initialize()
       LuaEvents.ResearchChooser_RaiseTechTree()
       OnClosePanel()
     end)
-    Controls.OpenTreeButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+    Controls.OpenTreeButton:RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
   else
     Controls.OpenTreeButton:SetHide(true)
   end

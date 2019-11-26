@@ -73,12 +73,12 @@ function CuiGetCityYield(city, round)
   local data = GetCityData(city)
   local n = round == nil and 1 or round
   local yields = {}
-  yields.Food = Round(CuiGetFoodPerTurn(data), n)
-  yields.Production = Round(data.ProductionPerTurn, n)
-  yields.Gold = Round(data.GoldPerTurn, n)
-  yields.Science = Round(data.SciencePerTurn, n)
-  yields.Culture = Round(data.CulturePerTurn, n)
-  yields.Faith = Round(data.FaithPerTurn, n)
+  yields.Food       = Round(CuiGetFoodPerTurn(data), n)
+  yields.Production = Round(data.ProductionPerTurn , n)
+  yields.Gold       = Round(data.GoldPerTurn       , n)
+  yields.Science    = Round(data.SciencePerTurn    , n)
+  yields.Culture    = Round(data.CulturePerTurn    , n)
+  yields.Faith      = Round(data.FaithPerTurn      , n)
   -- yields.Tourism = Round(CuiGetCityTourism(city), n)
 
   return yields
@@ -114,10 +114,13 @@ function CuiGetCityTourism(city)
   local player = Players[playerID]
   local pCulture = player:GetCulture()
   local cityPlots = Map.GetCityPlots():GetPurchasedPlots(city)
-  for _, plotID in ipairs(cityPlots) do tourism = tourism + pCulture:GetTourismAt(plotID) end
+  for _, plotID in ipairs(cityPlots) do
+    tourism = tourism + pCulture:GetTourismAt(plotID)
+  end
 
   return tourism
 end
 
 -- ---------------------------------------------------------------------------
-function CuiGetDistrictIcon(dType) end
+function CuiGetDistrictIcon(dType)
+end

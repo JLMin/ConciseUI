@@ -57,7 +57,9 @@ local TEAM_RIBBON_SIZE = 53
 local TEAM_RIBBON_SMALL_SIZE = 30
 local TEAM_RIBBON_PREFIX = "ICON_TEAM_RIBBON_"
 
-local VOICEOVER_SUPPORT = {"KUDOS", "WARNING", "DECLARE_WAR_FROM_HUMAN", "DECLARE_WAR_FROM_AI", "FIRST_MEET", "DEFEAT", "ENRAGED"}
+local VOICEOVER_SUPPORT = {
+  "KUDOS", "WARNING", "DECLARE_WAR_FROM_HUMAN", "DECLARE_WAR_FROM_AI", "FIRST_MEET", "DEFEAT", "ENRAGED"
+}
 
 -- This is the multiplier for the portion of the screen which the conversation control should cover.
 local CONVO_X_MULTIPLIER = .328
@@ -164,7 +166,9 @@ m_PopupDialog = PopupDialog:new("DiplomacyActionViewPopup")
 
 -- ===========================================================================
 function GetOtherPlayer(player)
-  if (player ~= nil and player:GetID() == ms_OtherPlayer:GetID()) then return ms_LocalPlayer end
+  if (player ~= nil and player:GetID() == ms_OtherPlayer:GetID()) then
+    return ms_LocalPlayer
+  end
 
   return ms_OtherPlayer
 end
@@ -204,7 +208,9 @@ function GetVisStateFromDiplomaticState(iState)
   local eStateHash = GameInfo.DiplomaticStates[iState].Hash
   local iVisState = DiplomaticStateIndexToVisState[eStateHash]
 
-  if (iVisState ~= nil) then return iVisState end
+  if (iVisState ~= nil) then
+    return iVisState
+  end
 
   return 0
 end
@@ -212,11 +218,13 @@ end
 -- ===========================================================================
 function UpdateSelectedPlayer(allowDeadPlayer)
 
-  if (allowDeadPlayer == nil) then allowDeadPlayer = false end
+  if (allowDeadPlayer == nil) then
+    allowDeadPlayer = false
+  end
 
   -- Have we met them and are they in the ribbon (alive) or allowing dead players (for defeat messages)
   if (ms_LocalPlayer:GetDiplomacy():HasMet(ms_SelectedPlayerID) and
-      (allowDeadPlayer == true or ms_LeaderIDToRibbonEntry[ms_SelectedPlayerID] ~= nil)) then
+    (allowDeadPlayer == true or ms_LeaderIDToRibbonEntry[ms_SelectedPlayerID] ~= nil)) then
     ms_SelectedPlayer = Players[ms_SelectedPlayerID]
   else
     ms_SelectedPlayer = ms_LocalPlayer
@@ -343,20 +351,35 @@ end
 
 -- ===========================================================================
 function IsWarChoice(key)
-  local isWar = key == "CHOICE_DECLARE_SURPRISE_WAR" or key == "CHOICE_DECLARE_FORMAL_WAR" or key == "CHOICE_DECLARE_HOLY_WAR" or key ==
-                    "CHOICE_DECLARE_LIBERATION_WAR" or key == "CHOICE_DECLARE_RECONQUEST_WAR" or key == "CHOICE_DECLARE_PROTECTORATE_WAR" or
-                    key == "CHOICE_DECLARE_COLONIAL_WAR" or key == "CHOICE_DECLARE_TERRITORIAL_WAR"
+  local isWar = key == "CHOICE_DECLARE_SURPRISE_WAR" or key == "CHOICE_DECLARE_FORMAL_WAR" or key ==
+                  "CHOICE_DECLARE_HOLY_WAR" or key == "CHOICE_DECLARE_LIBERATION_WAR" or key ==
+                  "CHOICE_DECLARE_RECONQUEST_WAR" or key == "CHOICE_DECLARE_PROTECTORATE_WAR" or key ==
+                  "CHOICE_DECLARE_COLONIAL_WAR" or key == "CHOICE_DECLARE_TERRITORIAL_WAR"
   return isWar
 end
 
 function GetWarType(key)
-  if (key == "CHOICE_DECLARE_FORMAL_WAR") then return WarTypes.FORMAL_WAR end
-  if (key == "CHOICE_DECLARE_HOLY_WAR") then return WarTypes.HOLY_WAR end
-  if (key == "CHOICE_DECLARE_LIBERATION_WAR") then return WarTypes.LIBERATION_WAR end
-  if (key == "CHOICE_DECLARE_RECONQUEST_WAR") then return WarTypes.RECONQUEST_WAR end
-  if (key == "CHOICE_DECLARE_PROTECTORATE_WAR") then return WarTypes.PROTECTORATE_WAR end
-  if (key == "CHOICE_DECLARE_COLONIAL_WAR") then return WarTypes.COLONIAL_WAR end
-  if (key == "CHOICE_DECLARE_TERRITORIAL_WAR") then return WarTypes.TERRITORIAL_WAR end
+  if (key == "CHOICE_DECLARE_FORMAL_WAR") then
+    return WarTypes.FORMAL_WAR
+  end
+  if (key == "CHOICE_DECLARE_HOLY_WAR") then
+    return WarTypes.HOLY_WAR
+  end
+  if (key == "CHOICE_DECLARE_LIBERATION_WAR") then
+    return WarTypes.LIBERATION_WAR
+  end
+  if (key == "CHOICE_DECLARE_RECONQUEST_WAR") then
+    return WarTypes.RECONQUEST_WAR
+  end
+  if (key == "CHOICE_DECLARE_PROTECTORATE_WAR") then
+    return WarTypes.PROTECTORATE_WAR
+  end
+  if (key == "CHOICE_DECLARE_COLONIAL_WAR") then
+    return WarTypes.COLONIAL_WAR
+  end
+  if (key == "CHOICE_DECLARE_TERRITORIAL_WAR") then
+    return WarTypes.TERRITORIAL_WAR
+  end
 
   return WarTypes.SURPRISE_WAR
 end
@@ -365,11 +388,19 @@ function GetGoldCost(key)
 
   local szActionString = ""
 
-  if (key == "CHOICE_DIPLOMATIC_DELEGATION") then szActionString = "DIPLOACTION_DIPLOMATIC_DELEGATION" end
-  if (key == "CHOICE_RESIDENT_EMBASSY") then szActionString = "DIPLOACTION_RESIDENT_EMBASSY" end
-  if (key == "CHOICE_OPEN_BORDERS") then szActionString = "DIPLOACTION_OPEN_BORDERS" end
+  if (key == "CHOICE_DIPLOMATIC_DELEGATION") then
+    szActionString = "DIPLOACTION_DIPLOMATIC_DELEGATION"
+  end
+  if (key == "CHOICE_RESIDENT_EMBASSY") then
+    szActionString = "DIPLOACTION_RESIDENT_EMBASSY"
+  end
+  if (key == "CHOICE_OPEN_BORDERS") then
+    szActionString = "DIPLOACTION_OPEN_BORDERS"
+  end
 
-  if (szActionString == "") then return 0 end
+  if (szActionString == "") then
+    return 0
+  end
 
   return ms_LocalPlayer:GetDiplomacy():GetDiplomaticActionCost(szActionString)
 end
@@ -533,23 +564,25 @@ end
 function ApplyStatement(handler, statementTypeName, statementSubTypeName, toPlayer, kStatement)
 
   local eFromPlayerMood = GetStatementMood(kStatement.FromPlayer, kStatement.FromPlayerMood)
-  local kParsedStatement = handler.ExtractStatement(handler, statementTypeName, statementSubTypeName, kStatement.FromPlayer,
-                                                    eFromPlayerMood, kStatement.Initiator)
+  local kParsedStatement = handler.ExtractStatement(handler, statementTypeName, statementSubTypeName,
+                                                    kStatement.FromPlayer, eFromPlayerMood, kStatement.Initiator)
   handler.RemoveInvalidSelections(kParsedStatement, ms_LocalPlayerID, ms_OtherPlayerID)
 
   local leaderstr = ""
   local reasonStr = ""
 
   if (kParsedStatement.StatementText ~= nil) then
-    leaderstr = Locale.Lookup(DiplomacyManager.FindTextKey(kParsedStatement.StatementText, kStatement.FromPlayer, kStatement.FromMood,
-                                                           toPlayer))
-    local reasonStrKey = DiplomacyManager.FindReasonTextKey(kParsedStatement.ReasonText, kStatement.FromPlayer, kStatement.AiReason,
-                                                            kStatement.AiModifier)
+    leaderstr = Locale.Lookup(DiplomacyManager.FindTextKey(kParsedStatement.StatementText, kStatement.FromPlayer,
+                                                           kStatement.FromMood, toPlayer))
+    local reasonStrKey = DiplomacyManager.FindReasonTextKey(kParsedStatement.ReasonText, kStatement.FromPlayer,
+                                                            kStatement.AiReason, kStatement.AiModifier)
     if (reasonStrKey ~= nil) then
       reasonStr = Locale.Lookup(reasonStrKey)
-      local agendaStr =
-          DiplomacyManager.FindReasonAgendaTextKey(kStatement.FromPlayer, toPlayer, kStatement.AiReason, kStatement.AiModifier)
-      if (agendaStr ~= nil) then reasonStr = reasonStr .. agendaStr end
+      local agendaStr = DiplomacyManager.FindReasonAgendaTextKey(kStatement.FromPlayer, toPlayer, kStatement.AiReason,
+                                                                 kStatement.AiModifier)
+      if (agendaStr ~= nil) then
+        reasonStr = reasonStr .. agendaStr
+      end
     end
     Controls.LeaderResponseText:SetText(leaderstr)
     m_voiceoverText = leaderstr
@@ -567,8 +600,12 @@ function ApplyStatement(handler, statementTypeName, statementSubTypeName, toPlay
       instance.SelectionButton:SetToolTipString() -- Clear any tooltips that may have been lingering
       if (selection.IsDisabled == nil or selection.IsDisabled == false) then
         instance.SelectionButton:SetDisabled(false)
-        instance.SelectionButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
-        instance.SelectionButton:RegisterCallback(Mouse.eLClick, function() handler.OnSelectionButtonClicked(selection.Key) end)
+        instance.SelectionButton:RegisterCallback(Mouse.eMouseEnter, function()
+          UI.PlaySound("Main_Menu_Mouse_Over")
+        end)
+        instance.SelectionButton:RegisterCallback(Mouse.eLClick, function()
+          handler.OnSelectionButtonClicked(selection.Key)
+        end)
       else
         -- It is disabled
         instance.SelectionButton:SetDisabled(true)
@@ -640,7 +677,9 @@ function PopulateStatementList(options, rootControl, isSubList)
     local callback
     local tooltipString = nil
     if (selection.Key ~= nil) then
-      callback = function() OnSelectInitialDiplomacyStatement(selection.Key) end
+      callback = function()
+        OnSelectInitialDiplomacyStatement(selection.Key)
+      end
 
       local pActionDef = GameInfo.DiplomaticActions[selection.DiplomaticActionType]
       instance.Button:SetToolTipString(GetStatementButtonTooltip(pActionDef))
@@ -661,12 +700,16 @@ function PopulateStatementList(options, rootControl, isSubList)
         selectionText = selectionText .. szWarmongerString
 
         -- Change callback to prompt first.
-        callback = function() LuaEvents.DiplomacyActionView_ConfirmWarDialog(ms_LocalPlayerID, ms_SelectedPlayerID, eWarType) end
+        callback = function()
+          LuaEvents.DiplomacyActionView_ConfirmWarDialog(ms_LocalPlayerID, ms_SelectedPlayerID, eWarType)
+        end
       end
 
       -- If denounce statement change callback to prompt first.
       if (selection.Key == "CHOICE_DENOUNCE") then
-        local denounceFn = function() OnSelectInitialDiplomacyStatement(selection.Key) end
+        local denounceFn = function()
+          OnSelectInitialDiplomacyStatement(selection.Key)
+        end
         callback = function()
           local playerConfig = PlayerConfigurations[ms_SelectedPlayer:GetID()]
           if (playerConfig ~= nil) then
@@ -675,7 +718,8 @@ function PopulateStatementList(options, rootControl, isSubList)
             m_PopupDialog:Reset()
             m_PopupDialog:AddText(Locale.Lookup("LOC_DENOUNCE_POPUP_BODY", selectedCivName))
             m_PopupDialog:AddButton(Locale.Lookup("LOC_CANCEL"), nil)
-            m_PopupDialog:AddButton(Locale.Lookup("LOC_DIPLO_CHOICE_DENOUNCE"), denounceFn, nil, nil, "PopupButtonInstanceRed")
+            m_PopupDialog:AddButton(Locale.Lookup("LOC_DIPLO_CHOICE_DENOUNCE"), denounceFn, nil, nil,
+                                    "PopupButtonInstanceRed")
             m_PopupDialog:Open()
 
           end
@@ -684,14 +728,18 @@ function PopulateStatementList(options, rootControl, isSubList)
 
       instance.ButtonText:SetText(selectionText)
       if (selection.IsDisabled == nil or selection.IsDisabled == false) then
-        instance.Button:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+        instance.Button:RegisterCallback(Mouse.eMouseEnter, function()
+          UI.PlaySound("Main_Menu_Mouse_Over")
+        end)
         instance.Button:RegisterCallback(Mouse.eLClick, callback)
         instance.ButtonText:SetColor(COLOR_BUTTONTEXT_NORMAL)
         instance.Button:SetDisabled(false)
       else
         instance.ButtonText:SetColor(COLOR_BUTTONTEXT_DISABLED)
         instance.Button:SetDisabled(true)
-        if (selection.FailureReasons ~= nil) then instance.Button:SetToolTipString(Locale.Lookup(selection.FailureReasons[1])) end
+        if (selection.FailureReasons ~= nil) then
+          instance.Button:SetToolTipString(Locale.Lookup(selection.FailureReasons[1]))
+        end
       end
       instance.Button:SetDisabled(not g_bIsLocalPlayerTurn or selection.IsDisabled == true)
     else
@@ -709,7 +757,9 @@ function PopulateStatementList(options, rootControl, isSubList)
     local wasTruncated = TruncateString(instance.ButtonText, MAX_BEFORE_TRUNC_BUTTON_INST, selectionText)
     if wasTruncated then
       local finalTooltipString = selectionText
-      if tooltipString ~= nil then finalTooltipString = finalTooltipString .. "[NEWLINE]" .. tooltipString end
+      if tooltipString ~= nil then
+        finalTooltipString = finalTooltipString .. "[NEWLINE]" .. tooltipString
+      end
       instance.Button:SetToolTipString(finalTooltipString)
     end
 
@@ -719,7 +769,9 @@ function PopulateStatementList(options, rootControl, isSubList)
       instance.Button:SetToolTipString(currentTooltipString .. Locale.Lookup(selection.Tooltip))
     end
 
-    instance.Button:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+    instance.Button:RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
     instance.Button:RegisterCallback(Mouse.eLClick, callback)
   end
   if (isSubList) then
@@ -729,8 +781,12 @@ function PopulateStatementList(options, rootControl, isSubList)
     instance.Button:SetToolTipString(nil)
     instance.Button:SetDisabled(false)
     instance.ButtonText:SetColor(COLOR_BUTTONTEXT_NORMAL)
-    instance.Button:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
-    instance.Button:RegisterCallback(Mouse.eLClick, function() ShowOptionStack(false) end)
+    instance.Button:RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
+    instance.Button:RegisterCallback(Mouse.eLClick, function()
+      ShowOptionStack(false)
+    end)
   end
   stackControl:CalculateSize()
 end
@@ -739,7 +795,9 @@ end
 -- This function allows modders to prevent certain options from showing up
 -- on the top level statement list. By overwritting this and the function
 -- below, they can have fine grained control over the initial options.
-function ShouldAddTopLevelStatementOption(uiGroup) return true end
+function ShouldAddTopLevelStatementOption(uiGroup)
+  return true
+end
 
 -- ===========================================================================
 function GetInitialStatementOptions(parsedStatements, rootControl)
@@ -800,8 +858,8 @@ function AddStatmentOptions(rootControl)
     -- for the current diplomacy state.
     local handler = GetStatementHandler(useStatementType)
     -- Get the statement options
-    local kParsedStatement = handler.ExtractStatement(handler, useStatementType, "NONE", ms_LocalPlayerID, DiplomacyMoodTypes.ANY,
-                                                      DiplomacyInitiatorTypes.HUMAN)
+    local kParsedStatement = handler.ExtractStatement(handler, useStatementType, "NONE", ms_LocalPlayerID,
+                                                      DiplomacyMoodTypes.ANY, DiplomacyInitiatorTypes.HUMAN)
     handler.RemoveInvalidSelections(kParsedStatement, ms_LocalPlayerID, ms_SelectedPlayerID)
     -- Don't need the exit choice at this time
     DiplomacySupport_RemoveSelectionByKey(kParsedStatement, "CHOICE_EXIT")
@@ -851,7 +909,9 @@ function OnActivateIntelRelationshipPanel(relationshipInstance)
   ms_IntelRelationshipReasonIM:ResetInstances()
 
   if (toolTips) then
-    table.sort(toolTips, function(a, b) return a.Score > b.Score end)
+    table.sort(toolTips, function(a, b)
+      return a.Score > b.Score
+    end)
 
     for i, tip in ipairs(toolTips) do
       local score = tip.Score
@@ -892,7 +952,9 @@ function OnActivateIntelRelationshipPanel(relationshipInstance)
     local selectedCivName = ""
     -- HACK: This is completely faked in for now... Ultimately this list will need to be much smarter
     local playerConfig = PlayerConfigurations[ms_SelectedPlayer:GetID()]
-    if (playerConfig ~= nil) then selectedCivName = playerConfig:GetCivilizationDescription() end
+    if (playerConfig ~= nil) then
+      selectedCivName = playerConfig:GetCivilizationDescription()
+    end
 
     local advisorTextlower = "[COLOR_Grey]"
     advisorTextlower = advisorTextlower .. Locale.Lookup("LOC_DIPLOMACY_ADVISOR_OFFER")
@@ -906,7 +968,7 @@ function OnActivateIntelRelationshipPanel(relationshipInstance)
       advisorTextlower = advisorTextlower .. "[NEWLINE]"
     end
     if (not ms_LocalPlayer:GetDiplomacy():HasDelegationAt(ms_SelectedPlayer:GetID()) and
-        not ms_LocalPlayer:GetDiplomacy():HasEmbassyAt(ms_SelectedPlayer:GetID())) then
+      not ms_LocalPlayer:GetDiplomacy():HasEmbassyAt(ms_SelectedPlayer:GetID())) then
       advisorTextlower = advisorTextlower .. Locale.Lookup("LOC_DIPLOMACY_ADVISOR_DELEGATION_EMBASSY")
       advisorTextlower = advisorTextlower .. "[NEWLINE]"
     end
@@ -950,7 +1012,9 @@ function OnActivateIntelAccessLevelPanel(accessLevelInstance)
   for row in GameInfo.DiplomaticVisibilitySources() do
     if (localPlayerDiplomacy:IsVisibilitySourceActive(ms_SelectedPlayerID, row.Index)) then
       if (row.Description ~= nil) then
-        if (#accessContributionText > 0) then accessContributionText = accessContributionText .. "[NEWLINE]" end
+        if (#accessContributionText > 0) then
+          accessContributionText = accessContributionText .. "[NEWLINE]"
+        end
         accessContributionText = accessContributionText .. Locale.Lookup(row.Description)
       end
     end
@@ -974,7 +1038,9 @@ function OnActivateIntelAccessLevelPanel(accessLevelInstance)
   for row in GameInfo.Gossips() do
     if (row.VisibilityLevel == iAccessLevel) then
       if (row.Description ~= nil) then
-        if (iNumAdded > 0) then szInfoSharedText = szInfoSharedText .. "[NEWLINE]" end
+        if (iNumAdded > 0) then
+          szInfoSharedText = szInfoSharedText .. "[NEWLINE]"
+        end
         szInfoSharedText = szInfoSharedText .. "   " .. Locale.Lookup(row.Description)
         iNumAdded = iNumAdded + 1
       end
@@ -990,7 +1056,9 @@ function OnActivateIntelAccessLevelPanel(accessLevelInstance)
     for row in GameInfo.Gossips() do
       if (row.VisibilityLevel == iAccessLevel + 1) then
         if (row.Description ~= nil) then
-          if (iNumAdded > 0) then szNextAccessLevelText = szNextAccessLevelText .. "[NEWLINE]" end
+          if (iNumAdded > 0) then
+            szNextAccessLevelText = szNextAccessLevelText .. "[NEWLINE]"
+          end
           szNextAccessLevelText = szNextAccessLevelText .. "   " .. Locale.Lookup(row.Description)
           iNumAdded = iNumAdded + 1
         end
@@ -1006,7 +1074,9 @@ function OnActivateIntelAccessLevelPanel(accessLevelInstance)
     local advisorText = ""
     for row in GameInfo.DiplomaticVisibilitySources() do
       if (not localPlayerDiplomacy:IsVisibilitySourceActive(ms_SelectedPlayerID, row.Index)) then
-        if (row.ActionDescription ~= nil) then advisorText = advisorText .. Locale.Lookup(row.ActionDescription) .. "[NEWLINE]" end
+        if (row.ActionDescription ~= nil) then
+          advisorText = advisorText .. Locale.Lookup(row.ActionDescription) .. "[NEWLINE]"
+        end
       end
     end
 
@@ -1040,7 +1110,8 @@ function OnActivateIntelGossipHistoryPanel(gossipInstance)
 
   -- Only show the gossip generated in the last 100 turns.  Otherwise we can end up with a TON of gossip, and everything bogs down.
   local earliestTurn = iCurrentTurn - 100
-  local gossipStringTable = gossipManager:GetRecentVisibleGossipStrings(earliestTurn, ms_LocalPlayerID, ms_SelectedPlayerID)
+  local gossipStringTable = gossipManager:GetRecentVisibleGossipStrings(earliestTurn, ms_LocalPlayerID,
+                                                                        ms_SelectedPlayerID)
   for i, currTable in ipairs(gossipStringTable) do
 
     local gossipString = currTable[1]
@@ -1090,12 +1161,16 @@ end
 -- ===========================================================================
 function AutoSizeGrid(gridControl, labelControl, padding, minSize)
   local sizeY = labelControl:GetSizeY() + padding
-  if (sizeY < minSize) then sizeY = minSize end
+  if (sizeY < minSize) then
+    sizeY = minSize
+  end
   gridControl:SetSizeY(sizeY)
 end
 
 -- ===========================================================================
-function GetSelectedPlayerID() return ms_SelectedPlayerID end
+function GetSelectedPlayerID()
+  return ms_SelectedPlayerID
+end
 
 -- ===========================================================================
 function AddIntelPanel(rootControl)
@@ -1126,15 +1201,21 @@ function PopulateIntelPanels(tabContainer)
 
   -- Don't add this tab if the civ in question is human-controlled, it makes no sense
   local tPlayer = Players[ms_SelectedPlayerID]
-  if (tPlayer and not tPlayer:IsHuman()) then AddIntelRelationship() end
+  if (tPlayer and not tPlayer:IsHuman()) then
+    AddIntelRelationship()
+  end
 end
 
 -- ===========================================================================
-function CreateTabButton() return ms_IntelTabButtonIM:GetInstance(ms_IntelPanel.IntelTabButtonStack) end
+function CreateTabButton()
+  return ms_IntelTabButtonIM:GetInstance(ms_IntelPanel.IntelTabButtonStack)
+end
 
 -- ===========================================================================
 function SetIntelPanelHeader(header)
-  if ms_IntelPanel == nil then return end
+  if ms_IntelPanel == nil then
+    return
+  end
 
   ms_IntelPanel.IntelHeader:SetText(header)
 end
@@ -1147,7 +1228,9 @@ function AddIntelTab(tabPanelIM, buttonTooltip, headerText, buttonIcon)
 
   -- Create tab button
   local tabButtonInstance = ms_IntelTabButtonIM:GetInstance(ms_IntelPanel.IntelTabButtonStack)
-  tabButtonInstance.Button:RegisterCallback(Mouse.eLClick, function() ShowPanel(tabPanelInstance:GetTopControl()) end)
+  tabButtonInstance.Button:RegisterCallback(Mouse.eLClick, function()
+    ShowPanel(tabPanelInstance:GetTopControl())
+  end)
   tabButtonInstance.Button:SetToolTipString(buttonTooltip)
   tabButtonInstance.ButtonIcon:SetIcon(buttonIcon)
 
@@ -1172,7 +1255,9 @@ function AddIntelOverview()
 end
 
 -- ===========================================================================
-function AddIntelOverviewDivider(uiOverviewInst) ms_IntelOverviewDividerIM:GetInstance(uiOverviewInst.IntelOverviewStack) end
+function AddIntelOverviewDivider(uiOverviewInst)
+  ms_IntelOverviewDividerIM:GetInstance(uiOverviewInst.IntelOverviewStack)
+end
 
 -- ===========================================================================
 function PopulateIntelOverview(overviewInstance)
@@ -1199,10 +1284,14 @@ function PopulateIntelOverview(overviewInstance)
 end
 
 -- ===========================================================================
-function GetOverviewAnchor(parent) return ms_IntelOverviewAnchorIM:GetInstance(parent) end
+function GetOverviewAnchor(parent)
+  return ms_IntelOverviewAnchorIM:GetInstance(parent)
+end
 
 -- ===========================================================================
-function GetTabAnchor(parent) return ms_IntelTabAnchorIM:GetInstance(parent) end
+function GetTabAnchor(parent)
+  return ms_IntelTabAnchorIM:GetInstance(parent)
+end
 
 -- ===========================================================================
 function AddOverviewGossip(overviewInstance)
@@ -1211,9 +1300,11 @@ function AddOverviewGossip(overviewInstance)
 
   -- Determine if there is any gossip in the last two turns
   local gossipThisTurn = 0
-  local gossipStringTable = Game.GetGossipManager():GetRecentVisibleGossipStrings(Game.GetCurrentGameTurn() - 1, ms_LocalPlayerID,
-                                                                                  ms_SelectedPlayerID)
-  for i, gossip in pairs(gossipStringTable) do gossipThisTurn = gossipThisTurn + 1 end
+  local gossipStringTable = Game.GetGossipManager():GetRecentVisibleGossipStrings(Game.GetCurrentGameTurn() - 1,
+                                                                                  ms_LocalPlayerID, ms_SelectedPlayerID)
+  for i, gossip in pairs(gossipStringTable) do
+    gossipThisTurn = gossipThisTurn + 1
+  end
 
   if (gossipThisTurn > 0) then
     overviewGossipInst.GossipText:SetText(Locale.Lookup("LOC_DIPLOMACY_GOSSIP_ITEM_COUNT", gossipThisTurn))
@@ -1258,9 +1349,13 @@ function AddOverviewGovernment(overviewInstance)
   end
 end
 
-function GetIntelOverviewAgendas() return ms_IntelOverviewAgendasIM end
+function GetIntelOverviewAgendas()
+  return ms_IntelOverviewAgendasIM
+end
 
-function GetIntelOverviewAgendaEntries() return ms_IntelOverviewAgendaEntryIM end
+function GetIntelOverviewAgendaEntries()
+  return ms_IntelOverviewAgendaEntryIM
+end
 
 -- ===========================================================================
 function AddOverviewAgendas(overviewInstance)
@@ -1298,7 +1393,11 @@ function AddOverviewAgendas(overviewInstance)
     -- What randomly assigned agendas does the selected player have?
     -- Determine whether our Diplomatic Visibility allows us to see random agendas
     local bRevealRandom = false
-    for row in GameInfo.Visibilities() do if (row.Index <= iAccessLevel and row.RevealAgendas == true) then bRevealRandom = true end end
+    for row in GameInfo.Visibilities() do
+      if (row.Index <= iAccessLevel and row.RevealAgendas == true) then
+        bRevealRandom = true
+      end
+    end
     local kAgendaTypes = {}
     kAgendaTypes = ms_SelectedPlayer:GetAgendaTypes()
     -- GetAgendaTypes() returns ALL of my agendas, including the historical agenda.
@@ -1349,13 +1448,16 @@ function AddOverviewAgreements(overviewInstance)
     AddAgreementEntry(overviewAgreementsInst, "ICON_DIPLOACTION_DEFENSIVE_PACT", "LOC_DIPLO_MODIFIER_DEFENSIVE_PACT")
   end
   if (localPlayerDiplomacy:HasOpenBordersFrom(ms_SelectedPlayer:GetID())) then
-    AddAgreementEntry(overviewAgreementsInst, "ICON_DIPLOACTION_OPEN_BORDERS", "LOC_DIPLO_MODIFIER_RECEIVED_OPEN_BORDERS")
+    AddAgreementEntry(overviewAgreementsInst, "ICON_DIPLOACTION_OPEN_BORDERS",
+                      "LOC_DIPLO_MODIFIER_RECEIVED_OPEN_BORDERS")
   end
   if (ms_SelectedPlayer:GetDiplomacy():HasOpenBordersFrom(ms_LocalPlayer:GetID())) then
-    AddAgreementEntry(overviewAgreementsInst, "ICON_DIPLOACTION_GIVE_OPEN_BORDERS", "LOC_DIPLO_MODIFIER_GAVE_OPEN_BORDERS")
+    AddAgreementEntry(overviewAgreementsInst, "ICON_DIPLOACTION_GIVE_OPEN_BORDERS",
+                      "LOC_DIPLO_MODIFIER_GAVE_OPEN_BORDERS")
   end
   if (localPlayerDiplomacy:GetResearchAgreementTech(ms_SelectedPlayer:GetID()) ~= -1) then
-    AddAgreementEntry(overviewAgreementsInst, "ICON_DIPLOACTION_RESEARCH_AGREEMENT", "LOC_DIPLOACTION_RESEARCH_AGREEMENT_NAME")
+    AddAgreementEntry(overviewAgreementsInst, "ICON_DIPLOACTION_RESEARCH_AGREEMENT",
+                      "LOC_DIPLOACTION_RESEARCH_AGREEMENT_NAME")
   end
   if (localPlayerDiplomacy:IsFightingAnyJointWarWith(ms_SelectedPlayer:GetID())) then
     AddAgreementEntry(overviewAgreementsInst, "ICON_DIPLOACTION_JOINT_WAR", "LOC_DIPLOACTION_JOINT_WAR_NAME")
@@ -1396,8 +1498,9 @@ function AddOverviewOurRelationship(overviewInstance)
     local relationshipString = Locale.Lookup(GameInfo.DiplomaticStates[iState].Name)
     -- Add team name to relationship text for our own teams
     if Players[ms_LocalPlayerID]:GetTeam() == Players[ms_SelectedPlayerID]:GetTeam() then
-      relationshipString = "(" .. Locale.Lookup("LOC_WORLD_RANKINGS_TEAM", Players[ms_LocalPlayerID]:GetTeam()) .. ") " ..
-                               relationshipString
+      relationshipString =
+        "(" .. Locale.Lookup("LOC_WORLD_RANKINGS_TEAM", Players[ms_LocalPlayerID]:GetTeam()) .. ") " ..
+          relationshipString
     end
     overviewOurRelationshipInst.RelationshipText:SetText(relationshipString)
 
@@ -1410,33 +1513,40 @@ function AddOverviewOurRelationship(overviewInstance)
       local iTheirDenounceTurn = Players[ms_SelectedPlayerID]:GetDiplomacy():GetDenounceTurn(ms_LocalPlayerID)
       local iPlayerOrderAdjustment = 0
       if (iTheirDenounceTurn >= iOurDenounceTurn) then
-        if (ms_SelectedPlayerID > ms_LocalPlayerID) then iPlayerOrderAdjustment = 1 end
+        if (ms_SelectedPlayerID > ms_LocalPlayerID) then
+          iPlayerOrderAdjustment = 1
+        end
       else
-        if (ms_LocalPlayerID > ms_SelectedPlayerID) then iPlayerOrderAdjustment = 1 end
+        if (ms_LocalPlayerID > ms_SelectedPlayerID) then
+          iPlayerOrderAdjustment = 1
+        end
       end
       print("Adjustment: " .. tostring(iPlayerOrderAdjustment))
       if (iOurDenounceTurn >= iTheirDenounceTurn) then
-        iRemainingTurns = 1 + iOurDenounceTurn + Game.GetGameDiplomacy():GetDenounceTimeLimit() - Game.GetCurrentGameTurn() +
-                              iPlayerOrderAdjustment
+        iRemainingTurns = 1 + iOurDenounceTurn + Game.GetGameDiplomacy():GetDenounceTimeLimit() -
+                            Game.GetCurrentGameTurn() + iPlayerOrderAdjustment
         szDenounceTooltip = Locale.Lookup("LOC_DIPLOMACY_DENOUNCED_TOOLTIP",
                                           PlayerConfigurations[ms_LocalPlayerID]:GetCivilizationShortDescription(),
                                           PlayerConfigurations[ms_SelectedPlayerID]:GetCivilizationShortDescription())
       else
-        iRemainingTurns = 1 + iTheirDenounceTurn + Game.GetGameDiplomacy():GetDenounceTimeLimit() - Game.GetCurrentGameTurn() +
-                              iPlayerOrderAdjustment
+        iRemainingTurns = 1 + iTheirDenounceTurn + Game.GetGameDiplomacy():GetDenounceTimeLimit() -
+                            Game.GetCurrentGameTurn() + iPlayerOrderAdjustment
         szDenounceTooltip = Locale.Lookup("LOC_DIPLOMACY_DENOUNCED_TOOLTIP",
                                           PlayerConfigurations[ms_SelectedPlayerID]:GetCivilizationShortDescription(),
                                           PlayerConfigurations[ms_LocalPlayerID]:GetCivilizationShortDescription())
       end
-      szDenounceTooltip = szDenounceTooltip .. " [" .. Locale.Lookup("LOC_ESPIONAGEPOPUP_TURNS_REMAINING", iRemainingTurns) .. "]"
+      szDenounceTooltip = szDenounceTooltip .. " [" ..
+                            Locale.Lookup("LOC_ESPIONAGEPOPUP_TURNS_REMAINING", iRemainingTurns) .. "]"
       overviewOurRelationshipInst.RelationshipText:SetToolTipString(szDenounceTooltip)
     elseif (GameInfo.DiplomaticStates[iState].StateType == "DIPLO_STATE_DECLARED_FRIEND") then
       local szFriendTooltip
       local iFriendshipTurn = localPlayerDiplomacy:GetDeclaredFriendshipTurn(ms_SelectedPlayerID)
-      local iRemainingTurns = iFriendshipTurn + Game.GetGameDiplomacy():GetDenounceTimeLimit() - Game.GetCurrentGameTurn()
+      local iRemainingTurns = iFriendshipTurn + Game.GetGameDiplomacy():GetDenounceTimeLimit() -
+                                Game.GetCurrentGameTurn()
       szFriendTooltip = Locale.Lookup("LOC_DIPLOMACY_DECLARED_FRIENDSHIP_TOOLTIP",
                                       PlayerConfigurations[ms_LocalPlayerID]:GetCivilizationShortDescription(),
-                                      PlayerConfigurations[ms_SelectedPlayerID]:GetCivilizationShortDescription(), iRemainingTurns)
+                                      PlayerConfigurations[ms_SelectedPlayerID]:GetCivilizationShortDescription(),
+                                      iRemainingTurns)
       overviewOurRelationshipInst.RelationshipText:SetToolTipString(szFriendTooltip)
     else
       overviewOurRelationshipInst.RelationshipText:SetToolTipString(nil)
@@ -1450,7 +1560,8 @@ end
 -- ===========================================================================
 function AddOverviewOtherRelationships(overviewInstance)
   ms_IntelOverviewOtherRelationshipsIM:ResetInstances()
-  local overviewOtherRelationshipsInst = ms_IntelOverviewOtherRelationshipsIM:GetInstance(overviewInstance.IntelOverviewStack)
+  local overviewOtherRelationshipsInst = ms_IntelOverviewOtherRelationshipsIM:GetInstance(
+                                           overviewInstance.IntelOverviewStack)
 
   -- Set data for relationship area
   local pLocalPlayerDiplomacy = ms_LocalPlayer:GetDiplomacy()
@@ -1463,7 +1574,7 @@ function AddOverviewOtherRelationships(overviewInstance)
   for _, pPlayer in ipairs(aPlayers) do
     local playerID = pPlayer:GetID()
     if (pPlayer:IsMajor() and playerID ~= ms_LocalPlayerID and playerID ~= ms_SelectedPlayer:GetID() and
-        selectedPlayerDiplomacy:HasMet(playerID)) then
+      selectedPlayerDiplomacy:HasMet(playerID)) then
       local playerConfig = PlayerConfigurations[playerID]
       local leaderTypeName = playerConfig:GetLeaderTypeName()
       if (leaderTypeName ~= nil) then
@@ -1478,7 +1589,7 @@ function AddOverviewOtherRelationships(overviewInstance)
           local isHuman = not (ms_SelectedPlayer:IsAI() or pPlayer:IsAI())
           local relationType = kRelationship.StateType
           local isValid = (isHuman and Relationship.IsValidWithHuman(relationType)) or
-                              (not isHuman and Relationship.IsValidWithAI(relationType))
+                            (not isHuman and Relationship.IsValidWithAI(relationType))
           if isValid then
             relationshipIcon.Status:SetToolTipString(Locale.Lookup(kRelationship.Name))
             relationshipIcon.Status:SetVisState(iPlayerDiploState)
@@ -1536,34 +1647,47 @@ end
 
 -- ===========================================================================
 function AddIntelAccessLevel()
-  local accessLevelInstance = AddIntelTab(ms_IntelAccessLevelIM, Locale.Lookup("LOC_DIPLOMACY_INTEL_ACCESS_LEVEL_COLON_TOOLTIP"),
+  local accessLevelInstance = AddIntelTab(ms_IntelAccessLevelIM,
+                                          Locale.Lookup("LOC_DIPLOMACY_INTEL_ACCESS_LEVEL_COLON_TOOLTIP"),
                                           Locale.ToUpper("LOC_DIPLOMACY_INTEL_REPORT_ACCESS_LEVEL"), "ICON_ACCESS_LEVEL")
   OnActivateIntelAccessLevelPanel(accessLevelInstance)
 end
 
 -- ===========================================================================
 function AddIntelRelationship()
-  local relationshipInstance = AddIntelTab(ms_IntelRelationshipIM, Locale.Lookup("LOC_DIPLOMACY_INTEL_OUR_RELATIONSHIP_TOOLTIP"),
-                                           Locale.ToUpper("LOC_DIPLOMACY_INTEL_REPORT_RELATIONSHIP"), "ICON_RELATIONSHIP")
+  local relationshipInstance = AddIntelTab(ms_IntelRelationshipIM,
+                                           Locale.Lookup("LOC_DIPLOMACY_INTEL_OUR_RELATIONSHIP_TOOLTIP"),
+                                           Locale.ToUpper("LOC_DIPLOMACY_INTEL_REPORT_RELATIONSHIP"),
+                                           "ICON_RELATIONSHIP")
   OnActivateIntelRelationshipPanel(relationshipInstance)
 end
 
 -- ===========================================================================
 function ShowOverviewPanel()
   local overviewInstance = ms_IntelOverviewIM:GetAllocatedInstance()
-  if overviewInstance ~= nil then ShowPanel(overviewInstance:GetTopControl()) end
+  if overviewInstance ~= nil then
+    ShowPanel(overviewInstance:GetTopControl())
+  end
 end
 
 -- ===========================================================================
 function ShowPanel(panelInstance)
-  if ms_IntelPanel == nil then return end
+  if ms_IntelPanel == nil then
+    return
+  end
 
   -- Show panel
-  if panelInstance then panelInstance:SetHide(false) end
+  if panelInstance then
+    panelInstance:SetHide(false)
+  end
 
   -- Hide other panels
   local intelPanelList = ms_IntelPanel.IntelPanelContainer:GetChildren()
-  for i, child in ipairs(intelPanelList) do if child ~= panelInstance then child:SetHide(true) end end
+  for i, child in ipairs(intelPanelList) do
+    if child ~= panelInstance then
+      child:SetHide(true)
+    end
+  end
 
   -- Selected passed in tab button and deselect all others
   if panelInstance.m_ButtonInstance ~= nil then
@@ -1580,7 +1704,9 @@ function ShowPanel(panelInstance)
   end
 
   -- Update intel panel header
-  if panelInstance.m_HeaderText then ms_IntelPanel.IntelHeader:SetText(panelInstance.m_HeaderText) end
+  if panelInstance.m_HeaderText then
+    ms_IntelPanel.IntelHeader:SetText(panelInstance.m_HeaderText)
+  end
 
   -- Recalculate scroll panel for container
   ms_IntelPanel.IntelPanelContainer:CalculateSize()
@@ -1634,7 +1760,8 @@ function PopulatePlayerPanelHeader(rootControl, player)
       -- Set the leader name
       local leaderDesc = playerConfig:GetLeaderName()
       rootControl.PlayerNameText:LocalizeAndSetText(Locale.ToUpper(Locale.Lookup(leaderDesc)))
-      rootControl.CivNameText:LocalizeAndSetText(Locale.ToUpper(Locale.Lookup(playerConfig:GetCivilizationDescription())))
+      rootControl.CivNameText:LocalizeAndSetText(
+        Locale.ToUpper(Locale.Lookup(playerConfig:GetCivilizationDescription())))
     end
   end
 end
@@ -1654,7 +1781,9 @@ function PopulateLeader(leaderIcon, player, isUniqueLeader)
 
         -- Configure button
         leaderIcon.Controls.SelectButton:SetVoid1(playerID)
-        leaderIcon:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+        leaderIcon:RegisterCallback(Mouse.eMouseEnter, function()
+          UI.PlaySound("Main_Menu_Mouse_Over")
+        end)
         leaderIcon:RegisterCallback(Mouse.eLClick, OnPlayerSelected)
 
         -- The selection background
@@ -1701,10 +1830,16 @@ end
 
 -- ===========================================================================
 function SelectPlayer(playerID, mode, refresh, allowDeadPlayer)
-  if (mode == nil) then mode = ms_currentViewMode end
-  if (refresh == nil) then refresh = false end
+  if (mode == nil) then
+    mode = ms_currentViewMode
+  end
+  if (refresh == nil) then
+    refresh = false
+  end
 
-  if (allowDeadPlayer == nil) then allowDeadPlayer = false end
+  if (allowDeadPlayer == nil) then
+    allowDeadPlayer = false
+  end
 
   local isDifferentPlayer = false
   if (ms_SelectedPlayerID ~= playerID or mode ~= ms_currentViewMode or refresh == true) then
@@ -1714,10 +1849,16 @@ function SelectPlayer(playerID, mode, refresh, allowDeadPlayer)
     -- Deselect them in the ribbon
     if (ms_SelectedPlayerID ~= -1) then
       local ribbonEntry = ms_LeaderIDToRibbonEntry[ms_SelectedPlayerID]
-      if (ribbonEntry ~= nil) then ribbonEntry.SelectedBackground:SetHide(true) end
+      if (ribbonEntry ~= nil) then
+        ribbonEntry.SelectedBackground:SetHide(true)
+      end
     end
 
-    if (m_firstOpened == false) then if (ms_SelectedPlayerID == playerID) then isDifferentPlayer = false end end
+    if (m_firstOpened == false) then
+      if (ms_SelectedPlayerID == playerID) then
+        isDifferentPlayer = false
+      end
+    end
     ms_SelectedPlayerID = playerID
     UpdateSelectedPlayer(allowDeadPlayer) -- Make sure it is valid
 
@@ -1768,7 +1909,9 @@ function SelectPlayer(playerID, mode, refresh, allowDeadPlayer)
       ShowLeader(ms_SelectedPlayer)
     end
   end
-  if (isDifferentPlayer and ms_SelectedPlayerID ~= ms_LocalPlayerID) then LuaEvents.DiploScene_LeaderSelect(playerID) end
+  if (isDifferentPlayer and ms_SelectedPlayerID ~= ms_LocalPlayerID) then
+    LuaEvents.DiploScene_LeaderSelect(playerID)
+  end
   m_firstOpened = false
   local w, h = UIManager:GetScreenSizeVal()
   -- Set up special display if the player is YOU
@@ -1814,9 +1957,15 @@ function SetUniqueCivLeaderData()
   local CivUniqueAbilities, CivUniqueUnits, CivUniqueBuildings = GetCivilizationUniqueTraits(civType, true)
 
   -- Merge tables
-  for i, v in ipairs(CivUniqueAbilities) do table.insert(uniqueAbilities, v) end
-  for i, v in ipairs(CivUniqueUnits) do table.insert(uniqueUnits, v) end
-  for i, v in ipairs(CivUniqueBuildings) do table.insert(uniqueBuildings, v) end
+  for i, v in ipairs(CivUniqueAbilities) do
+    table.insert(uniqueAbilities, v)
+  end
+  for i, v in ipairs(CivUniqueUnits) do
+    table.insert(uniqueUnits, v)
+  end
+  for i, v in ipairs(CivUniqueBuildings) do
+    table.insert(uniqueBuildings, v)
+  end
 
   -- Generate content (as long as name is not "NONE")
   for _, item in ipairs(uniqueAbilities) do
@@ -1858,7 +2007,8 @@ function SetUniqueCivLeaderData()
 end
 -- ===========================================================================
 function OnPlayerSelected(playerID)
-  if (HasCapability("CAPABILITY_DIPLOMACY") or (playerID == Game.GetLocalPlayer() and HasCapability("CAPABILITY_DIPLOMACY_VIEW_SELF"))) then
+  if (HasCapability("CAPABILITY_DIPLOMACY") or
+    (playerID == Game.GetLocalPlayer() and HasCapability("CAPABILITY_DIPLOMACY_VIEW_SELF"))) then
     ResetPlayerPanel()
     SelectPlayer(playerID)
   end
@@ -1900,7 +2050,9 @@ function PopulateDiplomacyRibbon(diplomacyRibbon)
     -- Add entries for everyone we know (Majors only)
     local aPlayers = PlayerManager.GetAliveMajors()
     -- CUI sort by met time
-    table.sort(aPlayers, function(a, b) return pLocalPlayerDiplomacy:GetMetTurn(a:GetID()) < pLocalPlayerDiplomacy:GetMetTurn(b:GetID()) end)
+    table.sort(aPlayers, function(a, b)
+      return pLocalPlayerDiplomacy:GetMetTurn(a:GetID()) < pLocalPlayerDiplomacy:GetMetTurn(b:GetID())
+    end)
     --
     for _, pPlayer in ipairs(aPlayers) do
       if (pPlayer:GetID() ~= ms_LocalPlayerID and pLocalPlayerDiplomacy:HasMet(pPlayer:GetID())) then
@@ -1923,7 +2075,9 @@ function PopulateDiplomacyRibbon(diplomacyRibbon)
     diplomacyRibbon.LeaderRibbonScroll:CalculateSize()
 
     -- Offset the diplomacy ribbon to accomodate the scrollbar if not all the leaders fit
-    if (diplomacyRibbon.Leaders:GetSizeY() > diplomacyRibbon.LeaderRibbonScroll:GetSizeY()) then diplomacyRibbon.Root:SetOffsetX(15) end
+    if (diplomacyRibbon.Leaders:GetSizeY() > diplomacyRibbon.LeaderRibbonScroll:GetSizeY()) then
+      diplomacyRibbon.Root:SetOffsetX(15)
+    end
     local offsetX = DIPLOMACY_RIBBON_OFFSET + diplomacyRibbon.Root:GetOffsetX()
     Controls.PlayerContainer:SetOffsetX(offsetX)
     Controls.NameFade:SetOffsetX(offsetX)
@@ -2046,7 +2200,9 @@ function UninitializeView()
 
   ContextPtr:SetHide(true)
 
-  if (LeaderSupport_IsLeaderVisible() or ms_bLeaderShowRequested) then Events.HideLeaderScreen() end
+  if (LeaderSupport_IsLeaderVisible() or ms_bLeaderShowRequested) then
+    Events.HideLeaderScreen()
+  end
 
   ms_LastDealResponseAnimation = nil
   ms_bLeaderShowRequested = false
@@ -2097,7 +2253,8 @@ end
 
 function OnOpenDiplomacyActionView(otherPlayerID)
 
-  if (HasCapability("CAPABILITY_DIPLOMACY") or (otherPlayerID == Game.GetLocalPlayer() and HasCapability("CAPABILITY_DIPLOMACY_VIEW_SELF"))) then
+  if (HasCapability("CAPABILITY_DIPLOMACY") or
+    (otherPlayerID == Game.GetLocalPlayer() and HasCapability("CAPABILITY_DIPLOMACY_VIEW_SELF"))) then
 
     if (otherPlayerID ~= nil) then
       ms_OtherPlayerID = otherPlayerID
@@ -2133,7 +2290,9 @@ end
 function OnLeaderAnimationComplete(animationName)
 
   -- Getting this a little late?
-  if (not ms_bIsViewInitialized) then return end
+  if (not ms_bIsViewInitialized) then
+    return
+  end
 
   LeaderSupport_UpdateAnimationQueue()
   for _, voiceoverAnimationName in ipairs(VOICEOVER_SUPPORT) do
@@ -2242,7 +2401,9 @@ function OnLeaderLoaded()
   ms_bLeaderShowRequested = false
 
   -- Getting this a little late?
-  if (not ms_bIsViewInitialized) then return end
+  if (not ms_bIsViewInitialized) then
+    return
+  end
 
   LeaderSupport_OnLeaderLoaded()
   local bDoAudio = false
@@ -2270,7 +2431,9 @@ function OnLeaderLoaded()
   end
 
   -- if the leader is different, change up the audio (TTP #33136)
-  if (m_lastLeaderPlayedMusicFor ~= ms_OtherLeaderID) then bDoAudio = true end
+  if (m_lastLeaderPlayedMusicFor ~= ms_OtherLeaderID) then
+    bDoAudio = true
+  end
 
   if (bDoAudio == true) then
     -- stop possible sources of interference
@@ -2280,7 +2443,9 @@ function OnLeaderLoaded()
     UI.PlaySound("Stop_Speech_NaturalWonders")
 
     -- if the local player civ is unknown, pause any music the mod may be supplying
-    if (UI.GetCivilizationSoundSwitchValueByLeader(ms_LocalPlayerLeaderID) == -1) then UI.PauseModCivMusic() end
+    if (UI.GetCivilizationSoundSwitchValueByLeader(ms_LocalPlayerLeaderID) == -1) then
+      UI.PauseModCivMusic()
+    end
 
     -- if leader IDs don't match
     if (m_lastLeaderPlayedMusicFor ~= ms_OtherLeaderID) then
@@ -2304,9 +2469,10 @@ function OnLeaderLoaded()
       else
         -- and Wwise IDs don't match
         if (UI.GetCivilizationSoundSwitchValueByLeader(m_lastLeaderPlayedMusicFor) ~=
-            UI.GetCivilizationSoundSwitchValueByLeader(ms_OtherLeaderID)) then
+          UI.GetCivilizationSoundSwitchValueByLeader(ms_OtherLeaderID)) then
           -- if new leader is also a modder civ, take care of that
-          UI.SetSoundSwitchValue("LEADER_SCREEN_CIVILIZATION", UI.GetCivilizationSoundSwitchValueByLeader(ms_OtherLeaderID))
+          UI.SetSoundSwitchValue("LEADER_SCREEN_CIVILIZATION",
+                                 UI.GetCivilizationSoundSwitchValueByLeader(ms_OtherLeaderID))
           UI.SetSoundSwitchValue("Game_Location", UI.GetNormalEraSoundSwitchValue(ms_OtherID))
           UI.PlaySound("Play_Leader_Music")
           m_lastLeaderPlayedMusicFor = ms_OtherLeaderID
@@ -2320,7 +2486,9 @@ end
 -- ===========================================================================
 function GetStatementHandler(statementTypeName)
   local handler = StatementHandlers[statementTypeName]
-  if (handler == nil) then handler = DefaultHandlers end
+  if (handler == nil) then
+    handler = DefaultHandlers
+  end
   return handler
 end
 
@@ -2328,7 +2496,7 @@ end
 function OnDiplomacyMakePeace(eActingPlayer, eReactingPlayer)
   local localPlayer = Game.GetLocalPlayer()
   if (ms_SelectedPlayerID ~= -1 and (localPlayer == eActingPlayer or localPlayer == eReactingPlayer) and
-      (ms_SelectedPlayerID == eActingPlayer or ms_SelectedPlayerID == eReactingPlayer)) then
+    (ms_SelectedPlayerID == eActingPlayer or ms_SelectedPlayerID == eReactingPlayer)) then
     -- The local player just made peace with the selected player, refresh the player panel so the options are updated.
     PopulatePlayerPanelHeader(ms_PlayerPanel, ms_SelectedPlayer)
     PopulatePlayerPanel(ms_PlayerPanel, ms_SelectedPlayer)
@@ -2341,7 +2509,9 @@ function HasNextQueuedSession(sessionID)
 
     if (ms_InitiatedByPlayerID == ms_OtherPlayerID) then
       -- The other player initiated contact, just exit
-      if (DiplomacyManager.HasQueuedSession(ms_LocalPlayerID)) then return true end
+      if (DiplomacyManager.HasQueuedSession(ms_LocalPlayerID)) then
+        return true
+      end
     end
   end
 
@@ -2418,9 +2588,10 @@ DefaultHandlers = StatementHandlers["DEFAULT"]
 function MakeDeal_ApplyStatement(handler, statementTypeName, statementSubTypeName, toPlayer, kStatement)
 
   -- Initial statement or the ackknowledgement of the initial statement?
-  if ((kStatement.DealAction == DealProposalAction.ADJUSTED and not ms_bShowingDeal) or (statementSubTypeName == "NONE" and
-      (kStatement.ResponseType == DiplomacyResponseTypes.INITIAL or kStatement.ResponseType == DiplomacyResponseTypes.ACKNOWLEDGE or
-          not ms_bShowingDeal))) then
+  if ((kStatement.DealAction == DealProposalAction.ADJUSTED and not ms_bShowingDeal) or
+    (statementSubTypeName == "NONE" and
+      (kStatement.ResponseType == DiplomacyResponseTypes.INITIAL or kStatement.ResponseType ==
+        DiplomacyResponseTypes.ACKNOWLEDGE or not ms_bShowingDeal))) then
 
     ApplyStatement(handler, statementTypeName, statementSubTypeName, toPlayer, kStatement)
     -- Need to hide anything on this screen, except the background
@@ -2432,9 +2603,9 @@ function MakeDeal_ApplyStatement(handler, statementTypeName, statementSubTypeNam
     UI.PlaySound("UI_Diplomacy_Menu_Change")
 
   elseif (kStatement.RespondingToDealAction ~= DealProposalAction.EQUALIZE and kStatement.RespondingToDealAction ~=
-      DealProposalAction.INSPECT and
-      (statementSubTypeName == "HUMAN_ACCEPT_DEAL" or statementSubTypeName == "HUMAN_REFUSE_DEAL" or statementSubTypeName ==
-          "AI_ACCEPT_DEAL" or statementSubTypeName == "AI_REFUSE_DEAL")) then
+    DealProposalAction.INSPECT and
+    (statementSubTypeName == "HUMAN_ACCEPT_DEAL" or statementSubTypeName == "HUMAN_REFUSE_DEAL" or statementSubTypeName ==
+      "AI_ACCEPT_DEAL" or statementSubTypeName == "AI_REFUSE_DEAL")) then
     -- Coming back from the deal screen
     LuaEvents.DiploPopup_HideDeal()
     ms_bShowingDeal = false
@@ -2445,7 +2616,9 @@ function MakeDeal_ApplyStatement(handler, statementTypeName, statementSubTypeNam
         DiplomacyManager.CloseSession(ms_ActiveSessionID)
       else
         Controls.ConversationContainer:SetHide(false)
-        if (ms_currentViewMode ~= CONVERSATION_MODE) then SetConversationMode(ms_SelectedPlayer) end
+        if (ms_currentViewMode ~= CONVERSATION_MODE) then
+          SetConversationMode(ms_SelectedPlayer)
+        end
 
         ApplyStatement(handler, statementTypeName, statementSubTypeName, toPlayer, kStatement)
       end
@@ -2458,14 +2631,14 @@ function MakeDeal_ApplyStatement(handler, statementTypeName, statementSubTypeNam
     -- Other actions just update the deal action.  This is especially true from the AI.  The AI will send, ACCEPT, REJECT, etc.
     -- as the automatic evaluation of the deal occurs.
     local eFromPlayerMood = GetStatementMood(kStatement.FromPlayer, kStatement.FromPlayerMood)
-    local kParsedStatement = handler.ExtractStatement(handler, statementTypeName, statementSubTypeName, kStatement.FromPlayer,
-                                                      eFromPlayerMood, kStatement.Initiator)
+    local kParsedStatement = handler.ExtractStatement(handler, statementTypeName, statementSubTypeName,
+                                                      kStatement.FromPlayer, eFromPlayerMood, kStatement.Initiator)
 
     if (kParsedStatement.LeaderAnimation ~= nil) then
       local bPlay = true
       -- Was the a response for an EQUALIZE/INSPECT?
       if (kStatement.RespondingToDealAction == DealProposalAction.EQUALIZE or kStatement.RespondingToDealAction ==
-          DealProposalAction.INSPECT) then
+        DealProposalAction.INSPECT) then
         -- We don't want to repeat the last animation
         if (ms_LastDealResponseAnimation ~= nil and kParsedStatement.LeaderAnimation == ms_LastDealResponseAnimation) then
           bPlay = false
@@ -2479,8 +2652,8 @@ function MakeDeal_ApplyStatement(handler, statementTypeName, statementSubTypeNam
 
     end
 
-    local leaderstr = Locale.Lookup(DiplomacyManager.FindTextKey(kParsedStatement.StatementText, kStatement.FromPlayer, kStatement.FromMood,
-                                                                 toPlayer))
+    local leaderstr = Locale.Lookup(DiplomacyManager.FindTextKey(kParsedStatement.StatementText, kStatement.FromPlayer,
+                                                                 kStatement.FromMood, toPlayer))
     LuaEvents.DiploPopup_DealUpdated(ms_OtherPlayerID, kStatement.DealAction, leaderstr)
   end
 end
@@ -2512,8 +2685,8 @@ function MakeDemand_ApplyStatement(handler, statementTypeName, statementSubTypeN
   ms_currentViewMode = DEAL_MODE
 
   if (statementSubTypeName == "NONE" and
-      (kStatement.ResponseType == DiplomacyResponseTypes.INITIAL or kStatement.ResponseType == DiplomacyResponseTypes.ACKNOWLEDGE or
-          not ms_bShowingDeal)) then
+    (kStatement.ResponseType == DiplomacyResponseTypes.INITIAL or kStatement.ResponseType ==
+      DiplomacyResponseTypes.ACKNOWLEDGE or not ms_bShowingDeal)) then
 
     ApplyStatement(handler, statementTypeName, statementSubTypeName, toPlayer, kStatement)
 
@@ -2524,8 +2697,8 @@ function MakeDemand_ApplyStatement(handler, statementTypeName, statementSubTypeN
     LuaEvents.DiploPopup_ShowMakeDemand(ms_OtherPlayerID)
     ms_bShowingDeal = true
     UI.PlaySound("UI_Diplomacy_Menu_Change")
-  elseif (statementSubTypeName == "HUMAN_ACCEPT_DEAL" or statementSubTypeName == "HUMAN_REFUSE_DEAL" or statementSubTypeName ==
-      "AI_ACCEPT_DEAL" or statementSubTypeName == "AI_REFUSE_DEAL") then
+  elseif (statementSubTypeName == "HUMAN_ACCEPT_DEAL" or statementSubTypeName == "HUMAN_REFUSE_DEAL" or
+    statementSubTypeName == "AI_ACCEPT_DEAL" or statementSubTypeName == "AI_REFUSE_DEAL") then
 
     LuaEvents.DiploPopup_HideDeal()
     ms_bShowingDeal = false
@@ -2536,7 +2709,9 @@ function MakeDemand_ApplyStatement(handler, statementTypeName, statementSubTypeN
         DiplomacyManager.CloseSession(ms_ActiveSessionID)
       else
         Controls.ConversationContainer:SetHide(false)
-        if (ms_currentViewMode ~= CONVERSATION_MODE) then SetConversationMode(ms_SelectedPlayer) end
+        if (ms_currentViewMode ~= CONVERSATION_MODE) then
+          SetConversationMode(ms_SelectedPlayer)
+        end
 
         ApplyStatement(handler, statementTypeName, statementSubTypeName, toPlayer, kStatement)
       end
@@ -2552,7 +2727,9 @@ SetDefaultHandlers("MAKE_DEMAND")
 StatementHandlers["MAKE_DEMAND"].ApplyStatement = MakeDemand_ApplyStatement
 
 -- ===========================================================================
-function OnTalkToLeader(playerID) OnOpenDiplomacyActionView(playerID) end
+function OnTalkToLeader(playerID)
+  OnOpenDiplomacyActionView(playerID)
+end
 
 -- ===========================================================================
 --	Will close whatever has focus; if this is a conversation or dialog they
@@ -2565,13 +2742,17 @@ function CloseFocusedState()
   end
   if (ms_currentViewMode == CONVERSATION_MODE) then
     if (ms_ActiveSessionID ~= nil) then
-      if (Controls.BlackFadeAnim:IsStopped()) then ExitConversationMode() end
+      if (Controls.BlackFadeAnim:IsStopped()) then
+        ExitConversationMode()
+      end
     else
       Close()
     end
   elseif (ms_currentViewMode == CINEMA_MODE) then
     UI.PlaySound("Stop_Leader_Speech")
-    if (Controls.BlackFadeAnim:IsStopped()) then StartFadeOut() end
+    if (Controls.BlackFadeAnim:IsStopped()) then
+      StartFadeOut()
+    end
   elseif (ms_currentViewMode == DEAL_MODE) then
     -- No handling ESC while transitioning to/from deal mode.  The deal screen will handle it if it is up.
   else
@@ -2580,7 +2761,11 @@ function CloseFocusedState()
 end
 
 -- ===========================================================================
-function HandleRMB() if (ms_currentViewMode == CINEMA_MODE and Controls.BlackFadeAnim:IsStopped()) then CloseFocusedState() end end
+function HandleRMB()
+  if (ms_currentViewMode == CINEMA_MODE and Controls.BlackFadeAnim:IsStopped()) then
+    CloseFocusedState()
+  end
+end
 
 -- ===========================================================================
 --	INPUT Handling
@@ -2597,7 +2782,9 @@ end
 -- ===========================================================================
 function OnInputHandler(pInputStruct)
   local uiMsg = pInputStruct:GetMessageType()
-  if uiMsg == KeyEvents.KeyUp then return KeyHandler(pInputStruct:GetKey()) end
+  if uiMsg == KeyEvents.KeyUp then
+    return KeyHandler(pInputStruct:GetKey())
+  end
 
   return false
 end
@@ -2659,8 +2846,8 @@ function OnDiplomacyStatement(fromPlayer, toPlayer, kVariants)
         if UI.IsPlayersLeaderAnimated(ms_OtherPlayerID) then
           -- If this is a voiced-over animation, then set the voiceover text and SWITCH TO CINEMA MODE
           local eFromPlayerMood = GetStatementMood(kVariants.FromPlayer, kVariants.FromPlayerMood)
-          local kParsedStatement = handler.ExtractStatement(handler, statementTypeName, statementSubTypeName, kVariants.FromPlayer,
-                                                            eFromPlayerMood, kVariants.Initiator)
+          local kParsedStatement = handler.ExtractStatement(handler, statementTypeName, statementSubTypeName,
+                                                            kVariants.FromPlayer, eFromPlayerMood, kVariants.Initiator)
           for _, voiceoverAnimationName in ipairs(VOICEOVER_SUPPORT) do
             if (voiceoverAnimationName == kParsedStatement.LeaderAnimation) then
               viewMode = CINEMA_MODE
@@ -2685,7 +2872,9 @@ end
 -- ===========================================================================
 function ResetPlayerPanel()
   -- Reset the state of the nested menus
-  if (ms_PlayerPanel ~= nil) then ShowOptionStack(false) end
+  if (ms_PlayerPanel ~= nil) then
+    ShowOptionStack(false)
+  end
 end
 
 -- ===========================================================================
@@ -2707,7 +2896,9 @@ function Close()
   ResetPlayerPanel()
 
   local localPlayer = Game.GetLocalPlayer()
-  if ms_LocalPlayer then UI.SetSoundSwitchValue("Game_Location", UI.GetNormalEraSoundSwitchValue(ms_LocalPlayer:GetID())) end
+  if ms_LocalPlayer then
+    UI.SetSoundSwitchValue("Game_Location", UI.GetNormalEraSoundSwitchValue(ms_LocalPlayer:GetID()))
+  end
 
   -- always Stop_Leader_Music to resume the game music properly...
   UI.PlaySound("Stop_Leader_Music")
@@ -2732,7 +2923,9 @@ function Close()
 
   -- Don't attempt to change bulk hide state if exit wasn't clean; the
   -- game may just be exiting and this screen was never raised.
-  if isCleanExit then LuaEvents.DiplomacyActionView_ShowIngameUI() end
+  if isCleanExit then
+    LuaEvents.DiplomacyActionView_ShowIngameUI()
+  end
 end
 
 -- ===========================================================================
@@ -2822,7 +3015,9 @@ end
 -- ===========================================================================
 function OnLocalPlayerTurnBegin()
   g_bIsLocalPlayerTurn = true
-  if (not ContextPtr:IsHidden()) then OnForceClose() end
+  if (not ContextPtr:IsHidden()) then
+    OnForceClose()
+  end
 end
 
 -- ===========================================================================
@@ -2830,7 +3025,9 @@ function OnPlayerDefeat(player, defeat, eventID)
   local localPlayer = Game.GetLocalPlayer()
   if (localPlayer and localPlayer >= 0) then -- Check to see if there is any local player
     -- Was it the local player?
-    if (localPlayer == player) then Close() end
+    if (localPlayer == player) then
+      Close()
+    end
   end
 end
 
@@ -2844,7 +3041,9 @@ function OnTeamVictory(team, victory, eventID)
 end
 
 -- ===========================================================================
-function OnBlockingPopupShown() OnForceClose() end
+function OnBlockingPopupShown()
+  OnForceClose()
+end
 
 -- ===========================================================================
 --	Engine Event
@@ -2863,7 +3062,9 @@ end
 -- ===========================================================================
 --	UI Callback
 -- ===========================================================================
-function OnQuitYes() Events.UserConfirmedClose() end
+function OnQuitYes()
+  Events.UserConfirmedClose()
+end
 
 -- ===========================================================================
 --	HOTLOADING UI EVENTS
@@ -2871,7 +3072,9 @@ function OnQuitYes() Events.UserConfirmedClose() end
 function OnInit(isHotload)
   LateInitialize()
   CreatePanels()
-  if isHotload and not ContextPtr:IsHidden() then LuaEvents.GameDebug_GetValues("DiplomacyActionView") end
+  if isHotload and not ContextPtr:IsHidden() then
+    LuaEvents.GameDebug_GetValues("DiplomacyActionView")
+  end
 end
 
 --	Context DESTRUCTOR - Not called when screen is dismissed, only if the whole context is removed!
@@ -2922,7 +3125,9 @@ function LateInitialize()
   LuaEvents.DiplomacyActionView_OpenLite.Add(OnOpenDiplomacyActionViewLite)
 
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClose)
-  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   -- Size controls for screen:
   local screenX, screenY = UIManager:GetScreenSizeVal()
@@ -2944,4 +3149,6 @@ function Initialize()
   LuaEvents.GameDebug_Return.Add(OnGameDebugReturn)
 end
 
-if GameCapabilities.HasCapability("CAPABILITY_DIPLOMACY") then Initialize() end
+if GameCapabilities.HasCapability("CAPABILITY_DIPLOMACY") then
+  Initialize()
+end

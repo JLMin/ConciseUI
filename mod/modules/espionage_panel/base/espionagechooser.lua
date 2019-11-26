@@ -188,7 +188,9 @@ function RefreshDestinationList()
   local players = Game.GetPlayers()
   for i, player in ipairs(players) do
     -- Only show full civs
-    if CuiCivCheck(player) then table.insert(cui_playerList, player) end
+    if CuiCivCheck(player) then
+      table.insert(cui_playerList, player)
+    end
   end
 
   cui_filteredCivs = {}
@@ -196,10 +198,14 @@ function RefreshDestinationList()
   if cui_filterList[cui_filterSelected].FilterFunction ~= nil then
     cui_filterList[cui_filterSelected].FilterFunction()
   else
-    for _, player in ipairs(cui_playerList) do table.insert(cui_filteredCivs, player) end
+    for _, player in ipairs(cui_playerList) do
+      table.insert(cui_filteredCivs, player)
+    end
   end
 
-  for _, player in ipairs(cui_filteredCivs) do AddPlayerCities(player) end
+  for _, player in ipairs(cui_filteredCivs) do
+    AddPlayerCities(player)
+  end
 
   Controls.DestinationPanel:CalculateInternalSize()
 end
@@ -220,7 +226,9 @@ function RefreshMissionList()
         local canStart, results = UnitManager.CanStartOperation(m_spy, operation.Hash, cityPlot, false, true)
         if canStart then
           -- Check the CanStartOperation results for a target district plot
-          for i, districtPlotID in ipairs(results[UnitOperationResults.PLOTS]) do AddCounterspyOperation(operation, districtPlotID) end
+          for i, districtPlotID in ipairs(results[UnitOperationResults.PLOTS]) do
+            AddCounterspyOperation(operation, districtPlotID)
+          end
         end
       end
     end
@@ -258,7 +266,8 @@ function AddCounterspyOperation(operation, districtPlotID)
 
       -- Update mission info
       missionInstance.MissionName:SetText(Locale.Lookup(operation.Description))
-      missionInstance.MissionDetails:SetText(Locale.Lookup("LOC_ESPIONAGECHOOSER_COUNTERSPY", Locale.Lookup(districtInfo.Name)))
+      missionInstance.MissionDetails:SetText(Locale.Lookup("LOC_ESPIONAGECHOOSER_COUNTERSPY",
+                                                           Locale.Lookup(districtInfo.Name)))
       missionInstance.MissionDetails:SetColorByName("White")
 
       -- Update mission icon
@@ -269,7 +278,9 @@ function AddCounterspyOperation(operation, districtPlotID)
 
       -- If this is the mission choose set callback to open up mission briefing
       if m_currentChooserMode == EspionageChooserModes.MISSION_CHOOSER then
-        missionInstance.MissionButton:RegisterCallback(Mouse.eLClick, function() OnCounterspySelected(districtPlot) end)
+        missionInstance.MissionButton:RegisterCallback(Mouse.eLClick, function()
+          OnCounterspySelected(districtPlot)
+        end)
       end
     end
   end
@@ -355,7 +366,9 @@ function AddAvailableOffensiveOperation(operation, result, targetCityPlot)
 
   -- If this is the mission choose set callback to open up mission briefing
   if m_currentChooserMode == EspionageChooserModes.MISSION_CHOOSER then
-    missionInstance.MissionButton:RegisterCallback(Mouse.eLClick, function() OnMissionSelected(operation, missionInstance) end)
+    missionInstance.MissionButton:RegisterCallback(Mouse.eLClick, function()
+      OnMissionSelected(operation, missionInstance)
+    end)
   end
 
   -- While in DESTINATION_CHOOSER mode we don't want the buttons to act
@@ -384,7 +397,9 @@ function OnMissionSelected(operation, instance)
   -- Hide all selection borders before selecting another
   for i = 1, m_MissionStackIM.m_iCount, 1 do
     local otherInstances = m_MissionStackIM:GetAllocatedInstance(i)
-    if otherInstances then otherInstances.SelectorBrace:SetColor(UI.GetColorValue("COLOR_CLEAR")) end
+    if otherInstances then
+      otherInstances.SelectorBrace:SetColor(UI.GetColorValue("COLOR_CLEAR"))
+    end
   end
 
   -- Show selected border over instance
@@ -411,7 +426,8 @@ function UpdateCityBanner(city)
     Controls.TravelTimeStack:SetHide(false)
 
     -- Update travel time tool tip string
-    Controls.BannerBase:SetToolTipString(Locale.Lookup("LOC_ESPIONAGECHOOSER_TRAVEL_TIME_TOOLTIP", travelTime, establishTime))
+    Controls.BannerBase:SetToolTipString(Locale.Lookup("LOC_ESPIONAGECHOOSER_TRAVEL_TIME_TOOLTIP", travelTime,
+                                                       establishTime))
   else
     Controls.TravelTimeStack:SetHide(true)
     Controls.BannerBase:SetToolTipString("")
@@ -424,7 +440,11 @@ function AddPlayerCities(player)
   for j, city in playerCities:Members() do
     -- Check if the city is revealed
     local localPlayerVis = PlayersVisibility[Game.GetLocalPlayer()]
-    if localPlayerVis:IsRevealed(city:GetX(), city:GetY()) then if CuiHasDistrict(city) then AddDestination(city) end end
+    if localPlayerVis:IsRevealed(city:GetX(), city:GetY()) then
+      if CuiHasDistrict(city) then
+        AddDestination(city)
+      end
+    end
   end
 end
 
@@ -454,7 +474,8 @@ function AddDestination(city)
   destinationInstance.TravelTimeIcon:SetColor(frontColor)
 
   -- Update travel time tool tip string
-  destinationInstance.BannerBase:SetToolTipString(Locale.Lookup("LOC_ESPIONAGECHOOSER_TRAVEL_TIME_TOOLTIP", travelTime, establishTime))
+  destinationInstance.BannerBase:SetToolTipString(Locale.Lookup("LOC_ESPIONAGECHOOSER_TRAVEL_TIME_TOOLTIP", travelTime,
+                                                                establishTime))
 
   AddDistrictIcons(destinationInstance, city)
 
@@ -468,14 +489,17 @@ function AddDestination(city)
   end
 
   -- Set button callback
-  destinationInstance.DestinationButton:RegisterCallback(Mouse.eLClick, function() OnSelectDestination(city) end)
+  destinationInstance.DestinationButton:RegisterCallback(Mouse.eLClick, function()
+    OnSelectDestination(city)
+  end)
 end
 
 -- ===========================================================================
 function AddDistrictIcons(kParentControl, pCity)
   -- CUI: override
   if kParentControl[DISTRICT_IM] == nil then
-    kParentControl[DISTRICT_IM] = InstanceManager:new("CityDistrictInstance", "DistrictIcon", kParentControl.DistrictIconStack)
+    kParentControl[DISTRICT_IM] = InstanceManager:new("CityDistrictInstance", "DistrictIcon",
+                                                      kParentControl.DistrictIconStack)
   end
 
   kParentControl[DISTRICT_IM]:ResetInstances()
@@ -535,11 +559,15 @@ end
 
 -- ===========================================================================
 function AddDistrictIcon(kInstanceIM, pCity, pDistrict)
-  if not pDistrict:IsComplete() then return nil end
+  if not pDistrict:IsComplete() then
+    return nil
+  end
 
   local kDistrictDef = GameInfo.Districts[pDistrict:GetType()]
 
-  if kDistrictDef == nil or kDistrictDef.DistrictType == "DISTRICT_WONDER" then return nil end
+  if kDistrictDef == nil or kDistrictDef.DistrictType == "DISTRICT_WONDER" then
+    return nil
+  end
 
   local kInstance = kInstanceIM:GetInstance()
 
@@ -564,10 +592,14 @@ function RefreshDistrictIcon(city, districtType, districtIcon)
 
       -- assigns currentDistrictType to be the general type of district (i.e. DISTRICT_HANSA becomes DISTRICT_INDUSTRIAL_ZONE)
       local replaces = GameInfo.DistrictReplaces[districtInfo.Hash]
-      if (replaces) then currentDistrictType = GameInfo.Districts[replaces.ReplacesDistrictType].DistrictType end
+      if (replaces) then
+        currentDistrictType = GameInfo.Districts[replaces.ReplacesDistrictType].DistrictType
+      end
 
       -- if this district is the type we are looking for, display that
-      if currentDistrictType == districtType then hasDistrict = true end
+      if currentDistrictType == districtType then
+        hasDistrict = true
+      end
     end
   end
 
@@ -590,13 +622,16 @@ end
 
 -- ===========================================================================
 function TeleportToSelectedCity()
-  if not m_city or not m_spy then return end
+  if not m_city or not m_spy then
+    return
+  end
 
   local tParameters = {}
   tParameters[UnitOperationTypes.PARAM_X] = m_city:GetX()
   tParameters[UnitOperationTypes.PARAM_Y] = m_city:GetY()
 
-  if (UnitManager.CanStartOperation(m_spy, UnitOperationTypes.SPY_TRAVEL_NEW_CITY, Map.GetPlot(m_city:GetX(), m_city:GetY()), tParameters)) then
+  if (UnitManager.CanStartOperation(m_spy, UnitOperationTypes.SPY_TRAVEL_NEW_CITY,
+                                    Map.GetPlot(m_city:GetX(), m_city:GetY()), tParameters)) then
     UnitManager.RequestOperation(m_spy, UnitOperationTypes.SPY_TRAVEL_NEW_CITY, tParameters)
     UI.SetInterfaceMode(InterfaceModeTypes.SELECTION)
   end
@@ -637,7 +672,9 @@ function Open()
     m_city = city
   end
 
-  if not m_AnimSupport:IsVisible() then m_AnimSupport:Show() end
+  if not m_AnimSupport:IsVisible() then
+    m_AnimSupport:Show()
+  end
 
   Refresh()
 
@@ -659,7 +696,8 @@ function OnConfirmPlacement()
   -- If we're selecting a city we own and we're already there switch to the counterspy mission chooser
   local spyPlot = Map.GetPlot(m_spy:GetX(), m_spy:GetY())
   local spyCity = Cities.GetPlotPurchaseCity(spyPlot)
-  if m_city:GetOwner() == Game.GetLocalPlayer() and spyCity:GetID() == m_city:GetID() and m_city:GetOwner() == spyCity:GetOwner() then
+  if m_city:GetOwner() == Game.GetLocalPlayer() and spyCity:GetID() == m_city:GetID() and m_city:GetOwner() ==
+    spyCity:GetOwner() then
     m_currentChooserMode = EspionageChooserModes.MISSION_CHOOSER
     Refresh()
   else
@@ -677,20 +715,30 @@ end
 -- ===========================================================================
 function OnInterfaceModeChanged(oldMode, newMode)
   if oldMode == InterfaceModeTypes.SPY_CHOOSE_MISSION and newMode ~= InterfaceModeTypes.SPY_TRAVEL_TO_CITY then
-    if m_AnimSupport:IsVisible() then Close() end
+    if m_AnimSupport:IsVisible() then
+      Close()
+    end
   end
   if oldMode == InterfaceModeTypes.SPY_TRAVEL_TO_CITY and newMode ~= InterfaceModeTypes.SPY_CHOOSE_MISSION then
-    if m_AnimSupport:IsVisible() then Close() end
+    if m_AnimSupport:IsVisible() then
+      Close()
+    end
   end
 
-  if newMode == InterfaceModeTypes.SPY_TRAVEL_TO_CITY then Open() end
-  if newMode == InterfaceModeTypes.SPY_CHOOSE_MISSION then Open() end
+  if newMode == InterfaceModeTypes.SPY_TRAVEL_TO_CITY then
+    Open()
+  end
+  if newMode == InterfaceModeTypes.SPY_CHOOSE_MISSION then
+    Open()
+  end
 end
 
 -- ===========================================================================
 function OnUnitSelectionChanged(playerID, unitID, hexI, hexJ, hexK, bSelected, bEditable)
   -- Make sure we're the local player and not observing
-  if playerID ~= Game.GetLocalPlayer() or playerID == -1 then return end
+  if playerID ~= Game.GetLocalPlayer() or playerID == -1 then
+    return
+  end
 
   -- Make sure the selected unit is a spy and that we don't have a current spy operation
   GoToProperInterfaceMode(UI.GetHeadSelectedUnit())
@@ -699,7 +747,9 @@ end
 ------------------------------------------------------------------
 function OnUnitActivityChanged(playerID, unitID, eActivityType)
   -- Make sure we're the local player and not observing
-  if playerID ~= Game.GetLocalPlayer() or playerID == -1 then return end
+  if playerID ~= Game.GetLocalPlayer() or playerID == -1 then
+    return
+  end
 
   GoToProperInterfaceMode(UI.GetHeadSelectedUnit())
 end
@@ -736,12 +786,18 @@ function GoToProperInterfaceMode(spyUnit)
     end
   else
     -- If not going to an espionage interface mode then close if we're open
-    if m_AnimSupport:IsVisible() then Close() end
+    if m_AnimSupport:IsVisible() then
+      Close()
+    end
   end
 end
 
 ------------------------------------------------------------------------------------------------
-function OnLocalPlayerTurnEnd() if (GameConfiguration.IsHotseat()) then Close() end end
+function OnLocalPlayerTurnEnd()
+  if (GameConfiguration.IsHotseat()) then
+    Close()
+  end
+end
 
 -- ===========================================================================
 function OnMissionBriefingClosed()
@@ -749,7 +805,9 @@ function OnMissionBriefingClosed()
     -- If we're shown and we close a mission briefing hide the selector brace for all to make sure it gets hidden probably
     for i = 1, m_MissionStackIM.m_iCount, 1 do
       local instance = m_MissionStackIM:GetAllocatedInstance(i)
-      if instance then instance.SelectorBrace:SetColor(UI.GetColorValue("COLOR_CLEAR")) end
+      if instance then
+        instance.SelectorBrace:SetColor(UI.GetColorValue("COLOR_CLEAR"))
+      end
     end
   end
 end
@@ -759,17 +817,25 @@ end
 --	Explicit close (from partial screen hooks), part of closing everything,
 -- ===========================================================================
 function OnCloseAllExcept(contextToStayOpen)
-  if contextToStayOpen == ContextPtr:GetID() then return end
+  if contextToStayOpen == ContextPtr:GetID() then
+    return
+  end
   Close()
 end
 
 -- ===========================================================================
-function OnClose() Close() end
+function OnClose()
+  Close()
+end
 
 -- ===========================================================================
 --	UI EVENT
 -- ===========================================================================
-function OnInit(isReload) if isReload then LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID) end end
+function OnInit(isReload)
+  if isReload then
+    LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
+  end
+end
 
 -- ===========================================================================
 --	UI EVENT
@@ -787,9 +853,15 @@ end
 -- ===========================================================================
 function OnGameDebugReturn(context, contextTable)
   if context == RELOAD_CACHE_ID then
-    if contextTable["currentChooserMode"] ~= nil then m_currentChooserMode = contextTable["currentChooserMode"] end
-    if contextTable["selectedCity"] ~= nil then m_city = contextTable["selectedCity"] end
-    if contextTable["selectedSpy"] ~= nil then m_spy = contextTable["selectedSpy"] end
+    if contextTable["currentChooserMode"] ~= nil then
+      m_currentChooserMode = contextTable["currentChooserMode"]
+    end
+    if contextTable["selectedCity"] ~= nil then
+      m_city = contextTable["selectedCity"]
+    end
+    if contextTable["selectedSpy"] ~= nil then
+      m_spy = contextTable["selectedSpy"]
+    end
     if contextTable["isVisible"] ~= nil and contextTable["isVisible"] then
       m_AnimSupport:Show()
       Refresh()
@@ -801,8 +873,10 @@ end
 function CuiCivCheck(player)
   local localPlayer = Players[Game.GetLocalPlayer()]
   if player:IsMajor() then
-    if (player:GetID() == localPlayer:GetID() or player:GetTeam() == -1 or localPlayer:GetTeam() == -1 or player:GetTeam() ~=
-        localPlayer:GetTeam()) then return true end
+    if (player:GetID() == localPlayer:GetID() or player:GetTeam() == -1 or localPlayer:GetTeam() == -1 or
+      player:GetTeam() ~= localPlayer:GetTeam()) then
+      return true
+    end
   end
   return false
 end
@@ -834,7 +908,9 @@ function CuiFilterByCiv(civTypeID)
   -- Filter by Civ Type ID
   for _, player in ipairs(cui_playerList) do
     local playerConfig = PlayerConfigurations[player:GetID()]
-    if playerConfig:GetCivilizationTypeID() == civTypeID then table.insert(cui_filteredCivs, player) end
+    if playerConfig:GetCivilizationTypeID() == civTypeID then
+      table.insert(cui_filteredCivs, player)
+    end
   end
 end
 
@@ -868,12 +944,14 @@ function CuiRefreshFilters()
   for i, player in ipairs(players) do
     -- Only show full civs
     if player:IsMajor() then
-      if (player:GetID() == localPlayer:GetID() or player:GetTeam() == -1 or localPlayer:GetTeam() == -1 or player:GetTeam() ~=
-          localPlayer:GetTeam()) then
+      if (player:GetID() == localPlayer:GetID() or player:GetTeam() == -1 or localPlayer:GetTeam() == -1 or
+        player:GetTeam() ~= localPlayer:GetTeam()) then
         -- CUI todo
         local playerConfig = PlayerConfigurations[player:GetID()]
         local name = Locale.Lookup(GameInfo.Civilizations[playerConfig:GetCivilizationTypeID()].Name)
-        CuiAddFilter(name, function() CuiFilterByCiv(playerConfig:GetCivilizationTypeID()) end)
+        CuiAddFilter(name, function()
+          CuiFilterByCiv(playerConfig:GetCivilizationTypeID())
+        end)
       end
     end
   end
@@ -889,7 +967,9 @@ function CuiRefreshFilters()
   end
 
   -- Add filters to pulldown
-  for index, filter in ipairs(cui_filterList) do CuiBuildFilterEntry(index) end
+  for index, filter in ipairs(cui_filterList) do
+    CuiBuildFilterEntry(index)
+  end
 
   -- Different traders have different filters and filter orders
   cui_filterSelected = CuiGetFilterIndex(cui_filterSelectedName) or 1
@@ -904,14 +984,20 @@ end
 
 -- CUI =======================================================================
 function CuiGetFilterIndex(filterName)
-  for index, filter in ipairs(cui_filterList) do if filter.FilterText == filterName then return index end end
+  for index, filter in ipairs(cui_filterList) do
+    if filter.FilterText == filterName then
+      return index
+    end
+  end
   return nil
 end
 
 -- CUI =======================================================================
 function CuiAddFilter(filterName, filterFunction)
   -- Make sure we don't add duplicate filters
-  if not CuiGetFilterIndex(filterName) then table.insert(cui_filterList, {FilterText = filterName, FilterFunction = filterFunction}) end
+  if not CuiGetFilterIndex(filterName) then
+    table.insert(cui_filterList, {FilterText = filterName, FilterFunction = filterFunction})
+  end
 end
 
 -- CUI =======================================================================
@@ -930,8 +1016,12 @@ function CuiGetMatchedDistrict(dType, districts)
       local currentDistrictType = districtInfo.DistrictType
       local replaces = GameInfo.DistrictReplaces[districtInfo.Hash]
 
-      if replaces then currentDistrictType = GameInfo.Districts[replaces.ReplacesDistrictType].DistrictType end
-      if currentDistrictType == dType then return district end
+      if replaces then
+        currentDistrictType = GameInfo.Districts[replaces.ReplacesDistrictType].DistrictType
+      end
+      if currentDistrictType == dType then
+        return district
+      end
     end
   end
   return nil
@@ -967,7 +1057,9 @@ function CuiHasDistrict(city)
   else
     local dType = CUI_AVAILABLE_DISTRICTS[cui_sortBy].dType
     local districts = city:GetDistricts()
-    if CuiGetMatchedDistrict(dType, districts) then return true end
+    if CuiGetMatchedDistrict(dType, districts) then
+      return true
+    end
   end
   return false
 end
@@ -987,7 +1079,9 @@ end
 -- CUI =======================================================================
 function CuiResetSorter()
   for _, item in pairs(CUI_AVAILABLE_DISTRICTS) do
-    if Controls[item.button] and item.dType ~= "DISTRICT_CITY_CENTER" then Controls[item.button]:SetAlpha(0.4) end
+    if Controls[item.button] and item.dType ~= "DISTRICT_CITY_CENTER" then
+      Controls[item.button]:SetAlpha(0.4)
+    end
   end
   cui_sortBy = -1
 end
@@ -997,12 +1091,24 @@ function CuiInit()
   Controls.FilterButton:RegisterCallback(Mouse.eLClick, CuiUpdateFilterArrow)
   Controls.CivFilterPulldown:RegisterSelectionCallback(CuiOnFilterSelected)
 
-  Controls.CampusSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(2) end)
-  Controls.CommercialSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(3) end)
-  Controls.IndustrialSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(4) end)
-  Controls.NeighborhoodSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(5) end)
-  Controls.TheaterSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(6) end)
-  Controls.SpacePortSortButton:RegisterCallback(Mouse.eLClick, function() CuiOnSortButtonClick(7) end)
+  Controls.CampusSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(2)
+  end)
+  Controls.CommercialSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(3)
+  end)
+  Controls.IndustrialSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(4)
+  end)
+  Controls.NeighborhoodSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(5)
+  end)
+  Controls.TheaterSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(6)
+  end)
+  Controls.SpacePortSortButton:RegisterCallback(Mouse.eLClick, function()
+    CuiOnSortButtonClick(7)
+  end)
 end
 
 -- ===========================================================================
@@ -1014,11 +1120,17 @@ function Initialize()
 
   -- Control Events
   Controls.ConfirmButton:RegisterCallback(Mouse.eLClick, OnConfirmPlacement)
-  Controls.ConfirmButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ConfirmButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.CancelButton:RegisterCallback(Mouse.eLClick, OnCancel)
-  Controls.CancelButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CancelButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClose)
-  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   CuiInit() -- CUI
 

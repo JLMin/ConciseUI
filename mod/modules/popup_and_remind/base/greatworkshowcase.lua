@@ -51,14 +51,18 @@ local m_LocalPlayerID
 -- ===========================================================================
 function UpdatePlayerData()
   m_LocalPlayerID = Game.GetLocalPlayer()
-  if m_LocalPlayerID ~= -1 then m_LocalPlayer = Players[m_LocalPlayerID] end
+  if m_LocalPlayerID ~= -1 then
+    m_LocalPlayer = Players[m_LocalPlayerID]
+  end
 end
 
 -- ===========================================================================
 --	Called when viewing the Great Works Gallery
 -- ===========================================================================
 function UpdateGalleryData()
-  if (m_LocalPlayer == nil) then return end
+  if (m_LocalPlayer == nil) then
+    return
+  end
 
   m_GreatWorks = {}
   m_GalleryIndex = -1
@@ -74,7 +78,9 @@ function UpdateGalleryData()
             local greatWorkIndex = pCityBldgs:GetGreatWorkInSlot(buildingIndex, index)
             if greatWorkIndex ~= -1 then
               table.insert(m_GreatWorks, {Index = greatWorkIndex, Building = buildingIndex, City = pCity})
-              if greatWorkIndex == m_GreatWorkIndex then m_GalleryIndex = table.count(m_GreatWorks) end
+              if greatWorkIndex == m_GreatWorkIndex then
+                m_GalleryIndex = table.count(m_GreatWorks)
+              end
             end
           end
         end
@@ -100,7 +106,8 @@ function UpdateGreatWork()
   local greatWorkInfo = GameInfo.GreatWorks[m_GreatWorkType]
   local greatWorkType = greatWorkInfo.GreatWorkType
   local greatWorkCreator = Locale.Lookup(m_CityBldgs:GetCreatorNameFromIndex(m_GreatWorkIndex))
-  local greatWorkCreationDate = Calendar.MakeDateStr(m_CityBldgs:GetTurnFromIndex(m_GreatWorkIndex), GameConfiguration.GetCalendarType(),
+  local greatWorkCreationDate = Calendar.MakeDateStr(m_CityBldgs:GetTurnFromIndex(m_GreatWorkIndex),
+                                                     GameConfiguration.GetCalendarType(),
                                                      GameConfiguration.GetGameSpeedType(), false)
   local greatWorkCreationCity = m_City:GetName()
   local greatWorkCreationBuilding = GameInfo.Buildings[m_BuildingID].Name
@@ -113,7 +120,9 @@ function UpdateGreatWork()
     greatWorkTypeName = Locale.Lookup("LOC_" .. greatWorkInfo.GreatWorkObjectType)
   end
 
-  if greatWorkInfo.Audio then UI.PlaySound("Play_" .. greatWorkInfo.Audio) end
+  if greatWorkInfo.Audio then
+    UI.PlaySound("Play_" .. greatWorkInfo.Audio)
+  end
 
   local heightAdjustment = 0
   local detailsOffset = DETAILS_OFFSET_DEFAULT
@@ -178,12 +187,15 @@ function UpdateGreatWork()
     Controls.GreatWorkBanner:SetHide(false)
 
     local imageHeight = Controls.GreatWorkImage:GetSizeY()
-    if imageHeight > SIZE_MAX_IMAGE_HEIGHT then heightAdjustment = SIZE_MAX_IMAGE_HEIGHT - imageHeight end
+    if imageHeight > SIZE_MAX_IMAGE_HEIGHT then
+      heightAdjustment = SIZE_MAX_IMAGE_HEIGHT - imageHeight
+    end
   end
 
   Controls.CreatedBy:SetText(Locale.Lookup("LOC_GREAT_WORKS_CREATED_BY", greatWorkCreator))
   Controls.CreatedDate:SetText(Locale.Lookup("LOC_GREAT_WORKS_CREATED_TIME", greatWorkTypeName, greatWorkCreationDate))
-  Controls.CreatedPlace:SetText(Locale.Lookup("LOC_GREAT_WORKS_CREATED_PLACE", greatWorkCreationBuilding, greatWorkCreationCity))
+  Controls.CreatedPlace:SetText(Locale.Lookup("LOC_GREAT_WORKS_CREATED_PLACE", greatWorkCreationBuilding,
+                                              greatWorkCreationCity))
 
   Controls.GreatWorkHeader:SetText(m_isGallery and "" or LOC_NEW_GREAT_WORK)
   Controls.ViewGreatWorks:SetText(m_isGallery and LOC_BACK_TO_GREAT_WORKS or LOC_VIEW_GREAT_WORKS)
@@ -202,7 +214,9 @@ end
 -- ===========================================================================
 function UpdateData()
   UpdatePlayerData()
-  if m_isGallery then UpdateGalleryData() end
+  if m_isGallery then
+    UpdateGalleryData()
+  end
   UpdateGreatWork()
 end
 
@@ -223,8 +237,12 @@ end
 -- ===========================================================================
 --	Game Event Callbacks
 -- ===========================================================================
-function OnShowScreen() ShowScreen() end
-function OnHideScreen() HideScreen() end
+function OnShowScreen()
+  ShowScreen()
+end
+function OnHideScreen()
+  HideScreen()
+end
 function OnViewGreatWorks()
   HideScreen()
   LuaEvents.GreatWorkCreated_OpenGreatWorksOverview()
@@ -252,7 +270,9 @@ function OnShowRelicCreated(playerID, creatorID, cityX, cityY, buildingID, great
   end
 end
 function DisplayGreatWorkCreated(playerID, creatorID, cityX, cityY, buildingID, greatWorkIndex, showRelics)
-  if playerID ~= Game.GetLocalPlayer() then return end
+  if playerID ~= Game.GetLocalPlayer() then
+    return
+  end
   m_isGallery = false
   m_BuildingID = buildingID
   m_GreatWorkIndex = greatWorkIndex
@@ -290,7 +310,9 @@ function OnPreviousGreatWork()
     UI.PlaySound("UI_Click_Sweetener_Metal_Button_Small")
 
     m_GalleryIndex = m_GalleryIndex - 1
-    if m_GalleryIndex <= 0 then m_GalleryIndex = numGreatWorks end
+    if m_GalleryIndex <= 0 then
+      m_GalleryIndex = numGreatWorks
+    end
     local greatWorkData = m_GreatWorks[m_GalleryIndex]
     OnViewGreatWork(greatWorkData.City, greatWorkData.Building, greatWorkData.Index)
   end
@@ -304,7 +326,9 @@ function OnNextGreatWork()
     UI.PlaySound("UI_Click_Sweetener_Metal_Button_Small")
 
     m_GalleryIndex = m_GalleryIndex + 1
-    if m_GalleryIndex > numGreatWorks then m_GalleryIndex = 1 end
+    if m_GalleryIndex > numGreatWorks then
+      m_GalleryIndex = 1
+    end
 
     local greatWorkData = m_GreatWorks[m_GalleryIndex]
     OnViewGreatWork(greatWorkData.City, greatWorkData.Building, greatWorkData.Index)
@@ -314,7 +338,11 @@ end
 -- ===========================================================================
 --	Hot Reload Related Events
 -- ===========================================================================
-function OnInit(isReload) if isReload then LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID) end end
+function OnInit(isReload)
+  if isReload then
+    LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
+  end
+end
 function OnShutdown()
   LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "isHidden", ContextPtr:IsHidden())
   LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "isGallery", m_isGallery)
@@ -327,7 +355,8 @@ end
 function OnGameDebugReturn(context, data)
   if context == RELOAD_CACHE_ID and data["isHidden"] ~= nil and not data["isHidden"] then
     if data["isGallery"] then
-      OnViewGreatWork(Cities.GetCityInPlot(Map.GetPlotIndex(data["cityX"], data["cityY"])), data["buildingID"], data["greatWorkIndex"])
+      OnViewGreatWork(Cities.GetCityInPlot(Map.GetPlotIndex(data["cityX"], data["cityY"])), data["buildingID"],
+                      data["greatWorkIndex"])
     else
       OnGreatWorkCreated(data["playerID"], nil, data["cityX"], data["cityY"], data["buildingID"], data["greatWorkIndex"])
     end
@@ -365,7 +394,9 @@ function Initialize()
 
   Controls.ModalBG:SetTexture("GreatWorks_Background")
   Controls.ModalScreenClose:RegisterCallback(Mouse.eLClick, OnHideScreen)
-  Controls.ModalScreenClose:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ModalScreenClose:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.ModalScreenClose:ChangeParent(Controls.BannerBG)
   Controls.ModalScreenClose:SetAnchor("R,T")
   Controls.ModalScreenClose:SetOffsetX(-5)
@@ -373,6 +404,8 @@ function Initialize()
   Controls.NextGreatWork:RegisterCallback(Mouse.eLClick, OnNextGreatWork)
   Controls.PreviousGreatWork:RegisterCallback(Mouse.eLClick, OnPreviousGreatWork)
   Controls.ViewGreatWorks:RegisterCallback(Mouse.eLClick, OnViewGreatWorks)
-  Controls.ViewGreatWorks:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ViewGreatWorks:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 end
 Initialize()

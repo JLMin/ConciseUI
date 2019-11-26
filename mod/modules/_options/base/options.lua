@@ -19,7 +19,9 @@ function HasExpansion2()
 end
 
 function IsInGame()
-  if (GameConfiguration ~= nil) then return GameConfiguration.GetGameState() ~= GameStateTypes.GAMESTATE_PREGAME end
+  if (GameConfiguration ~= nil) then
+    return GameConfiguration.GetGameState() ~= GameStateTypes.GAMESTATE_PREGAME
+  end
   return false
 end
 
@@ -60,17 +62,23 @@ local webhookFreq_options = {
 -------------------------------------------------------------------------------
 --
 -------------------------------------------------------------------------------
-function OnOptionChangeRequiresAppRestart() _PromptRestartApp = true end
+function OnOptionChangeRequiresAppRestart()
+  _PromptRestartApp = true
+end
 
 -------------------------------------------------------------------------------
 --
 -------------------------------------------------------------------------------
-function OnOptionChangeRequiresGameRestart() _PromptRestartGame = true end
+function OnOptionChangeRequiresGameRestart()
+  _PromptRestartGame = true
+end
 
 -------------------------------------------------------------------------------
 --
 -------------------------------------------------------------------------------
-function OnOptionChangeRequiresResolutionAck() _PromptResolutionAck = true end
+function OnOptionChangeRequiresResolutionAck()
+  _PromptResolutionAck = true
+end
 
 -------------------------------------------------------------------------------
 --
@@ -151,12 +159,17 @@ function OnReset()
     TemporaryHardCodedGoodness()
     EnableControls()
   end
-  function CancelReset() EnableControls() end
+  function CancelReset()
+    EnableControls()
+  end
 
   _kPopupDialog:AddText(Locale.Lookup("LOC_OPTIONS_RESET_OPTIONS_POPUP_TEXT"))
-  _kPopupDialog:AddButton(Locale.Lookup("LOC_OPTIONS_RESET_OPTIONS_POPUP_YES"), function() ResetOptions() end, nil, nil,
-                          "PopupButtonInstanceRed")
-  _kPopupDialog:AddButton(Locale.Lookup("LOC_OPTIONS_RESET_OPTIONS_POPUP_NO"), function() CancelReset() end)
+  _kPopupDialog:AddButton(Locale.Lookup("LOC_OPTIONS_RESET_OPTIONS_POPUP_YES"), function()
+    ResetOptions()
+  end, nil, nil, "PopupButtonInstanceRed")
+  _kPopupDialog:AddButton(Locale.Lookup("LOC_OPTIONS_RESET_OPTIONS_POPUP_NO"), function()
+    CancelReset()
+  end)
   _kPopupDialog:Open()
   Controls.ResetButton:SetDisabled(true)
   Controls.ConfirmButton:SetDisabled(true)
@@ -215,7 +228,8 @@ function OnConfirm()
     UserConfiguration.SetValue("QuickCombat", Options.GetUserOption("Gameplay", "QuickCombat"))
     UserConfiguration.SetValue("QuickMovement", Options.GetUserOption("Gameplay", "QuickMovement"))
     UserConfiguration.SetValue("AutoEndTurn", Options.GetUserOption("Gameplay", "AutoEndTurn"))
-    UserConfiguration.SetValue("CityRangeAttackTurnBlocking", Options.GetUserOption("Gameplay", "CityRangeAttackTurnBlocking"))
+    UserConfiguration.SetValue("CityRangeAttackTurnBlocking",
+                               Options.GetUserOption("Gameplay", "CityRangeAttackTurnBlocking"))
     UserConfiguration.SetValue("TutorialLevel", Options.GetUserOption("Gameplay", "TutorialLevel"))
     UserConfiguration.SetValue("EdgePan", Options.GetUserOption("Gameplay", "EdgePan"))
     UserConfiguration.SetValue("AutoProdQueue", Options.GetUserOption("Gameplay", "AutoProdQueue"))
@@ -230,7 +244,9 @@ function OnConfirm()
 
     -- tell the colorblindness adapatation code to switch to the new base palette
     -- Do not do this if the game has started as it will reset player colors.
-    if (not IsInGame()) then UI.RefreshColorSet() end
+    if (not IsInGame()) then
+      UI.RefreshColorSet()
+    end
 
     UI.TouchEnableChanged()
 
@@ -245,8 +261,12 @@ function OnConfirm()
           KeepGraphicsChanges()
           UserConfiguration.SaveCheckpoint()
         end)
-        _kPopupDialog:AddButton(Locale.Lookup("LOC_OPTIONS_RESET_OPTIONS_POPUP_NO"), function() RevertGraphicsChanges() end)
-        _kPopupDialog:AddCountDown(15, function() RevertGraphicsChanges() end)
+        _kPopupDialog:AddButton(Locale.Lookup("LOC_OPTIONS_RESET_OPTIONS_POPUP_NO"), function()
+          RevertGraphicsChanges()
+        end)
+        _kPopupDialog:AddCountDown(15, function()
+          RevertGraphicsChanges()
+        end)
         _kPopupDialog:Open()
       else
         KeepGraphicsChanges()
@@ -257,7 +277,9 @@ function OnConfirm()
     -- Save game config options if they have been modified
     if m_pendingGameConfigChanges and table.count(m_pendingGameConfigChanges) > 0 then
       for group, values in pairs(m_pendingGameConfigChanges) do
-        for id, value in pairs(values) do BASE_Config_Write(SetupParameters, group, id, value) end
+        for id, value in pairs(values) do
+          BASE_Config_Write(SetupParameters, group, id, value)
+        end
       end
       Network.BroadcastGameConfig()
     end
@@ -268,13 +290,17 @@ function OnConfirm()
 
   if (_PromptRestartApp) then
     _kPopupDialog:AddText(Locale.Lookup("LOC_OPTIONS_CHANGES_REQUIRE_APP_RESTART"))
-    _kPopupDialog:AddButton(Locale.Lookup("LOC_OPTIONS_RESET_OPTIONS_POPUP_OK"), function() ConfirmChanges() end)
+    _kPopupDialog:AddButton(Locale.Lookup("LOC_OPTIONS_RESET_OPTIONS_POPUP_OK"), function()
+      ConfirmChanges()
+    end)
     _kPopupDialog:Open()
     Controls.ConfirmButton:SetDisabled(true)
 
   elseif (_PromptRestartGame and IsInGame()) then
     _kPopupDialog:AddText(Locale.Lookup("LOC_OPTIONS_CHANGES_REQUIRE_GAME_RESTART"))
-    _kPopupDialog:AddButton(Locale.Lookup("LOC_OPTIONS_RESET_OPTIONS_POPUP_OK"), function() ConfirmChanges() end)
+    _kPopupDialog:AddButton(Locale.Lookup("LOC_OPTIONS_RESET_OPTIONS_POPUP_OK"), function()
+      ConfirmChanges()
+    end)
     _kPopupDialog:Open()
   else
     ConfirmChanges()
@@ -286,7 +312,9 @@ end
 -------------------------------------------------------------------------------
 function PopulateComboBox(control, values, selected_value, selection_handler, is_locked)
 
-  if (is_locked == nil) then is_locked = false end
+  if (is_locked == nil) then
+    is_locked = false
+  end
 
   control:ClearEntries()
   for i, v in ipairs(values) do
@@ -305,7 +333,9 @@ function PopulateComboBox(control, values, selected_value, selection_handler, is
   control:SetDisabled(is_locked ~= false)
 
   if (selection_handler) then
-    control:GetButton():RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+    control:GetButton():RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
     control:RegisterSelectionCallback(function(voidValue1, voidValue2, control)
       local option = values[voidValue1]
 
@@ -323,7 +353,9 @@ end
 -------------------------------------------------------------------------------
 function PopulateCheckBox(control, current_value, check_handler, is_locked)
 
-  if (is_locked == nil) then is_locked = false end
+  if (is_locked == nil) then
+    is_locked = false
+  end
 
   if (current_value == 0) then
     control:SetSelected(false)
@@ -339,7 +371,9 @@ function PopulateCheckBox(control, current_value, check_handler, is_locked)
       control:SetSelected(selected)
       check_handler(selected)
     end)
-    control:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+    control:RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
   end
 
 end
@@ -349,14 +383,22 @@ end
 -------------------------------------------------------------------------------
 function PopulateEditBox(control, current_value, commit_handler, is_locked)
 
-  if (is_locked == nil) then is_locked = false end
+  if (is_locked == nil) then
+    is_locked = false
+  end
 
   control:SetText(current_value)
   control:SetDisabled(is_locked ~= false)
 
-  control:RegisterMouseEnterCallback(function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  control:RegisterMouseEnterCallback(function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
-  if (commit_handler) then control:RegisterCommitCallback(function(editString) commit_handler(editString) end) end
+  if (commit_handler) then
+    control:RegisterCommitCallback(function(editString)
+      commit_handler(editString)
+    end)
+  end
 
 end
 
@@ -410,9 +452,13 @@ function UpdateTimeLabel(value)
     meridiem = " am"
     if (iHours >= 12) then
       meridiem = " pm"
-      if (iHours > 12) then iHours = iHours - 12 end
+      if (iHours > 12) then
+        iHours = iHours - 12
+      end
     end
-    if (iHours < 1) then iHours = 12 end
+    if (iHours < 1) then
+      iHours = 12
+    end
   end
 
   local strTime = string.format("%.2d:%.2d%s", iHours, iMins, meridiem)
@@ -427,20 +473,28 @@ function AdjustResolutionPulldown(window_mode, is_in_game)
 
   for i, v in ipairs(modes) do
     local s = v.Width .. "x" .. v.Height
-    if (window_mode == FULLSCREEN_OPTION) then s = s .. " (" .. v.RefreshRate .. " Hz)" end
+    if (window_mode == FULLSCREEN_OPTION) then
+      s = s .. " (" .. v.RefreshRate .. " Hz)"
+    end
     named_modes[s] = v
   end
 
   local indexed_modes = {}
-  for k, v in pairs(named_modes) do table.insert(indexed_modes, {k, v}) end
-  table.sort(indexed_modes, function(a, b) return a[1] > b[1] end)
+  for k, v in pairs(named_modes) do
+    table.insert(indexed_modes, {k, v})
+  end
+  table.sort(indexed_modes, function(a, b)
+    return a[1] > b[1]
+  end)
 
   -- remove duplicate modes if in windowed (same res, different refresh rate)
   local final_indexed_modes = {}
   if (window_mode == WINDOWED_OPTION) then
     local last = ""
     for i, v in ipairs(indexed_modes) do
-      if (v[1] ~= last) then table.insert(final_indexed_modes, v) end
+      if (v[1] ~= last) then
+        table.insert(final_indexed_modes, v)
+      end
       last = v[1]
     end
   else
@@ -500,7 +554,9 @@ function AdjustResolutionPulldown(window_mode, is_in_game)
 
       local resolution_button = Controls.ResolutionPullDown:GetButton()
       local resolution_text = current_width .. "x" .. current_height
-      if (window_mode == FULLSCREEN_OPTION) then resolution_text = resolution_text .. " (" .. refresh_rate .. " Hz)" end
+      if (window_mode == FULLSCREEN_OPTION) then
+        resolution_text = resolution_text .. " (" .. refresh_rate .. " Hz)"
+      end
       resolution_button:SetText(resolution_text)
     end
 
@@ -523,7 +579,9 @@ function PopulateGraphicsOptions()
     {"LOC_OPTIONS_WINDOW_MODE_BORDERLESS", BORDERLESS_OPTION}
   }
 
-  local uiscale_options = {{"LOC_OPTIONS_100_PERCENT", 0.0}, {"LOC_OPTIONS_150_PERCENT", 0.5}, {"LOC_OPTIONS_200_PERCENT", 1.0}}
+  local uiscale_options = {
+    {"LOC_OPTIONS_100_PERCENT", 0.0}, {"LOC_OPTIONS_150_PERCENT", 0.5}, {"LOC_OPTIONS_200_PERCENT", 1.0}
+  }
 
   local performanceImpact_options = {
     [0] = "LOC_OPTIONS_MINIMUM",
@@ -544,16 +602,18 @@ function PopulateGraphicsOptions()
   }
 
   local msaa_options = {
-    {"LOC_OPTIONS_DISABLED", {1, 0}}, {"LOC_OPTIONS_MSAA_2X", {2, 0}}, {"LOC_OPTIONS_MSAA_4X", {4, 0}}, {"LOC_OPTIONS_MSAA_8X", {8, 0}},
-    {"LOC_OPTIONS_MSAA_16X", {16, 0}}, {"LOC_OPTIONS_MSAA_32X", {32, 0}}
+    {"LOC_OPTIONS_DISABLED", {1, 0}}, {"LOC_OPTIONS_MSAA_2X", {2, 0}}, {"LOC_OPTIONS_MSAA_4X", {4, 0}},
+    {"LOC_OPTIONS_MSAA_8X", {8, 0}}, {"LOC_OPTIONS_MSAA_16X", {16, 0}}, {"LOC_OPTIONS_MSAA_32X", {32, 0}}
   }
 
   local csaa_options = {
-    {"LOC_OPTIONS_CSAA_2X", {2, 4}}, {"LOC_OPTIONS_CSAA_4X", {4, 8}}, {"LOC_OPTIONS_CSAA_8X", {8, 16}}, {"LOC_OPTIONS_CSAA_16X", {16, 32}}
+    {"LOC_OPTIONS_CSAA_2X", {2, 4}}, {"LOC_OPTIONS_CSAA_4X", {4, 8}}, {"LOC_OPTIONS_CSAA_8X", {8, 16}},
+    {"LOC_OPTIONS_CSAA_16X", {16, 32}}
   }
 
   local eqaa_options = {
-    {"LOC_OPTIONS_EQAA_2X", {2, 4}}, {"LOC_OPTIONS_EQAA_4X", {4, 8}}, {"LOC_OPTIONS_EQAA_8X", {8, 16}}, {"LOC_OPTIONS_EQAA_16X", {16, 32}}
+    {"LOC_OPTIONS_EQAA_2X", {2, 4}}, {"LOC_OPTIONS_EQAA_4X", {4, 8}}, {"LOC_OPTIONS_EQAA_8X", {8, 16}},
+    {"LOC_OPTIONS_EQAA_16X", {16, 32}}
   }
 
   local vfx_options = {{"LOC_OPTIONS_LOW", 0}, {"LOC_OPTIONS_HIGH", 1}}
@@ -565,8 +625,8 @@ function PopulateGraphicsOptions()
   local fowMaskResolution_options = {{"512x512", 512}, {"1024x1024", 1024}}
 
   local terrainQuality_options = {
-    {"LOC_OPTIONS_LOW_MEMORY_OPTIMIZED", 0}, {"LOC_OPTIONS_LOW_PERFORMANCE_OPTIMIZED", 1}, {"LOC_OPTIONS_MEDIUM_MEMORY_OPTIMIZED", 2},
-    {"LOC_OPTIONS_MEDIUM_PERFORMANCE_OPTIMIZED", 3}, {"LOC_OPTIONS_HIGH", 4}
+    {"LOC_OPTIONS_LOW_MEMORY_OPTIMIZED", 0}, {"LOC_OPTIONS_LOW_PERFORMANCE_OPTIMIZED", 1},
+    {"LOC_OPTIONS_MEDIUM_MEMORY_OPTIMIZED", 2}, {"LOC_OPTIONS_MEDIUM_PERFORMANCE_OPTIMIZED", 3}, {"LOC_OPTIONS_HIGH", 4}
   }
 
   local reflectionPasses_options = {
@@ -582,7 +642,9 @@ function PopulateGraphicsOptions()
   -- Main Options
   -------------------------------------------------------------------------------
   local is_in_game = Options.IsAppInMainMenuState() == 0
-  if m_debugAlwaysAllowAllOptions then is_in_game = false end
+  if m_debugAlwaysAllowAllOptions then
+    is_in_game = false
+  end
 
   -- Adapter
   local adapters = Options.GetAvailableDisplayAdapters()
@@ -612,7 +674,9 @@ function PopulateGraphicsOptions()
 
   -- Multi-GPU
   local bMGPUValue = 0
-  if Options.GetGraphicsOption("DX12", "EnableSplitScreenMultiGPU") == 1 then bMGPUValue = 1 end
+  if Options.GetGraphicsOption("DX12", "EnableSplitScreenMultiGPU") == 1 then
+    bMGPUValue = 1
+  end
 
   PopulateCheckBox(Controls.MultiGPUCheckbox, bMGPUValue, function(option)
     Options.SetGraphicsOption("DX12", "EnableSplitScreenMultiGPU", option)
@@ -623,10 +687,15 @@ function PopulateGraphicsOptions()
 
   -- UI Upscaling
   local available_scales = {}
-  for k, v in pairs(uiscale_options) do if (Options.IsUIUpscaleAllowed(v[2] + 1.0)) then table.insert(available_scales, v) end end
+  for k, v in pairs(uiscale_options) do
+    if (Options.IsUIUpscaleAllowed(v[2] + 1.0)) then
+      table.insert(available_scales, v)
+    end
+  end
 
   Controls.UIScalePulldown:ClearEntries()
-  PopulateComboBox(Controls.UIScalePulldown, available_scales, Options.GetAppOption("Video", "UIUpscale"), function(option)
+  PopulateComboBox(Controls.UIScalePulldown, available_scales, Options.GetAppOption("Video", "UIUpscale"),
+                   function(option)
     Options.SetAppOption("Video", "UIUpscale", option)
     Controls.ConfirmButton:SetDisabled(false)
   end)
@@ -636,8 +705,8 @@ function PopulateGraphicsOptions()
   local performance_customStep = Controls.PerformanceSlider:GetNumSteps()
   local memory_customStep = Controls.MemorySlider:GetNumSteps()
 
-  local performance_sliderStep =
-      ImpactValueToSliderStep(Controls.PerformanceSlider, Options.GetGraphicsOption("Video", "PerformanceImpact"))
+  local performance_sliderStep = ImpactValueToSliderStep(Controls.PerformanceSlider,
+                                                         Options.GetGraphicsOption("Video", "PerformanceImpact"))
 
   Controls.PerformanceSlider:SetStep(performance_sliderStep)
   Controls.PerformanceValue:LocalizeAndSetText(performanceImpact_options[performance_sliderStep])
@@ -656,7 +725,8 @@ function PopulateGraphicsOptions()
       performance_sliderStep = Controls.PerformanceSlider:GetStep()
 
       -- Update the option set with the new preset, which updates all other options (see OptionSet::ProcessExternally())
-      Options.SetGraphicsOption("Video", "PerformanceImpact", SliderStepToImpactValue(Controls.PerformanceSlider, performance_sliderStep))
+      Options.SetGraphicsOption("Video", "PerformanceImpact",
+                                SliderStepToImpactValue(Controls.PerformanceSlider, performance_sliderStep))
       Controls.ConfirmButton:SetDisabled(false)
 
       -- Update the text description
@@ -667,7 +737,8 @@ function PopulateGraphicsOptions()
         if (Controls.MemorySlider:GetStep() == memory_customStep) then
           -- The memory slider is set to "custom", so reset it to its default value
           Controls.MemorySlider:SetStepAndCall(ImpactValueToSliderStep(Controls.MemorySlider,
-                                                                       Options.GetGraphicsDefault("Video", "MemoryImpact")))
+                                                                       Options.GetGraphicsDefault("Video",
+                                                                                                  "MemoryImpact")))
         end
 
         -- Update all settings in the UI if the performance impact changed to something other than "custom"
@@ -682,7 +753,8 @@ function PopulateGraphicsOptions()
   end)
 
   -- Memory Impact
-  local memory_sliderStep = ImpactValueToSliderStep(Controls.MemorySlider, Options.GetGraphicsOption("Video", "MemoryImpact"))
+  local memory_sliderStep = ImpactValueToSliderStep(Controls.MemorySlider,
+                                                    Options.GetGraphicsOption("Video", "MemoryImpact"))
 
   Controls.MemorySlider:SetStep(memory_sliderStep)
   Controls.MemoryValue:LocalizeAndSetText(memoryImpact_options[memory_sliderStep])
@@ -701,7 +773,8 @@ function PopulateGraphicsOptions()
       memory_sliderStep = Controls.MemorySlider:GetStep()
 
       -- Update the option set with the new preset, which updates all other options (see OptionSet::ProcessExternally())
-      Options.SetGraphicsOption("Video", "MemoryImpact", SliderStepToImpactValue(Controls.MemorySlider, memory_sliderStep))
+      Options.SetGraphicsOption("Video", "MemoryImpact",
+                                SliderStepToImpactValue(Controls.MemorySlider, memory_sliderStep))
       Controls.ConfirmButton:SetDisabled(false)
 
       -- Update the text description
@@ -712,7 +785,8 @@ function PopulateGraphicsOptions()
         if (Controls.PerformanceSlider:GetStep() == performance_customStep) then
           -- The performance slider is set to "custom", so reset it to its default
           Controls.PerformanceSlider:SetStepAndCall(ImpactValueToSliderStep(Controls.PerformanceSlider,
-                                                                            Options.GetGraphicsDefault("Video", "PerformanceImpact")))
+                                                                            Options.GetGraphicsDefault("Video",
+                                                                                                       "PerformanceImpact")))
         end
 
         -- Update all settings in the UI if the memory impact changed to something other than "custom"
@@ -736,14 +810,15 @@ function PopulateGraphicsOptions()
   end)
 
   -- Tick Interval
-  PopulateComboBox(Controls.TickIntervalPullDown, tickInterval_options, Options.GetAppOption("Performance", "TickIntervalInMS"),
-                   function(option)
+  PopulateComboBox(Controls.TickIntervalPullDown, tickInterval_options,
+                   Options.GetAppOption("Performance", "TickIntervalInMS"), function(option)
     Options.SetAppOption("Performance", "TickIntervalInMS", option)
     Controls.ConfirmButton:SetDisabled(false)
   end)
 
   -- Fullscreen
-  PopulateComboBox(Controls.FullScreenPullDown, windowed_options, Options.GetAppOption("Video", "FullScreen"), function(option)
+  PopulateComboBox(Controls.FullScreenPullDown, windowed_options, Options.GetAppOption("Video", "FullScreen"),
+                   function(option)
     Options.SetAppOption("Video", "FullScreen", option)
 
     -- In borderless mode, snap width/height to desktop size
@@ -764,7 +839,9 @@ function PopulateGraphicsOptions()
   local availableMSAAOptions = {}
   for i, v in ipairs(msaa_options) do
     local bValid = UI.CanHaveMSAAQuality(v[2][1], v[2][2])
-    if (bValid) then table.insert(availableMSAAOptions, {v[1], v[2]}) end
+    if (bValid) then
+      table.insert(availableMSAAOptions, {v[1], v[2]})
+    end
   end
 
   local ihvMSAAModes = nil
@@ -777,12 +854,16 @@ function PopulateGraphicsOptions()
   if ihvMSAAModes ~= nil then
     for i, v in ipairs(ihvMSAAModes) do
       local bValid = UI.CanHaveMSAAQuality(v[2][1], v[2][2])
-      if (bValid) then table.insert(availableMSAAOptions, {v[1], v[2]}) end
+      if (bValid) then
+        table.insert(availableMSAAOptions, {v[1], v[2]})
+      end
     end
   end
 
   local nMSAACount = Options.GetGraphicsOption("Video", "MSAA")
-  if nMSAACount == -1 then nMSAACount = nMaxMSAACount end
+  if nMSAACount == -1 then
+    nMSAACount = nMaxMSAACount
+  end
   local nMSAAQuality = Options.GetGraphicsOption("Video", "MSAAQuality")
 
   -- PopulateComboBox() does a "pointer" compare with non POD, so we have to find the current sample / quality in the MSAA tables
@@ -811,8 +892,8 @@ function PopulateGraphicsOptions()
   end)
 
   -- High-Resolution Asset Textures
-  PopulateCheckBox(Controls.AssetTextureResolutionCheckbox, InvertOptionInt(Options.GetGraphicsOption("Video", "ReducedAssetTextures")),
-                   function(option)
+  PopulateCheckBox(Controls.AssetTextureResolutionCheckbox,
+                   InvertOptionInt(Options.GetGraphicsOption("Video", "ReducedAssetTextures")), function(option)
     Controls.MemorySlider:SetStepAndCall(memory_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("Video", "ReducedAssetTextures", not option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
@@ -820,7 +901,8 @@ function PopulateGraphicsOptions()
   end)
 
   -- High-Quality Visual Effects
-  PopulateComboBox(Controls.VFXDetailLevelPullDown, vfx_options, Options.GetGraphicsOption("General", "VFXDetailLevel"), function(option)
+  PopulateComboBox(Controls.VFXDetailLevelPullDown, vfx_options, Options.GetGraphicsOption("General", "VFXDetailLevel"),
+                   function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("General", "VFXDetailLevel", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
@@ -830,15 +912,16 @@ function PopulateGraphicsOptions()
   -- Advanced Settings - Lighting
   -------------------------------------------------------------------------------
   -- Bloom Enabled
-  PopulateCheckBox(Controls.LightingBloomEnabledCheckbox, Options.GetGraphicsOption("Bloom", "EnableBloom"), function(option)
+  PopulateCheckBox(Controls.LightingBloomEnabledCheckbox, Options.GetGraphicsOption("Bloom", "EnableBloom"),
+                   function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("Bloom", "EnableBloom", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
   end)
 
   -- Dynamic Lighting Enabled
-  PopulateCheckBox(Controls.LightingDynamicLightingEnabledCheckbox, Options.GetGraphicsOption("DynamicLighting", "EnableDynamicLighting"),
-                   function(option)
+  PopulateCheckBox(Controls.LightingDynamicLightingEnabledCheckbox,
+                   Options.GetGraphicsOption("DynamicLighting", "EnableDynamicLighting"), function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("DynamicLighting", "EnableDynamicLighting", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
@@ -848,7 +931,8 @@ function PopulateGraphicsOptions()
   -- Advanced Settings - Shadows
   -------------------------------------------------------------------------------
   -- Shadows Enabled
-  PopulateCheckBox(Controls.ShadowsEnabledCheckbox, Options.GetGraphicsOption("Shadows", "EnableShadows"), function(option)
+  PopulateCheckBox(Controls.ShadowsEnabledCheckbox, Options.GetGraphicsOption("Shadows", "EnableShadows"),
+                   function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("Shadows", "EnableShadows", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ShadowsResolutionPullDown:SetDisabled(not option)
@@ -856,15 +940,16 @@ function PopulateGraphicsOptions()
   end)
 
   -- Shadow Resolution
-  PopulateComboBox(Controls.ShadowsResolutionPullDown, shadowResolution_options, Options.GetGraphicsOption("Video", "ShadowMapResolution"),
-                   function(option)
+  PopulateComboBox(Controls.ShadowsResolutionPullDown, shadowResolution_options,
+                   Options.GetGraphicsOption("Video", "ShadowMapResolution"), function(option)
     Controls.MemorySlider:SetStepAndCall(memory_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("Video", "ShadowMapResolution", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
   end, Options.GetGraphicsOption("Shadows", "EnableShadows") == 0)
 
   -- Cloud Shadows Enabled
-  PopulateCheckBox(Controls.CloudShadowsEnabledCheckbox, Options.GetGraphicsOption("CloudShadows", "EnableCloudShadows"), function(option)
+  PopulateCheckBox(Controls.CloudShadowsEnabledCheckbox,
+                   Options.GetGraphicsOption("CloudShadows", "EnableCloudShadows"), function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("CloudShadows", "EnableCloudShadows", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
@@ -874,7 +959,8 @@ function PopulateGraphicsOptions()
   -------------------------------------------------------------------------------
   -- Overlay Resolution
   -- Screen-Space Overlay Enabled
-  PopulateCheckBox(Controls.SSOverlayEnabledCheckbox, Options.GetGraphicsOption("General", "ScreenSpaceOverlay"), function(option)
+  PopulateCheckBox(Controls.SSOverlayEnabledCheckbox, Options.GetGraphicsOption("General", "ScreenSpaceOverlay"),
+                   function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("General", "ScreenSpaceOverlay", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
@@ -884,8 +970,8 @@ function PopulateGraphicsOptions()
   -- Advanced Settings - Terrain
   -------------------------------------------------------------------------------
   -- Terrain Quality
-  PopulateComboBox(Controls.TerrainQualityPullDown, terrainQuality_options, Options.GetGraphicsOption("Terrain", "TerrainQuality"),
-                   function(option)
+  PopulateComboBox(Controls.TerrainQualityPullDown, terrainQuality_options,
+                   Options.GetGraphicsOption("Terrain", "TerrainQuality"), function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("Terrain", "TerrainQuality", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
@@ -896,7 +982,9 @@ function PopulateGraphicsOptions()
   local terrainSynthesis_option = Options.GetGraphicsOption("Terrain", "TerrainSynthesisDetailLevel")
 
   -- 1 = full-res, 2 = low-res, because of course.
-  if (terrainSynthesis_option == 2) then terrainSynthesis_option = 0 end
+  if (terrainSynthesis_option == 2) then
+    terrainSynthesis_option = 0
+  end
 
   PopulateCheckBox(Controls.TerrainSynthesisCheckbox, terrainSynthesis_option, function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
@@ -921,8 +1009,8 @@ function PopulateGraphicsOptions()
   end)
 
   -- Low-quality Shader
-  PopulateCheckBox(Controls.TerrainShaderCheckbox, InvertOptionInt(Options.GetGraphicsOption("Terrain", "LowQualityTerrainShader")),
-                   function(option)
+  PopulateCheckBox(Controls.TerrainShaderCheckbox,
+                   InvertOptionInt(Options.GetGraphicsOption("Terrain", "LowQualityTerrainShader")), function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("Terrain", "LowQualityTerrainShader", not option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
 
@@ -942,16 +1030,19 @@ function PopulateGraphicsOptions()
   end, Options.GetGraphicsOption("Terrain", "LowQualityTerrainShader") == 1)
 
   -- Ambient Occlusion Render and Depth Resolutions
-  PopulateComboBox(Controls.TerrainAOResolutionPullDown, aoResolution_options, Options.GetGraphicsOption("Video", "AORenderResolution"),
-                   function(option)
+  PopulateComboBox(Controls.TerrainAOResolutionPullDown, aoResolution_options,
+                   Options.GetGraphicsOption("Video", "AORenderResolution"), function(option)
     Controls.MemorySlider:SetStepAndCall(memory_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("Video", "AORenderResolution", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Options.SetGraphicsOption("Video", "AODepthResolution", option)
     Controls.ConfirmButton:SetDisabled(false)
-  end, Options.GetGraphicsOption("AO", "EnableAO") == 0 or Options.GetGraphicsOption("Terrain", "LowQualityTerrainShader") == 1)
+  end,
+                   Options.GetGraphicsOption("AO", "EnableAO") == 0 or
+                     Options.GetGraphicsOption("Terrain", "LowQualityTerrainShader") == 1)
 
   -- Clutter Detail Level
-  PopulateCheckBox(Controls.TerrainClutterCheckbox, Options.GetGraphicsOption("General", "ClutterDetailLevel"), function(option)
+  PopulateCheckBox(Controls.TerrainClutterCheckbox, Options.GetGraphicsOption("General", "ClutterDetailLevel"),
+                   function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("General", "ClutterDetailLevel", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
@@ -961,16 +1052,16 @@ function PopulateGraphicsOptions()
   -- Advanced Settings - Water
   -------------------------------------------------------------------------------
   -- Water Quality
-  PopulateCheckBox(Controls.WaterResolutionCheckbox, InvertOptionInt(Options.GetGraphicsOption("General", "UseLowResWater")),
-                   function(option)
+  PopulateCheckBox(Controls.WaterResolutionCheckbox,
+                   InvertOptionInt(Options.GetGraphicsOption("General", "UseLowResWater")), function(option)
     Controls.MemorySlider:SetStepAndCall(memory_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("General", "UseLowResWater", not option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
   end)
 
   -- Water Shader
-  PopulateCheckBox(Controls.WaterShaderCheckbox, InvertOptionInt(Options.GetGraphicsOption("General", "UseLowQualityWaterShader")),
-                   function(option)
+  PopulateCheckBox(Controls.WaterShaderCheckbox,
+                   InvertOptionInt(Options.GetGraphicsOption("General", "UseLowQualityWaterShader")), function(option)
     -- Only high-quality water shader has reflections
     Controls.ReflectionPassesPullDown:SetDisabled(not option)
 
@@ -983,8 +1074,8 @@ function PopulateGraphicsOptions()
   -- Advanced Settings - Reflections
   -------------------------------------------------------------------------------
   -- Screen-space Reflection Passes
-  PopulateComboBox(Controls.ReflectionPassesPullDown, reflectionPasses_options, Options.GetGraphicsOption("General", "SSReflectPasses"),
-                   function(option)
+  PopulateComboBox(Controls.ReflectionPassesPullDown, reflectionPasses_options,
+                   Options.GetGraphicsOption("General", "SSReflectPasses"), function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("General", "SSReflectPasses", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
@@ -1006,16 +1097,20 @@ function PopulateGraphicsOptions()
   end
 
   -- Leader Quality
-  PopulateComboBox(Controls.LeaderQualityPullDown, leaderQuality_options, Options.GetGraphicsOption("Leaders", "Quality"), function(option)
+  PopulateComboBox(Controls.LeaderQualityPullDown, leaderQuality_options,
+                   Options.GetGraphicsOption("Leaders", "Quality"), function(option)
     Controls.PerformanceSlider:SetStepAndCall(performance_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("Leaders", "Quality", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
-    if (UI.LeaderQualityRequiresRestart(option)) then _PromptRestartGame = true end
+    if (UI.LeaderQualityRequiresRestart(option)) then
+      _PromptRestartGame = true
+    end
     UpdateMotionBlurCheckbox(option)
     Controls.ConfirmButton:SetDisabled(false)
   end)
 
   -- Leader Motion Blur
-  PopulateCheckBox(Controls.MotionBlurEnabledCheckbox, Options.GetGraphicsOption("Leaders", "EnableMotionBlur"), function(option)
+  PopulateCheckBox(Controls.MotionBlurEnabledCheckbox, Options.GetGraphicsOption("Leaders", "EnableMotionBlur"),
+                   function(option)
     Controls.MemorySlider:SetStepAndCall(memory_customStep) -- It's enough to set just one of the Impact sliders to "custom", the logic sets the other one
     Options.SetGraphicsOption("Leaders", "EnableMotionBlur", option) -- First set the sliders to "custom", then set the new value, otherwise ProcessExternally() will overwrite the new value with a preset
     Controls.ConfirmButton:SetDisabled(false)
@@ -1047,18 +1142,23 @@ function TemporaryHardCodedGoodness()
   local boolean_options = {{"LOC_OPTIONS_ENABLED", 1}, {"LOC_OPTIONS_DISABLED", 0}}
 
   local tutorial_options = {
-    {"LOC_OPTIONS_DISABLED", -1}, {"LOC_OPTIONS_TUTORIAL_FAMILIAR_STRATEGY", 0}, {"LOC_OPTIONS_TUTORIAL_FAMILIAR_CIVILIZATION", 1}
+    {"LOC_OPTIONS_DISABLED", -1}, {"LOC_OPTIONS_TUTORIAL_FAMILIAR_STRATEGY", 0},
+    {"LOC_OPTIONS_TUTORIAL_FAMILIAR_CIVILIZATION", 1}
   }
 
   local currentTutorialLevel = Options.GetUserOption("Gameplay", "TutorialLevel")
-  if (HasExpansion1() or currentTutorialLevel == 2) then table.insert(tutorial_options, {"LOC_OPTIONS_TUTORIAL_NEW_TO_XP1", 2}) end
+  if (HasExpansion1() or currentTutorialLevel == 2) then
+    table.insert(tutorial_options, {"LOC_OPTIONS_TUTORIAL_NEW_TO_XP1", 2})
+  end
 
   local currentTutorialLevel = Options.GetUserOption("Gameplay", "TutorialLevel")
-  if (HasExpansion2() or currentTutorialLevel == 3) then table.insert(tutorial_options, {"LOC_OPTIONS_TUTORIAL_NEW_TO_XP2", 3}) end
+  if (HasExpansion2() or currentTutorialLevel == 3) then
+    table.insert(tutorial_options, {"LOC_OPTIONS_TUTORIAL_NEW_TO_XP2", 3})
+  end
 
   local autosave_settings = {
-    {"1", 1}, {"2", 2}, {"3", 3}, {"4", 4}, {"5", 5}, {"6", 6}, {"7", 7}, {"8", 8}, {"9", 9}, {"10", 10}, {"50", 50}, {"100", 100},
-    {"LOC_OPTIONS_ALL_AUTOSAVES", 999999}
+    {"1", 1}, {"2", 2}, {"3", 3}, {"4", 4}, {"5", 5}, {"6", 6}, {"7", 7}, {"8", 8}, {"9", 9}, {"10", 10}, {"50", 50},
+    {"100", 100}, {"LOC_OPTIONS_ALL_AUTOSAVES", 999999}
   }
 
   -- Quick note about language names.
@@ -1071,28 +1171,37 @@ function TemporaryHardCodedGoodness()
   local language_options = {}
   local languages = Locale.GetLanguages()
 
-  for i, v in ipairs(languages) do table.insert(language_options, {Locale.Lookup("{1: title}", v.Name), v.Locale}) end
+  for i, v in ipairs(languages) do
+    table.insert(language_options, {Locale.Lookup("{1: title}", v.Name), v.Locale})
+  end
 
-  function LangName(l) return Locale.Lookup("{1: title}", Locale.GetLanguageDisplayName(l, currentLocale)) end
+  function LangName(l)
+    return Locale.Lookup("{1: title}", Locale.GetLanguageDisplayName(l, currentLocale))
+  end
 
   local audio_language_options = {}
   local audioLanguages = Locale.GetAudioLanguages()
 
-  for i, v in ipairs(audioLanguages) do table.insert(audio_language_options, {LangName(v.Locale), v.AudioLanguage}) end
+  for i, v in ipairs(audioLanguages) do
+    table.insert(audio_language_options, {LangName(v.Locale), v.AudioLanguage})
+  end
 
   local clock_options = {{"LOC_OPTIONS_12HOUR", 0}, {"LOC_OPTIONS_24HOUR", 1}}
 
   local grab_options = {{"LOC_OPTIONS_NEVER", 0}, {"LOC_OPTIONS_WINDOW_MODE_FULLSCREEN", 1}, {"LOC_OPTIONS_ALWAYS", 2}}
 
   local ribbon_options = {
-    {"LOC_OPTIONS_RIBBON_STATS_ALWAYS_HIDE", 0}, {"LOC_OPTIONS_RIBBON_STATS_MOUSE_OVER", 1}, {"LOC_OPTIONS_RIBBON_STATS_ALWAYS_SHOW", 2}
+    {"LOC_OPTIONS_RIBBON_STATS_ALWAYS_HIDE", 0}, {"LOC_OPTIONS_RIBBON_STATS_MOUSE_OVER", 1},
+    {"LOC_OPTIONS_RIBBON_STATS_ALWAYS_SHOW", 2}
   }
 
   -- Pulldown options for PlayByCloudEndTurnBehavior.
   local playByCloud_endturn_options = {
     {"LOC_OPTIONS_PLAYBYCLOUD_END_TURN_BEHAVIOR_ASK_ME", PlayByCloudEndTurnBehaviorType.PBC_ENDTURN_ASK_ME},
-    {"LOC_OPTIONS_PLAYBYCLOUD_END_TURN_BEHAVIOR_DO_NOTHING", PlayByCloudEndTurnBehaviorType.PBC_ENDTURN_DO_NOTHING},
-    {"LOC_OPTIONS_PLAYBYCLOUD_END_TURN_BEHAVIOR_EXIT_TO_MAINMENU", PlayByCloudEndTurnBehaviorType.PBC_ENDTURN_EXIT_MAINMENU}
+    {"LOC_OPTIONS_PLAYBYCLOUD_END_TURN_BEHAVIOR_DO_NOTHING", PlayByCloudEndTurnBehaviorType.PBC_ENDTURN_DO_NOTHING}, {
+      "LOC_OPTIONS_PLAYBYCLOUD_END_TURN_BEHAVIOR_EXIT_TO_MAINMENU",
+      PlayByCloudEndTurnBehaviorType.PBC_ENDTURN_EXIT_MAINMENU
+    }
   }
 
   -- Pulldown options for PlayByCloudClientReadyBehavior.
@@ -1104,25 +1213,28 @@ function TemporaryHardCodedGoodness()
 
   -- Pulldown options for ColorblindAdaptation.
   local colorblindAdaptation_options = {
-    {"LOC_OPTIONS_CBADAPT_DO_NOTHING", 0}, {"LOC_OPTIONS_CBADAPT_PROTANOPIA", 1}, {"LOC_OPTIONS_CBADAPT_DEUTERANOPIA", 2},
-    {"LOC_OPTIONS_CBADAPT_TRITANOPIA", 3}
+    {"LOC_OPTIONS_CBADAPT_DO_NOTHING", 0}, {"LOC_OPTIONS_CBADAPT_PROTANOPIA", 1},
+    {"LOC_OPTIONS_CBADAPT_DEUTERANOPIA", 2}, {"LOC_OPTIONS_CBADAPT_TRITANOPIA", 3}
   }
 
   -- Pulldown options for UseRGBLighting
   local lightingRGB_options = {{"LOC_OPTIONS_DISABLED", 0}, {"LOC_OPTIONS_ENABLED", 1}}
   -- Populate the pull-downs because we can't do this in XML.
   -- Gameplay
-  PopulateComboBox(Controls.QuickCombatPullDown, boolean_options, Options.GetUserOption("Gameplay", "QuickCombat"), function(option)
+  PopulateComboBox(Controls.QuickCombatPullDown, boolean_options, Options.GetUserOption("Gameplay", "QuickCombat"),
+                   function(option)
     Options.SetUserOption("Gameplay", "QuickCombat", option)
     Controls.ConfirmButton:SetDisabled(false)
   end, UserConfiguration.IsValueLocked("QuickCombat"))
 
-  PopulateComboBox(Controls.QuickMovementPullDown, boolean_options, Options.GetUserOption("Gameplay", "QuickMovement"), function(option)
+  PopulateComboBox(Controls.QuickMovementPullDown, boolean_options, Options.GetUserOption("Gameplay", "QuickMovement"),
+                   function(option)
     Options.SetUserOption("Gameplay", "QuickMovement", option)
     Controls.ConfirmButton:SetDisabled(false)
   end, UserConfiguration.IsValueLocked("QuickMovement"))
 
-  PopulateComboBox(Controls.AutoEndTurnPullDown, boolean_options, Options.GetUserOption("Gameplay", "AutoEndTurn"), function(option)
+  PopulateComboBox(Controls.AutoEndTurnPullDown, boolean_options, Options.GetUserOption("Gameplay", "AutoEndTurn"),
+                   function(option)
     Options.SetUserOption("Gameplay", "AutoEndTurn", option)
     Controls.ConfirmButton:SetDisabled(false)
   end, UserConfiguration.IsValueLocked("AutoEndTurn"))
@@ -1133,30 +1245,34 @@ function TemporaryHardCodedGoodness()
     Controls.ConfirmButton:SetDisabled(false)
   end, UserConfiguration.IsValueLocked("CityRangeAttackTurnBlocking"))
 
-  PopulateComboBox(Controls.TunerPullDown, boolean_options, Options.GetAppOption("Debug", "EnableTuner"), function(option)
+  PopulateComboBox(Controls.TunerPullDown, boolean_options, Options.GetAppOption("Debug", "EnableTuner"),
+                   function(option)
     Options.SetAppOption("Debug", "EnableTuner", option)
     Controls.ConfirmButton:SetDisabled(false)
     _PromptRestartApp = true
   end)
 
-  PopulateComboBox(Controls.AutoDownloadPullDown, boolean_options, Options.GetUserOption("Multiplayer", "AutoModDownload"), function(option)
+  PopulateComboBox(Controls.AutoDownloadPullDown, boolean_options,
+                   Options.GetUserOption("Multiplayer", "AutoModDownload"), function(option)
     Options.SetUserOption("Multiplayer", "AutoModDownload", option)
     Controls.ConfirmButton:SetDisabled(false)
   end)
 
-  PopulateComboBox(Controls.TutorialPullDown, tutorial_options, Options.GetUserOption("Gameplay", "TutorialLevel"), function(option)
+  PopulateComboBox(Controls.TutorialPullDown, tutorial_options, Options.GetUserOption("Gameplay", "TutorialLevel"),
+                   function(option)
     Options.SetUserOption("Gameplay", "TutorialLevel", option)
     Options.SetUserOption("Tutorial", "HasChosenTutorialLevel", 1)
     Controls.ConfirmButton:SetDisabled(false)
   end, UserConfiguration.IsValueLocked("TutorialLevel"))
 
-  PopulateComboBox(Controls.SaveFrequencyPullDown, autosave_settings, Options.GetUserOption("Gameplay", "AutoSaveFrequency"),
-                   function(option)
+  PopulateComboBox(Controls.SaveFrequencyPullDown, autosave_settings,
+                   Options.GetUserOption("Gameplay", "AutoSaveFrequency"), function(option)
     Options.SetUserOption("Gameplay", "AutoSaveFrequency", option)
     Controls.ConfirmButton:SetDisabled(false)
   end)
 
-  PopulateComboBox(Controls.SaveKeepPullDown, autosave_settings, Options.GetUserOption("Gameplay", "AutoSaveKeepCount"), function(option)
+  PopulateComboBox(Controls.SaveKeepPullDown, autosave_settings, Options.GetUserOption("Gameplay", "AutoSaveKeepCount"),
+                   function(option)
     Options.SetUserOption("Gameplay", "AutoSaveKeepCount", option)
     Controls.ConfirmButton:SetDisabled(false)
   end)
@@ -1172,7 +1288,8 @@ function TemporaryHardCodedGoodness()
     Controls.ConfirmButton:SetDisabled(false)
   end)
 
-  PopulateCheckBox(Controls.TimeOfDayCheckbox, Options.GetGraphicsOption("General", "AmbientTimeOfDay"), function(option)
+  PopulateCheckBox(Controls.TimeOfDayCheckbox, Options.GetGraphicsOption("General", "AmbientTimeOfDay"),
+                   function(option)
     Options.SetGraphicsOption("General", "AmbientTimeOfDay", option)
     UI.SetAmbientTimeOfDayAnimating(option)
     Controls.ConfirmButton:SetDisabled(false)
@@ -1180,7 +1297,8 @@ function TemporaryHardCodedGoodness()
 
   Controls.HistoricMomentsAnimStack:SetHide(not HasExpansion1())
   if HasExpansion1() then
-    PopulateCheckBox(Controls.HistoricMomentsAnimCheckbox, Options.GetUserOption("General", "PlayHistoricMomentAnimation"), function(option)
+    PopulateCheckBox(Controls.HistoricMomentsAnimCheckbox,
+                     Options.GetUserOption("General", "PlayHistoricMomentAnimation"), function(option)
       Options.SetUserOption("Interface", "PlayHistoricMomentAnimation", option and 1 or 0)
       Controls.ConfirmButton:SetDisabled(false)
     end)
@@ -1203,27 +1321,29 @@ function TemporaryHardCodedGoodness()
     Controls.ConfirmButton:SetDisabled(false)
   end)
 
-  PopulateComboBox(Controls.TurnWebhookFreqPullDown, webhookFreq_options, Options.GetUserOption("Multiplayer", "TurnWebHookFrequency"),
-                   function(option)
+  PopulateComboBox(Controls.TurnWebhookFreqPullDown, webhookFreq_options,
+                   Options.GetUserOption("Multiplayer", "TurnWebHookFrequency"), function(option)
     Options.SetUserOption("Multiplayer", "TurnWebHookFrequency", option)
     Controls.ConfirmButton:SetDisabled(false)
   end)
 
   -- Language
-  PopulateComboBox(Controls.DisplayLanguagePullDown, language_options, Options.GetAppOption("Language", "DisplayLanguage"), function(option)
+  PopulateComboBox(Controls.DisplayLanguagePullDown, language_options,
+                   Options.GetAppOption("Language", "DisplayLanguage"), function(option)
     Options.SetAppOption("Language", "DisplayLanguage", option)
     Controls.ConfirmButton:SetDisabled(false)
     _PromptRestartApp = true
   end)
 
-  PopulateComboBox(Controls.SpokenLanguagePullDown, audio_language_options, Options.GetAppOption("Language", "AudioLanguage"),
-                   function(option)
+  PopulateComboBox(Controls.SpokenLanguagePullDown, audio_language_options,
+                   Options.GetAppOption("Language", "AudioLanguage"), function(option)
     Options.SetAppOption("Language", "AudioLanguage", option)
     Controls.ConfirmButton:SetDisabled(false)
     _PromptRestartApp = true
   end)
 
-  PopulateCheckBox(Controls.EnableSubtitlesCheckbox, Options.GetAppOption("Language", "EnableSubtitles"), function(value)
+  PopulateCheckBox(Controls.EnableSubtitlesCheckbox, Options.GetAppOption("Language", "EnableSubtitles"),
+                   function(value)
     if (value == true) then
       Options.SetAppOption("Language", "EnableSubtitles", 1)
     else
@@ -1291,7 +1411,8 @@ function TemporaryHardCodedGoodness()
   --        end
   --    );
   -- Interface
-  PopulateComboBox(Controls.ClockFormat, clock_options, Options.GetUserOption("Interface", "ClockFormat"), function(option)
+  PopulateComboBox(Controls.ClockFormat, clock_options, Options.GetUserOption("Interface", "ClockFormat"),
+                   function(option)
     UserConfiguration.SetValue("ClockFormat", option)
     Options.SetUserOption("Interface", "ClockFormat", option)
     Controls.ConfirmButton:SetDisabled(false)
@@ -1309,14 +1430,15 @@ function TemporaryHardCodedGoodness()
     Controls.ConfirmButton:SetDisabled(false)
   end)
 
-  PopulateComboBox(Controls.ColorblindAdaptation, colorblindAdaptation_options, Options.GetAppOption("UI", "ColorblindAdaptation"),
-                   function(option)
+  PopulateComboBox(Controls.ColorblindAdaptation, colorblindAdaptation_options,
+                   Options.GetAppOption("UI", "ColorblindAdaptation"), function(option)
     Options.SetAppOption("UI", "ColorblindAdaptation", option)
     Controls.ConfirmButton:SetDisabled(false)
     _PromptRestartGame = true
   end)
 
-  PopulateComboBox(Controls.RGBControl, lightingRGB_options, Options.GetAppOption("UI", "UseRGBLighting"), function(option)
+  PopulateComboBox(Controls.RGBControl, lightingRGB_options, Options.GetAppOption("UI", "UseRGBLighting"),
+                   function(option)
     Options.SetAppOption("UI", "UseRGBLighting", option)
     Controls.ConfirmButton:SetDisabled(false)
     _PromptRestartApp = true
@@ -1328,41 +1450,46 @@ function TemporaryHardCodedGoodness()
   else
     Controls.ColorblindAdaptation:SetDisabled(false)
   end
-  PopulateComboBox(Controls.StartInStrategicView, boolean_options, Options.GetUserOption("Gameplay", "StartInStrategicView"),
-                   function(option)
+  PopulateComboBox(Controls.StartInStrategicView, boolean_options,
+                   Options.GetUserOption("Gameplay", "StartInStrategicView"), function(option)
     Options.SetUserOption("Gameplay", "StartInStrategicView", option)
     Controls.ConfirmButton:SetDisabled(false)
     _PromptRestartGame = true
   end)
 
-  PopulateComboBox(Controls.MouseGrabPullDown, grab_options, Options.GetAppOption("Video", "MouseGrab"), function(option)
+  PopulateComboBox(Controls.MouseGrabPullDown, grab_options, Options.GetAppOption("Video", "MouseGrab"),
+                   function(option)
     Options.SetAppOption("Video", "MouseGrab", option)
     Controls.ConfirmButton:SetDisabled(false)
     _PromptRestartApp = true
   end)
 
-  PopulateComboBox(Controls.EdgeScrollPullDown, boolean_options, Options.GetUserOption("Gameplay", "EdgePan"), function(option)
+  PopulateComboBox(Controls.EdgeScrollPullDown, boolean_options, Options.GetUserOption("Gameplay", "EdgePan"),
+                   function(option)
     Options.SetUserOption("Gameplay", "EdgePan", option)
     Controls.ConfirmButton:SetDisabled(false)
     _PromptRestartApp = true
   end, UserConfiguration.IsValueLocked("EdgePan"))
 
-  PopulateComboBox(Controls.AutoProdQueuePullDown, boolean_options, Options.GetUserOption("Gameplay", "AutoProdQueue"), function(option)
+  PopulateComboBox(Controls.AutoProdQueuePullDown, boolean_options, Options.GetUserOption("Gameplay", "AutoProdQueue"),
+                   function(option)
     Options.SetUserOption("Gameplay", "AutoProdQueue", option)
     Controls.ConfirmButton:SetDisabled(false)
   end, UserConfiguration.IsValueLocked("AutoProdQueue"))
-  PopulateComboBox(Controls.ReplaceDragWithClickPullDown, boolean_options, Options.GetUserOption("Interface", "ReplaceDragWithClick"),
-                   function(option)
+  PopulateComboBox(Controls.ReplaceDragWithClickPullDown, boolean_options,
+                   Options.GetUserOption("Interface", "ReplaceDragWithClick"), function(option)
     Options.SetUserOption("Interface", "ReplaceDragWithClick", option)
     Controls.ConfirmButton:SetDisabled(false)
     _PromptRestartApp = true
   end, UserConfiguration.IsValueLocked("ReplaceDragWithClick"))
-  PopulateComboBox(Controls.UnitCyclingPullDown, boolean_options, Options.GetUserOption("Gameplay", "AutoUnitCycle"), function(option)
+  PopulateComboBox(Controls.UnitCyclingPullDown, boolean_options, Options.GetUserOption("Gameplay", "AutoUnitCycle"),
+                   function(option)
     Options.SetUserOption("Gameplay", "AutoUnitCycle", option)
     Controls.ConfirmButton:SetDisabled(false)
   end, UserConfiguration.IsValueLocked("AutoUnitCycle"))
 
-  PopulateComboBox(Controls.RibbonStatsPullDown, ribbon_options, Options.GetUserOption("Interface", "RibbonStats"), function(option)
+  PopulateComboBox(Controls.RibbonStatsPullDown, ribbon_options, Options.GetUserOption("Interface", "RibbonStats"),
+                   function(option)
     Options.SetUserOption("Interface", "RibbonStats", option)
     Controls.ConfirmButton:SetDisabled(false)
   end, UserConfiguration.IsValueLocked("RibbonStats"))
@@ -1398,12 +1525,14 @@ function TemporaryHardCodedGoodness()
   end)
 
   -- Application
-  PopulateComboBox(Controls.ShowIntroPullDown, boolean_options, Options.GetAppOption("Video", "PlayIntroVideo"), function(option)
+  PopulateComboBox(Controls.ShowIntroPullDown, boolean_options, Options.GetAppOption("Video", "PlayIntroVideo"),
+                   function(option)
     Options.SetAppOption("Video", "PlayIntroVideo", option)
     Controls.ConfirmButton:SetDisabled(false)
   end)
 
-  PopulateCheckBox(Controls.WarnAboutModsCheckbox, Options.GetAppOption("UI", "WarnAboutModCompatibility"), function(option)
+  PopulateCheckBox(Controls.WarnAboutModsCheckbox, Options.GetAppOption("UI", "WarnAboutModCompatibility"),
+                   function(option)
     Options.SetAppOption("UI", "WarnAboutModCompatibility", option)
     Controls.ConfirmButton:SetDisabled(false)
   end)
@@ -1485,12 +1614,16 @@ function InitializeKeyBinding()
       entry.ActionName:SetText(action[ActionNameIndex])
       binding:SetText(action[Gesture1Index] or "")
       binding:SetToolTipString(Locale.Lookup(Input.GetActionDescription(action[ActionIdIndex])) or "")
-      binding:RegisterCallback(Mouse.eLClick, function() StartActiveKeyBinding(actionId, 0) end)
+      binding:RegisterCallback(Mouse.eLClick, function()
+        StartActiveKeyBinding(actionId, 0)
+      end)
 
       local altBinding = entry.AltBinding
       altBinding:SetText(action[Gesture2Index] or "")
       altBinding:SetToolTipString(Locale.Lookup(Input.GetActionDescription(action[ActionIdIndex])) or "")
-      altBinding:RegisterCallback(Mouse.eLClick, function() StartActiveKeyBinding(actionId, 1) end)
+      altBinding:RegisterCallback(Mouse.eLClick, function()
+        StartActiveKeyBinding(actionId, 1)
+      end)
 
     end
 
@@ -1530,7 +1663,9 @@ function InitializeKeyBinding()
   end
   Events.InputGestureRecorded.Add(BindRecordedGesture)
 
-  Controls.CancelBindingButton:RegisterCallback(Mouse.eLClick, function() StopActiveKeyBinding() end)
+  Controls.CancelBindingButton:RegisterCallback(Mouse.eLClick, function()
+    StopActiveKeyBinding()
+  end)
 
   Controls.ClearBindingButton:RegisterCallback(Mouse.eLClick, function()
     local currentAction = _CurrentAction
@@ -1571,7 +1706,8 @@ function OnShow()
 end
 
 -------------------------------------------------------------------------------
-function BroadcastGameConfigChanges() end -- Do nothing, we broadcast changes inside OnConfirm
+function BroadcastGameConfigChanges()
+end -- Do nothing, we broadcast changes inside OnConfirm
 
 -------------------------------------------------------------------------------
 function Options_UI_CreateParameter(o, parameter)
@@ -1584,7 +1720,9 @@ end
 BASE_Config_Read = SetupParameters.Config_Read
 function SetupParameters:Config_Read(group, id)
 
-  if m_pendingGameConfigChanges[group] and m_pendingGameConfigChanges[group][id] then return m_pendingGameConfigChanges[group][id] end
+  if m_pendingGameConfigChanges[group] and m_pendingGameConfigChanges[group][id] then
+    return m_pendingGameConfigChanges[group][id]
+  end
 
   return BASE_Config_Read(self, group, id)
 end
@@ -1596,7 +1734,9 @@ function SetupParameters:Config_Write(group, id, value)
   if prevValue ~= value then
     Controls.ConfirmButton:SetDisabled(false)
 
-    if not m_pendingGameConfigChanges[group] then m_pendingGameConfigChanges[group] = {} end
+    if not m_pendingGameConfigChanges[group] then
+      m_pendingGameConfigChanges[group] = {}
+    end
 
     m_pendingGameConfigChanges[group][id] = value
     return true
@@ -1624,14 +1764,18 @@ function Resize()
   if (screenY >= MIN_SCREEN_Y + (Controls.LogoContainer:GetSizeY() + Controls.LogoContainer:GetOffsetY() * 2)) then
     Controls.MainWindow:SetSizeY(screenY - (Controls.LogoContainer:GetSizeY() + Controls.LogoContainer:GetOffsetY() * 2))
     Controls.Content:SetSizeY(SCREEN_OFFSET_Y + Controls.MainWindow:GetSizeY() -
-                                  (Controls.ConfirmButton:GetSizeY() + Controls.LogoContainer:GetSizeY()))
+                                (Controls.ConfirmButton:GetSizeY() + Controls.LogoContainer:GetSizeY()))
   else
     Controls.MainWindow:SetSizeY(screenY)
     Controls.Content:SetSizeY(MIN_SCREEN_OFFSET_Y + Controls.MainWindow:GetSizeY() - (Controls.ConfirmButton:GetSizeY()))
   end
 end
 
-function OnUpdateUI(type, tag, iData1, iData2, strData1) if type == SystemUpdateUI.ScreenResize then Resize() end end
+function OnUpdateUI(type, tag, iData1, iData2, strData1)
+  if type == SystemUpdateUI.ScreenResize then
+    Resize()
+  end
+end
 
 function OnUpdateGraphicsOptions()
   PopulateGraphicsOptions() -- Ensure that the new monitor's resolutions are shown in the UI
@@ -1679,19 +1823,31 @@ function Initialize()
   _kPopupDialog = PopupDialog:new("Options")
 
   Controls.AdvancedGraphicsOptions:RegisterCallback(Mouse.eLClick, OnToggleAdvancedOptions)
-  Controls.AdvancedGraphicsOptions:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.AdvancedGraphicsOptions:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   Controls.WindowCloseButton:RegisterCallback(Mouse.eLClick, OnCancel)
-  Controls.WindowCloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.WindowCloseButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   Controls.ResetButton:RegisterCallback(Mouse.eLClick, OnReset)
-  Controls.ResetButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ResetButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   Controls.ConfirmButton:RegisterCallback(Mouse.eLClick, OnConfirm)
-  Controls.ConfirmButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ConfirmButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
-  Controls.CancelBindingButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
-  Controls.ClearBindingButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CancelBindingButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
+  Controls.ClearBindingButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   Events.OptionChangeRequiresAppRestart.Add(OnOptionChangeRequiresAppRestart)
   Events.OptionChangeRequiresGameRestart.Add(OnOptionChangeRequiresGameRestart)
@@ -1731,8 +1887,12 @@ function Initialize()
 
   for i, tab in ipairs(m_tabs) do
     local button = tab[1]
-    button:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
-    button:RegisterCallback(Mouse.eLClick, function() OnSelectTab(tab) end)
+    button:RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
+    button:RegisterCallback(Mouse.eLClick, function()
+      OnSelectTab(tab)
+    end)
     button:SetHide(false)
   end
 

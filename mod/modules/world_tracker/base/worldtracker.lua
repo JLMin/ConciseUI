@@ -114,9 +114,15 @@ local m_isDirty = false -- Note: renamed from "refresh" which is a built in Forg
 --	The following are a accessors for Expansions/MODs so they can obtain status
 --	of the common panels but don't have access to toggling them.
 -- ===========================================================================
-function IsChatHidden() return m_hideChat end
-function IsResearchHidden() return m_hideResearch end
-function IsCivicsHidden() return m_hideCivics end
+function IsChatHidden()
+  return m_hideChat
+end
+function IsResearchHidden()
+  return m_hideResearch
+end
+function IsCivicsHidden()
+  return m_hideCivics
+end
 
 -- ===========================================================================
 --	Checks all panels, static and dynamic as to whether or not they are hidden.
@@ -125,7 +131,11 @@ function IsCivicsHidden() return m_hideCivics end
 function IsAllPanelsHidden()
   local isHide = false
   local uiChildren = Controls.PanelStack:GetChildren()
-  for i, uiChild in ipairs(uiChildren) do if uiChild:IsVisible() then return false end end
+  for i, uiChild in ipairs(uiChildren) do
+    if uiChild:IsVisible() then
+      return false
+    end
+  end
   return true
 end
 
@@ -159,7 +169,9 @@ end
 function ToggleAll(hideAll)
 
   -- Do nothing if value didn't change
-  if m_hideAll == hideAll then return end
+  if m_hideAll == hideAll then
+    return
+  end
 
   m_hideAll = hideAll
 
@@ -195,7 +207,11 @@ function ToggleAll(hideAll)
 end
 
 -- ===========================================================================
-function OnWorldTrackerAnimationFinished() if (m_hideAll) then Controls.PanelStack:SetHide(true) end end
+function OnWorldTrackerAnimationFinished()
+  if (m_hideAll) then
+    Controls.PanelStack:SetHide(true)
+  end
+end
 
 -- ===========================================================================
 -- When the launch bar is resized, make sure to adjust the world tracker
@@ -219,7 +235,9 @@ end
 -- ===========================================================================
 function RealizeStack()
   Controls.PanelStack:CalculateSize()
-  if (m_hideAll) then ToggleAll(true) end
+  if (m_hideAll) then
+    ToggleAll(true)
+  end
 end
 
 -- ===========================================================================
@@ -230,7 +248,9 @@ function UpdateResearchPanel(isHideResearch)
     Controls.ResearchCheck:SetHide(true)
   end
 
-  if isHideResearch ~= nil then m_hideResearch = isHideResearch end
+  if isHideResearch ~= nil then
+    m_hideResearch = isHideResearch
+  end
 
   m_researchInstance.MainPanel:SetHide(m_hideResearch)
   Controls.ResearchCheck:SetCheck(not m_hideResearch)
@@ -240,7 +260,9 @@ function UpdateResearchPanel(isHideResearch)
 
   -- Set the technology to show (or -1 if none)...
   local iTech = m_currentResearchID
-  if m_currentResearchID == -1 then iTech = m_lastResearchCompletedID end
+  if m_currentResearchID == -1 then
+    iTech = m_lastResearchCompletedID
+  end
   local ePlayer = Game.GetLocalPlayer()
   local pPlayer = Players[ePlayer]
   local pPlayerTechs = pPlayer:GetTechs()
@@ -271,14 +293,18 @@ end
 function UpdateCivicsPanel(hideCivics)
 
   local ePlayer = Game.GetLocalPlayer()
-  if ePlayer == -1 then return end -- Autoplayer
+  if ePlayer == -1 then
+    return
+  end -- Autoplayer
 
   if not HasCapability("CAPABILITY_CIVICS_CHOOSER") then
     hideCivics = true
     Controls.CivicsCheck:SetHide(true)
   end
 
-  if hideCivics ~= nil then m_hideCivics = hideCivics end
+  if hideCivics ~= nil then
+    m_hideCivics = hideCivics
+  end
 
   m_civicsInstance.MainPanel:SetHide(m_hideCivics)
   Controls.CivicsCheck:SetCheck(not m_hideCivics)
@@ -288,7 +314,9 @@ function UpdateCivicsPanel(hideCivics)
 
   -- Set the civic to show (or -1 if none)...
   local iCivic = m_currentCivicID
-  if iCivic == -1 then iCivic = m_lastCivicCompletedID end
+  if iCivic == -1 then
+    iCivic = m_lastCivicCompletedID
+  end
   local pPlayer = Players[ePlayer]
   local pPlayerCulture = pPlayer:GetCulture()
   local kCivic = (iCivic ~= -1) and GameInfo.Civics[iCivic] or nil
@@ -301,7 +329,9 @@ function UpdateCivicsPanel(hideCivics)
     end
   end
 
-  for _, iconData in pairs(g_ExtraIconData) do iconData:Reset() end
+  for _, iconData in pairs(g_ExtraIconData) do
+    iconData:Reset()
+  end
   RealizeCurrentCivic(ePlayer, kCivicData, m_civicsInstance, m_CachedModifiers)
 
   -- No civic started (or finished)
@@ -363,7 +393,9 @@ function Refresh()
   m_currentResearchID = pPlayerTechs:GetResearchingTech()
 
   -- Only reset last completed tech once a new tech has been selected
-  if m_currentResearchID >= 0 then m_lastResearchCompletedID = -1 end
+  if m_currentResearchID >= 0 then
+    m_lastResearchCompletedID = -1
+  end
 
   UpdateResearchPanel()
 
@@ -371,12 +403,16 @@ function Refresh()
   m_currentCivicID = pPlayerCulture:GetProgressingCivic()
 
   -- Only reset last completed civic once a new civic has been selected
-  if m_currentCivicID >= 0 then m_lastCivicCompletedID = -1 end
+  if m_currentCivicID >= 0 then
+    m_lastCivicCompletedID = -1
+  end
 
   UpdateCivicsPanel()
 
   -- Hide world tracker by default if there are no tracker options enabled
-  if IsAllPanelsHidden() then ToggleAll(true) end
+  if IsAllPanelsHidden() then
+    ToggleAll(true)
+  end
 end
 
 -- ===========================================================================
@@ -384,7 +420,9 @@ end
 -- ===========================================================================
 function OnLocalPlayerTurnBegin()
   local localPlayer = Game.GetLocalPlayer()
-  if localPlayer ~= -1 then m_isDirty = true end
+  if localPlayer ~= -1 then
+    m_isDirty = true
+  end
   -- CUI
   cui_IsGossipTurnShown = false
   cui_IsCombatTurnShown = false
@@ -393,7 +431,11 @@ end
 -- ===========================================================================
 --	GAME EVENT
 -- ===========================================================================
-function OnCityInitialized(playerID, cityID) if playerID == Game.GetLocalPlayer() then m_isDirty = true end end
+function OnCityInitialized(playerID, cityID)
+  if playerID == Game.GetLocalPlayer() then
+    m_isDirty = true
+  end
+end
 
 -- ===========================================================================
 --	GAME EVENT
@@ -401,7 +443,9 @@ function OnCityInitialized(playerID, cityID) if playerID == Game.GetLocalPlayer(
 --	"turns to complete" values
 -- ===========================================================================
 function OnBuildingChanged(plotX, plotY, buildingIndex, playerID, cityID, iPercentComplete)
-  if playerID == Game.GetLocalPlayer() then m_isDirty = true end
+  if playerID == Game.GetLocalPlayer() then
+    m_isDirty = true
+  end
 end
 
 -- ===========================================================================
@@ -426,7 +470,9 @@ function OnCivicChanged(ePlayer, eCivic)
     local pPlayerCulture = Players[localPlayer]:GetCulture()
     m_currentCivicID = pPlayerCulture:GetProgressingCivic()
     m_lastCivicCompletedID = -1
-    if eCivic == m_currentCivicID then UpdateCivicsPanel() end
+    if eCivic == m_currentCivicID then
+      UpdateCivicsPanel()
+    end
   end
 end
 
@@ -447,15 +493,21 @@ end
 -- ===========================================================================
 function OnCultureYieldChanged(ePlayer)
   local localPlayer = Game.GetLocalPlayer()
-  if localPlayer ~= -1 and localPlayer == ePlayer then UpdateCivicsPanel() end
+  if localPlayer ~= -1 and localPlayer == ePlayer then
+    UpdateCivicsPanel()
+  end
 end
 
 -- ===========================================================================
 --	GAME EVENT
 -- ===========================================================================
 function OnInterfaceModeChanged(eOldMode, eNewMode)
-  if eNewMode == InterfaceModeTypes.VIEW_MODAL_LENS then ContextPtr:SetHide(true) end
-  if eOldMode == InterfaceModeTypes.VIEW_MODAL_LENS then ContextPtr:SetHide(false) end
+  if eNewMode == InterfaceModeTypes.VIEW_MODAL_LENS then
+    ContextPtr:SetHide(true)
+  end
+  if eOldMode == InterfaceModeTypes.VIEW_MODAL_LENS then
+    ContextPtr:SetHide(false)
+  end
 end
 
 -- ===========================================================================
@@ -481,9 +533,13 @@ function ShouldUpdateResearchPanel(ePlayer, eTech)
     m_currentResearchID = pPlayerTechs:GetResearchingTech()
 
     -- Only reset last completed tech once a new tech has been selected
-    if m_currentResearchID >= 0 then m_lastResearchCompletedID = -1 end
+    if m_currentResearchID >= 0 then
+      m_lastResearchCompletedID = -1
+    end
 
-    if eTech == m_currentResearchID then return true end
+    if eTech == m_currentResearchID then
+      return true
+    end
   end
   return false
 end
@@ -508,7 +564,9 @@ end
 -- ===========================================================================
 function OnResearchYieldChanged(ePlayer)
   local localPlayer = Game.GetLocalPlayer()
-  if localPlayer ~= -1 and localPlayer == ePlayer then UpdateResearchPanel() end
+  if localPlayer ~= -1 and localPlayer == ePlayer then
+    UpdateResearchPanel()
+  end
 end
 
 -- ===========================================================================
@@ -552,10 +610,18 @@ function OnGameDebugReturn(context, contextTable)
     m_currentCivicID = contextTable["m_currentCivicID"]
     m_lastCivicCompletedID = contextTable["m_lastCivicCompletedID"]
 
-    if m_currentResearchID == nil then m_currentResearchID = -1 end
-    if m_lastResearchCompletedID == nil then m_lastResearchCompletedID = -1 end
-    if m_currentCivicID == nil then m_currentCivicID = -1 end
-    if m_lastCivicCompletedID == nil then m_lastCivicCompletedID = -1 end
+    if m_currentResearchID == nil then
+      m_currentResearchID = -1
+    end
+    if m_lastResearchCompletedID == nil then
+      m_lastResearchCompletedID = -1
+    end
+    if m_currentCivicID == nil then
+      m_currentCivicID = -1
+    end
+    if m_lastCivicCompletedID == nil then
+      m_lastCivicCompletedID = -1
+    end
 
     -- Don't call refresh, use cached data from last hotload.
     UpdateResearchPanel()
@@ -564,10 +630,14 @@ function OnGameDebugReturn(context, contextTable)
 end
 
 -- ===========================================================================
-function OnTutorialGoalsShowing() RealizeStack() end
+function OnTutorialGoalsShowing()
+  RealizeStack()
+end
 
 -- ===========================================================================
-function OnTutorialGoalsHiding() RealizeStack() end
+function OnTutorialGoalsHiding()
+  RealizeStack()
+end
 
 -- ===========================================================================
 function Tutorial_ShowFullTracker()
@@ -610,13 +680,17 @@ end
 function RefreshWonderToolTip(tControl)
   tControl:ClearToolTipCallback()
   tControl:SetToolTipType("CuiWonderTT")
-  tControl:SetToolTipCallback(function() UpdateWonderToolTip(tControl) end)
+  tControl:SetToolTipCallback(function()
+    UpdateWonderToolTip(tControl)
+  end)
 end
 
 -- ---------------------------------------------------------------------------
 function UpdateWonderToolTip()
   local localPlayerID = Game.GetLocalPlayer()
-  if localPlayerID == -1 then return end
+  if localPlayerID == -1 then
+    return
+  end
 
   wonderInstance:ResetInstances()
   colorInstance:ResetInstances()
@@ -655,13 +729,17 @@ end
 function RefreshResourceToolTip(tControl)
   tControl:ClearToolTipCallback()
   tControl:SetToolTipType("CuiResourceTT")
-  tControl:SetToolTipCallback(function() UpdateResourceToolTip(tControl) end)
+  tControl:SetToolTipCallback(function()
+    UpdateResourceToolTip(tControl)
+  end)
 end
 
 -- ---------------------------------------------------------------------------
 function UpdateResourceToolTip()
   local localPlayerID = Game.GetLocalPlayer()
-  if localPlayerID == -1 then return end
+  if localPlayerID == -1 then
+    return
+  end
 
   resourceInstance:ResetInstances()
   resourceBarInstance:ResetInstances()
@@ -708,7 +786,9 @@ function UpdateResourceToolTip()
         perTurnText = "-"
       end
       icon.PerTurn:SetText(perTurnText)
-      if item.Amount > item.Cap then item.Amount = item.Cap end
+      if item.Amount > item.Cap then
+        item.Amount = item.Cap
+      end
       icon.Amount:SetText(item.Amount .. " / " .. item.Cap)
       local percent = item.Amount / item.Cap
       icon.PercentBar:SetPercent(percent)
@@ -731,14 +811,18 @@ function RefreshBorderToolTip(tControl)
   tControl:ClearToolTipCallback()
   if #borderData.Leaders > 0 then
     tControl:SetToolTipType("CuiBorderTT")
-    tControl:SetToolTipCallback(function() UpdateBorderToolTip(tControl) end)
+    tControl:SetToolTipCallback(function()
+      UpdateBorderToolTip(tControl)
+    end)
   end
 end
 
 -- ---------------------------------------------------------------------------
 function UpdateBorderToolTip()
   local localPlayerID = Game.GetLocalPlayer()
-  if localPlayerID == -1 then return end
+  if localPlayerID == -1 then
+    return
+  end
 
   borderInstance:ResetInstances()
 
@@ -777,16 +861,22 @@ function RefreshTradeToolTip(tControl)
   tControl:ClearToolTipCallback()
   if tradeData.Cap > 0 then
     tControl:SetToolTipType("CuiTradeTT")
-    tControl:SetToolTipCallback(function() UpdateTradeToolTip(tControl) end)
+    tControl:SetToolTipCallback(function()
+      UpdateTradeToolTip(tControl)
+    end)
   end
 end
 
 -- ---------------------------------------------------------------------------
 function UpdateTradeToolTip()
   local localPlayerID = Game.GetLocalPlayer()
-  if localPlayerID == -1 then return end
+  if localPlayerID == -1 then
+    return
+  end
 
-  if isNil(tradeData) then return end
+  if isNil(tradeData) then
+    return
+  end
 
   local textActive = tradeData.Routes
   if tradeData.Routes < tradeData.Cap then
@@ -826,7 +916,9 @@ end
 -- ===========================================================================
 --	CUI City Manager Functions
 -- ---------------------------------------------------------------------------
-function CuiOnCityManager() LuaEvents.CuiOnToggleCityManager() end
+function CuiOnCityManager()
+  LuaEvents.CuiOnToggleCityManager()
+end
 
 -- ===========================================================================
 --	CUI Log Functions
@@ -850,12 +942,16 @@ function CuiAddNewLog(logString, logType)
   if logType == ReportingStatusTypes.GOSSIP then
     logPanel = cui_GossipPanel
     entries = cui_GossipLogs
-    if logString then cui_GossipCount = cui_GossipCount + 1 end
+    if logString then
+      cui_GossipCount = cui_GossipCount + 1
+    end
     counter = cui_GossipCount
   elseif logType == ReportingStatusTypes.DEFAULT then
     logPanel = cui_CombatPanel
     entries = cui_CombatLogs
-    if logString then cui_CombatCount = cui_CombatCount + 1 end
+    if logString then
+      cui_CombatCount = cui_CombatCount + 1
+    end
     counter = cui_CombatCount
   else
     return
@@ -899,7 +995,9 @@ end
 -- ---------------------------------------------------------------------------
 function CuiContractGossipLog()
   cui_GossipState = cui_GossipState - 1
-  if cui_GossipState == 0 then cui_GossipState = 3 end
+  if cui_GossipState == 0 then
+    cui_GossipState = 3
+  end
   CuiSettings:SetNumber(CuiSettings.GOSSIP_LOG_STATE, cui_GossipState)
   CuiLogPanelResize(cui_GossipPanel, cui_GossipState)
 end
@@ -907,7 +1005,9 @@ end
 -- ---------------------------------------------------------------------------
 function CuiExpandGossipLog()
   cui_GossipState = cui_GossipState + 1
-  if cui_GossipState == 4 then cui_GossipState = 1 end
+  if cui_GossipState == 4 then
+    cui_GossipState = 1
+  end
   CuiSettings:SetNumber(CuiSettings.GOSSIP_LOG_STATE, cui_GossipState)
   CuiLogPanelResize(cui_GossipPanel, cui_GossipState)
 end
@@ -915,7 +1015,9 @@ end
 -- ---------------------------------------------------------------------------
 function CuiContractCombatLog()
   cui_CombatState = cui_CombatState - 1
-  if cui_CombatState == 0 then cui_CombatState = 3 end
+  if cui_CombatState == 0 then
+    cui_CombatState = 3
+  end
   CuiSettings:SetNumber(CuiSettings.COMBAT_LOG_STATE, cui_CombatState)
   CuiLogPanelResize(cui_CombatPanel, cui_CombatState)
 end
@@ -923,7 +1025,9 @@ end
 -- ---------------------------------------------------------------------------
 function CuiExpandCombatLog()
   cui_CombatState = cui_CombatState + 1
-  if cui_CombatState == 4 then cui_CombatState = 1 end
+  if cui_CombatState == 4 then
+    cui_CombatState = 1
+  end
   CuiSettings:SetNumber(CuiSettings.COMBAT_LOG_STATE, cui_CombatState)
   CuiLogPanelResize(cui_CombatPanel, cui_CombatState)
 end
@@ -988,7 +1092,9 @@ end
 -- ---------------------------------------------------------------------------
 function CuiTrackerRefresh()
   local localPlayer = Players[Game.GetLocalPlayer()]
-  if localPlayer == nil then return end
+  if localPlayer == nil then
+    return
+  end
 
   SupportInit()
 
@@ -1018,7 +1124,6 @@ function CuiOnLogCheckClick()
   RealizeStack()
 end
 
-
 -- ===========================================================================
 function CuiInit()
 
@@ -1047,7 +1152,6 @@ function CuiInit()
   LuaEvents.CuiLogSettingChange.Add(CuiLogPanelRefresh)
   LuaEvents.CuiPlayerPopulationChanged.Add(CuiOnPopulationChanged)
 end
-
 
 -- ===========================================================================
 -- Handling chat panel expansion
@@ -1083,19 +1187,27 @@ function AttachDynamicUI()
     local uiInstance = {}
     ContextPtr:BuildInstanceForControl(kData.InstanceType, uiInstance, Controls.PanelStack)
     if uiInstance.IconButton then
-      uiInstance.IconButton:RegisterCallback(Mouse.eLClick, function() kData.SelectFunc() end)
+      uiInstance.IconButton:RegisterCallback(Mouse.eLClick, function()
+        kData.SelectFunc()
+      end)
     end
     table.insert(g_TrackedInstances, uiInstance)
 
-    if (uiInstance.TitleButton) then uiInstance.TitleButton:LocalizeAndSetText(kData.Name) end
+    if (uiInstance.TitleButton) then
+      uiInstance.TitleButton:LocalizeAndSetText(kData.Name)
+    end
   end
 end
 
 -- ===========================================================================
-function OnForceHide() ContextPtr:SetHide(true) end
+function OnForceHide()
+  ContextPtr:SetHide(true)
+end
 
 -- ===========================================================================
-function OnForceShow() ContextPtr:SetHide(false) end
+function OnForceShow()
+  ContextPtr:SetHide(false)
+end
 
 -- ===========================================================================
 function Subscribe()
@@ -1189,9 +1301,12 @@ function Initialize()
   -- Create semi-dynamic instances; hack: change parent back to self for ordering:
   ContextPtr:BuildInstanceForControl("ResearchInstance", m_researchInstance, Controls.PanelStack)
   ContextPtr:BuildInstanceForControl("CivicInstance", m_civicsInstance, Controls.PanelStack)
-  m_researchInstance.IconButton:RegisterCallback(Mouse.eLClick,
-                                                 function() LuaEvents.WorldTracker_OpenChooseResearch() end)
-  m_civicsInstance.IconButton:RegisterCallback(Mouse.eLClick, function() LuaEvents.WorldTracker_OpenChooseCivic() end)
+  m_researchInstance.IconButton:RegisterCallback(Mouse.eLClick, function()
+    LuaEvents.WorldTracker_OpenChooseResearch()
+  end)
+  m_civicsInstance.IconButton:RegisterCallback(Mouse.eLClick, function()
+    LuaEvents.WorldTracker_OpenChooseCivic()
+  end)
 
   CuiInit() -- CUI
 
@@ -1212,10 +1327,18 @@ function Initialize()
   Controls.ResearchCheck:SetCheck(true)
   Controls.ToggleAllButton:SetCheck(true)
 
-  Controls.ChatCheck:RegisterCheckHandler(function() UpdateChatPanel(not m_hideChat) end)
-  Controls.CivicsCheck:RegisterCheckHandler(function() UpdateCivicsPanel(not m_hideCivics) end)
-  Controls.ResearchCheck:RegisterCheckHandler(function() UpdateResearchPanel(not m_hideResearch) end)
-  Controls.ToggleAllButton:RegisterCheckHandler(function() ToggleAll(not Controls.ToggleAllButton:IsChecked()) end)
+  Controls.ChatCheck:RegisterCheckHandler(function()
+    UpdateChatPanel(not m_hideChat)
+  end)
+  Controls.CivicsCheck:RegisterCheckHandler(function()
+    UpdateCivicsPanel(not m_hideCivics)
+  end)
+  Controls.ResearchCheck:RegisterCheckHandler(function()
+    UpdateResearchPanel(not m_hideResearch)
+  end)
+  Controls.ToggleAllButton:RegisterCheckHandler(function()
+    ToggleAll(not Controls.ToggleAllButton:IsChecked())
+  end)
   Controls.ToggleDropdownButton:RegisterCallback(Mouse.eLClick, ToggleDropdown)
   Controls.WorldTrackerAlpha:RegisterEndCallback(OnWorldTrackerAnimationFinished)
 

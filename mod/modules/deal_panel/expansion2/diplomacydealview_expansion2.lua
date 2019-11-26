@@ -111,14 +111,18 @@ end
 -- Check the state of the deal and show/hide the special proposal buttons for a possible gift (not actually possible until XP2)
 function UpdateProposalButtonsForGift(iItemsFromLocal, iItemsFromOther)
   local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
-  if (iItemsFromLocal == 0 and iItemsFromOther > 0 and not pDeal:IsGift()) then return true end
+  if (iItemsFromLocal == 0 and iItemsFromOther > 0 and not pDeal:IsGift()) then
+    return true
+  end
 
   return false
 end
 
 -- ===========================================================================
 function GetItemTypeIcon(pDealItem)
-  if (pDealItem:GetType() == DealItemTypes.FAVOR) then return "ICON_YIELD_FAVOR" end
+  if (pDealItem:GetType() == DealItemTypes.FAVOR) then
+    return "ICON_YIELD_FAVOR"
+  end
   return BASE_GetItemTypeIcon(pDealItem)
 end
 
@@ -130,7 +134,9 @@ function CreateGroupTypes()
 end
 
 -- ===========================================================================
-function IsItemValueEditable(itemType) return BASE_IsItemValueEditable(itemType) or itemType == DealItemTypes.FAVOR end
+function IsItemValueEditable(itemType)
+  return BASE_IsItemValueEditable(itemType) or itemType == DealItemTypes.FAVOR
+end
 
 -- ===========================================================================
 function PopulateDealResources(player, iconList)
@@ -163,15 +169,18 @@ function PopulateDealResources(player, iconList)
             icon.SelectButton:RegisterCallback(Mouse.eRClick, function(void1, void2, self)
               OnRemoveDealItem(player, dealItemID, self)
             end)
-            icon.SelectButton:RegisterCallback(Mouse.eLClick,
-                                               function(void1, void2, self) OnSelectValueDealItem(player, dealItemID, self) end)
+            icon.SelectButton:RegisterCallback(Mouse.eLClick, function(void1, void2, self)
+              OnSelectValueDealItem(player, dealItemID, self)
+            end)
             icon.SelectButton:SetToolTipString(nil) -- We recycle the entries, so make sure this is clear.
             icon.SelectButton:SetDisabled(false)
-            if (dealItemID == g_ValueEditDealItemID) then g_ValueEditDealItemControlTable = icon end
+            if (dealItemID == g_ValueEditDealItemID) then
+              g_ValueEditDealItemControlTable = icon
+            end
           else
             -- Multi-turn
             UI.DataError(
-                "Favor can only be traded in lump sums, but gamecore is indicating duration. This may be an issue @sbatista & @agarrett")
+              "Favor can only be traded in lump sums, but gamecore is indicating duration. This may be an issue @sbatista & @agarrett")
           end
         end -- end for each item in deal
       end -- end if deal
@@ -191,7 +200,8 @@ end
 function PopulatePlayerAvailablePanel(rootControl, player)
 
   local playerType = GetPlayerType(player)
-  local iAvailableItemCount = PopulateAvailableFavor(player, g_AvailableGroups[AvailableDealItemGroupTypes.FAVOR][playerType])
+  local iAvailableItemCount = PopulateAvailableFavor(player,
+                                                     g_AvailableGroups[AvailableDealItemGroupTypes.FAVOR][playerType])
   iAvailableItemCount = iAvailableItemCount + BASE_PopulatePlayerAvailablePanel(rootControl, player)
   return iAvailableItemCount
 end

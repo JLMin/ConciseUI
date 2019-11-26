@@ -51,7 +51,9 @@ function GetData()
     -- Get recommendations
     local civicRecommendations = {}
     local pGrandAI = pPlayer:GetGrandStrategicAI()
-    if pGrandAI then civicRecommendations = pGrandAI:GetCivicsRecommendations() end
+    if pGrandAI then
+      civicRecommendations = pGrandAI:GetCivicsRecommendations()
+    end
 
     pResearchQueue = pPlayerCulture:GetCivicQueue(pResearchQueue)
 
@@ -59,13 +61,18 @@ function GetData()
     for kCivic in GameInfo.Civics() do
 
       local iCivic = kCivic.Index
-      if iCivic == m_currentID or iCivic == m_lastCompletedID or (iCivic ~= m_currentID and pPlayerCulture:CanProgress(iCivic)) then
+      if iCivic == m_currentID or iCivic == m_lastCompletedID or
+        (iCivic ~= m_currentID and pPlayerCulture:CanProgress(iCivic)) then
 
         local kCivicData = GetCivicData(ePlayer, pPlayerCulture, kCivic)
         kCivicData.IsCurrent = (iCivic == m_currentID)
         kCivicData.IsLastCompleted = (iCivic == m_lastCompletedID)
         kCivicData.ResearchQueuePosition = -1
-        for i, civicNum in pairs(pResearchQueue) do if civicNum == iCivic then kCivicData.ResearchQueuePosition = i end end
+        for i, civicNum in pairs(pResearchQueue) do
+          if civicNum == iCivic then
+            kCivicData.ResearchQueuePosition = i
+          end
+        end
 
         -- Determine if this civic is recommended
         kCivicData.IsRecommended = false
@@ -92,18 +99,24 @@ function View(playerID, kData)
 
   m_civicsIM:ResetInstances()
 
-  for _, iconData in pairs(g_ExtraIconData) do iconData:Reset() end
+  for _, iconData in pairs(g_ExtraIconData) do
+    iconData:Reset()
+  end
 
   local kActive = GetActiveData(kData)
   if kActive == nil then
     RealizeCurrentCivic(nil) -- No research done yet
   end
 
-  table.sort(kData, function(a, b) return Locale.Compare(a.Name, b.Name) == -1 end)
+  table.sort(kData, function(a, b)
+    return Locale.Compare(a.Name, b.Name) == -1
+  end)
   for i, data in ipairs(kData) do
     if data.IsCurrent or data.IsLastCompleted then
       RealizeCurrentCivic(playerID, data, nil, m_CachedModifiers)
-      if (data.Repeatable) then AddAvailableCivic(playerID, data) end
+      if (data.Repeatable) then
+        AddAvailableCivic(playerID, data)
+      end
     else
       AddAvailableCivic(playerID, data)
     end
@@ -185,7 +198,9 @@ function AddAvailableCivic(playerID, kData)
     numUnlockables = numUnlockables + 1
   end
 
-  if numUnlockables ~= nil then HandleOverflow(numUnlockables, kItemInstance, 5, 5) end
+  if numUnlockables ~= nil then
+    HandleOverflow(numUnlockables, kItemInstance, 5, 5)
+  end
 
   if kData.ResearchQueuePosition ~= -1 then
     kItemInstance.QueueBadge:SetHide(false)
@@ -210,7 +225,9 @@ function AddAvailableCivic(playerID, kData)
 
   -- Only wire up Civilopedia handlers if not in a on-rails tutorial
   if IsTutorialRunning() == false then
-    kItemInstance.Top:RegisterCallback(Mouse.eRClick, function() LuaEvents.OpenCivilopedia(kData.CivicType) end)
+    kItemInstance.Top:RegisterCallback(Mouse.eRClick, function()
+      LuaEvents.OpenCivilopedia(kData.CivicType)
+    end)
   end
 
   -- Hide/Show Recommendation Icon
@@ -239,7 +256,9 @@ function OnChooseCivic(civicHash)
     UI.PlaySound("Confirm_Civic")
   end
 
-  if m_isExpanded then OnClosePanel() end
+  if m_isExpanded then
+    OnClosePanel()
+  end
 end
 
 -- ===========================================================================
@@ -267,7 +286,9 @@ function OnOpenPanel()
 end
 
 -- ===========================================================================
-function OnClosePanel() m_kSlideAnimator.Hide() end
+function OnClosePanel()
+  m_kSlideAnimator.Hide()
+end
 
 -- ===========================================================================
 --	Callback from Slide Animator
@@ -281,7 +302,9 @@ end
 -- ===========================================================================
 function OnUpdateUI(type)
   m_kSlideAnimator.OnUpdateUI()
-  if type == SystemUpdateUI.ScreenResize then RealizeSize() end
+  if type == SystemUpdateUI.ScreenResize then
+    RealizeSize()
+  end
 end
 
 -- ===========================================================================
@@ -290,7 +313,9 @@ end
 -- ===========================================================================
 function OnCityInitialized(owner, cityID)
   local localPlayer = Game.GetLocalPlayer()
-  if owner == localPlayer then m_needsRefresh = true end
+  if owner == localPlayer then
+    m_needsRefresh = true
+  end
 end
 
 -- ===========================================================================
@@ -309,7 +334,11 @@ end
 -- ===========================================================================
 --	Game Engine EVENT
 -- ===========================================================================
-function OnPhaseBegin() if Game.GetLocalPlayer() >= 0 then m_needsRefresh = true end end
+function OnPhaseBegin()
+  if Game.GetLocalPlayer() >= 0 then
+    m_needsRefresh = true
+  end
+end
 
 -- ===========================================================================
 --	Game Engine EVENT
@@ -332,25 +361,37 @@ function OnCivicCompleted(ePlayer, eCivic)
     m_currentID = -1
     -- CUI: repeat
     local futureCivic = CuiIsFutureCivicAndGet(eCivic)
-    if futureCivic then CuiRepeatCivic(futureCivic.Hash) end
+    if futureCivic then
+      CuiRepeatCivic(futureCivic.Hash)
+    end
     --
     m_needsRefresh = true
   end
 end
 
 -- ===========================================================================
-function OnCultureYieldChanged(ePlayer) if ePlayer == Game.GetLocalPlayer() then m_needsRefresh = true end end
+function OnCultureYieldChanged(ePlayer)
+  if ePlayer == Game.GetLocalPlayer() then
+    m_needsRefresh = true
+  end
+end
 
 -- ===========================================================================
 -- This will get called after a series of game events (before any other events or
 -- input processing) so we can defer the rebuild until here.
 -- ===========================================================================
-function FlushChanges() if m_needsRefresh and ContextPtr:IsVisible() then Refresh() end end
+function FlushChanges()
+  if m_needsRefresh and ContextPtr:IsVisible() then
+    Refresh()
+  end
+end
 
 -- ===========================================================================
 --	UI Event
 -- ===========================================================================
-function OnInputHandler(kInputStruct) return m_kSlideAnimator.OnInputHandler(kInputStruct) end
+function OnInputHandler(kInputStruct)
+  return m_kSlideAnimator.OnInputHandler(kInputStruct)
+end
 
 -- ===========================================================================
 --
@@ -371,7 +412,9 @@ function OnInit(isReload)
 end
 
 -- ===========================================================================
-function OnShow() Refresh() end
+function OnShow()
+  Refresh()
+end
 
 -- ===========================================================================
 function OnShutdown()
@@ -445,15 +488,21 @@ function Initialize()
   -- UI Event / Callbacks
   ContextPtr:SetInputHandler(OnInputHandler, true)
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
-  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.TitleButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
-  Controls.IconButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.IconButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.IconButton:RegisterCallback(Mouse.eLClick, OnClosePanel)
   Controls.OpenTreeButton:RegisterCallback(Mouse.eLClick, function()
     LuaEvents.CivicsChooser_RaiseCivicsTree()
     OnClosePanel()
   end)
-  Controls.OpenTreeButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.OpenTreeButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   -- Populate static controls
   Controls.Title:SetText(Locale.ToUpper(Locale.Lookup("LOC_CIVICS_CHOOSER_CHOOSE_CIVIC")))

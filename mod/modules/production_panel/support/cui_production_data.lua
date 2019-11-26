@@ -28,10 +28,14 @@ function GetPanelData()
   local playerID = Game.GetLocalPlayer()
 
   local player = Players[playerID]
-  if isNil(player) then return nil end
+  if isNil(player) then
+    return nil
+  end
 
   local city = UI.GetHeadSelectedCity()
-  if isNil(city) then return nil end
+  if isNil(city) then
+    return nil
+  end
 
   m_playerID = playerID
   m_player = player
@@ -43,7 +47,9 @@ function GetPanelData()
   local u = GetCityUnits()
   local p = GetCityProjects()
 
-  if isNil(d) and isNil(w) and isNil(u) and isNil(p) then return nil end
+  if isNil(d) and isNil(w) and isNil(u) and isNil(p) then
+    return nil
+  end
 
   local panelData = {}
 
@@ -112,7 +118,8 @@ function GetDistrictData(district)
 
   -- gold data
   local goldSource = m_player:GetTreasury()
-  local goldData = GetDistrictPurchaseData(district, m_city, "YIELD_GOLD", goldSource, "LOC_BUILDING_INSUFFICIENT_FUNDS")
+  local goldData =
+    GetDistrictPurchaseData(district, m_city, "YIELD_GOLD", goldSource, "LOC_BUILDING_INSUFFICIENT_FUNDS")
   data.GoldUnlock = goldData.Unlock
   data.GoldCost = goldData.Cost
   data.GoldEnable = goldData.Enable
@@ -121,7 +128,8 @@ function GetDistrictData(district)
 
   -- faith data
   local faithSource = m_player:GetReligion()
-  local faithData = GetDistrictPurchaseData(district, m_city, "YIELD_FAITH", faithSource, "LOC_BUILDING_INSUFFICIENT_FAITH")
+  local faithData = GetDistrictPurchaseData(district, m_city, "YIELD_FAITH", faithSource,
+                                            "LOC_BUILDING_INSUFFICIENT_FAITH")
   data.FaithUnlock = faithData.Unlock
   data.FaithCost = faithData.Cost
   data.FaithEnable = faithData.Enable
@@ -171,12 +179,16 @@ function GetDistrictPurchaseData(district, city, yield, source, key)
     local canAfford = source:CanAfford(city:GetID(), district.Hash)
 
     if not canAfford then
-      if not isNil(tooltip) then tooltip = tooltip .. "[NEWLINE]" end
+      if not isNil(tooltip) then
+        tooltip = tooltip .. "[NEWLINE]"
+      end
       tooltip = tooltip .. "[COLOR:Red]" .. Locale.Lookup(key) .. "[ENDCOLOR]"
     end
 
     local noFailure = false
-    if isNil(tooltip) then noFailure = true end
+    if isNil(tooltip) then
+      noFailure = true
+    end
 
     data.Unlock = canStart
     data.Cost = city:GetGold():GetPurchaseCost(yieldType, district.Hash)
@@ -241,7 +253,8 @@ function GetBuildingData(building, district)
   -- gold data
   if building.PurchaseYield == "YIELD_GOLD" then
     local goldSource = m_player:GetTreasury()
-    local goldData = GetBuildingPurchaseData(building, m_city, "YIELD_GOLD", goldSource, "LOC_BUILDING_INSUFFICIENT_FUNDS")
+    local goldData = GetBuildingPurchaseData(building, m_city, "YIELD_GOLD", goldSource,
+                                             "LOC_BUILDING_INSUFFICIENT_FUNDS")
     data.GoldUnlock = goldData.Unlock
     data.GoldCost = goldData.Cost
     data.GoldEnable = goldData.Enable
@@ -252,7 +265,8 @@ function GetBuildingData(building, district)
   -- faith data
   if building.PurchaseYield == "YIELD_FAITH" or m_city:GetGold():IsBuildingFaithPurchaseEnabled(building.Hash) then
     local faithSource = m_player:GetReligion()
-    local faithData = GetBuildingPurchaseData(building, m_city, "YIELD_FAITH", faithSource, "LOC_BUILDING_INSUFFICIENT_FAITH")
+    local faithData = GetBuildingPurchaseData(building, m_city, "YIELD_FAITH", faithSource,
+                                              "LOC_BUILDING_INSUFFICIENT_FAITH")
     data.FaithUnlock = faithData.Unlock
     data.FaithCost = faithData.Cost
     data.FaithEnable = faithData.Enable
@@ -285,12 +299,16 @@ function GetBuildingPurchaseData(building, city, yield, source, key)
     local tooltip = GetFailureToolTip(canStart, results)
     local canAfford = source:CanAfford(city:GetID(), building.Hash)
     if not canAfford then
-      if not isNil(tooltip) then tooltip = tooltip .. "[NEWLINE]" end
+      if not isNil(tooltip) then
+        tooltip = tooltip .. "[NEWLINE]"
+      end
       tooltip = tooltip .. "[COLOR:Red]" .. Locale.Lookup(key) .. "[ENDCOLOR]"
     end
 
     local noFailure = false
-    if isNil(tooltip) then noFailure = true end
+    if isNil(tooltip) then
+      noFailure = true
+    end
 
     data.Unlock = true
     data.Cost = city:GetGold():GetPurchaseCost(yieldType, building.Hash)
@@ -340,7 +358,9 @@ function GetWonderData(wonder)
   if (not canStart) and (not isNil(results)) then
     if results[CityOperationResults.NO_SUITABLE_LOCATION] then
       local purchaseablePlots = GetCityRelatedPlotIndexesWondersAlternative(m_city, wonder.Hash)
-      if not isNil(purchaseablePlots) then canStart = true end
+      if not isNil(purchaseablePlots) then
+        canStart = true
+      end
     end
   end
 
@@ -376,10 +396,14 @@ function GetCityUnits()
     end
   end
   local SortFunc = function(a, b)
-    if a.IsCivilian ~= b.IsCivilian then return a.IsCivilian end
+    if a.IsCivilian ~= b.IsCivilian then
+      return a.IsCivilian
+    end
     return a.Index < b.Index
   end
-  if not isNil(units) then table.sort(units, SortFunc) end
+  if not isNil(units) then
+    table.sort(units, SortFunc)
+  end
   return units
 end
 
@@ -433,7 +457,8 @@ function GetUnitData(unit, formation)
   -- gold data
   if unit.PurchaseYield == "YIELD_GOLD" then
     local goldSource = m_player:GetTreasury()
-    local goldData = GetUnitPurchaseData(unit, m_city, "YIELD_GOLD", goldSource, "LOC_BUILDING_INSUFFICIENT_FUNDS", formation)
+    local goldData = GetUnitPurchaseData(unit, m_city, "YIELD_GOLD", goldSource, "LOC_BUILDING_INSUFFICIENT_FUNDS",
+                                         formation)
     data.GoldUnlock = goldData.Unlock
     data.GoldCost = goldData.Cost
     data.GoldEnable = goldData.Enable
@@ -444,7 +469,8 @@ function GetUnitData(unit, formation)
   -- faith data
   if unit.PurchaseYield == "YIELD_FAITH" or m_city:GetGold():IsUnitFaithPurchaseEnabled(unit.Hash) then
     local faithSource = m_player:GetReligion()
-    local faithData = GetUnitPurchaseData(unit, m_city, "YIELD_FAITH", faithSource, "LOC_BUILDING_INSUFFICIENT_FAITH", formation)
+    local faithData = GetUnitPurchaseData(unit, m_city, "YIELD_FAITH", faithSource, "LOC_BUILDING_INSUFFICIENT_FAITH",
+                                          formation)
     data.FaithUnlock = faithData.Unlock
     data.FaithCost = faithData.Cost
     data.FaithEnable = faithData.Enable
@@ -458,9 +484,13 @@ function GetUnitData(unit, formation)
 
   -- corps and army
   if isStandard and results then
-    if results[CityOperationResults.CAN_TRAIN_CORPS] then data.Corps = GetUnitData(unit, UNIT_CORPS) end
+    if results[CityOperationResults.CAN_TRAIN_CORPS] then
+      data.Corps = GetUnitData(unit, UNIT_CORPS)
+    end
 
-    if results[CityOperationResults.CAN_TRAIN_ARMY] then data.Army = GetUnitData(unit, UNIT_ARMY) end
+    if results[CityOperationResults.CAN_TRAIN_ARMY] then
+      data.Army = GetUnitData(unit, UNIT_ARMY)
+    end
   end
 
   return data
@@ -494,12 +524,16 @@ function GetUnitPurchaseData(unit, city, yield, source, key, formation)
     end
 
     if not canAfford then
-      if not isNil(tooltip) then tooltip = tooltip .. "[NEWLINE]" end
+      if not isNil(tooltip) then
+        tooltip = tooltip .. "[NEWLINE]"
+      end
       tooltip = tooltip .. "[COLOR:Red]" .. Locale.Lookup(key) .. "[ENDCOLOR]"
     end
 
     local noFailure = false
-    if isNil(tooltip) then noFailure = true end
+    if isNil(tooltip) then
+      noFailure = true
+    end
 
     data.Unlock = true
     data.Cost = city:GetGold():GetPurchaseCost(yieldType, unit.Hash, formation)
@@ -532,7 +566,9 @@ function GetCityProjects()
     end
   end
 
-  for _, p in SortedTable(projects, comparator) do table.insert(sortedProjects, p) end
+  for _, p in SortedTable(projects, comparator) do
+    table.insert(sortedProjects, p)
+  end
   return sortedProjects
 end
 

@@ -80,7 +80,9 @@ end
 
 -- ===========================================================================
 function CuiOnIngameAction(actionId)
-  if (Game.GetLocalPlayer() == -1) then return end
+  if (Game.GetLocalPlayer() == -1) then
+    return
+  end
   if actionId == Input.GetActionId("CuiActionToggleImproved") then
     CuiOnToggleImproved()
     UI.PlaySound("Play_UI_Click")

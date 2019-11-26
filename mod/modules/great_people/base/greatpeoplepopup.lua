@@ -57,7 +57,9 @@ local m_screenWidth = -1
 -- ===========================================================================
 function ChangeDisplayPlayerID(bBackward)
 
-  if (bBackward == nil) then bBackward = false end
+  if (bBackward == nil) then
+    bBackward = false
+  end
 
   local aPlayers = PlayerManager.GetAliveMajors()
   local playerCount = #aPlayers
@@ -95,7 +97,9 @@ function ChangeDisplayPlayerID(bBackward)
   end
 
   -- No player, or didn't find the previous player, start from the beginning.
-  if (playerCount > 0) then m_displayPlayerID = aPlayers[1]:GetID() end
+  if (playerCount > 0) then
+    m_displayPlayerID = aPlayers[1]:GetID()
+  end
 
   return m_displayPlayerID
 end
@@ -104,7 +108,9 @@ end
 function GetDisplayPlayerID()
 
   if Automation.IsActive() then
-    if (m_displayPlayerID ~= -1) then return m_displayPlayerID end
+    if (m_displayPlayerID ~= -1) then
+      return m_displayPlayerID
+    end
 
     return ChangeDisplayPlayerID()
   end
@@ -116,11 +122,11 @@ end
 function GetActivationEffectTextByGreatPersonClass(greatPersonClassID)
   local text
   if ((GameInfo.GreatPersonClasses["GREAT_PERSON_CLASS_WRITER"] ~= nil and greatPersonClassID ==
-      GameInfo.GreatPersonClasses["GREAT_PERSON_CLASS_WRITER"].Index) or
-      (GameInfo.GreatPersonClasses["GREAT_PERSON_CLASS_ARTIST"] ~= nil and greatPersonClassID ==
-          GameInfo.GreatPersonClasses["GREAT_PERSON_CLASS_ARTIST"].Index) or
-      (GameInfo.GreatPersonClasses["GREAT_PERSON_CLASS_MUSICIAN"] ~= nil and greatPersonClassID ==
-          GameInfo.GreatPersonClasses["GREAT_PERSON_CLASS_MUSICIAN"].Index)) then
+    GameInfo.GreatPersonClasses["GREAT_PERSON_CLASS_WRITER"].Index) or
+    (GameInfo.GreatPersonClasses["GREAT_PERSON_CLASS_ARTIST"] ~= nil and greatPersonClassID ==
+      GameInfo.GreatPersonClasses["GREAT_PERSON_CLASS_ARTIST"].Index) or
+    (GameInfo.GreatPersonClasses["GREAT_PERSON_CLASS_MUSICIAN"] ~= nil and greatPersonClassID ==
+      GameInfo.GreatPersonClasses["GREAT_PERSON_CLASS_MUSICIAN"].Index)) then
     text = Locale.Lookup("LOC_GREAT_PEOPLE_WORK_CREATED")
   else
     text = Locale.Lookup("LOC_GREAT_PEOPLE_PERSON_ACTIVATED")
@@ -135,7 +141,9 @@ end
 -- ===========================================================================
 function GetBiographyTextTable(individualID)
 
-  if individualID == nil then return {} end
+  if individualID == nil then
+    return {}
+  end
 
   -- LOC_PEDIA_GREATPEOPLE_PAGE_GREAT_PERSON_INDIVIDUAL_ABU_AL_QASIM_AL_ZAHRAWI_CHAPTER_HISTORY_PARA_1
   -- LOC_PEDIA_GREATPEOPLE_PAGE_GREAT_PERSON_INDIVIDUAL_ABDUS_SALAM_CHAPTER_HISTORY_PARA_3
@@ -180,7 +188,9 @@ function ViewCurrent(data)
     local classText = ""
     local individualName = ""
 
-    if (kPerson.ClassID ~= nil) then classText = Locale.Lookup(classData.Name) end
+    if (kPerson.ClassID ~= nil) then
+      classText = Locale.Lookup(classData.Name)
+    end
     if kPerson.IndividualID ~= nil then
       instance.CivilpediaButton:SetHide(false)
       instance.GreatPeopleIcon:SetHide(false)
@@ -191,7 +201,9 @@ function ViewCurrent(data)
       local sLabel = individualName and (individualName) or classText
       instance.IndividualName:SetText(sLabel)
       instance.ClassIcon:SetToolTipString(classText)
-      instance.CivilpediaButton:RegisterCallback(Mouse.eLClick, function() CuiSearchInCivilpedia(kPerson.PersonType) end)
+      instance.CivilpediaButton:RegisterCallback(Mouse.eLClick, function()
+        CuiSearchInCivilpedia(kPerson.PersonType)
+      end)
     end
 
     if kPerson.EraID then
@@ -208,7 +220,8 @@ function ViewCurrent(data)
     if actionIcon ~= nil and actionIcon ~= "" then
       local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(actionIcon, SIZE_ACTION_ICON)
       if (textureSheet == nil or textureSheet == "") then
-        UI.DataError("Could not find icon in ViewCurrent: icon=\"" .. actionIcon .. "\", iconSize=" .. tostring(SIZE_ACTION_ICON))
+        UI.DataError("Could not find icon in ViewCurrent: icon=\"" .. actionIcon .. "\", iconSize=" ..
+                       tostring(SIZE_ACTION_ICON))
       else
         instance.GreatPeopleClassIcon:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
         instance.GreatPeopleClassIcon:SetHide(false)
@@ -267,11 +280,14 @@ function ViewCurrent(data)
     -- as well as the local player if they aren't in the top 3.
     --------------------------------------------------------
     local recruitTable = {}
-    instance["PlayerIM"] = instance["PlayerIM"] or InstanceManager:new("PlayerInstance", "CivIconBackingFaded", instance.CivIconStack)
+    instance["PlayerIM"] = instance["PlayerIM"] or
+                             InstanceManager:new("PlayerInstance", "CivIconBackingFaded", instance.CivIconStack)
     instance["PlayerIM"]:ResetInstances()
 
     if kPerson.IndividualID ~= nil and kPerson.ClassID ~= nil then
-      for i, kPlayerPoints in ipairs(data.PointsByClass[kPerson.ClassID]) do table.insert(recruitTable, kPlayerPoints) end
+      for i, kPlayerPoints in ipairs(data.PointsByClass[kPerson.ClassID]) do
+        table.insert(recruitTable, kPlayerPoints)
+      end
       table.sort(recruitTable, function(a, b)
         local aLeft = (kPerson.RecruitCost - a.PointsTotal) / a.PointsPerTurn
         local bLeft = (kPerson.RecruitCost - b.PointsTotal) / b.PointsPerTurn
@@ -291,8 +307,9 @@ function ViewCurrent(data)
             local tPlayerInstance = instance["PlayerIM"]:GetInstance()
 
             local iProgress = Clamp(kPlayerPoints.PointsTotal / kPerson.RecruitCost, 0, 1)
-            local sRecruitDetails = Locale.Lookup("LOC_GREAT_PEOPLE_POINT_DETAILS", Round(kPlayerPoints.PointsPerTurn, 1),
-                                                  classData.IconString, classData.Name)
+            local sRecruitDetails = Locale.Lookup("LOC_GREAT_PEOPLE_POINT_DETAILS",
+                                                  Round(kPlayerPoints.PointsPerTurn, 1), classData.IconString,
+                                                  classData.Name)
 
             tPlayerInstance.LocalPlayer:SetHide(iPlayer ~= Game.GetLocalPlayer())
 
@@ -300,10 +317,11 @@ function ViewCurrent(data)
             -- Faded Icon
             --------------------------------------------------------
             if not tPlayerInstance.FadedIcon then
-              tPlayerInstance.FadedIcon = CivilizationIcon:new({
-                CivIconBacking = tPlayerInstance.CivIconBackingFaded,
-                CivIcon = tPlayerInstance.CivIconFaded
-              })
+              tPlayerInstance.FadedIcon = CivilizationIcon:new(
+                                            {
+                  CivIconBacking = tPlayerInstance.CivIconBackingFaded,
+                  CivIcon = tPlayerInstance.CivIconFaded
+                })
 
               tPlayerInstance.UNKNOWN_COLOR = UI.GetColorValue(0.4, 0.4, 0.4, 1)
             end
@@ -316,7 +334,8 @@ function ViewCurrent(data)
             -- Color Icon
             --------------------------------------------------------
             tPlayerInstance.FullIcon = tPlayerInstance.FullIcon or
-                                           CivilizationIcon:new({
+                                         CivilizationIcon:new(
+                                           {
                   CivIconBacking = tPlayerInstance.CivIconBacking,
                   CivIcon = tPlayerInstance.CivIcon
                 })
@@ -358,7 +377,8 @@ function ViewCurrent(data)
                 if pointPerturn == 0 then
                   sProgress = pointPlayer .. "([COLOR_Civ6Green]-[ENDCOLOR])" .. " / " .. pointTotal
                 else
-                  sProgress = pointPlayer .. "([COLOR_Civ6Green]+" .. pointPerturn .. "[ENDCOLOR])" .. " / " .. pointTotal
+                  sProgress = pointPlayer .. "([COLOR_Civ6Green]+" .. pointPerturn .. "[ENDCOLOR])" .. " / " ..
+                                pointTotal
                 end
                 sTurns = turnsRemaining .. "[ICON_TURN]"
               end
@@ -377,8 +397,8 @@ function ViewCurrent(data)
 
       -- Buy via gold
       if (HasCapability("CAPABILITY_GREAT_PEOPLE_RECRUIT_WITH_GOLD") and
-          (not kPerson.CanRecruit and not kPerson.CanReject and kPerson.PatronizeWithGoldCost ~= nil and kPerson.PatronizeWithGoldCost <
-              1000000)) then
+        (not kPerson.CanRecruit and not kPerson.CanReject and kPerson.PatronizeWithGoldCost ~= nil and
+          kPerson.PatronizeWithGoldCost < 1000000)) then
         instance.GoldButton:SetText("[ICON_Gold]" .. kPerson.PatronizeWithGoldCost)
         instance.GoldButton:SetToolTipString(GetPatronizeWithGoldTT(kPerson))
         instance.GoldButton:SetVoid1(kPerson.IndividualID)
@@ -391,8 +411,8 @@ function ViewCurrent(data)
 
       -- Buy via Faith
       if (HasCapability("CAPABILITY_GREAT_PEOPLE_RECRUIT_WITH_FAITH") and
-          (not kPerson.CanRecruit and not kPerson.CanReject and kPerson.PatronizeWithFaithCost ~= nil and kPerson.PatronizeWithFaithCost <
-              1000000)) then
+        (not kPerson.CanRecruit and not kPerson.CanReject and kPerson.PatronizeWithFaithCost ~= nil and
+          kPerson.PatronizeWithFaithCost < 1000000)) then
         instance.FaithButton:SetText("[ICON_Faith]" .. kPerson.PatronizeWithFaithCost)
         instance.FaithButton:SetToolTipString(GetPatronizeWithFaithTT(kPerson))
         instance.FaithButton:SetVoid1(kPerson.IndividualID)
@@ -468,22 +488,29 @@ function FillRecruitInstance(instance, playerPoints, personData, classData)
   instance.ProgressBar:SetPercent(progressPercent)
 
   local recruitColorName = "GreatPeopleCS"
-  if playerPoints.IsPlayer then recruitColorName = "GreatPeopleActiveCS" end
+  if playerPoints.IsPlayer then
+    recruitColorName = "GreatPeopleActiveCS"
+  end
   instance.Amount:SetColorByName(recruitColorName)
   instance.Country:SetColorByName(recruitColorName)
   instance.Country:SetColorByName(recruitColorName)
   instance.ProgressBar:SetColorByName(recruitColorName)
 
-  DifferentiateCiv(playerPoints.PlayerID, instance.CivIcon, instance.CivIcon, instance.CivBacking, nil, nil, Game.GetLocalPlayer())
+  DifferentiateCiv(playerPoints.PlayerID, instance.CivIcon, instance.CivIcon, instance.CivBacking, nil, nil,
+                   Game.GetLocalPlayer())
 
-  local recruitDetails = Locale.Lookup("LOC_GREAT_PEOPLE_POINT_DETAILS", Round(playerPoints.PointsPerTurn, 1), classData.IconString,
-                                       classData.Name)
+  local recruitDetails = Locale.Lookup("LOC_GREAT_PEOPLE_POINT_DETAILS", Round(playerPoints.PointsPerTurn, 1),
+                                       classData.IconString, classData.Name)
   instance.Top:SetToolTipString(recruitDetails)
 end
 
-function GetPatronizeWithGoldTT(kPerson) return Locale.Lookup("LOC_GREAT_PEOPLE_PATRONAGE_GOLD_DETAILS", kPerson.PatronizeWithGoldCost) end
+function GetPatronizeWithGoldTT(kPerson)
+  return Locale.Lookup("LOC_GREAT_PEOPLE_PATRONAGE_GOLD_DETAILS", kPerson.PatronizeWithGoldCost)
+end
 
-function GetPatronizeWithFaithTT(kPerson) return Locale.Lookup("LOC_GREAT_PEOPLE_PATRONAGE_FAITH_DETAILS", kPerson.PatronizeWithFaithCost) end
+function GetPatronizeWithFaithTT(kPerson)
+  return Locale.Lookup("LOC_GREAT_PEOPLE_PATRONAGE_FAITH_DETAILS", kPerson.PatronizeWithFaithCost)
+end
 
 -- =======================================================================================
 --	Layout the data for previously recruited great people.
@@ -508,7 +535,9 @@ function ViewPast(data)
     local instance = m_greatPersonRowIM:GetInstance()
     local classData = GameInfo.GreatPersonClasses[kPerson.ClassID]
 
-    if m_defaultPastRowHeight < 0 then m_defaultPastRowHeight = instance.Content:GetSizeY() end
+    if m_defaultPastRowHeight < 0 then
+      m_defaultPastRowHeight = instance.Content:GetSizeY()
+    end
     local rowHeight = m_defaultPastRowHeight
 
     local date = Calendar.MakeYearStr(kPerson.TurnGranted)
@@ -522,7 +551,8 @@ function ViewPast(data)
     end
     instance.ClassName:SetText(Locale.ToUpper(classText))
     instance.GreatPersonInfo:SetText(kPerson.Name)
-    DifferentiateCiv(kPerson.ClaimantID, instance.CivIcon, instance.CivIcon, instance.CivIndicator, nil, nil, localPlayerID)
+    DifferentiateCiv(kPerson.ClaimantID, instance.CivIcon, instance.CivIcon, instance.CivIndicator, nil, nil,
+                     localPlayerID)
     instance.RecruitedImage:SetHide(true)
     instance.YouIndicator:SetHide(true)
     if (kPerson.ClaimantID ~= nil) then
@@ -538,7 +568,8 @@ function ViewPast(data)
           instance.YouIndicator:SetHide(false)
 
         elseif (Game.GetLocalObserver() == PlayerTypes.OBSERVER or
-            (localPlayer ~= nil and localPlayer:GetDiplomacy() ~= nil and localPlayer:GetDiplomacy():HasMet(kPerson.ClaimantID))) then
+          (localPlayer ~= nil and localPlayer:GetDiplomacy() ~= nil and
+            localPlayer:GetDiplomacy():HasMet(kPerson.ClaimantID))) then
           instance.RecruitedImage:SetIcon(iconName, 55)
           instance.RecruitedImage:SetToolTipString(Locale.Lookup(playerConfig:GetPlayerName()))
           instance.RecruitedImage:SetHide(false)
@@ -600,7 +631,8 @@ function ViewPast(data)
       if actionIcon ~= nil and actionIcon ~= "" then
         local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(actionIcon, SIZE_ACTION_ICON)
         if (textureSheet == nil or textureSheet == "") then
-          error("Could not find icon in ViewCurrent: icon=\"" .. actionIcon .. "\", iconSize=" .. tostring(SIZE_ACTION_ICON))
+          error("Could not find icon in ViewCurrent: icon=\"" .. actionIcon .. "\", iconSize=" ..
+                  tostring(SIZE_ACTION_ICON))
         else
           effectInst.ActiveAbilityIcon:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
           effectInst.ActiveAbilityIcon:SetHide(false)
@@ -628,7 +660,9 @@ end
 -- =======================================================================================
 function OnRecruitInfoClick(individualID)
   -- If a recruit info is open, close the last opened
-  if m_activeRecruitInfoID ~= -1 and individualID ~= m_activeRecruitInfoID then OnRecruitInfoClick(m_activeRecruitInfoID) end
+  if m_activeRecruitInfoID ~= -1 and individualID ~= m_activeRecruitInfoID then
+    OnRecruitInfoClick(m_activeRecruitInfoID)
+  end
 
   local instance = m_uiGreatPeople[individualID]
   if instance == nil then
@@ -658,7 +692,9 @@ end
 function OnBiographyClick(individualID)
 
   -- If a biography is open, close it via recursive magic...
-  if m_activeBiographyID ~= -1 and individualID ~= m_activeBiographyID then OnBiographyClick(m_activeBiographyID) end
+  if m_activeBiographyID ~= -1 and individualID ~= m_activeBiographyID then
+    OnBiographyClick(m_activeBiographyID)
+  end
 
   local instance = m_uiGreatPeople[individualID]
   if instance == nil then
@@ -714,7 +750,9 @@ function PopulateData(data, isPast)
   end
 
   local displayPlayerID = GetDisplayPlayerID()
-  if (displayPlayerID == -1) then return end
+  if (displayPlayerID == -1) then
+    return
+  end
 
   local pGreatPeople = Game.GetGreatPeople()
   if pGreatPeople == nil then
@@ -752,7 +790,9 @@ function PopulateData(data, isPast)
           canRecruit = pGreatPeople:CanRecruitPerson(displayPlayerID, entry.Individual)
           if (not isPast) then
             canReject = pGreatPeople:CanRejectPerson(displayPlayerID, entry.Individual)
-            if (canReject) then rejectCost = pGreatPeople:GetRejectCost(displayPlayerID, entry.Individual) end
+            if (canReject) then
+              rejectCost = pGreatPeople:GetRejectCost(displayPlayerID, entry.Individual)
+            end
           end
           canPatronizeWithGold = pGreatPeople:CanPatronizePerson(displayPlayerID, entry.Individual, YieldTypes.GOLD)
           patronizeWithGoldCost = pGreatPeople:GetPatronizeCost(displayPlayerID, entry.Individual, YieldTypes.GOLD)
@@ -820,7 +860,8 @@ function PopulateData(data, isPast)
       if (player:GetID() == displayPlayerID) then
         playerName = playerName .. Locale.Lookup(PlayerConfigurations[player:GetID()]:GetCivilizationShortDescription())
         isPlayer = true
-      elseif (Game.GetLocalObserver() == PlayerTypes.OBSERVER or Players[displayPlayerID]:GetDiplomacy():HasMet(player:GetID())) then
+      elseif (Game.GetLocalObserver() == PlayerTypes.OBSERVER or
+        Players[displayPlayerID]:GetDiplomacy():HasMet(player:GetID())) then
         playerName = playerName .. Locale.Lookup(PlayerConfigurations[player:GetID()]:GetCivilizationShortDescription())
       else
         playerName = playerName .. Locale.Lookup("LOC_DIPLOPANEL_UNMET_PLAYER")
@@ -851,7 +892,9 @@ end
 
 -- =======================================================================================
 function Open()
-  if (Game.GetLocalPlayer() == -1) then return end
+  if (Game.GetLocalPlayer() == -1) then
+    return
+  end
 
   -- Queue the screen as a popup, but we want it to render at a desired location in the hierarchy, not on top of everything.
   if not UIManager:IsInPopupQueue(ContextPtr) then
@@ -866,7 +909,9 @@ function Open()
   Refresh()
 
   -- From ModalScreen_PlayerYieldsHelper
-  if not RefreshYields() then Controls.Vignette:SetSizeY(m_TopPanelConsideredHeight) end
+  if not RefreshYields() then
+    Controls.Vignette:SetSizeY(m_TopPanelConsideredHeight)
+  end
 
   -- From Civ6_styles: FullScreenVignetteConsumer
   Controls.ScreenAnimIn:SetToBeginning()
@@ -877,25 +922,35 @@ end
 
 -- =======================================================================================
 function Close()
-  if not ContextPtr:IsHidden() then UI.PlaySound("UI_Screen_Close") end
+  if not ContextPtr:IsHidden() then
+    UI.PlaySound("UI_Screen_Close")
+  end
 
-  if UIManager:DequeuePopup(ContextPtr) then LuaEvents.GreatPeople_CloseGreatPeople() end
+  if UIManager:DequeuePopup(ContextPtr) then
+    LuaEvents.GreatPeople_CloseGreatPeople()
+  end
 end
 
 -- =======================================================================================
 --	UI Handler
 -- =======================================================================================
-function OnClose() Close() end
+function OnClose()
+  Close()
+end
 
 -- =======================================================================================
 --	LUA Event
 -- =======================================================================================
-function OnOpenViaNotification() Open() end
+function OnOpenViaNotification()
+  Open()
+end
 
 -- =======================================================================================
 --	LUA Event
 -- =======================================================================================
-function OnOpenViaLaunchBar() Open() end
+function OnOpenViaLaunchBar()
+  Open()
+end
 
 -- ===========================================================================
 function OnRecruitButtonClick(individualID)
@@ -949,19 +1004,29 @@ end
 --	Game Engine Event
 -- ===========================================================================
 function OnLocalPlayerChanged(playerID, prevLocalPlayerID)
-  if playerID == -1 then return end
+  if playerID == -1 then
+    return
+  end
   m_tabs.SelectTab(Controls.ButtonGreatPeople)
 end
 
 -- ===========================================================================
 --	Game Engine Event
 -- ===========================================================================
-function OnLocalPlayerTurnBegin() if (not ContextPtr:IsHidden()) then Refresh() end end
+function OnLocalPlayerTurnBegin()
+  if (not ContextPtr:IsHidden()) then
+    Refresh()
+  end
+end
 
 -- ===========================================================================
 --	Game Engine Event
 -- ===========================================================================
-function OnLocalPlayerTurnEnd() if (not ContextPtr:IsHidden()) and GameConfiguration.IsHotseat() then Close() end end
+function OnLocalPlayerTurnEnd()
+  if (not ContextPtr:IsHidden()) and GameConfiguration.IsHotseat() then
+    Close()
+  end
+end
 
 -- ===========================================================================
 --	Game Engine Event
@@ -985,7 +1050,9 @@ end
 -- ===========================================================================
 function OnGreatPeoplePointsChanged(playerID)
   -- Update for any player's change, so that the local player can see up to date information about other players' points
-  if (not ContextPtr:IsHidden()) then Refresh() end
+  if (not ContextPtr:IsHidden()) then
+    Refresh()
+  end
 end
 
 -- ===========================================================================
@@ -1029,7 +1096,11 @@ end
 -- =======================================================================================
 --	UI Event
 -- =======================================================================================
-function OnInit(isHotload) if isHotload then LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID) end end
+function OnInit(isHotload)
+  if isHotload then
+    LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
+  end
+end
 
 -- =======================================================================================
 --	UI Event
@@ -1045,7 +1116,9 @@ function KeyHandler(key)
 end
 function OnInputHandler(pInputStruct)
   local uiMsg = pInputStruct:GetMessageType()
-  if (uiMsg == KeyEvents.KeyUp) then return KeyHandler(pInputStruct:GetKey()) end
+  if (uiMsg == KeyEvents.KeyUp) then
+    return KeyHandler(pInputStruct:GetKey())
+  end
   return false
 end
 
@@ -1054,7 +1127,8 @@ end
 -- =======================================================================================
 function OnShutdown()
   LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "isHidden", ContextPtr:IsHidden())
-  LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "isPreviousTab", (m_tabs.selectedControl == Controls.ButtonPreviouslyRecruited))
+  LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "isPreviousTab",
+                               (m_tabs.selectedControl == Controls.ButtonPreviouslyRecruited))
 end
 
 -- ===========================================================================
@@ -1062,7 +1136,9 @@ end
 --	Set cached values back after a hotload.
 -- ===========================================================================
 function OnGameDebugReturn(context, contextTable)
-  if context ~= RELOAD_CACHE_ID then return end
+  if context ~= RELOAD_CACHE_ID then
+    return
+  end
   local isHidden = contextTable["isHidden"]
   if not isHidden then
     local isPreviouslyRecruited = contextTable["isPreviousTab"]
@@ -1105,7 +1181,9 @@ function CuiSetPanelToDetault(instance)
 end
 
 -- CUI ===================================================================================
-function CuiSearchInCivilpedia(name) LuaEvents.OpenCivilopedia(name) end
+function CuiSearchInCivilpedia(name)
+  LuaEvents.OpenCivilopedia(name)
+end
 
 -- =======================================================================================
 --
@@ -1149,8 +1227,12 @@ function Initialize()
   LuaEvents.LaunchBar_CloseGreatPeoplePopup.Add(OnClose)
 
   -- Audio Events
-  Controls.ButtonGreatPeople:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
-  Controls.ButtonPreviouslyRecruited:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ButtonGreatPeople:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
+  Controls.ButtonPreviouslyRecruited:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   m_TopPanelConsideredHeight = Controls.Vignette:GetSizeY() - TOP_PANEL_OFFSET
 end

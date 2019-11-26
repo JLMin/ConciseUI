@@ -8,7 +8,9 @@ include("cui_helper")
 -- ---------------------------------------------------------------------------
 function GetDistrictBaseType(district)
   local dType = district.DistrictType
-  if not isNil(GameInfo.DistrictReplaces[dType]) then dType = GameInfo.DistrictReplaces[dType].ReplacesDistrictType end
+  if not isNil(GameInfo.DistrictReplaces[dType]) then
+    dType = GameInfo.DistrictReplaces[dType].ReplacesDistrictType
+  end
   return dType
 end
 
@@ -21,7 +23,9 @@ function CuiCanProduceDistrict(city, queue, district)
     --
     if notSuitable then
       local plots = GetCityRelatedPlotIndexesDistrictsAlternative(city, district.Hash)
-      if not isNil(plots) then canProduce = true end
+      if not isNil(plots) then
+        canProduce = true
+      end
     end
   end
 
@@ -38,7 +42,9 @@ function CuiDistrictReasonCheck(results)
     local fReasons = results[CityCommandResults.FAILURE_REASONS]
     if not isNil(fReasons) then
       for i, v in ipairs(fReasons) do
-        if v == suitableTxt then notSuitable = true end
+        if v == suitableTxt then
+          notSuitable = true
+        end
         -- if v == floodedTxt  then isFlooded   = true; end
       end
     end
@@ -49,7 +55,9 @@ end
 
 -- ---------------------------------------------------------------------------
 function CuiIsItemInProgress(queue, item)
-  if item.Progress > 0 then return true end
+  if item.Progress > 0 then
+    return true
+  end
   return item.RequiresPlacement and queue:HasBeenPlaced(item.Hash)
 end
 
@@ -60,7 +68,9 @@ function GetFailureToolTip(canProduce, results)
     if not isNil(failureReasons) then
       local allReasons = ""
       for i, v in ipairs(failureReasons) do
-        if not isNil(allReasons) then allReasons = allReasons .. "[NEWLINE]" end
+        if not isNil(allReasons) then
+          allReasons = allReasons .. "[NEWLINE]"
+        end
         allReasons = allReasons .. "[COLOR:Red]" .. Locale.Lookup(v) .. "[ENDCOLOR]"
       end
       return allReasons
@@ -91,7 +101,9 @@ function GetProduceCostToolTip(cost, progress)
   if cost ~= 0 then
     local concatString = " [ICON_Production] " .. Locale.Lookup("LOC_HUD_PRODUCTION")
     local costString = tostring(cost)
-    if progress > 0 then costString = tostring(progress) .. "/" .. tostring(cost) end
+    if progress > 0 then
+      costString = tostring(progress) .. "/" .. tostring(cost)
+    end
     tooltip = Locale.Lookup("LOC_HUD_PRODUCTION_COST") .. ": " .. costString .. concatString
   end
   return tooltip
@@ -106,7 +118,9 @@ end
 -- ---------------------------------------------------------------------------
 function ComposeTT(...)
   local args = {...}
-  if isNil(args) then return "" end
+  if isNil(args) then
+    return ""
+  end
 
   local t = ""
   local r = "[NEWLINE][NEWLINE]"
@@ -129,15 +143,20 @@ RepeatableProject = {
   -- base game
   "LOC_PROJECT_ENHANCE_DISTRICT_ENCAMPMENT_NAME", "LOC_PROJECT_ENHANCE_DISTRICT_HARBOR_NAME",
   "LOC_PROJECT_ENHANCE_DISTRICT_INDUSTRIAL_ZONE_NAME", "LOC_PROJECT_ENHANCE_DISTRICT_COMMERCIAL_HUB_NAME",
-  "LOC_PROJECT_ENHANCE_DISTRICT_HOLY_SITE_NAME", "LOC_PROJECT_ENHANCE_DISTRICT_CAMPUS_NAME", "LOC_PROJECT_ENHANCE_DISTRICT_THEATER_NAME",
-  "LOC_PROJECT_CARNIVAL_NAME", "LOC_PROJECT_BUILD_NUCLEAR_DEVICE_NAME", "LOC_PROJECT_BUILD_THERMONUCLEAR_DEVICE_NAME", -- expansion 1
+  "LOC_PROJECT_ENHANCE_DISTRICT_HOLY_SITE_NAME", "LOC_PROJECT_ENHANCE_DISTRICT_CAMPUS_NAME",
+  "LOC_PROJECT_ENHANCE_DISTRICT_THEATER_NAME", "LOC_PROJECT_CARNIVAL_NAME", "LOC_PROJECT_BUILD_NUCLEAR_DEVICE_NAME",
+  "LOC_PROJECT_BUILD_THERMONUCLEAR_DEVICE_NAME", -- expansion 1
   "LOC_PROJECT_WATER_CARNIVAL_NAME", "LOC_PROJECT_BREAD_AND_CIRCUSES_NAME", -- expansion 2
-  "LOC_PROJECT_CARBON_RECAPTURE_NAME", "LOC_PROJECT_ORBITAL_LASER_NAME", "LOC_PROJECT_TERRESTRIAL_LASER_NAME", "LOC_PROJECT_SEND_AID_NAME",
-  "LOC_PROJECT_TRAIN_ATHLETES_NAME", "LOC_PROJECT_TRAIN_ASTRONAUTS_NAME"
+  "LOC_PROJECT_CARBON_RECAPTURE_NAME", "LOC_PROJECT_ORBITAL_LASER_NAME", "LOC_PROJECT_TERRESTRIAL_LASER_NAME",
+  "LOC_PROJECT_SEND_AID_NAME", "LOC_PROJECT_TRAIN_ATHLETES_NAME", "LOC_PROJECT_TRAIN_ASTRONAUTS_NAME"
 }
 
 function CuiIsProjectRepeatable(project)
-  for _, name in ipairs(RepeatableProject) do if project.Name == name then return true end end
+  for _, name in ipairs(RepeatableProject) do
+    if project.Name == name then
+      return true
+    end
+  end
   return false
 end
 
@@ -148,13 +167,17 @@ end
 
 function StopRepeatProject(city)
   local cityName = city:GetName()
-  if RepeatedProjectsList[cityName] then RepeatedProjectsList[cityName] = nil end
+  if RepeatedProjectsList[cityName] then
+    RepeatedProjectsList[cityName] = nil
+  end
 end
 
 function RepeatProjects()
   local playerID = Game.GetLocalPlayer()
   local player = Players[playerID]
-  if player == nil then return end
+  if player == nil then
+    return
+  end
 
   for i, city in player:GetCities():Members() do
     local cityName = city:GetName()
@@ -180,7 +203,9 @@ function isItem(item, name)
   return locName == name
 end
 
-function pItem(item, extraInfo) print(Locale.Lookup(item.Name), extraInfo) end
+function pItem(item, extraInfo)
+  print(Locale.Lookup(item.Name), extraInfo)
+end
 
 -- ===========================================================================
 -- Initialize

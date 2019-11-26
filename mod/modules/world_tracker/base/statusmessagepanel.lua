@@ -42,12 +42,18 @@ function OnStatusMessage(message, displayTime, type, subType)
 
   -- CUI
   if (not cui_UseVanilaGossip and type == ReportingStatusTypes.GOSSIP) or
-      (not cui_UseVanilaCombat and type == ReportingStatusTypes.DEFAULT) then return end
+    (not cui_UseVanilaCombat and type == ReportingStatusTypes.DEFAULT) then
+    return
+  end
   --
 
-  if (type == ReportingStatusTypes.GOSSIP) then AddGossip(subType, message, displayTime) end
+  if (type == ReportingStatusTypes.GOSSIP) then
+    AddGossip(subType, message, displayTime)
+  end
 
-  if (type == ReportingStatusTypes.DEFAULT) then AddDefault(message, displayTime) end
+  if (type == ReportingStatusTypes.DEFAULT) then
+    AddDefault(message, displayTime)
+  end
 
   RealizeMainAreaPosition()
 end
@@ -57,9 +63,13 @@ end
 -- ===========================================================================
 function RealizeFirstGossip()
   local num = table.count(m_kGossip)
-  if num < 1 then return end
+  if num < 1 then
+    return
+  end
   local uiInstance = m_kGossip[1].uiInstance
-  if uiInstance.Root:IsHidden() then uiInstance.Root:SetHide(false) end
+  if uiInstance.Root:IsHidden() then
+    uiInstance.Root:SetHide(false)
+  end
   uiInstance.ExpandButton:SetHide(num == 1)
   uiInstance.ExpandButton:SetSelected(m_isGossipExpanded)
 end
@@ -68,7 +78,9 @@ end
 --	Add a gossip entry.
 -- ===========================================================================
 function AddGossip(eGossipType, message, optionalDisplayTime)
-  if optionalDisplayTime == nil or optionalDisplayTime == 0 then optionalDisplayTime = DEFAULT_TIME_TO_DISPLAY end
+  if optionalDisplayTime == nil or optionalDisplayTime == 0 then
+    optionalDisplayTime = DEFAULT_TIME_TO_DISPLAY
+  end
 
   -- Add visually
   local uiInstance = m_gossipIM:GetInstance()
@@ -78,7 +90,7 @@ function AddGossip(eGossipType, message, optionalDisplayTime)
     uiInstance.IconBack:SetIcon("ICON_GOSSIP_" .. kGossipData.GroupType)
   else
     UI.DataError("The gossip type '" .. tostring(eGossipType) ..
-                     "' could not be found in the database; icon will not be set.")
+                   "' could not be found in the database; icon will not be set.")
   end
 
   uiInstance.Message:SetText(message)
@@ -107,17 +119,29 @@ function AddGossip(eGossipType, message, optionalDisplayTime)
 
   -- If showing all gossips or if this is the first in the list, then start animation.
   local isFirstGossip = table.count(m_kGossip) == 1
-  if m_isGossipExpanded or (m_isGossipExpanded == false and isFirstGossip) then uiInstance.Anim:Play() end
+  if m_isGossipExpanded or (m_isGossipExpanded == false and isFirstGossip) then
+    uiInstance.Anim:Play()
+  end
 
   -- Now thata data exists, create lambdas that passes it in.
-  uiInstance.Anim:RegisterEndCallback(function() OnGossipEndAnim(kEntry, uiInstance) end)
-  uiInstance.Button:RegisterCallback(Mouse.eLClick, function() OnGossipClicked(kEntry, uiInstance) end)
-  uiInstance.Button:RegisterCallback(Mouse.eRClick, function() OnGossipClicked(kEntry, uiInstance) end)
-  uiInstance.ExpandButton:RegisterCallback(Mouse.eLClick, function() OnToggleGossipExpand(kEntry, uiInstance) end)
+  uiInstance.Anim:RegisterEndCallback(function()
+    OnGossipEndAnim(kEntry, uiInstance)
+  end)
+  uiInstance.Button:RegisterCallback(Mouse.eLClick, function()
+    OnGossipClicked(kEntry, uiInstance)
+  end)
+  uiInstance.Button:RegisterCallback(Mouse.eRClick, function()
+    OnGossipClicked(kEntry, uiInstance)
+  end)
+  uiInstance.ExpandButton:RegisterCallback(Mouse.eLClick, function()
+    OnToggleGossipExpand(kEntry, uiInstance)
+  end)
 
   -- Hide this if not the first and list is collapsed.
   local numGossips = table.count(m_kGossip)
-  if m_isGossipExpanded == false and (numGossips > 1) then uiInstance.Root:SetHide(true) end
+  if m_isGossipExpanded == false and (numGossips > 1) then
+    uiInstance.Root:SetHide(true)
+  end
 end
 
 -- ===========================================================================
@@ -153,7 +177,9 @@ end
 
 -- ===========================================================================
 function RemoveAllGossip()
-  if table.count(m_kGossip) == 0 then return end
+  if table.count(m_kGossip) == 0 then
+    return
+  end
   for i, kTableEntry in ipairs(m_kGossip) do
     local uiInstance = kTableEntry.uiInstance
     uiInstance.Anim:Stop()
@@ -167,7 +193,9 @@ end
 --	UI Callback
 --	Clicked to dismiss message
 -- ===========================================================================
-function OnGossipClicked(kEntry, uiInstance) RemoveGossip(kEntry, uiInstance) end
+function OnGossipClicked(kEntry, uiInstance)
+  RemoveGossip(kEntry, uiInstance)
+end
 
 -- ===========================================================================
 --	UI Callback
@@ -209,7 +237,9 @@ function OnToggleGossipExpand(kEntry, uiInstance)
 end
 
 -- ===========================================================================
-function OnGossipEndAnim(kEntry, uiInstance) RemoveGossip(kEntry, uiInstance) end
+function OnGossipEndAnim(kEntry, uiInstance)
+  RemoveGossip(kEntry, uiInstance)
+end
 
 -- ===========================================================================
 --	Add default message (e.g., combat messages)
@@ -230,12 +260,18 @@ function AddDefault(message, displayTime)
   local uiInstance = kTypeEntry.InstanceManager:GetInstance()
   table.insert(kTypeEntry.MessageInstances, uiInstance)
 
-  if displayTime == nil or displayTime == 0 then displayTime = DEFAULT_TIME_TO_DISPLAY end
+  if displayTime == nil or displayTime == 0 then
+    displayTime = DEFAULT_TIME_TO_DISPLAY
+  end
   uiInstance.Message:SetText(message)
 
-  uiInstance.Button:RegisterCallback(Mouse.eLClick, function() OnMessageClicked(kTypeEntry, uiInstance) end)
+  uiInstance.Button:RegisterCallback(Mouse.eLClick, function()
+    OnMessageClicked(kTypeEntry, uiInstance)
+  end)
   uiInstance.Anim:SetEndPauseTime(displayTime)
-  uiInstance.Anim:RegisterEndCallback(function() OnEndAnim(kTypeEntry, uiInstance) end)
+  uiInstance.Anim:RegisterEndCallback(function()
+    OnEndAnim(kTypeEntry, uiInstance)
+  end)
   uiInstance.Anim:SetToBeginning()
   uiInstance.Anim:Play()
 
@@ -250,16 +286,22 @@ function RemoveMessage(kTypeEntry, uiInstance)
 end
 
 -- ===========================================================================
-function OnEndAnim(kTypeEntry, uiInstance) RemoveMessage(kTypeEntry, uiInstance) end
+function OnEndAnim(kTypeEntry, uiInstance)
+  RemoveMessage(kTypeEntry, uiInstance)
+end
 
 -- ===========================================================================
-function OnMessageClicked(kTypeEntry, uiInstance) RemoveMessage(kTypeEntry, uiInstance) end
+function OnMessageClicked(kTypeEntry, uiInstance)
+  RemoveMessage(kTypeEntry, uiInstance)
+end
 
 -- ===========================================================================
 --	EVENT
 -- ===========================================================================
 function OnMultplayerPlayerConnected(playerID)
-  if playerID == -1 or playerID == 1000 then return end
+  if playerID == -1 or playerID == 1000 then
+    return
+  end
 
   if (ContextPtr:IsHidden() == false and GameConfiguration.IsNetworkMultiplayer()) then
     local pPlayerConfig = PlayerConfigurations[playerID]
@@ -272,7 +314,9 @@ end
 --	EVENT
 -- ===========================================================================
 function OnMultiplayerPrePlayerDisconnected(playerID)
-  if playerID == -1 or playerID == 1000 then return end
+  if playerID == -1 or playerID == 1000 then
+    return
+  end
 
   if (ContextPtr:IsHidden() == false and GameConfiguration.IsNetworkMultiplayer()) then
     local pPlayerConfig = PlayerConfigurations[playerID]
@@ -291,7 +335,9 @@ end
 -- ===========================================================================
 function OnLocalTurnEnd(a, b, c)
   local playerID = Game.GetLocalPlayer()
-  if playerID == -1 or playerID == 1000 then return end
+  if playerID == -1 or playerID == 1000 then
+    return
+  end
   RemoveAllGossip()
 end
 
@@ -309,8 +355,8 @@ function DebugTest()
       local subType = DB.MakeHash("GOSSIP_MAKE_DOW")
       if key == Keys.D then
         OnStatusMessage(
-            "Testing out status message ajsdkl akds dk dkdkj dkdkd ajksaksdkjkjd dkadkj f djkdkjdkj dak sdkjdjkal dkd kd dk adkj dkkadj kdjd kdkjd jkd jd dkj djkd dkdkdjdkdkjdkd djkd dkd dkjd kdjdkj d",
-            7, type, subType)
+          "Testing out status message ajsdkl akds dk dkdkj dkdkd ajksaksdkjkjd dkadkj f djkdkjdkj dak sdkjdjkal dkd kd dk adkj dkkadj kdjd kdkjd jkd jd dkj djkd dkdkdjdkdkjdkd djkd dkd dkjd kdjdkj d",
+          7, type, subType)
         return true
       end
       if key == Keys.F then
@@ -332,13 +378,17 @@ end
 function RealizeMainAreaPosition()
 
   local m_uiRibbonScroll = ContextPtr:LookUpControl("/InGame/DiplomacyRibbon/ScrollContainer")
-  if m_uiRibbonScroll == nil then return end
+  if m_uiRibbonScroll == nil then
+    return
+  end
   local ribbonHeight = m_uiRibbonScroll:GetSizeY()
 
   -- Bail if no change.
   local EXTRA_CLEARANCE = 50
   local currentOffsetY = Controls.MainArea:GetOffsetY()
-  if currentOffsetY == (ribbonHeight + EXTRA_CLEARANCE) then return end
+  if currentOffsetY == (ribbonHeight + EXTRA_CLEARANCE) then
+    return
+  end
 
   -- Set starting height of stack to just below ribbon.
   Controls.MainArea:SetOffsetY(ribbonHeight + EXTRA_CLEARANCE)
@@ -367,7 +417,9 @@ end
 -- ===========================================================================
 --	UI Callback
 -- ===========================================================================
-function OnInit() LateInitialize() end
+function OnInit()
+  LateInitialize()
+end
 
 -- ===========================================================================
 --
@@ -375,6 +427,10 @@ function OnInit() LateInitialize() end
 function Initialize()
   ContextPtr:SetInitHandler(OnInit)
   ContextPtr:SetShutdown(OnShutdown)
-  if debug_testActive then DebugTest() end -- Enable debug mode?
+  if debug_testActive then
+    DebugTest()
+  end -- Enable debug mode?
 end
-if GameCapabilities.HasCapability("CAPABILITY_DISPLAY_HUD_GOSSIP_LIST") then Initialize() end
+if GameCapabilities.HasCapability("CAPABILITY_DISPLAY_HUD_GOSSIP_LIST") then
+  Initialize()
+end

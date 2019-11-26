@@ -38,7 +38,9 @@ function PopulateCheckBox(control, k, handler, enabled)
     CuiSettings:SetBoolean(key, selected)
     handler()
   end)
-  control:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  control:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 end
 
 -- ---------------------------------------------------------------------------
@@ -52,12 +54,16 @@ function PopulatePullDown(control, options, selected_value, handler, enabled)
     instance.Button:LocalizeAndSetText(option[1])
     instance.Button:SetVoid1(i)
 
-    if option[2] == selected_value then button:LocalizeAndSetText(option[1]) end
+    if option[2] == selected_value then
+      button:LocalizeAndSetText(option[1])
+    end
   end
 
   control:SetDisabled(not enabled)
   if enabled then
-    button:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+    button:RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
     control:RegisterSelectionCallback(function(voidValue1, voidValue2, control)
       local params = options[voidValue1]
       local text = params[1]
@@ -89,12 +95,16 @@ function RegisterClickFunctions()
   -- tabs
   for _, tab in ipairs(tabs) do
     local button = tab[1]
-    button:RegisterCallback(Mouse.eLClick, function() SelectTab(tab) end)
+    button:RegisterCallback(Mouse.eLClick, function()
+      SelectTab(tab)
+    end)
   end
 
   -- comfirm button
   Controls.ConfirmButton:RegisterCallback(Mouse.eLClick, OnConfirm)
-  Controls.ConfirmButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ConfirmButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 end
 
 -- ---------------------------------------------------------------------------
@@ -150,7 +160,9 @@ function LoadVictorySettings()
 end
 
 -- ---------------------------------------------------------------------------
-function UpdateVictory() LuaEvents.CuiVictorySettingChange() end
+function UpdateVictory()
+  LuaEvents.CuiVictorySettingChange()
+end
 
 -- ---------------------------------------------------------------------------
 function LoadLogSettings()
@@ -161,8 +173,12 @@ function LoadLogSettings()
 
   -- Gossip
   local gossip_value = 0
-  if CuiSettings:GetBoolean(CuiSettings.DF_GOSSIP_LOG) then gossip_value = gossip_value + 1 end
-  if CuiSettings:GetBoolean(CuiSettings.WT_GOSSIP_LOG) then gossip_value = gossip_value + 2 end
+  if CuiSettings:GetBoolean(CuiSettings.DF_GOSSIP_LOG) then
+    gossip_value = gossip_value + 1
+  end
+  if CuiSettings:GetBoolean(CuiSettings.WT_GOSSIP_LOG) then
+    gossip_value = gossip_value + 2
+  end
   local GossipHandler = function(v)
     CuiSettings:SetBoolean(CuiSettings.DF_GOSSIP_LOG, (v == 1 or v == 3))
     CuiSettings:SetBoolean(CuiSettings.WT_GOSSIP_LOG, (v == 2 or v == 3))
@@ -172,8 +188,12 @@ function LoadLogSettings()
 
   -- Combat
   local combat_value = 0
-  if CuiSettings:GetBoolean(CuiSettings.DF_COMBAT_LOG) then combat_value = combat_value + 1 end
-  if CuiSettings:GetBoolean(CuiSettings.WT_COMBAT_LOG) then combat_value = combat_value + 2 end
+  if CuiSettings:GetBoolean(CuiSettings.DF_COMBAT_LOG) then
+    combat_value = combat_value + 1
+  end
+  if CuiSettings:GetBoolean(CuiSettings.WT_COMBAT_LOG) then
+    combat_value = combat_value + 2
+  end
   local CombatHandler = function(v)
     CuiSettings:SetBoolean(CuiSettings.DF_COMBAT_LOG, (v == 1 or v == 3))
     CuiSettings:SetBoolean(CuiSettings.WT_COMBAT_LOG, (v == 2 or v == 3))
@@ -183,34 +203,46 @@ function LoadLogSettings()
 end
 
 -- ---------------------------------------------------------------------------
-function UpdateLog() LuaEvents.CuiLogSettingChange() end
+function UpdateLog()
+  LuaEvents.CuiLogSettingChange()
+end
 
 -- ---------------------------------------------------------------------------
 function LoadPopupSettings()
   local options = {{"LOC_OPTIONS_ENABLED", true}, {"LOC_OPTIONS_DISABLED", false}}
 
   -- Research
-  local ResearchHandler = function(v) CuiSettings:SetBoolean(CuiSettings.POPUP_RESEARCH, v) end
+  local ResearchHandler = function(v)
+    CuiSettings:SetBoolean(CuiSettings.POPUP_RESEARCH, v)
+  end
   PopulatePullDown(Controls.SetResearch, options, CuiSettings:GetBoolean(CuiSettings.POPUP_RESEARCH), ResearchHandler,
                    true)
 
   -- PlayAudio
-  local AudioHandler = function(v) CuiSettings:SetBoolean(CuiSettings.AUDIO_RESEARCH, v) end
+  local AudioHandler = function(v)
+    CuiSettings:SetBoolean(CuiSettings.AUDIO_RESEARCH, v)
+  end
   PopulatePullDown(Controls.SetPlayAudio, options, CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH), AudioHandler,
                    true)
 
   -- EraScore
-  local EraScoreHandler = function(v) CuiSettings:SetBoolean(CuiSettings.POPUP_HISTORIC, v) end
+  local EraScoreHandler = function(v)
+    CuiSettings:SetBoolean(CuiSettings.POPUP_HISTORIC, v)
+  end
   PopulatePullDown(Controls.SetEraScore, options, CuiSettings:GetBoolean(CuiSettings.POPUP_HISTORIC), EraScoreHandler,
                    true)
 
   -- GreatWork
-  local GreatWorkHandler = function(v) CuiSettings:SetBoolean(CuiSettings.POPUP_CREATWORK, v) end
+  local GreatWorkHandler = function(v)
+    CuiSettings:SetBoolean(CuiSettings.POPUP_CREATWORK, v)
+  end
   PopulatePullDown(Controls.SetGreatWork, options, CuiSettings:GetBoolean(CuiSettings.POPUP_CREATWORK),
                    GreatWorkHandler, true)
 
   -- Relic
-  local RelicHandler = function(v) CuiSettings:SetBoolean(CuiSettings.POPUP_RELIC, v) end
+  local RelicHandler = function(v)
+    CuiSettings:SetBoolean(CuiSettings.POPUP_RELIC, v)
+  end
   PopulatePullDown(Controls.SetRelic, options, CuiSettings:GetBoolean(CuiSettings.POPUP_RELIC), RelicHandler, true)
 end
 
@@ -262,7 +294,9 @@ function LoadRemindSettings()
 end
 
 -- ---------------------------------------------------------------------------
-function UpdateRemind() LuaEvents.CuiRemindSettingChange() end
+function UpdateRemind()
+  LuaEvents.CuiRemindSettingChange()
+end
 
 -- ---------------------------------------------------------------------------
 function LoadSpeedSettings()
@@ -273,8 +307,12 @@ function LoadSpeedSettings()
 
   -- Combat
   local combat_value = 0
-  if CuiSettings:GetBoolean(CuiSettings.PLAYER_COMBAT) then combat_value = combat_value + 1 end
-  if CuiSettings:GetBoolean(CuiSettings.AI_COMBAT) then combat_value = combat_value + 2 end
+  if CuiSettings:GetBoolean(CuiSettings.PLAYER_COMBAT) then
+    combat_value = combat_value + 1
+  end
+  if CuiSettings:GetBoolean(CuiSettings.AI_COMBAT) then
+    combat_value = combat_value + 2
+  end
   local CombatHandler = function(v)
     CuiSettings:SetBoolean(CuiSettings.PLAYER_COMBAT, (v == 1 or v == 3))
     CuiSettings:SetBoolean(CuiSettings.AI_COMBAT, (v == 2 or v == 3))
@@ -284,8 +322,12 @@ function LoadSpeedSettings()
 
   -- Movement
   local movement_value = 0
-  if CuiSettings:GetBoolean(CuiSettings.PLAYER_MOVEMENT) then movement_value = movement_value + 1 end
-  if CuiSettings:GetBoolean(CuiSettings.AI_MOVEMENT) then movement_value = movement_value + 2 end
+  if CuiSettings:GetBoolean(CuiSettings.PLAYER_MOVEMENT) then
+    movement_value = movement_value + 1
+  end
+  if CuiSettings:GetBoolean(CuiSettings.AI_MOVEMENT) then
+    movement_value = movement_value + 2
+  end
   local MovementHandler = function(v)
     CuiSettings:SetBoolean(CuiSettings.PLAYER_MOVEMENT, (v == 1 or v == 3))
     CuiSettings:SetBoolean(CuiSettings.AI_MOVEMENT, (v == 2 or v == 3))
@@ -333,19 +375,24 @@ function LoadSettings()
 end
 
 -- ---------------------------------------------------------------------------
-function SaveSettings() end
+function SaveSettings()
+end
 
 -- ---------------------------------------------------------------------------
 -- Screen Functions
 -- ---------------------------------------------------------------------------
 function Open()
-  if ContextPtr:IsHidden() then UI.PlaySound("UI_Screen_Open") end
+  if ContextPtr:IsHidden() then
+    UI.PlaySound("UI_Screen_Open")
+  end
   UIManager:QueuePopup(ContextPtr, PopupPriority.Current)
 end
 
 -- ---------------------------------------------------------------------------
 function Close()
-  if not ContextPtr:IsHidden() then UI.PlaySound("UI_Screen_Close") end
+  if not ContextPtr:IsHidden() then
+    UI.PlaySound("UI_Screen_Close")
+  end
   UIManager:DequeuePopup(ContextPtr)
 end
 
@@ -364,7 +411,13 @@ function OnConfirm()
 end
 
 -- ---------------------------------------------------------------------------
-function OnInit(isReload) if isReload then if not ContextPtr:IsHidden() then Open() end end end
+function OnInit(isReload)
+  if isReload then
+    if not ContextPtr:IsHidden() then
+      Open()
+    end
+  end
+end
 
 -- ---------------------------------------------------------------------------
 function OnInputHandler(pInputStruct)

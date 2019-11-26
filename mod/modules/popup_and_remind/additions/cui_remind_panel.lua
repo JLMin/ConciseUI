@@ -18,7 +18,9 @@ function RefreshTech(localPlayer, eTech)
   if CuiSettings:GetBoolean(CuiSettings.REMIND_TECH) then
     local isReady = CuiIsTechReady(localPlayer)
     Controls.TechReady:SetHide(not isReady)
-    if isReady then isAnyRemind = true end
+    if isReady then
+      isAnyRemind = true
+    end
   end
 end
 
@@ -27,7 +29,9 @@ function RefreshCivic(localPlayer, eCivic)
   if CuiSettings:GetBoolean(CuiSettings.REMIND_CIVIC) then
     local isReady = CuiIsCivicReady(localPlayer)
     Controls.CivicReady:SetHide(not isReady)
-    if isReady then isAnyRemind = true end
+    if isReady then
+      isAnyRemind = true
+    end
   end
 end
 
@@ -36,24 +40,33 @@ function RefreshGovernment(localPlayer)
   if CuiSettings:GetBoolean(CuiSettings.REMIND_GOVERNMENT) then
     local isReady = CuiIsGovernmentReady(localPlayer)
     Controls.GovernmentReady:SetHide(not isReady)
-    if isReady then isAnyRemind = true end
+    if isReady then
+      isAnyRemind = true
+    end
   end
 end
 
 -- ---------------------------------------------------------------------------
 function RefreshGovernor(localPlayer)
-  if not isExpansion1 or not isExpansion2 then return end
+  if not isExpansion1 or not isExpansion2 then
+    return
+  end
 
   if CuiSettings:GetBoolean(CuiSettings.REMIND_GOVERNOR) then
     local isReady = CuiIsGovernorReady(localPlayer)
     Controls.GovernorReady:SetHide(not isReady)
-    if isReady then isAnyRemind = true end
+    if isReady then
+      isAnyRemind = true
+    end
   end
 end
 
 -- ---------------------------------------------------------------------------
 function RefreshAll()
-  if testMode then ReminderTest() return end
+  if testMode then
+    ReminderTest()
+    return
+  end
 
   local localPlayer = Game.GetLocalPlayer()
   if localPlayer ~= -1 then
@@ -63,7 +76,7 @@ function RefreshAll()
     RefreshGovernment(localPlayer)
     RefreshGovernor(localPlayer)
   end
-  
+
   ResizeBubble()
 end
 

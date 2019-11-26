@@ -69,7 +69,9 @@ end
 function SetGreatPersonToolTip(tControl, tData_Player, tData_GP)
   tControl:SetToolTipType("CuiGreatPersonTT")
   tControl:ClearToolTipCallback()
-  tControl:SetToolTipCallback(function() UpdateGreatPersonTooltip(tControl, tData_Player, tData_GP) end)
+  tControl:SetToolTipCallback(function()
+    UpdateGreatPersonTooltip(tControl, tData_Player, tData_GP)
+  end)
 end
 
 -- ===========================================================================

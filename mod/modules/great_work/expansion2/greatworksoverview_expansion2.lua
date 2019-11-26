@@ -92,7 +92,9 @@ function GetThemeDescription(buildingType)
   local localPlayerID = Game.GetLocalPlayer()
   local localPlayer = Players[localPlayerID]
 
-  if (localPlayer == nil) then return nil end
+  if (localPlayer == nil) then
+    return nil
+  end
 
   local eBuilding = localPlayer:GetCulture():GetAutoThemedBuilding()
   local bAutoTheme = localPlayer:GetCulture():IsAutoThemedEligible(GameInfo.Buildings[buildingType].Hash)
@@ -104,7 +106,9 @@ function GetThemeDescription(buildingType)
   else
     for row in GameInfo.Building_GreatWorks() do
       if row.BuildingType == buildingType then
-        if row.ThemingBonusDescription ~= nil then return Locale.Lookup(row.ThemingBonusDescription) end
+        if row.ThemingBonusDescription ~= nil then
+          return Locale.Lookup(row.ThemingBonusDescription)
+        end
       end
     end
   end
@@ -116,8 +120,10 @@ function PopulateGreatWorkSlot(instance, pCity, pCityBldgs, pBuildingInfo)
   instance.DefaultBG:SetHide(false)
   instance.DisabledBG:SetHide(true)
   instance.HighlightedBG:SetHide(true)
-  instance.DefaultBG:RegisterCallback(Mouse.eLClick, function() end) -- clear callback
-  instance.HighlightedBG:RegisterCallback(Mouse.eLClick, function() end) -- clear callback
+  instance.DefaultBG:RegisterCallback(Mouse.eLClick, function()
+  end) -- clear callback
+  instance.HighlightedBG:RegisterCallback(Mouse.eLClick, function()
+  end) -- clear callback
 
   -- CUI: reset Theme label
   instance.ThemingLabel:SetText("")
@@ -147,7 +153,9 @@ function PopulateGreatWorkSlot(instance, pCity, pCityBldgs, pBuildingInfo)
   local localPlayerID = Game.GetLocalPlayer()
   local localPlayer = Players[localPlayerID]
 
-  if (localPlayer == nil) then return nil end
+  if (localPlayer == nil) then
+    return nil
+  end
 
   local bAutoTheme = localPlayer:GetCulture():IsAutoThemedEligible()
 
@@ -165,7 +173,9 @@ function PopulateGreatWorkSlot(instance, pCity, pCityBldgs, pBuildingInfo)
         numGreatWorks = numGreatWorks + 1
         local greatWorkType = pCityBldgs:GetGreatWorkTypeFromIndex(greatWorkIndex)
         local greatWorkInfo = GameInfo.GreatWorks[greatWorkType]
-        if firstGreatWork == nil then firstGreatWork = greatWorkInfo end
+        if firstGreatWork == nil then
+          firstGreatWork = greatWorkInfo
+        end
         if greatWorkInfo ~= nil and GreatWorkFitsTheme(pCityBldgs, pBuildingInfo, greatWorkIndex, greatWorkInfo) then
           numThemedGreatWorks = numThemedGreatWorks + 1
         end
@@ -180,8 +190,8 @@ function PopulateGreatWorkSlot(instance, pCity, pCityBldgs, pBuildingInfo)
 
       local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(slotTypeIcon, SIZE_SLOT_TYPE_ICON)
       if (textureSheet == nil or textureSheet == "") then
-        UI.DataError("Could not find slot type icon in PopulateGreatWorkSlot: icon=\"" .. slotTypeIcon .. "\", iconSize=" ..
-                         tostring(SIZE_SLOT_TYPE_ICON))
+        UI.DataError("Could not find slot type icon in PopulateGreatWorkSlot: icon=\"" .. slotTypeIcon ..
+                       "\", iconSize=" .. tostring(SIZE_SLOT_TYPE_ICON))
       else
         for i = 0, numSlots - 1 do
           local slotIndex = index - i
@@ -224,7 +234,9 @@ function PopulateGreatWorkSlot(instance, pCity, pCityBldgs, pBuildingInfo)
       instance.ThemingLabel:SetText(LOC_THEME_BONUS)
       if m_during_move then
         if buildingIndex == m_dest_building then
-          if (m_dest_city == pCityBldgs:GetCity():GetID()) then UI.PlaySound("UI_GREAT_WORKS_BONUS_ACHIEVED") end
+          if (m_dest_city == pCityBldgs:GetCity():GetID()) then
+            UI.PlaySound("UI_GREAT_WORKS_BONUS_ACHIEVED")
+          end
         end
       end
     else
@@ -234,33 +246,42 @@ function PopulateGreatWorkSlot(instance, pCity, pCityBldgs, pBuildingInfo)
           if (bAutoTheme == true) then
             instance.ThemingLabel:SetText(Locale.Lookup("LOC_GREAT_WORKS_THEME_BONUS_PROGRESS", numGreatWorks, numSlots))
           else
-            instance.ThemingLabel:SetText(Locale.Lookup("LOC_GREAT_WORKS_THEME_BONUS_PROGRESS", numThemedGreatWorks, numSlots))
+            instance.ThemingLabel:SetText(Locale.Lookup("LOC_GREAT_WORKS_THEME_BONUS_PROGRESS", numThemedGreatWorks,
+                                                        numSlots))
           end
 
           if m_during_move then
             if buildingIndex == m_dest_building then
               if (m_dest_city == pCityBldgs:GetCity():GetID()) then
-                if numThemedGreatWorks == 2 then UI.PlaySound("UI_GreatWorks_Bonus_Increased") end
+                if numThemedGreatWorks == 2 then
+                  UI.PlaySound("UI_GreatWorks_Bonus_Increased")
+                end
               end
             end
           end
         end
 
-        if instance.ThemingLabel:GetText() ~= "" then instance.ThemingLabel:SetToolTipString(themeDescription) end
+        if instance.ThemingLabel:GetText() ~= "" then
+          instance.ThemingLabel:SetToolTipString(themeDescription)
+        end
       end
     end
   end
 
   for row in GameInfo.Yields() do
     local yieldValue = pCityBldgs:GetBuildingYieldFromGreatWorks(row.Index, buildingIndex)
-    if yieldValue > 0 then AddYield(themeBonusIM:GetInstance(), Locale.Lookup(row.Name), YIELD_FONT_ICONS[row.YieldType], yieldValue) end
+    if yieldValue > 0 then
+      AddYield(themeBonusIM:GetInstance(), Locale.Lookup(row.Name), YIELD_FONT_ICONS[row.YieldType], yieldValue)
+    end
   end
 
   local regularTourism = pCityBldgs:GetBuildingTourismFromGreatWorks(false, buildingIndex)
   local religionTourism = pCityBldgs:GetBuildingTourismFromGreatWorks(true, buildingIndex)
   local totalTourism = regularTourism + religionTourism
 
-  if totalTourism > 0 then AddYield(themeBonusIM:GetInstance(), LOC_TOURISM, YIELD_FONT_ICONS[DATA_FIELD_TOURISM_YIELD], totalTourism) end
+  if totalTourism > 0 then
+    AddYield(themeBonusIM:GetInstance(), LOC_TOURISM, YIELD_FONT_ICONS[DATA_FIELD_TOURISM_YIELD], totalTourism)
+  end
 
   instance.ThemeBonuses:CalculateSize()
   instance.ThemeBonuses:ReprocessAnchoring()

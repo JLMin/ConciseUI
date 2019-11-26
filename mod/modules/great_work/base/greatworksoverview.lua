@@ -92,7 +92,9 @@ local cui_ThemeHelper = false -- CUI
 -- ===========================================================================
 function UpdatePlayerData()
   m_LocalPlayerID = Game.GetLocalPlayer()
-  if m_LocalPlayerID ~= -1 then m_LocalPlayer = Players[m_LocalPlayerID] end
+  if m_LocalPlayerID ~= -1 then
+    m_LocalPlayer = Players[m_LocalPlayerID]
+  end
 end
 
 -- ===========================================================================
@@ -106,7 +108,9 @@ function UpdateGreatWorks()
   Controls.PlacingContainer:SetHide(true)
   Controls.HeaderStatsContainer:SetHide(false)
 
-  if (m_LocalPlayer == nil) then return end
+  if (m_LocalPlayer == nil) then
+    return
+  end
 
   m_GreatWorkYields = {}
   m_GreatWorkBuildings = {}
@@ -131,8 +135,13 @@ function UpdateGreatWorks()
                         numDisplaySpaces = numDisplaySpaces + pCityBldgs:GetNumGreatWorkSlots(buildingIndex);
                         numGreatWorks = numGreatWorks + greatWorks;
                         ]]
-            table.insert(cui_tmpBuildings,
-                         {Type = buildingType, Index = buildingIndex, CityBldgs = pCityBldgs, City = pCity, Info = buildingInfo})
+            table.insert(cui_tmpBuildings, {
+              Type = buildingType,
+              Index = buildingIndex,
+              CityBldgs = pCityBldgs,
+              City = pCity,
+              Info = buildingInfo
+            })
           end
         end
       end
@@ -153,7 +162,8 @@ function UpdateGreatWorks()
   for _, item in ipairs(cui_tmpBuildings) do
     local instance = m_GreatWorkSlotsIM:GetInstance()
     local greatWorks = PopulateGreatWorkSlot(instance, item.City, item.CityBldgs, item.Info)
-    table.insert(m_GreatWorkBuildings, {Instance = instance, Type = item.Type, Index = item.Index, CityBldgs = item.CityBldgs})
+    table.insert(m_GreatWorkBuildings,
+                 {Instance = instance, Type = item.Type, Index = item.Index, CityBldgs = item.CityBldgs})
     numDisplaySpaces = numDisplaySpaces + item.CityBldgs:GetNumGreatWorkSlots(item.Index)
     numGreatWorks = numGreatWorks + greatWorks
   end
@@ -170,7 +180,9 @@ function UpdateGreatWorks()
   m_TotalResourcesIM:ResetInstances()
 
   if table.count(m_GreatWorkYields) > 0 then
-    table.sort(m_GreatWorkYields, function(a, b) return a.Name < b.Name end)
+    table.sort(m_GreatWorkYields, function(a, b)
+      return a.Name < b.Name
+    end)
 
     for _, data in ipairs(m_GreatWorkYields) do
       local instance = m_TotalResourcesIM:GetInstance()
@@ -180,7 +192,8 @@ function UpdateGreatWorks()
 
     Controls.TotalResources:CalculateSize()
     Controls.TotalResources:ReprocessAnchoring()
-    Controls.ProvidingLabel:SetOffsetX(Controls.TotalResources:GetOffsetX() + Controls.TotalResources:GetSizeX() + PADDING_PROVIDING_LABEL)
+    Controls.ProvidingLabel:SetOffsetX(Controls.TotalResources:GetOffsetX() + Controls.TotalResources:GetSizeX() +
+                                         PADDING_PROVIDING_LABEL)
     Controls.ProvidingLabel:SetHide(false)
   else
     Controls.ProvidingLabel:SetHide(true)
@@ -240,7 +253,9 @@ function PopulateGreatWorkSlot(instance, pCity, pCityBldgs, pBuildingInfo)
         numGreatWorks = numGreatWorks + 1
         local greatWorkType = pCityBldgs:GetGreatWorkTypeFromIndex(greatWorkIndex)
         local greatWorkInfo = GameInfo.GreatWorks[greatWorkType]
-        if firstGreatWork == nil then firstGreatWork = greatWorkInfo end
+        if firstGreatWork == nil then
+          firstGreatWork = greatWorkInfo
+        end
         if greatWorkInfo ~= nil and GreatWorkFitsTheme(pCityBldgs, pBuildingInfo, greatWorkIndex, greatWorkInfo) then
           numThemedGreatWorks = numThemedGreatWorks + 1
         end
@@ -255,8 +270,8 @@ function PopulateGreatWorkSlot(instance, pCity, pCityBldgs, pBuildingInfo)
 
       local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(slotTypeIcon, SIZE_SLOT_TYPE_ICON)
       if (textureSheet == nil or textureSheet == "") then
-        UI.DataError("Could not find slot type icon in PopulateGreatWorkSlot: icon=\"" .. slotTypeIcon .. "\", iconSize=" ..
-                         tostring(SIZE_SLOT_TYPE_ICON))
+        UI.DataError("Could not find slot type icon in PopulateGreatWorkSlot: icon=\"" .. slotTypeIcon ..
+                       "\", iconSize=" .. tostring(SIZE_SLOT_TYPE_ICON))
       else
         for i = 0, numSlots - 1 do
           local slotIndex = index - i
@@ -299,38 +314,49 @@ function PopulateGreatWorkSlot(instance, pCity, pCityBldgs, pBuildingInfo)
       instance.ThemingLabel:SetText(LOC_THEME_BONUS)
       if m_during_move then
         if buildingIndex == m_dest_building then
-          if (m_dest_city == pCityBldgs:GetCity():GetID()) then UI.PlaySound("UI_GREAT_WORKS_BONUS_ACHIEVED") end
+          if (m_dest_city == pCityBldgs:GetCity():GetID()) then
+            UI.PlaySound("UI_GREAT_WORKS_BONUS_ACHIEVED")
+          end
         end
       end
     else
       if themeDescription ~= nil then
         -- if we're being called due to moving a work
         if numSlots > 1 then
-          instance.ThemingLabel:SetText(Locale.Lookup("LOC_GREAT_WORKS_THEME_BONUS_PROGRESS", numThemedGreatWorks, numSlots))
+          instance.ThemingLabel:SetText(Locale.Lookup("LOC_GREAT_WORKS_THEME_BONUS_PROGRESS", numThemedGreatWorks,
+                                                      numSlots))
           if m_during_move then
             if buildingIndex == m_dest_building then
               if (m_dest_city == pCityBldgs:GetCity():GetID()) then
-                if numThemedGreatWorks == 2 then UI.PlaySound("UI_GreatWorks_Bonus_Increased") end
+                if numThemedGreatWorks == 2 then
+                  UI.PlaySound("UI_GreatWorks_Bonus_Increased")
+                end
               end
             end
           end
         end
 
-        if instance.ThemingLabel:GetText() ~= "" then instance.ThemingLabel:SetToolTipString(themeDescription) end
+        if instance.ThemingLabel:GetText() ~= "" then
+          instance.ThemingLabel:SetToolTipString(themeDescription)
+        end
       end
     end
   end
 
   for row in GameInfo.Yields() do
     local yieldValue = pCityBldgs:GetBuildingYieldFromGreatWorks(row.Index, buildingIndex)
-    if yieldValue > 0 then AddYield(themeBonusIM:GetInstance(), Locale.Lookup(row.Name), YIELD_FONT_ICONS[row.YieldType], yieldValue) end
+    if yieldValue > 0 then
+      AddYield(themeBonusIM:GetInstance(), Locale.Lookup(row.Name), YIELD_FONT_ICONS[row.YieldType], yieldValue)
+    end
   end
 
   local regularTourism = pCityBldgs:GetBuildingTourismFromGreatWorks(false, buildingIndex)
   local religionTourism = pCityBldgs:GetBuildingTourismFromGreatWorks(true, buildingIndex)
   local totalTourism = regularTourism + religionTourism
 
-  if totalTourism > 0 then AddYield(themeBonusIM:GetInstance(), LOC_TOURISM, YIELD_FONT_ICONS[DATA_FIELD_TOURISM_YIELD], totalTourism) end
+  if totalTourism > 0 then
+    AddYield(themeBonusIM:GetInstance(), LOC_TOURISM, YIELD_FONT_ICONS[DATA_FIELD_TOURISM_YIELD], totalTourism)
+  end
 
   instance.ThemeBonuses:CalculateSize()
   instance.ThemeBonuses:ReprocessAnchoring()
@@ -341,7 +367,9 @@ end
 -- IMPORTANT: This logic is largely derived from GetGreatWorkTooltip() - if you make an update here, make sure to update that function as well
 function GreatWorkFitsTheme(pCityBldgs, pBuildingInfo, greatWorkIndex, greatWorkInfo)
   local firstGreatWork = GetFirstGreatWorkInBuilding(pCityBldgs, pBuildingInfo)
-  if firstGreatWork < 0 then return false end
+  if firstGreatWork < 0 then
+    return false
+  end
 
   local firstGreatWorkObjectTypeID = pCityBldgs:GetGreatWorkTypeFromIndex(firstGreatWork)
   local firstGreatWorkObjectType = GameInfo.GreatWorks[firstGreatWorkObjectTypeID].GreatWorkObjectType
@@ -411,7 +439,7 @@ function GetGreatWorkIcon(greatWorkInfo)
   local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(greatWorkIcon, SIZE_GREAT_WORK_ICON)
   if (textureSheet == nil or textureSheet == "") then
     UI.DataError("Could not find slot type icon in GetGreatWorkIcon: icon=\"" .. greatWorkIcon .. "\", iconSize=" ..
-                     tostring(SIZE_GREAT_WORK_ICON))
+                   tostring(SIZE_GREAT_WORK_ICON))
   end
 
   return textureOffsetX, textureOffsetY, textureSheet
@@ -424,7 +452,9 @@ function GetThemeDescription(buildingType)
   else
     for row in GameInfo.Building_GreatWorks() do
       if row.BuildingType == buildingType then
-        if row.ThemingBonusDescription ~= nil then return Locale.Lookup(row.ThemingBonusDescription) end
+        if row.ThemingBonusDescription ~= nil then
+          return Locale.Lookup(row.ThemingBonusDescription)
+        end
       end
     end
   end
@@ -439,7 +469,7 @@ function PopulateGreatWork(instance, pCityBldgs, pBuildingInfo, slotIndex, great
   local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(slotTypeIcon, SIZE_SLOT_TYPE_ICON)
   if (textureSheet == nil or textureSheet == "") then
     UI.DataError("Could not find slot type icon in PopulateGreatWork: icon=\"" .. slotTypeIcon .. "\", iconSize=" ..
-                     tostring(SIZE_SLOT_TYPE_ICON))
+                   tostring(SIZE_SLOT_TYPE_ICON))
   else
     instance.SlotTypeIcon:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
   end
@@ -461,7 +491,9 @@ function PopulateGreatWork(instance, pCityBldgs, pBuildingInfo, slotIndex, great
     local validWorks = ""
     for row in GameInfo.GreatWork_ValidSubTypes() do
       if slotType == row.GreatWorkSlotType then
-        if validWorks ~= "" then validWorks = validWorks .. "[NEWLINE]" end
+        if validWorks ~= "" then
+          validWorks = validWorks .. "[NEWLINE]"
+        end
         validWorks = validWorks .. Locale.Lookup("LOC_" .. row.GreatWorkObjectType)
       end
     end
@@ -502,8 +534,9 @@ function PopulateGreatWork(instance, pCityBldgs, pBuildingInfo, slotIndex, great
     end
 
     -- Don't allow moving art that has been recently created
-    if bAllowMove and srcGreatWorkObjectType == "GREATWORKOBJECT_SCULPTURE" or srcGreatWorkObjectType == "GREATWORKOBJECT_LANDSCAPE" or
-        srcGreatWorkObjectType == "GREATWORKOBJECT_PORTRAIT" or srcGreatWorkObjectType == "GREATWORKOBJECT_RELIGIOUS" then
+    if bAllowMove and srcGreatWorkObjectType == "GREATWORKOBJECT_SCULPTURE" or srcGreatWorkObjectType ==
+      "GREATWORKOBJECT_LANDSCAPE" or srcGreatWorkObjectType == "GREATWORKOBJECT_PORTRAIT" or srcGreatWorkObjectType ==
+      "GREATWORKOBJECT_RELIGIOUS" then
 
       local iTurnCreated = pCityBldgs:GetTurnFromIndex(greatWorkIndex)
       local iCurrentTurn = Game.GetCurrentGameTurn()
@@ -522,13 +555,19 @@ function PopulateGreatWork(instance, pCityBldgs, pBuildingInfo, slotIndex, great
       instance.GreatWorkDraggable:RegisterCallback(Drag.eDown, function(kDragStruct)
         OnClickGreatWork(kDragStruct, pCityBldgs, buildingIndex, greatWorkIndex, slotIndex)
       end)
-      instance.GreatWorkDraggable:RegisterCallback(Drag.eDrop, function(kDragStruct) OnGreatWorkDrop(kDragStruct, instance) end)
-      instance.GreatWorkDraggable:RegisterCallback(Drag.eDrag, function(kDragStruct) OnGreatWorkDrag(kDragStruct, instance) end)
+      instance.GreatWorkDraggable:RegisterCallback(Drag.eDrop, function(kDragStruct)
+        OnGreatWorkDrop(kDragStruct, instance)
+      end)
+      instance.GreatWorkDraggable:RegisterCallback(Drag.eDrag, function(kDragStruct)
+        OnGreatWorkDrag(kDragStruct, instance)
+      end)
     else
       instance.GreatWorkDraggable:SetDisabled(true)
     end
 
-    if m_FirstGreatWork == nil then m_FirstGreatWork = {Index = greatWorkIndex, Building = buildingIndex, CityBldgs = pCityBldgs} end
+    if m_FirstGreatWork == nil then
+      m_FirstGreatWork = {Index = greatWorkIndex, Building = buildingIndex, CityBldgs = pCityBldgs}
+    end
   end
   instance.EmptySlotHighlight:SetHide(true)
 end
@@ -540,7 +579,9 @@ function OnGreatWorkDrop(kDragStruct, kInstance)
       OnViewGreatWork()
     else
       local kSelectedDropInstance = m_kControlToInstanceMap[m_uiSelectedDropTarget]
-      if kSelectedDropInstance then MoveGreatWork(kInstance, kSelectedDropInstance) end
+      if kSelectedDropInstance then
+        MoveGreatWork(kInstance, kSelectedDropInstance)
+      end
     end
   end
   ClearGreatWorkTransfer()
@@ -567,7 +608,9 @@ function HighlightDropTarget(uiBestDropTarget)
       Controls.ViewGreatWork:SetSelected(uiBestDropTarget == Controls.ViewGreatWork)
     else
       local pDropInstance = m_kControlToInstanceMap[uiDropTarget]
-      if pDropInstance ~= nil then pDropInstance.EmptySlotHighlight:SetHide(uiDropTarget ~= uiBestDropTarget) end
+      if pDropInstance ~= nil then
+        pDropInstance.EmptySlotHighlight:SetHide(uiDropTarget ~= uiBestDropTarget)
+      end
     end
   end
 end
@@ -592,7 +635,9 @@ function GetGreatWorkTooltip(pCityBldgs, greatWorkIndex, greatWorkType, pBuildin
   if bIsThemeable then
     local strThemeTooltip
     local firstGreatWork = GetFirstGreatWorkInBuilding(pCityBldgs, pBuildingInfo)
-    if firstGreatWork < 0 then return strBasicTooltip end
+    if firstGreatWork < 0 then
+      return strBasicTooltip
+    end
 
     local firstGreatWorkObjectTypeID = pCityBldgs:GetGreatWorkTypeFromIndex(firstGreatWork)
     local firstGreatWorkObjectType = GameInfo.GreatWorks[firstGreatWorkObjectTypeID].GreatWorkObjectType
@@ -603,30 +648,34 @@ function GetGreatWorkTooltip(pCityBldgs, greatWorkIndex, greatWorkType, pBuildin
       if pBuildingInfo.BuildingType == "BUILDING_MUSEUM_ART" then
 
         if firstGreatWork == greatWorkIndex then
-          strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_ART_THEME_SINGLE", Locale.Lookup("LOC_" .. firstGreatWorkObjectType))
+          strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_ART_THEME_SINGLE",
+                                          Locale.Lookup("LOC_" .. firstGreatWorkObjectType))
         elseif not IsFirstGreatWorkByArtist(greatWorkIndex, pCityBldgs, pBuildingInfo) then
           -- Override the basic tooltip with the duplicate tooltip, this could be moved to GreatWorksSupport.lua depending on how it should work with artifacts
           local nTurnCreated = Game.GetGreatWorkDataFromIndex(greatWorkIndex).TurnCreated
           local greatWorkName = Locale.Lookup(greatWorkInfo.Name)
           local greatWorkCreationDate = Calendar.MakeDateStr(nTurnCreated, GameConfiguration.GetCalendarType(),
                                                              GameConfiguration.GetGameSpeedType(), false)
-          strBasicTooltip = Locale.Lookup("LOC_GREAT_WORKS_TOOLTIP_DUPLICATE", greatWorkName, greatWorkTypeName, greatWorkCreator,
-                                          greatWorkCreationDate)
+          strBasicTooltip = Locale.Lookup("LOC_GREAT_WORKS_TOOLTIP_DUPLICATE", greatWorkName, greatWorkTypeName,
+                                          greatWorkCreator, greatWorkCreationDate)
           strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_ART_THEME_DUPLICATE_ARTIST")
         elseif firstGreatWorkObjectType == greatWorkInfo.GreatWorkObjectType then
-          strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_ART_THEME_DUAL", Locale.Lookup("LOC_" .. firstGreatWorkObjectType))
+          strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_ART_THEME_DUAL",
+                                          Locale.Lookup("LOC_" .. firstGreatWorkObjectType))
         else
           strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_MISMATCHED_THEME", greatWorkTypeName,
                                           Locale.Lookup("LOC_" .. firstGreatWorkObjectType .. "_PLURAL"))
         end
       elseif pBuildingInfo.BuildingType == "BUILDING_MUSEUM_ARTIFACT" then
 
-        local artifactEraName = Locale.Lookup("LOC_" .. greatWorkInfo.GreatWorkObjectType .. "_" .. greatWorkInfo.EraType)
+        local artifactEraName = Locale.Lookup("LOC_" .. greatWorkInfo.GreatWorkObjectType .. "_" ..
+                                                greatWorkInfo.EraType)
         if firstGreatWork == greatWorkIndex then
           strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_ART_THEME_SINGLE", artifactEraName)
         else
           local firstArtifactEraName = Locale.Lookup("LOC_" .. firstGreatWorkObjectType .. "_" ..
-                                                         GameInfo.GreatWorks[firstGreatWorkObjectTypeID].EraType .. "_PLURAL")
+                                                       GameInfo.GreatWorks[firstGreatWorkObjectTypeID].EraType ..
+                                                       "_PLURAL")
 
           if greatWorkInfo.EraType ~= GameInfo.GreatWorks[firstGreatWorkObjectTypeID].EraType then
             strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_MISMATCHED_ERA", artifactEraName, firstArtifactEraName)
@@ -648,13 +697,16 @@ function GetGreatWorkTooltip(pCityBldgs, greatWorkIndex, greatWorkType, pBuildin
 
             if table.count(duplicates) > 0 then
               strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_DUPLICATE_ARTIFACT_CIVS",
-                                              PlayerConfigurations[duplicates[1]]:GetCivilizationShortDescription(), firstArtifactEraName)
+                                              PlayerConfigurations[duplicates[1]]:GetCivilizationShortDescription(),
+                                              firstArtifactEraName)
             end
           end
         end
       end
     end
-    if strThemeTooltip ~= nil then return strBasicTooltip .. "[NEWLINE][NEWLINE]" .. strThemeTooltip end
+    if strThemeTooltip ~= nil then
+      return strBasicTooltip .. "[NEWLINE][NEWLINE]" .. strThemeTooltip
+    end
   end
 
   return strBasicTooltip
@@ -666,7 +718,9 @@ function GetFirstGreatWorkInBuilding(pCityBldgs, pBuildingInfo)
   local numSlots = pCityBldgs:GetNumGreatWorkSlots(buildingIndex)
   for _ = 0, numSlots - 1 do
     local greatWorkIndex = pCityBldgs:GetGreatWorkInSlot(buildingIndex, index)
-    if greatWorkIndex ~= -1 then return greatWorkIndex end
+    if greatWorkIndex ~= -1 then
+      return greatWorkIndex
+    end
     index = index + 1
   end
   return -1
@@ -679,7 +733,9 @@ function GetGreatWorksInBuilding(pCityBldgs, pBuildingInfo)
   local numSlots = pCityBldgs:GetNumGreatWorkSlots(buildingIndex)
   for _ = 0, numSlots - 1 do
     local greatWorkIndex = pCityBldgs:GetGreatWorkInSlot(buildingIndex, index)
-    if greatWorkIndex ~= -1 then table.insert(results, greatWorkIndex) end
+    if greatWorkIndex ~= -1 then
+      table.insert(results, greatWorkIndex)
+    end
     index = index + 1
   end
   return results
@@ -716,7 +772,9 @@ function AddYield(instance, yieldName, yieldIcon, yieldValue)
       break
     end
   end
-  if bFoundYield == false then table.insert(m_GreatWorkYields, {Name = yieldName, Icon = yieldIcon, Value = yieldValue}) end
+  if bFoundYield == false then
+    table.insert(m_GreatWorkYields, {Name = yieldName, Icon = yieldIcon, Value = yieldValue})
+  end
   instance.Resource:SetText(yieldIcon .. yieldValue)
   instance.Resource:SetToolTipString(yieldName)
 end
@@ -724,10 +782,14 @@ end
 function OnClickGreatWork(kDragStruct, pCityBldgs, buildingIndex, greatWorkIndex, slotIndex)
 
   -- Don't allow moving great works unless it's the local player's turn
-  if not m_isLocalPlayerTurn then return end
+  if not m_isLocalPlayerTurn then
+    return
+  end
 
   -- Don't allow moving artifacts if the museum is not full
-  if not CanMoveWorkAtAll(pCityBldgs, buildingIndex, slotIndex) then return end
+  if not CanMoveWorkAtAll(pCityBldgs, buildingIndex, slotIndex) then
+    return
+  end
 
   local greatWorkType = pCityBldgs:GetGreatWorkTypeFromIndex(greatWorkIndex)
 
@@ -750,7 +812,9 @@ function OnClickGreatWork(kDragStruct, pCityBldgs, buildingIndex, greatWorkIndex
     local numSlots = dstBldgs:GetNumGreatWorkSlots(dstBuilding)
     for index = 0, numSlots - 1 do
       if CanMoveGreatWork(pCityBldgs, buildingIndex, slotIndex, dstBldgs, dstBuilding, index) then
-        if firstValidSlot == -1 then firstValidSlot = index end
+        if firstValidSlot == -1 then
+          firstValidSlot = index
+        end
 
         local slotInstance = slotCache[index + 1]
         if slotInstance then
@@ -760,7 +824,9 @@ function OnClickGreatWork(kDragStruct, pCityBldgs, buildingIndex, greatWorkIndex
       end
     end
 
-    if firstValidSlot ~= -1 then UI.PlaySound("UI_GreatWorks_Pick_Up") end
+    if firstValidSlot ~= -1 then
+      UI.PlaySound("UI_GreatWorks_Pick_Up")
+    end
 
     instance.HighlightedBG:SetHide(firstValidSlot == -1)
     instance.DefaultBG:SetHide(firstValidSlot == -1)
@@ -778,17 +844,23 @@ function CanMoveWorkAtAll(srcBldgs, srcBuilding, srcSlot)
   local srcGreatWorkObjectType = GameInfo.GreatWorks[srcGreatWorkType].GreatWorkObjectType
 
   -- Don't allow moving artifacts if the museum is not full
-  if (srcGreatWorkObjectType == GREAT_WORK_ARTIFACT_TYPE) then if not IsBuildingFull(srcBldgs, srcBuilding) then return false end end
+  if (srcGreatWorkObjectType == GREAT_WORK_ARTIFACT_TYPE) then
+    if not IsBuildingFull(srcBldgs, srcBuilding) then
+      return false
+    end
+  end
 
   -- Don't allow moving art that has been recently created
   if (srcGreatWorkObjectType == "GREATWORKOBJECT_SCULPTURE" or srcGreatWorkObjectType == "GREATWORKOBJECT_LANDSCAPE" or
-      srcGreatWorkObjectType == "GREATWORKOBJECT_PORTRAIT" or srcGreatWorkObjectType == "GREATWORKOBJECT_RELIGIOUS") then
+    srcGreatWorkObjectType == "GREATWORKOBJECT_PORTRAIT" or srcGreatWorkObjectType == "GREATWORKOBJECT_RELIGIOUS") then
 
     local iTurnCreated = srcBldgs:GetTurnFromIndex(srcGreatWork)
     local iCurrentTurn = Game.GetCurrentGameTurn()
     local iTurnsBeforeMove = GlobalParameters.GREATWORK_ART_LOCK_TIME or DEFAULT_LOCK_TURNS
     local iTurnsToWait = iTurnCreated + iTurnsBeforeMove - iCurrentTurn
-    if iTurnsToWait > 0 then return false end
+    if iTurnsToWait > 0 then
+      return false
+    end
   end
 
   return true
@@ -799,7 +871,9 @@ function IsBuildingFull(pBuildings, buildingIndex)
   local numSlots = pBuildings:GetNumGreatWorkSlots(buildingIndex)
   for index = 0, numSlots - 1 do
     local greatWorkIndex = pBuildings:GetGreatWorkInSlot(buildingIndex, index)
-    if (greatWorkIndex == -1) then return false end
+    if (greatWorkIndex == -1) then
+      return false
+    end
   end
 
   return true
@@ -817,13 +891,17 @@ function CanMoveToSlot(destBldgs, destBuilding)
   -- Don't allow moving artifacts if the museum is not full
   local srcGreatWorkType = m_GreatWorkSelected.CityBldgs:GetGreatWorkTypeFromIndex(m_GreatWorkSelected.Index)
   local srcGreatWorkObjectType = GameInfo.GreatWorks[srcGreatWorkType].GreatWorkObjectType
-  if (srcGreatWorkObjectType ~= GREAT_WORK_ARTIFACT_TYPE) then return true end
+  if (srcGreatWorkObjectType ~= GREAT_WORK_ARTIFACT_TYPE) then
+    return true
+  end
 
   -- Don't allow moving artifacts if the museum is not full
   local numSlots = destBldgs:GetNumGreatWorkSlots(destBuilding)
   for index = 0, numSlots - 1 do
     local greatWorkIndex = destBldgs:GetGreatWorkInSlot(destBuilding, index)
-    if (greatWorkIndex == -1) then return false end
+    if (greatWorkIndex == -1) then
+      return false
+    end
   end
 
   return true
@@ -870,7 +948,8 @@ function MoveGreatWork(kSrcInstance, kDestInstance)
   if kSrcInstance ~= nil and kDestInstance ~= nil then
     -- Don't try to move the great work if it was dropped on the slot it was already in
     if kSrcInstance[DATA_FIELD_CITY_ID] == kDestInstance[DATA_FIELD_CITY_ID] and kSrcInstance[DATA_FIELD_BUILDING_ID] ==
-        kDestInstance[DATA_FIELD_BUILDING_ID] and kSrcInstance[DATA_FIELD_SLOT_INDEX] == kDestInstance[DATA_FIELD_SLOT_INDEX] then
+      kDestInstance[DATA_FIELD_BUILDING_ID] and kSrcInstance[DATA_FIELD_SLOT_INDEX] ==
+      kDestInstance[DATA_FIELD_SLOT_INDEX] then
 
       kSrcInstance.EmptySlotHighlight:SetHide(true)
       return
@@ -945,7 +1024,9 @@ end
 --	Show / Hide
 -- ===========================================================================
 function Open()
-  if (Game.GetLocalPlayer() == -1) then return end
+  if (Game.GetLocalPlayer() == -1) then
+    return
+  end
 
   cui_ThemeHelper = false -- CUI
 
@@ -976,9 +1057,13 @@ function Close()
   cui_ThemeHelper = false -- CUI
 
   -- CUI
-  if not ContextPtr:IsHidden() then UI.PlaySound("UI_Screen_Close") end
+  if not ContextPtr:IsHidden() then
+    UI.PlaySound("UI_Screen_Close")
+  end
 
-  if UIManager:DequeuePopup(ContextPtr) then LuaEvents.GreatPeople_CloseGreatPeople() end
+  if UIManager:DequeuePopup(ContextPtr) then
+    LuaEvents.GreatPeople_CloseGreatPeople()
+  end
   --
   ContextPtr:SetHide(true)
   ContextPtr:ClearUpdate()
@@ -995,7 +1080,9 @@ end
 --	Game Event Callbacks
 -- ===========================================================================
 function OnShowScreen()
-  if (Game.GetLocalPlayer() == -1) then return end
+  if (Game.GetLocalPlayer() == -1) then
+    return
+  end
 
   Open()
   -- CUI UI.PlaySound("UI_Screen_Open");
@@ -1003,7 +1090,9 @@ end
 
 -- ===========================================================================
 function OnHideScreen()
-  if not ContextPtr:IsHidden() then UI.PlaySound("UI_Screen_Close") end
+  if not ContextPtr:IsHidden() then
+    UI.PlaySound("UI_Screen_Close")
+  end
 
   Close()
   LuaEvents.GreatWorks_CloseGreatWorks()
@@ -1027,7 +1116,9 @@ end
 function OnViewGallery()
   if m_FirstGreatWork ~= nil then
     ViewGreatWork(m_FirstGreatWork)
-    if m_GreatWorkSelected ~= nil then ClearGreatWorkTransfer() end
+    if m_GreatWorkSelected ~= nil then
+      ClearGreatWorkTransfer()
+    end
     UI.PlaySound("Play_GreatWorks_Gallery_Ambience")
   end
 end
@@ -1055,7 +1146,11 @@ end
 -- ===========================================================================
 --	Hot Reload Related Events
 -- ===========================================================================
-function OnInit(isReload) if isReload then LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID) end end
+function OnInit(isReload)
+  if isReload then
+    LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
+  end
+end
 function OnShutdown()
   LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "isHidden", ContextPtr:IsHidden())
 
@@ -1069,16 +1164,22 @@ function OnShutdown()
   Events.LocalPlayerTurnEnd.Remove(OnLocalPlayerTurnEnd)
 end
 function OnGameDebugReturn(context, contextTable)
-  if context == RELOAD_CACHE_ID and contextTable["isHidden"] ~= nil and not contextTable["isHidden"] then Open() end
+  if context == RELOAD_CACHE_ID and contextTable["isHidden"] ~= nil and not contextTable["isHidden"] then
+    Open()
+  end
 end
 
 -- ===========================================================================
 --	Player Turn Events
 -- ===========================================================================
-function OnLocalPlayerTurnBegin() m_isLocalPlayerTurn = true end
+function OnLocalPlayerTurnBegin()
+  m_isLocalPlayerTurn = true
+end
 function OnLocalPlayerTurnEnd()
   m_isLocalPlayerTurn = false
-  if (GameConfiguration.IsHotseat()) then OnHideScreen() end
+  if (GameConfiguration.IsHotseat()) then
+    OnHideScreen()
+  end
 end
 
 -- CUI =======================================================================
@@ -1149,7 +1250,7 @@ function CuiSetLockMask(instance, srcBldgs, srcBuilding, srcSlot)
     end
     -- lock with turns
   elseif (srcGreatWorkObjectType == "GREATWORKOBJECT_SCULPTURE" or srcGreatWorkObjectType == "GREATWORKOBJECT_LANDSCAPE" or
-      srcGreatWorkObjectType == "GREATWORKOBJECT_PORTRAIT" or srcGreatWorkObjectType == "GREATWORKOBJECT_RELIGIOUS") then
+    srcGreatWorkObjectType == "GREATWORKOBJECT_PORTRAIT" or srcGreatWorkObjectType == "GREATWORKOBJECT_RELIGIOUS") then
     local iTurnCreated = srcBldgs:GetTurnFromIndex(srcGreatWork)
     local iCurrentTurn = Game.GetCurrentGameTurn()
     local iTurnsBeforeMove = GlobalParameters.GREATWORK_ART_LOCK_TIME or 10
@@ -1189,9 +1290,13 @@ function CuiInit()
     Controls.SortGreatWork:SetText(Locale.Lookup("LOC_CUI_GW_SORT_BY_CITY"))
   end
   Controls.SortGreatWork:RegisterCallback(Mouse.eLClick, CuiOnSortButtonClick)
-  Controls.SortGreatWork:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.SortGreatWork:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.ThemeHelper:RegisterCallback(Mouse.eLClick, CuiOnThemeButtonClick)
-  Controls.ThemeHelper:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ThemeHelper:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.ThemeHelper:SetToolTipString(Locale.Lookup("LOC_CUI_GW_THEMING_HELPER_TOOLTIP"))
 end
 
@@ -1214,11 +1319,17 @@ function Initialize()
   Controls.ModalBG:SetTexture("GreatWorks_Background")
   Controls.ModalScreenTitle:SetText(Locale.ToUpper(LOC_SCREEN_TITLE))
   Controls.ModalScreenClose:RegisterCallback(Mouse.eLClick, OnHideScreen)
-  Controls.ModalScreenClose:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ModalScreenClose:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.ViewGallery:RegisterCallback(Mouse.eLClick, OnViewGallery)
-  Controls.ViewGallery:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ViewGallery:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.ViewGreatWork:RegisterCallback(Mouse.eLClick, OnViewGreatWork)
-  Controls.ViewGreatWork:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ViewGreatWork:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   LuaEvents.GameDebug_Return.Add(OnGameDebugReturn)
   LuaEvents.LaunchBar_OpenGreatWorksOverview.Add(OnShowScreen)

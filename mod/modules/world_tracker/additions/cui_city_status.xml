@@ -30,10 +30,10 @@
             <Grid ID="WoodenTabBacking" Style="WoodenTabBacking" Size="parent,31"/>
             <Container ID="TabRow" Size="parent,23" Anchor="C,T" Offset="0,6">
               <Button ID="CitizenTab" Offset="0,0" Anchor="L,T" UseSelectedTextures="1" Size="44,44" Texture="LaunchBar_Hook_ButtonMedium" Style="ButtonNormalText">
-                <Image ID="HealthIcon" Offset="0,-1" Texture="Stats32" Size="32,32" Anchor="C,C"  Icon="ICON_CITIZEN"/>
+                <Image ID="HealthIcon" Offset="0,-1" Texture="Stats32" Size="32,32" Anchor="C,C" Icon="ICON_CITIZEN"/>
               </Button>
               <Button ID="HouseTab" Offset="50,0" Anchor="L,T" UseSelectedTextures="1" Size="44,44" Texture="LaunchBar_Hook_ButtonMedium" Style="ButtonNormalText">
-                <Image ID="HealthIcon" Offset="0,-1" Texture="Stats32" Size="32,32" Anchor="C,C"  Icon="ICON_HOUSING"/>
+                <Image ID="HealthIcon" Offset="0,-1" Texture="Stats32" Size="32,32" Anchor="C,C" Icon="ICON_HOUSING"/>
               </Button>
               <Button ID="ProductionTab" Offset="50,0" Anchor="L,T" String="[ICON_ProductionLarge]" UseSelectedTextures="1" Size="44,44" Texture="LaunchBar_Hook_ButtonMedium" Style="ButtonNormalText"/>
               <Button ID="GoldTab" Offset="100,0" Anchor="L,T" String="[ICON_GoldLarge]" UseSelectedTextures="1" Size="44,44" Texture="LaunchBar_Hook_ButtonMedium" Style="ButtonNormalText"/>
@@ -86,7 +86,7 @@
             </Grid>
 
             <Grid Size="28,28" Anchor="L,C" Offset="120,0">
-               <Image ID="CitizenIcon" Size="28,28" Anchor="C,C" Texture="Stats32" Icon="ICON_CITIZEN"/>
+              <Image ID="CitizenIcon" Size="28,28" Anchor="C,C" Texture="Stats32" Icon="ICON_CITIZEN"/>
             </Grid>
             <Grid ID="GrowthProgressGrid" Anchor="L,C" Offset="145,1">
               <Image ID="GrowthProgressArea" Texture="CityPanel_MeterSmallBacking" Size="71,21" Anchor="L,C" Offset="5,0">

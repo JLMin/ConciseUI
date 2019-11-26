@@ -9,7 +9,7 @@
 
     <Image Size="parent,40" Texture="Controls_SubHeader2" />
     <Grid Offset="-5,-5" Size="parent+10,parent+10" Style="WindowFrameAlpha"/>
-    <Label ID="ModalScreenTitle" Anchor="C,T"	Offset="0,8" Style="FontFlair24" FontStyle="glow" ColorSet="ShellHeader" SmallCaps="28" SmallCapsLeading="0" SmallCapsType="EveryWord"/>
+    <Label ID="ModalScreenTitle" Anchor="C,T" Offset="0,8" Style="FontFlair24" FontStyle="glow" ColorSet="ShellHeader" SmallCaps="28" SmallCapsLeading="0" SmallCapsType="EveryWord"/>
     <Button ID="ModalScreenClose" Anchor="R,T" Style="CloseButtonLarge" Offset="-8,-5" />
 
     <GridButton ID="ViewGallery" Offset="20,51" Size="250,26" Style="ButtonControlTan" String="LOC_GREAT_WORKS_VIEW_GALLERY"/>

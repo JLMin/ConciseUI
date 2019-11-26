@@ -29,6 +29,9 @@ function LogC:line(l)
 end
 
 function LogC:property(p, v)
+  if not v then
+    v = "."
+  end
   local pL = string.len(p)
   local mL = self.sL - pL
   local m = string.rep(".", mL)
@@ -48,8 +51,12 @@ end
 
 function LogC:mod(mod)
 
-  if ShowActiveOnly and not mod.Active then return end
-  if mod.Official and not ShowOfficial then return end
+  if ShowActiveOnly and not mod.Active then
+    return
+  end
+  if mod.Official and not ShowOfficial then
+    return
+  end
 
   --[[
     Id         = mod.Id,
@@ -71,7 +78,9 @@ function LogC:mod(mod)
   end
   LogC:line(title)
   -- update
-  if not isNil(mod.Update) then LogC:line("[" .. mod.Update .. "]") end
+  if not isNil(mod.Update) then
+    LogC:line("[" .. mod.Update .. "]")
+  end
   -- link
   if not mod.Official then
     if mod.SubID then
@@ -82,8 +91,12 @@ function LogC:mod(mod)
   end
   -- properties
   LogC:property("Enabled", mod.Enabled)
-  if not ShowActiveOnly then LogC:property("Active", mod.Active) end
-  if not mod.Official then LogC:property("Compatible", mod.Compatible) end
+  if not ShowActiveOnly then
+    LogC:property("Active", mod.Active)
+  end
+  if not mod.Official then
+    LogC:property("Compatible", mod.Compatible)
+  end
   LogC:line()
 end
 
@@ -98,15 +111,15 @@ function LogGameInfo()
   Log:line("Game Information:")
   Log:line("Version: " .. CuiGameInfo.Version)
   Log:line("-")
-  Log:property("Rise and Fall", CuiGameInfo.IsRiseAndFall, ".")
-  Log:property("Gathering Storm", CuiGameInfo.IsGatheringStorm, ".")
-  Log:property("Tutorial", CuiGameInfo.IsTutorial, ".")
-  Log:property("Multiplayer", CuiGameInfo.IsMultiplayer, ".")
-  Log:property("Hotseat", CuiGameInfo.IsHotseat, ".")
-  Log:property("Map Seed", CuiGameInfo.MapSeed, ".")
-  Log:property("Game Seed", CuiGameInfo.GameSeed, ".")
-  Log:property("Game Speed", CuiGameInfo.GameSpeed, ".")
-  -- Log:property("Rule Set",        CuiGameInfo.RuleSet,          ".");
+  Log:property("Rise and Fall", CuiGameInfo.IsRiseAndFall)
+  Log:property("Gathering Storm", CuiGameInfo.IsGatheringStorm)
+  Log:property("Tutorial", CuiGameInfo.IsTutorial)
+  Log:property("Multiplayer", CuiGameInfo.IsMultiplayer)
+  Log:property("Hotseat", CuiGameInfo.IsHotseat)
+  Log:property("Map Seed", CuiGameInfo.MapSeed)
+  Log:property("Game Seed", CuiGameInfo.GameSeed)
+  Log:property("Game Speed", CuiGameInfo.GameSpeed)
+  -- Log:property("Rule Set",        CuiGameInfo.RuleSet)
   local i1, i2, i3 = CuiGameInfo.InstalledAll, CuiGameInfo.InstalledOff, CuiGameInfo.InstalledCom
   Log:value3("Mods Installed", i1, i2, i3)
   local a1, a2, a3 = CuiGameInfo.ActiveAll, CuiGameInfo.ActiveOff, CuiGameInfo.ActiveCom
@@ -114,14 +127,18 @@ function LogGameInfo()
 
   if ShowModsList then
     local mods = CuiGameInfo.Mods
-    if isNil(mods) then return end
+    if isNil(mods) then
+      return
+    end
 
     Log:line()
     Log:line("Mods List:")
-    Log:property("Active Mods Only", ShowActiveOnly, ".")
-    Log:property("Show Official Content", ShowOfficial, ".")
+    Log:property("Active Mods Only", ShowActiveOnly)
+    Log:property("Show Official Content", ShowOfficial)
     Log:line("-")
-    for _, mod in ipairs(mods) do Log:mod(mod) end
+    for _, mod in ipairs(mods) do
+      Log:mod(mod)
+    end
   else
     Log:line()
   end
@@ -131,5 +148,7 @@ function LogGameInfo()
 end
 
 -- ---------------------------------------------------------------------------
-function Initialize() Events.LoadGameViewStateDone.Add(LogGameInfo) end
+function Initialize()
+  Events.LoadGameViewStateDone.Add(LogGameInfo)
+end
 Initialize()

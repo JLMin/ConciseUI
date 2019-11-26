@@ -7,7 +7,9 @@ local unitListButtonInstance = {}
 local pipInstance = {}
 
 -- ===========================================================================
-function OnToggleUnitList() LuaEvents.CuiToggleUnitList() end
+function OnToggleUnitList()
+  LuaEvents.CuiToggleUnitList()
+end
 
 -- ===========================================================================
 function AttachToTopPanel()
@@ -38,9 +40,13 @@ end
 
 -- ===========================================================================
 function CuiOnIngameAction(actionId)
-  if Game.GetLocalPlayer() == -1 then return end
+  if Game.GetLocalPlayer() == -1 then
+    return
+  end
 
-  if actionId == Input.GetActionId("CuiActionToggleUnitList") then OnToggleUnitList() end
+  if actionId == Input.GetActionId("CuiActionToggleUnitList") then
+    OnToggleUnitList()
+  end
 end
 
 -- ===========================================================================

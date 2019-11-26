@@ -89,7 +89,9 @@ end
 -- ===========================================================================
 function SetupWorldCongress(stageNum, beginCongress)
   -- Account for AutoPlay
-  if Game.GetLocalPlayer() < 0 then return end
+  if Game.GetLocalPlayer() < 0 then
+    return
+  end
 
   if SetStage(stageNum, beginCongress) then
     ShowPopup()
@@ -163,7 +165,9 @@ function SetStage(stageNum, beginCongress)
   m_IsInSession = stageNum ~= 4
   m_IsEmergencySession = stageNum == 2
 
-  if m_IsInSession then m_HasSpecialSessionNotification = false end
+  if m_IsInSession then
+    m_HasSpecialSessionNotification = false
+  end
 
   m_kProposalVotes = m_kProposalVotes or {}
   m_kResolutionVotes = m_kResolutionVotes or {}
@@ -193,7 +197,8 @@ function SetStage(stageNum, beginCongress)
     Controls.ReviewResolutionTitle:SetHide(true)
 
     if prevIsInSession then
-      Controls.Title:SetText(Locale.Lookup(prevIsEmergencySession and "LOC_WORLD_CONGRESS_SPECIAL_SESSION_END" or "LOC_WORLD_CONGRESS_END"))
+      Controls.Title:SetText(Locale.Lookup(prevIsEmergencySession and "LOC_WORLD_CONGRESS_SPECIAL_SESSION_END" or
+                                             "LOC_WORLD_CONGRESS_END"))
     else
       Controls.Title:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_NOT_IN_SESSION"))
     end
@@ -205,8 +210,8 @@ function SetStage(stageNum, beginCongress)
     if m_ReviewTab == REVIEW_TAB_AVAILABLE_PROPOSALS and HasEmergencyProposals() then
       UI.PlaySound("WC_Open")
       Controls.Description:SetText(Locale.Lookup(m_HasSpecialSessionNotification and
-                                                     "LOC_NOTIFICATION_WORLD_CONGRESS_SPECIAL_SESSION_BLOCKING_SUMMARY" or
-                                                     "LOC_WORLD_CONGRESS_AVAILABLE_PROPOSALS_DESCRIPTION"))
+                                                   "LOC_NOTIFICATION_WORLD_CONGRESS_SPECIAL_SESSION_BLOCKING_SUMMARY" or
+                                                   "LOC_WORLD_CONGRESS_AVAILABLE_PROPOSALS_DESCRIPTION"))
       PopulateEmergencyProposals()
     elseif m_ReviewTab == REVIEW_TAB_CURRENT_EFFECTS then
       UI.PlaySound("WC_Open")
@@ -227,8 +232,9 @@ function SetStage(stageNum, beginCongress)
 
   -- If we reach this code, it means congress is not in session (it returns early if stage is 1 - 3)
   -- The EmptyLabel should only show when Congress is not in session and there is no review data
-  Controls.EmptyLabel:SetShow(m_ReviewTab ~= REVIEW_TAB_AVAILABLE_PROPOSALS and m_kReviewResolutionIM.m_iAllocatedInstances == 0 and
-                                  m_kReviewProposalIM.m_iAllocatedInstances == 0)
+  Controls.EmptyLabel:SetShow(m_ReviewTab ~= REVIEW_TAB_AVAILABLE_PROPOSALS and
+                                m_kReviewResolutionIM.m_iAllocatedInstances == 0 and
+                                m_kReviewProposalIM.m_iAllocatedInstances == 0)
   Controls.DescriptionBG:SetHide(not m_IsInSession or m_CurrentPhase ~= PHASE_STEP_MAX)
 
   UpdateNavButtons()
@@ -250,8 +256,9 @@ function SetPhase(phaseNum)
   Controls.ResolutionContainer:SetHide(phaseNum ~= 1)
 
   if phaseNum == 1 then
-    Controls.Description:SetText(Locale.Lookup(m_CurrentStage == 1 and "LOC_WORLD_CONGRESS_VOTE_NORMAL_SESSION_DESCRIPTION" or
-                                                   "LOC_WORLD_CONGRESS_VOTE_SPECIAL_SESSION_DESCRIPTION"))
+    Controls.Description:SetText(Locale.Lookup(m_CurrentStage == 1 and
+                                                 "LOC_WORLD_CONGRESS_VOTE_NORMAL_SESSION_DESCRIPTION" or
+                                                 "LOC_WORLD_CONGRESS_VOTE_SPECIAL_SESSION_DESCRIPTION"))
     if m_CurrentStage == 1 then
       PopulateResolutions()
     else
@@ -267,12 +274,14 @@ function SetPhase(phaseNum)
       UI.RequestPlayerOperation(Game.GetLocalPlayer(), PlayerOperations.WORLD_CONGRESS_SUBMIT_TURN, {})
       UI.RequestAction(ActionTypes.ACTION_ENDTURN)
 
-      if not GameConfiguration.IsHotseat() then LuaEvents.WorldCongressPopup_ShowWorldCongressBetweenTurns(m_CurrentStage) end
+      if not GameConfiguration.IsHotseat() then
+        LuaEvents.WorldCongressPopup_ShowWorldCongressBetweenTurns(m_CurrentStage)
+      end
       return false
     end
   elseif phaseNum == 2 then
     Controls.Description:SetText(Locale.Lookup(m_CurrentStage == 1 and "LOC_WORLD_CONGRESS_SUBMIT_PROPOSALS_CONFIRM" or
-                                                   "LOC_WORLD_CONGRESS_SPECIAL_SESSION_CONFIRM"))
+                                                 "LOC_WORLD_CONGRESS_SPECIAL_SESSION_CONFIRM"))
     Controls.ReviewContainer:SetHide(false)
     PopulateSummary()
   end
@@ -287,7 +296,9 @@ end
 --	Can the player do something?
 -- ===========================================================================
 function HasChoices()
-  if not m_IsInSession then return HasEmergencyProposals() end
+  if not m_IsInSession then
+    return HasEmergencyProposals()
+  end
   return m_kResolutionItemIM.m_iAllocatedInstances ~= 0 or m_kProposalItemIM.m_iAllocatedInstances ~= 0
 end
 
@@ -297,19 +308,23 @@ end
 function CanMoveToNextPhase()
   for _, kVoteData in pairs(m_kResolutionVotes) do
     local choiceData = m_kResolutionChoices[kVoteData.Hash]
-    if (kVoteData.A.votes + kVoteData.B.votes) <= 0 or not choiceData or (choiceData.choice < 0 or choiceData.target < 0) then
+    if (kVoteData.A.votes + kVoteData.B.votes) <= 0 or not choiceData or
+      (choiceData.choice < 0 or choiceData.target < 0) then
       return false
     end
   end
 
   for _, kVoteData in pairs(m_kProposalVotes) do
-    if kVoteData.votes == 0 and not (kVoteData.voteBlocker and kVoteData.voteBlocker.NoUpvote and kVoteData.voteBlocker.NoDownvote) then
+    if kVoteData.votes == 0 and
+      not (kVoteData.voteBlocker and kVoteData.voteBlocker.NoUpvote and kVoteData.voteBlocker.NoDownvote) then
       return false
     end
   end
 
   -- Can not progress while the game is paused.
-  if (GameConfiguration.IsPaused()) then return false end
+  if (GameConfiguration.IsPaused()) then
+    return false
+  end
 
   return m_CurrentPhase < PHASE_STEP_MAX
 end
@@ -320,7 +335,11 @@ end
 function CanSubmit()
   if m_CurrentStage == 4 and m_ReviewTab == REVIEW_TAB_AVAILABLE_PROPOSALS then
     if table.count(m_kProposalVotes) > 0 then
-      for _, kVoteData in pairs(m_kProposalVotes) do if kVoteData.votes ~= 0 and not kVoteData.disabled then return true end end
+      for _, kVoteData in pairs(m_kProposalVotes) do
+        if kVoteData.votes ~= 0 and not kVoteData.disabled then
+          return true
+        end
+      end
       return false
     else
       return m_CurrentStage ~= 4
@@ -335,15 +354,22 @@ end
 function UpdateWorkingFavor()
   local totalCost = 0
 
-  for _, kResolutionVote in pairs(m_kResolutionVotes) do totalCost = totalCost + kResolutionVote.A.cost + kResolutionVote.B.cost end
+  for _, kResolutionVote in pairs(m_kResolutionVotes) do
+    totalCost = totalCost + kResolutionVote.A.cost + kResolutionVote.B.cost
+  end
 
   if m_kResolutionsTitle then
     m_kResolutionsTitle.Cost:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_CATEGORY_FAVOR", totalCost))
-    m_kResolutionsTitle.Cost:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_RESOLUTIONS_FAVOR_COST_WITH_REFUND", totalCost))
+    m_kResolutionsTitle.Cost:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_RESOLUTIONS_FAVOR_COST_WITH_REFUND",
+                                                            totalCost))
 
   end
 
-  for _, kProposalVote in pairs(m_kProposalVotes) do if not kProposalVote.disabled then totalCost = totalCost + kProposalVote.cost end end
+  for _, kProposalVote in pairs(m_kProposalVotes) do
+    if not kProposalVote.disabled then
+      totalCost = totalCost + kProposalVote.cost
+    end
+  end
 
   m_WorkingFavor = m_StartingFavor - totalCost
   Controls.WorkingFavor:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_FAVOR_TITLE", m_WorkingFavor))
@@ -371,11 +397,13 @@ function UpdateNavButtons()
     local hasChoices = HasEmergencyProposalChoices()
     Controls.ReturnButton:SetShow(m_ReviewTab ~= REVIEW_TAB_AVAILABLE_PROPOSALS)
     Controls.AcceptButton:SetShow(hasChoices and m_ReviewTab == REVIEW_TAB_AVAILABLE_PROPOSALS)
-    Controls.PassButton:SetShow(hasChoices and m_HasSpecialSessionNotification and m_ReviewTab == REVIEW_TAB_AVAILABLE_PROPOSALS)
+    Controls.PassButton:SetShow(hasChoices and m_HasSpecialSessionNotification and m_ReviewTab ==
+                                  REVIEW_TAB_AVAILABLE_PROPOSALS)
 
     local hasProposals = HasEmergencyProposals()
     Controls.AvailableProposalsButton:SetHide(not hasProposals)
-    Controls.AvailableProposalsButton:SetToolTipString(hasProposals and "" or Locale.Lookup("LOC_WORLD_CONGRESS_NO_AVAILABLE_PROPOSALS_TT"))
+    Controls.AvailableProposalsButton:SetToolTipString(hasProposals and "" or
+                                                         Locale.Lookup("LOC_WORLD_CONGRESS_NO_AVAILABLE_PROPOSALS_TT"))
 
     Controls.LastResultsSelected:SetHide(m_ReviewTab ~= REVIEW_TAB_RESULTS)
     Controls.CurrentEffectsSelected:SetHide(m_ReviewTab ~= REVIEW_TAB_CURRENT_EFFECTS)
@@ -388,9 +416,11 @@ function UpdateNavButtons()
 
   if Controls.AcceptButton:IsVisible() then
     Controls.AcceptButton:SetDisabled(not CanSubmit())
-    Controls.AcceptButton:SetToolTipString(Controls.AcceptButton:IsDisabled() and Locale.Lookup("LOC_WORLD_CONGRESS_TT_SELECT_ONE") or "")
-    Controls.AcceptButton:SetText(Locale.Lookup(m_HasSpecialSessionNotification and "LOC_WORLD_CONGRESS_ADD_PROPOSALS" or
-                                                    "LOC_WORLD_CONGRESS_SUBMIT"))
+    Controls.AcceptButton:SetToolTipString(Controls.AcceptButton:IsDisabled() and
+                                             Locale.Lookup("LOC_WORLD_CONGRESS_TT_SELECT_ONE") or "")
+    Controls.AcceptButton:SetText(Locale.Lookup(
+                                    m_HasSpecialSessionNotification and "LOC_WORLD_CONGRESS_ADD_PROPOSALS" or
+                                      "LOC_WORLD_CONGRESS_SUBMIT"))
   end
 end
 
@@ -424,14 +454,17 @@ function PopulateLeaderStack()
       end
 
       uiLeaderIcon:RegisterCallback(Mouse.eLClick, function()
-        if playerID == localPlayerID or Players[localPlayerID]:GetDiplomacy():HasMet(playerID) then OpenDiplomacyLiteMode(playerID) end
+        if playerID == localPlayerID or Players[localPlayerID]:GetDiplomacy():HasMet(playerID) then
+          OpenDiplomacyLiteMode(playerID)
+        end
       end)
 
       if hasMetPlayer then
         local favor = m_CurrentStage == 4 and pPlayer:GetFavor() or pPlayer:GetFavorEnteringCongress()
         instance.FavorLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_FAVOR", favor))
-        instance.FavorLabel:SetToolTipString(Locale.Lookup(playerID == localPlayerID and "LOC_WORLD_CONGRESS_TT_PLAYER_FAVOR" or
-                                                               "LOC_WORLD_CONGRESS_TT_LEADER_FAVOR", favor))
+        instance.FavorLabel:SetToolTipString(Locale.Lookup(playerID == localPlayerID and
+                                                             "LOC_WORLD_CONGRESS_TT_PLAYER_FAVOR" or
+                                                             "LOC_WORLD_CONGRESS_TT_LEADER_FAVOR", favor))
         instance.FavorContainer:SetHide(false)
         --[[ CUI: use tooltip instead
             local grievanceTT = "";
@@ -489,7 +522,9 @@ function PopulateBG()
   -- Populate BG Stack to the Left of CongressMembers
   local i = 1
   while i <= numLeftBanners do
-    if AddBGElement(aPlayers, (counter % numPlayers) + 1, Controls.BGLeft) then i = i + 1 end
+    if AddBGElement(aPlayers, (counter % numPlayers) + 1, Controls.BGLeft) then
+      i = i + 1
+    end
     counter = counter + 1
   end
   Controls.BGLeft:SetOffsetX(width - leftWidth)
@@ -497,7 +532,9 @@ function PopulateBG()
   -- Populate BG Stack to the Right of CongressMembers
   i = 1
   while i <= numRightBanners do
-    if AddBGElement(aPlayers, (counter % numPlayers) + 1, Controls.BGRight) then i = i + 1 end
+    if AddBGElement(aPlayers, (counter % numPlayers) + 1, Controls.BGRight) then
+      i = i + 1
+    end
     counter = counter + 1
   end
   Controls.BGRight:SetOffsetX(leftWidth + Controls.CongressMembers:GetSizeX())
@@ -525,10 +562,12 @@ function AddBGElement(aPlayers, aPlayersIndex, parentControl)
     instance.Bottom:SetOffsetY((screenHeight / 2) + 489)
     instance.Bottom:SetSizeY(centerY > 0 and centerY or 1)
 
-    instance.Top:SetTexture(m_IsInSession and (m_IsEmergencySession and "WC_BGBannerTop_Special" or "WC_BGBannerTop_Normal") or
-                                "WC_BGBannerTop_NoSession")
-    instance.Center:SetTexture(m_IsInSession and (m_IsEmergencySession and "WC_BGBanner_Special" or "WC_BGBanner_Normal") or
-                                   "WC_BGBanner_NoSession")
+    instance.Top:SetTexture(m_IsInSession and
+                              (m_IsEmergencySession and "WC_BGBannerTop_Special" or "WC_BGBannerTop_Normal") or
+                              "WC_BGBannerTop_NoSession")
+    instance.Center:SetTexture(m_IsInSession and
+                                 (m_IsEmergencySession and "WC_BGBanner_Special" or "WC_BGBanner_Normal") or
+                                 "WC_BGBanner_NoSession")
     instance.Bottom:SetTexture(m_IsInSession and "WC_BGBannerBottom" or "WC_BGBannerBottom_NoSession")
     return true
   end
@@ -553,7 +592,8 @@ function PopulateResolutions()
     if type(i) == "number" then -- There's a "Stage" key kResolutions
       if m_kProposalTitleIM.m_iAllocatedInstances == 0 then
         m_kResolutionsTitle = m_kProposalTitleIM:GetInstance(Controls.ResolutionStack)
-        m_kResolutionsTitle.Title:SetText(Locale.ToUpper(Locale.Lookup("LOC_WORLD_CONGRESS_RESULTS_WORLD_EVENT_RESOLUTIONS")))
+        m_kResolutionsTitle.Title:SetText(Locale.ToUpper(Locale.Lookup(
+                                                           "LOC_WORLD_CONGRESS_RESULTS_WORLD_EVENT_RESOLUTIONS")))
         m_kResolutionsTitle.Icon:SetIcon("ICON_STAT_RESOLUTIONS")
         UpdateWorkingFavor()
       end
@@ -594,7 +634,9 @@ function PopulateResolutions()
       if table.count(kResolutionData.FavoredPlayerIDs) > 0 then
         local favoredTT = ""
         for _, playerID in pairs(kResolutionData.FavoredPlayerIDs) do
-          if favoredTT ~= "" then favoredTT = favoredTT .. "[NEWLINE]" end
+          if favoredTT ~= "" then
+            favoredTT = favoredTT .. "[NEWLINE]"
+          end
           favoredTT = favoredTT .. GetVisiblePlayerName(playerID)
         end
         instance.FavoredLabel:SetText(table.count(kResolutionData.FavoredPlayerIDs))
@@ -607,11 +649,14 @@ function PopulateResolutions()
       if table.count(kResolutionData.DisfavoredPlayerIDs) > 0 then
         local disfavotedTT = ""
         for _, playerID in pairs(kResolutionData.DisfavoredPlayerIDs) do
-          if disfavotedTT ~= "" then disfavotedTT = disfavotedTT .. "[NEWLINE]" end
+          if disfavotedTT ~= "" then
+            disfavotedTT = disfavotedTT .. "[NEWLINE]"
+          end
           disfavotedTT = disfavotedTT .. GetVisiblePlayerName(playerID)
         end
         instance.DisfavoredLabel:SetText(table.count(kResolutionData.DisfavoredPlayerIDs))
-        instance.DisfavoredContainer:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_PREFERRED_VOTES_TT", disfavotedTT))
+        instance.DisfavoredContainer:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_PREFERRED_VOTES_TT",
+                                                                    disfavotedTT))
         instance.DisfavoredContainer:SetHide(false)
       else
         instance.DisfavoredContainer:SetHide(true)
@@ -620,7 +665,12 @@ function PopulateResolutions()
       -- Populate choices
       local kResolutionChoice = m_kResolutionChoices[kResolution.Hash]
       if not kResolutionChoice then
-        kResolutionChoice = {instance = instance, hash = kResolution.Hash, choice = DEBUG_DATA and 1 or -1, target = DEBUG_DATA and 1 or -1}
+        kResolutionChoice = {
+          instance = instance,
+          hash = kResolution.Hash,
+          choice = DEBUG_DATA and 1 or -1,
+          target = DEBUG_DATA and 1 or -1
+        }
         m_kResolutionChoices[kResolution.Hash] = kResolutionChoice
       else
         kResolutionChoice.instance = instance -- Refresh instance to support hot reload
@@ -700,12 +750,16 @@ function EvaluateResolutionHistory(pWorldCongress, kResolutionData, uiResolution
     local chosenThingString = Locale.Lookup(kPreviousResolutionData.ChosenThing)
     if kPreviousResolutionData.TargetType == "PlayerType" then
       local playerID = tonumber(kPreviousResolutionData.ChosenThing)
-      if playerID ~= PlayerTypes.NONE and playerID ~= PlayerTypes.OBSERVER then chosenThingString = GetVisiblePlayerName(playerID) end
+      if playerID ~= PlayerTypes.NONE and playerID ~= PlayerTypes.OBSERVER then
+        chosenThingString = GetVisiblePlayerName(playerID)
+      end
     end
     local tooltipString = kEvaluationData.aVotes > kEvaluationData.bVotes and
-                              Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_A_WON", chosenThingString) or
-                              Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_B_WON", chosenThingString)
-    for _, evaluate in pairs(m_kPreviousTooltipEvaluators) do tooltipString = tooltipString .. evaluate(kEvaluationData) end
+                            Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_A_WON", chosenThingString) or
+                            Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_B_WON", chosenThingString)
+    for _, evaluate in pairs(m_kPreviousTooltipEvaluators) do
+      tooltipString = tooltipString .. evaluate(kEvaluationData)
+    end
 
     uiResolutionInstance.MoreInfoButton:SetToolTipString(tooltipString)
   else
@@ -717,8 +771,8 @@ end
 -- ===========================================================================
 function EvaluateTiebroken(kEvaluationData)
   -- Evaluate if the last round was decided by tiebreaker
-  return kEvaluationData.aVotes == kEvaluationData.bVotes and "[NEWLINE]" .. Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_WAS_TIE") or
-             ""
+  return kEvaluationData.aVotes == kEvaluationData.bVotes and "[NEWLINE]" ..
+           Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_WAS_TIE") or ""
 end
 
 -- ===========================================================================
@@ -728,14 +782,14 @@ function EvaluateSoleVoter(kEvaluationData)
 
   if kEvaluationData.aVoters == 1 then
     soleVoterString = soleVoterString .. "[NEWLINE]" ..
-                          Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_A_SOLE_VOTE",
-                                        GetVisiblePlayerName(kEvaluationData.soleAPlayerID))
+                        Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_A_SOLE_VOTE",
+                                      GetVisiblePlayerName(kEvaluationData.soleAPlayerID))
   end
 
   if kEvaluationData.bVoters == 1 then
     soleVoterString = soleVoterString .. "[NEWLINE]" ..
-                          Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_B_SOLE_VOTE",
-                                        GetVisiblePlayerName(kEvaluationData.soleBPlayerID))
+                        Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_B_SOLE_VOTE",
+                                      GetVisiblePlayerName(kEvaluationData.soleBPlayerID))
   end
 
   return soleVoterString
@@ -748,9 +802,9 @@ function EvaluateNeckAndNeck(kEvaluationData)
   local voteMargin = voteDelta / math.ceil(kEvaluationData.aVotes, kEvaluationData.bVotes)
 
   if voteMargin <= GlobalParameters.WORLD_CONGRESS_NEARLY_TIED_RANGE / 100 then
-    return "[NEWLINE]" ..
-               (kEvaluationData.aVotes > kEvaluationData.bVotes and Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_NECK_AND_NECK_A") or
-                   Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_NECK_AND_NECK_B"))
+    return "[NEWLINE]" .. (kEvaluationData.aVotes > kEvaluationData.bVotes and
+             Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_NECK_AND_NECK_A") or
+             Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_NECK_AND_NECK_B"))
   end
 
   return ""
@@ -777,18 +831,24 @@ function EvaluateMajorityLeader(kEvaluationData)
   local aVoteMargin = -1
   local bVoteMargin = -1
 
-  if kEvaluationData.aVotes > 0 then aVoteMargin = kEvaluationData.biggestAVotes / kEvaluationData.aVotes end
+  if kEvaluationData.aVotes > 0 then
+    aVoteMargin = kEvaluationData.biggestAVotes / kEvaluationData.aVotes
+  end
 
-  if kEvaluationData.bVotes > 0 then bVoteMargin = kEvaluationData.biggestBVotes / kEvaluationData.bVotes end
+  if kEvaluationData.bVotes > 0 then
+    bVoteMargin = kEvaluationData.biggestBVotes / kEvaluationData.bVotes
+  end
 
   if aVoteMargin > GlobalParameters.WORLD_CONGRESS_MAJORITY_LEADER_MINIMUM then
     majorityString = majorityString .. "[NEWLINE]" ..
-                         Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_MAJORITY_A", GetVisiblePlayerName(kEvaluationData.biggestAVoter))
+                       Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_MAJORITY_A",
+                                     GetVisiblePlayerName(kEvaluationData.biggestAVoter))
   end
 
   if bVoteMargin > GlobalParameters.WORLD_CONGRESS_MAJORITY_LEADER_MINIMUM then
     majorityString = majorityString .. "[NEWLINE]" ..
-                         Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_MAJORITY_B", GetVisiblePlayerName(kEvaluationData.biggestBVoter))
+                       Locale.Lookup("LOC_WORLD_CONGRESS_PREVIOUS_TOOLTIP_MAJORITY_B",
+                                     GetVisiblePlayerName(kEvaluationData.biggestBVoter))
   end
 
   return majorityString
@@ -802,7 +862,9 @@ function PopulateChoicePulldown(kResolutionChoice, kVoteData)
   if kResolutionData.TargetType == "PlayerType" then
     instance.Pulldown:SetHide(true)
     instance.PlayerPulldown:SetHide(false)
-    instance.PlayerPulldown:GetButton():RegisterCallback(Mouse.eLClick, function() AssignActivePulldown(instance.PlayerPulldown) end)
+    instance.PlayerPulldown:GetButton():RegisterCallback(Mouse.eLClick, function()
+      AssignActivePulldown(instance.PlayerPulldown)
+    end)
 
     local metPlayers, isUniqueLeader = GetMetPlayersAndUniqueLeaders()
 
@@ -825,7 +887,8 @@ function PopulateChoicePulldown(kResolutionChoice, kVoteData)
       end
       instance.PlayerPulldown:CalculateInternals() -- Is this still necessary? @kjones
     else
-      UI.DataError("Resolution choice of Type '" .. kResolution.Type .. "' has no PossibleTargets -  aborting WorldCongress")
+      UI.DataError("Resolution choice of Type '" .. kResolution.Type ..
+                     "' has no PossibleTargets -  aborting WorldCongress")
     end
 
     local tmpID = tonumber(kResolutionChoice.target)
@@ -857,7 +920,9 @@ function PopulateChoicePulldown(kResolutionChoice, kVoteData)
   else -- kResolutionData.TargetType ~= "PlayerType"
     instance.Pulldown:SetHide(false)
     instance.PlayerPulldown:SetHide(true)
-    instance.Pulldown:GetButton():RegisterCallback(Mouse.eLClick, function() AssignActivePulldown(instance.Pulldown) end)
+    instance.Pulldown:GetButton():RegisterCallback(Mouse.eLClick, function()
+      AssignActivePulldown(instance.Pulldown)
+    end)
 
     instance.Pulldown:ClearEntries()
     instance.Pulldown:GetButton():SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_NO_VOTING_DOWN"))
@@ -872,7 +937,9 @@ function PopulateChoicePulldown(kResolutionChoice, kVoteData)
     end
 
     -- Sort based on name
-    table.sort(kSortedTargets, function(a, b) return Locale.Lookup(a) < Locale.Lookup(b) end)
+    table.sort(kSortedTargets, function(a, b)
+      return Locale.Lookup(a) < Locale.Lookup(b)
+    end)
     if kSortedTargets and table.count(kSortedTargets) > 0 then
       for pulldownIndex, name in ipairs(kSortedTargets) do
         local entry = {}
@@ -939,7 +1006,9 @@ end
 function OnVoteResolution(choice, direction, kVoteData, kCostData, isTest)
   return function()
     local nextVotes = kVoteData.votes + direction
-    if nextVotes < 1 or nextVotes > table.count(kCostData) or nextVotes > kCostData.MaxVotes then return end
+    if nextVotes < 1 or nextVotes > table.count(kCostData) or nextVotes > kCostData.MaxVotes then
+      return
+    end
 
     local nextCost = kCostData[nextVotes - 1]
     local currCost = kVoteData.votes > 0 and kCostData[kVoteData.votes - 1] or 0
@@ -959,7 +1028,9 @@ function OnVoteResolution(choice, direction, kVoteData, kCostData, isTest)
       local kChoiceData = m_kResolutionChoices[kVoteData.data.Hash]
 
       -- Reset target selection if player chooses a different option
-      if kChoiceData.choice ~= choice then kChoiceData.target = -1 end
+      if kChoiceData.choice ~= choice then
+        kChoiceData.target = -1
+      end
 
       kChoiceData.choice = choice
       UpdateResolutionChoice(kChoiceData)
@@ -997,8 +1068,12 @@ end
 -- ===========================================================================
 function TableToString(t)
   local s = ""
-  if t == nil then return "NIL" end
-  for k, v in pairs(t) do s = s .. tostring(k) .. " = " .. tostring(v) .. " \n" end
+  if t == nil then
+    return "NIL"
+  end
+  for k, v in pairs(t) do
+    s = s .. tostring(k) .. " = " .. tostring(v) .. " \n"
+  end
   return s
 end
 
@@ -1020,7 +1095,8 @@ function UpdateVotingWidget(instance, kVoteData, kCostData, TestVoteCallback, re
 
   local voteIcon = kVoteData.voteDirection < 0 and "[ICON_VOTE_DOWN]" or "[ICON_VOTE_UP]"
   local voteTooltip = Locale.Lookup("LOC_WORLD_CONGRESS_TT_VOTE_COST",
-                                    kVoteData.voteDirection < 0 and "[ICON_VOTE_DOWN]" or "[ICON_VOTE_UP]", kVoteData.votes, kVoteData.cost)
+                                    kVoteData.voteDirection < 0 and "[ICON_VOTE_DOWN]" or "[ICON_VOTE_UP]",
+                                    kVoteData.votes, kVoteData.cost)
 
   instance.Label:SetText(kVoteData.votes == 0 and "0" or (voteIcon .. kVoteData.votes))
   instance.Label:SetToolTipString(voteTooltip)
@@ -1054,11 +1130,13 @@ function UpdateVotingWidget(instance, kVoteData, kCostData, TestVoteCallback, re
       if instance.UpButton:IsDisabled() then
         tooltip = Locale.Lookup("LOC_WORLD_CONGRESS_TT_INSUFFICIENT_FAVOR_COST", cost)
       else
-        tooltip = Locale.Lookup(kVoteData.voteDirection >= 0 and "LOC_WORLD_CONGRESS_TT_VOTE_UP" or "LOC_WORLD_CONGRESS_TT_VOTE_DOWN", cost)
+        tooltip = Locale.Lookup(kVoteData.voteDirection >= 0 and "LOC_WORLD_CONGRESS_TT_VOTE_UP" or
+                                  "LOC_WORLD_CONGRESS_TT_VOTE_DOWN", cost)
       end
     end
   end
-  instance.UpCost:SetText(cost == 0 and " " or Locale.Lookup("LOC_WORLD_CONGRESS_FAVOR", cost * (kVoteData.voteDirection < 0 and -1 or 1)))
+  instance.UpCost:SetText(cost == 0 and " " or
+                            Locale.Lookup("LOC_WORLD_CONGRESS_FAVOR", cost * (kVoteData.voteDirection < 0 and -1 or 1)))
   instance.UpButton:SetToolTipString(tooltip)
 
   cost = 0
@@ -1074,11 +1152,13 @@ function UpdateVotingWidget(instance, kVoteData, kCostData, TestVoteCallback, re
       if instance.DownButton:IsDisabled() then
         tooltip = Locale.Lookup("LOC_WORLD_CONGRESS_TT_INSUFFICIENT_FAVOR_COST", cost)
       else
-        tooltip = Locale.Lookup(kVoteData.voteDirection >= 0 and "LOC_WORLD_CONGRESS_TT_VOTE_DOWN" or "LOC_WORLD_CONGRESS_TT_VOTE_UP", cost)
+        tooltip = Locale.Lookup(kVoteData.voteDirection >= 0 and "LOC_WORLD_CONGRESS_TT_VOTE_DOWN" or
+                                  "LOC_WORLD_CONGRESS_TT_VOTE_UP", cost)
       end
     end
   end
-  instance.DownCost:SetText(cost == 0 and " " or Locale.Lookup("LOC_WORLD_CONGRESS_FAVOR", cost * (kVoteData.voteDirection > 0 and -1 or 1)))
+  instance.DownCost:SetText(cost == 0 and " " or
+                              Locale.Lookup("LOC_WORLD_CONGRESS_FAVOR", cost * (kVoteData.voteDirection > 0 and -1 or 1)))
   instance.DownButton:SetToolTipString(tooltip)
 
   if kVoteData.voteBlocker then
@@ -1099,14 +1179,15 @@ function UpdateVotingWidget(instance, kVoteData, kCostData, TestVoteCallback, re
   if kVoteData.votes == 0 then
     if not kVoteData.voteBlocker or not kVoteData.voteBlocker.NoUpvote then
       instance.UpButton:SetToolTipString(Locale.Lookup(resolutionChoice and "LOC_WORLD_CONGRESS_TT_NO_VOTING_DOWN" or
-                                                           "LOC_WORLD_CONGRESS_TT_PLEASE_VOTE_FOR"))
+                                                         "LOC_WORLD_CONGRESS_TT_PLEASE_VOTE_FOR"))
     end
     if not kVoteData.voteBlocker or not kVoteData.voteBlocker.NoDownvote then
       local bIsTarget = kVoteData.data.Target == Game.GetLocalPlayer()
       if bIsTarget then
         instance.DownButton:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_PLEASE_VOTE_AGAINST_TARGET"))
       else
-        instance.DownButton:SetToolTipString(Locale.Lookup(resolutionChoice and "" or "LOC_WORLD_CONGRESS_TT_PLEASE_VOTE_AGAINST"))
+        instance.DownButton:SetToolTipString(Locale.Lookup(resolutionChoice and "" or
+                                                             "LOC_WORLD_CONGRESS_TT_PLEASE_VOTE_AGAINST"))
       end
     end
   end
@@ -1120,7 +1201,9 @@ function UpdateAllVotingWidgets(kCostData)
     UpdateVotingWidget(kVoteData.A.instance.Vote1, kVoteData.A, kCostData, TestResolutionVote, 1)
     UpdateVotingWidget(kVoteData.B.instance.Vote2, kVoteData.B, kCostData, TestResolutionVote, 2)
   end
-  for _, kVoteData in pairs(m_kProposalVotes) do UpdateVotingWidget(kVoteData.instance.Vote, kVoteData, kCostData, TestProposalVote) end
+  for _, kVoteData in pairs(m_kProposalVotes) do
+    UpdateVotingWidget(kVoteData.instance.Vote, kVoteData, kCostData, TestProposalVote)
+  end
 end
 
 -- ===========================================================================
@@ -1131,7 +1214,8 @@ end
 function PopulateProposals()
   m_kProposalItemIM:ResetInstances()
 
-  local kSortedCategories = GetSortedProposalCategories(Game.GetWorldCongress():GetProposals(Game.GetLocalPlayer()).Proposals)
+  local kSortedCategories = GetSortedProposalCategories(Game.GetWorldCongress():GetProposals(Game.GetLocalPlayer())
+                                                          .Proposals)
 
   for _, kSorted in ipairs(kSortedCategories) do
     local proposalType = kSorted.type
@@ -1141,7 +1225,9 @@ function PopulateProposals()
     local titleInstance = m_kProposalTitleIM:GetInstance(Controls.ResolutionStack)
     local kCategoryProposals = kProposalCategory.ProposalsOfType
 
-    local updateFn = function() UpdateCategoryTitle(titleInstance, kCategoryProposals, kProposalDef) end
+    local updateFn = function()
+      UpdateCategoryTitle(titleInstance, kCategoryProposals, kProposalDef)
+    end
     if PopulateProposalStack(kCategoryProposals, m_kProposalItemIM, kProposalCategory, updateFn) > 0 then
       updateFn()
     else
@@ -1163,9 +1249,10 @@ function UpdateSenderTitle(instance, titleInstance, kProposals, kCategoryProposa
   local total = GetCostOfProposals(kProposals)
   local leaderName = Locale.Lookup(pPlayerConfig:GetLeaderName())
   instance.Cost:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_CATEGORY_FAVOR", total))
-  instance.Cost:SetToolTipString(Locale.Lookup((not m_IsInSession and m_ReviewTab == REVIEW_TAB_AVAILABLE_PROPOSALS) and
-                                                   "LOC_WORLD_CONGRESS_TT_DISCUSIONS_FAVOR_COST_NO_REFUND" or
-                                                   "LOC_WORLD_CONGRESS_TT_DISCUSIONS_FAVOR_COST_WITH_REFUND", total))
+  instance.Cost:SetToolTipString(Locale.Lookup(
+                                   (not m_IsInSession and m_ReviewTab == REVIEW_TAB_AVAILABLE_PROPOSALS) and
+                                     "LOC_WORLD_CONGRESS_TT_DISCUSIONS_FAVOR_COST_NO_REFUND" or
+                                     "LOC_WORLD_CONGRESS_TT_DISCUSIONS_FAVOR_COST_WITH_REFUND", total))
   instance.Title:SetText(Locale.ToUpper(Locale.Lookup("LOC_WORLD_CONGRESS_PROPOSED_BY", leaderName)))
   UpdateCategoryTitle(titleInstance, kCategoryProposals, kProposalDef)
 end
@@ -1173,9 +1260,10 @@ end
 function UpdateCategoryTitle(instance, kProposals, kProposalDef, costEach)
   local total = costEach or GetCostOfProposals(kProposals)
   instance.Cost:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_CATEGORY_FAVOR", total))
-  instance.Cost:SetToolTipString(Locale.Lookup((not m_IsInSession and m_ReviewTab == REVIEW_TAB_AVAILABLE_PROPOSALS) and
-                                                   "LOC_WORLD_CONGRESS_TT_DISCUSIONS_FAVOR_COST_NO_REFUND" or
-                                                   "LOC_WORLD_CONGRESS_TT_DISCUSIONS_FAVOR_COST_WITH_REFUND", total))
+  instance.Cost:SetToolTipString(Locale.Lookup(
+                                   (not m_IsInSession and m_ReviewTab == REVIEW_TAB_AVAILABLE_PROPOSALS) and
+                                     "LOC_WORLD_CONGRESS_TT_DISCUSIONS_FAVOR_COST_NO_REFUND" or
+                                     "LOC_WORLD_CONGRESS_TT_DISCUSIONS_FAVOR_COST_WITH_REFUND", total))
   instance.Title:SetText(Locale.ToUpper(Locale.Lookup(kProposalDef.Name)))
   instance.Icon:SetIcon("ICON_" .. kProposalDef.ProposalType)
 end
@@ -1204,12 +1292,13 @@ function PopulateProposalStack(kProposals, kProposalIM, kProposalCategory, updat
         voteDirection = NO_VOTE,
         disabled = kProposal.Disabled and true or false,
         voteBlocker = kProposal.VotingRestriction and GameInfo.VotingBlockers[kProposal.VotingRestriction] or nil,
-        proposalBlocker = kProposal.ProposalBlockerType and GameInfo.ProposalBlockers[kProposal.ProposalBlockerType] or nil
+        proposalBlocker = kProposal.ProposalBlockerType and GameInfo.ProposalBlockers[kProposal.ProposalBlockerType] or
+          nil
       }
     end
 
     local canVote = not kVoteData.disabled and
-                        not (kVoteData.voteBlocker and kVoteData.voteBlocker.NoUpvote and kVoteData.voteBlocker.NoDownvote)
+                      not (kVoteData.voteBlocker and kVoteData.voteBlocker.NoUpvote and kVoteData.voteBlocker.NoDownvote)
     if canVote or (not m_IsInSession and m_ReviewTab == REVIEW_TAB_AVAILABLE_PROPOSALS) then
       numAllocated = numAllocated + 1
       local instance = kProposalIM:GetInstance()
@@ -1221,7 +1310,9 @@ function PopulateProposalStack(kProposals, kProposalIM, kProposalCategory, updat
       -- This allows us to update the total cost
       instance.UpdateTitle = updateTitleFn
 
-      if not metPlayers then metPlayers, isUniqueLeader = GetMetPlayersAndUniqueLeaders() end
+      if not metPlayers then
+        metPlayers, isUniqueLeader = GetMetPlayersAndUniqueLeaders()
+      end
 
       -- Target Icon
       local pIconManager = LeaderIcon:AttachInstance(instance.LeaderIcon)
@@ -1235,9 +1326,10 @@ function PopulateProposalStack(kProposals, kProposalIM, kProposalCategory, updat
         instance.Title:SetText(Locale.ToUpper(Locale.Lookup(kProposal.Name, name)))
         instance.Description:SetText(Locale.Lookup(kProposal.Description, name))
         instance.LeaderIcon.SelectButton:SetHide(false)
-        instance.LeaderIcon.TargetIcon:SetColor(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and COLOR_GREEN or COLOR_RED)
-        instance.LeaderIcon.TargetIcon:SetTexture(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and "Emergency_TargetAid44" or
-                                                      "Emergency_Target44")
+        instance.LeaderIcon.TargetIcon:SetColor(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and COLOR_GREEN or
+                                                  COLOR_RED)
+        instance.LeaderIcon.TargetIcon:SetTexture(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and
+                                                    "Emergency_TargetAid44" or "Emergency_Target44")
         instance.TypeIcon:SetHide(true)
       else
         instance.Title:SetText(Locale.ToUpper(Locale.Lookup(kProposal.Name)))
@@ -1253,7 +1345,9 @@ function PopulateProposalStack(kProposals, kProposalIM, kProposalCategory, updat
           instance.isCollapsed = not instance.isCollapsed
           RealizeCollapseableProposal(instance)
         end)
-        instance.ExpandButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+        instance.ExpandButton:RegisterCallback(Mouse.eMouseEnter, function()
+          UI.PlaySound("Main_Menu_Mouse_Over")
+        end)
 
         instance.isCollapsed = true
         RealizeCollapseableProposal(instance)
@@ -1304,8 +1398,8 @@ function PopulateEmergencyData(instance, emergencyTarget, emergencyType)
       end
     end
   elseif not emergency then
-    UI.DataError('Failed to get emergency data, assign @draabe: EmergencyType=' .. kProposal.EmergencyType .. ', Target=' ..
-                     kProposal.Target)
+    UI.DataError('Failed to get emergency data, assign @draabe: EmergencyType=' .. kProposal.EmergencyType ..
+                   ', Target=' .. kProposal.Target)
   end
 end
 
@@ -1313,7 +1407,8 @@ end
 --	Generate a unique "key" for later lookups based on the proposal attrubtes
 -- ===========================================================================
 function GetProposalVoteKey(kProposal)
-  return tostring(kProposal.TypeName) .. "_" .. kProposal.Target .. "_" .. (kProposal.Sender ~= nil and kProposal.Sender or "NONE")
+  return tostring(kProposal.TypeName) .. "_" .. kProposal.Target .. "_" ..
+           (kProposal.Sender ~= nil and kProposal.Sender or "NONE")
 end
 
 -- ===========================================================================
@@ -1340,7 +1435,9 @@ function OnToggleProposal(instance, kProposal, kProposalCategory)
 
     UpdateWorkingFavor()
     instance.UpdateTitle()
-    for _, kInnerVoteData in pairs(m_kProposalVotes) do UpdateAvailableProposal(kInnerVoteData, kProposalCategory) end
+    for _, kInnerVoteData in pairs(m_kProposalVotes) do
+      UpdateAvailableProposal(kInnerVoteData, kProposalCategory)
+    end
     UpdateNavButtons()
   end
 end
@@ -1356,9 +1453,11 @@ function UpdateAvailableProposal(kVoteData, kProposalCategory)
     instance.Root:SetTexture(not kVoteData.disabled and kVoteData.votes == 0 and "WC_ProposalFrameOpen_Normal" or "WC_ProposalFrameOpen_Selected");
     end
     ]]
-  instance.Root:SetTexture(not kVoteData.disabled and kVoteData.votes == 0 and "WC_ProposalFrame_Normal" or "WC_ProposalFrame_Selected")
+  instance.Root:SetTexture(not kVoteData.disabled and kVoteData.votes == 0 and "WC_ProposalFrame_Normal" or
+                             "WC_ProposalFrame_Selected")
 
-  instance.SelectCheck:SetTexture(not kVoteData.disabled and kVoteData.votes == 0 and "WC_ProposalCheck_Off" or "WC_ProposalCheck_On")
+  instance.SelectCheck:SetTexture(not kVoteData.disabled and kVoteData.votes == 0 and "WC_ProposalCheck_Off" or
+                                    "WC_ProposalCheck_On")
   instance.SelectBox:SetSelected(kVoteData.votes ~= 0)
 
   -- Check to make sure there isn't already a proposal with this target
@@ -1375,18 +1474,24 @@ function UpdateAvailableProposal(kVoteData, kProposalCategory)
   end
 
   if not isTargetSelected then
-    instance.SelectBox:SetDisabled(kVoteData.disabled or (kVoteData.votes == 0 and m_WorkingFavor < kProposalCategory.FavorCost))
+    instance.SelectBox:SetDisabled(kVoteData.disabled or
+                                     (kVoteData.votes == 0 and m_WorkingFavor < kProposalCategory.FavorCost))
     if instance.SelectBox:IsDisabled() then
       instance.SelectBox:SetToolTipString(kVoteData.disabled and "" or
-                                              Locale.Lookup("LOC_WORLD_CONGRESS_TT_INSUFFICIENT_FAVOR_COST", kProposalCategory.FavorCost))
+                                            Locale.Lookup("LOC_WORLD_CONGRESS_TT_INSUFFICIENT_FAVOR_COST",
+                                                          kProposalCategory.FavorCost))
     elseif instance.SelectBox:IsSelected() then
-      instance.SelectBox:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_PROPOSAL_REFUND", kProposalCategory.FavorCost))
+      instance.SelectBox:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_PROPOSAL_REFUND",
+                                                        kProposalCategory.FavorCost))
     else
-      instance.SelectBox:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_PROPOSAL_COST", kProposalCategory.FavorCost))
+      instance.SelectBox:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_PROPOSAL_COST",
+                                                        kProposalCategory.FavorCost))
     end
   end
 
-  if kVoteData.proposalBlocker then instance.SelectBox:SetToolTipString(Locale.Lookup(kVoteData.proposalBlocker.Description)) end
+  if kVoteData.proposalBlocker then
+    instance.SelectBox:SetToolTipString(Locale.Lookup(kVoteData.proposalBlocker.Description))
+  end
 
   local lineColor = kVoteData.votes ~= 0 and {220 / 255, 190 / 255, 161 / 255} or {102 / 255, 91 / 255, 63 / 255}
   instance.Line:SetColor(lineColor[1], lineColor[2], lineColor[3], 1)
@@ -1407,11 +1512,15 @@ end
 function OnVoteProposal(direction, kVoteData, kCostData, isTest)
   return function()
 
-    if kVoteData.voteDirection == NO_VOTE then kVoteData.voteDirection = direction end
+    if kVoteData.voteDirection == NO_VOTE then
+      kVoteData.voteDirection = direction
+    end
 
     local voteDirection = kVoteData.voteDirection * direction
     local nextVotes = kVoteData.votes + voteDirection
-    if nextVotes > table.count(kCostData) or nextVotes > kCostData.MaxVotes then return end
+    if nextVotes > table.count(kCostData) or nextVotes > kCostData.MaxVotes then
+      return
+    end
 
     local nextCost = kCostData[nextVotes - 1]
     local currCost = kVoteData.votes == 0 and 0 or kCostData[kVoteData.votes - 1]
@@ -1430,7 +1539,9 @@ function OnVoteProposal(direction, kVoteData, kCostData, isTest)
     if not isTest then
       UpdateWorkingFavor()
       kVoteData.instance.UpdateTitle()
-      for _, kInnerVoteData in pairs(m_kProposalVotes) do UpdateProposal(kInnerVoteData, kProposalCategory) end
+      for _, kInnerVoteData in pairs(m_kProposalVotes) do
+        UpdateProposal(kInnerVoteData, kProposalCategory)
+      end
       UpdateAllVotingWidgets(kCostData)
       UpdateNavButtons()
     end
@@ -1440,8 +1551,10 @@ end
 -- ===========================================================================
 function UpdateProposal(kVoteData)
   local canVote = not kVoteData.disabled and
-                      not (kVoteData.voteBlocker ~= nil and kVoteData.voteBlocker.NoUpvote and kVoteData.voteBlocker.NoDownvote)
-  kVoteData.instance.Root:SetTexture(canVote and kVoteData.votes == 0 and "WC_ProposalFrameOpen_Normal" or "WC_ProposalFrameOpen_Selected")
+                    not (kVoteData.voteBlocker ~= nil and kVoteData.voteBlocker.NoUpvote and
+                      kVoteData.voteBlocker.NoDownvote)
+  kVoteData.instance.Root:SetTexture(canVote and kVoteData.votes == 0 and "WC_ProposalFrameOpen_Normal" or
+                                       "WC_ProposalFrameOpen_Selected")
 end
 
 -- ===========================================================================
@@ -1462,7 +1575,9 @@ function GetSortedProposalCategories(kProposals)
       end
     end
 
-    table.sort(kSortedCategories, function(a, b) return a.kData.Sort < b.kData.Sort end)
+    table.sort(kSortedCategories, function(a, b)
+      return a.kData.Sort < b.kData.Sort
+    end)
   end
   return kSortedCategories
 end
@@ -1505,10 +1620,12 @@ function PopulateSummary()
         local kResolutionChoice = m_kResolutionChoices[kResolution.Hash]
 
         local aVotes = kResolutionChoice.choice == 1 and kVoteData.A.votes or 0
-        local aTT = kResolutionChoice.choice == 1 and Locale.Lookup("LOC_WORLD_CONGRESS_A_VOTES_TT_SUMMARY", aVotes) or ""
+        local aTT = kResolutionChoice.choice == 1 and Locale.Lookup("LOC_WORLD_CONGRESS_A_VOTES_TT_SUMMARY", aVotes) or
+                      ""
 
         local bVotes = kResolutionChoice.choice ~= 1 and kVoteData.B.votes or 0
-        local bTT = kResolutionChoice.choice ~= 1 and Locale.Lookup("LOC_WORLD_CONGRESS_B_VOTES_TT_SUMMARY", bVotes) or ""
+        local bTT = kResolutionChoice.choice ~= 1 and Locale.Lookup("LOC_WORLD_CONGRESS_B_VOTES_TT_SUMMARY", bVotes) or
+                      ""
 
         instance.UpVoteLabel:SetText(bVotes)
         instance.DownVoteLabel:SetText(aVotes)
@@ -1522,7 +1639,9 @@ function PopulateSummary()
         instance.DownVoteStack:SetHide(aVotes == 0)
         instance.ExpandButton:SetHide(true)
 
-        for i = 1, 4 do instance["Line" .. i]:SetHide(false) end
+        for i = 1, 4 do
+          instance["Line" .. i]:SetHide(false)
+        end
         instance.CostContainer:SetHide(false)
 
         if kResolutionData.TargetType == "PlayerType" then
@@ -1533,7 +1652,8 @@ function PopulateSummary()
             local playerTypeName = pPlayerConfig:GetLeaderTypeName()
             local isLocalPlayer = playerID == localPlayerID
             local pDiplomacy = Players[localPlayerID]:GetDiplomacy()
-            local icon = (isLocalPlayer or pDiplomacy:HasMet(playerID)) and "ICON_" .. playerTypeName or "ICON_LEADER_DEFAULT"
+            local icon = (isLocalPlayer or pDiplomacy:HasMet(playerID)) and "ICON_" .. playerTypeName or
+                           "ICON_LEADER_DEFAULT"
             pIconManager:UpdateIconSimple(icon, playerID, isUniqueLeader[playerID] or false,
                                           Locale.Lookup("LOC_WORLD_CONGRESS_TARGET_RESOLUTION_TT"))
           end
@@ -1549,13 +1669,15 @@ function PopulateSummary()
         instance.Title:SetText(Locale.ToUpper(Locale.Lookup(kResolution.Name)))
         instance.Status:SetText("")
         instance.TargetLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_PREVIEW_PROPOSAL_TARGET"))
-        instance.ChoiceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_PREVIEW_PROPOSAL_OUTCOME", kResolutionChoice.choice == 1 and
-                                                       Locale.Lookup("LOC_WORLD_CONGRESS_CHOICE_A") or
-                                                       Locale.Lookup("LOC_WORLD_CONGRESS_CHOICE_B")))
+        instance.ChoiceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_PREVIEW_PROPOSAL_OUTCOME",
+                                                   kResolutionChoice.choice == 1 and
+                                                     Locale.Lookup("LOC_WORLD_CONGRESS_CHOICE_A") or
+                                                     Locale.Lookup("LOC_WORLD_CONGRESS_CHOICE_B")))
         instance.Description:SetText(Locale.Lookup(kResolutionChoice.choice == 1 and kResolution.Effect1Description or
-                                                       kResolution.Effect2Description))
+                                                     kResolution.Effect2Description))
         instance.Cost:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_FAVOR", kVoteData.A.cost + kVoteData.B.cost))
-        instance.Cost:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_PROPOSAL_COST", kVoteData.A.cost + kVoteData.B.cost))
+        instance.Cost:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_PROPOSAL_COST",
+                                                     kVoteData.A.cost + kVoteData.B.cost))
         instance.TurnsLeft:SetText("")
         instance.IconNew:SetHide(true)
 
@@ -1563,8 +1685,9 @@ function PopulateSummary()
       end
     end
     Controls.ReviewResolutionFavor:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_CATEGORY_FAVOR", resolutionCost))
-    Controls.ReviewResolutionFavor:SetToolTipString(
-        Locale.Lookup("LOC_WORLD_CONGRESS_TT_RESOLUTIONS_FAVOR_COST_WITH_REFUND", resolutionCost))
+    Controls.ReviewResolutionFavor:SetToolTipString(Locale.Lookup(
+                                                      "LOC_WORLD_CONGRESS_TT_RESOLUTIONS_FAVOR_COST_WITH_REFUND",
+                                                      resolutionCost))
   end
 
   local kSortedCategories = GetSortedProposalCategories(Game.GetWorldCongress():GetProposals(localPlayerID).Proposals)
@@ -1602,16 +1725,18 @@ function PopulateSummaryProposals(kProposals, kProposalIM)
       if pPlayerConfig then
         local playerTypeName = pPlayerConfig:GetLeaderTypeName()
         local isLocalPlayer = kProposal.Target == localPlayerID
-        local icon = (isLocalPlayer or pDiplomacy:HasMet(kProposal.Target)) and "ICON_" .. playerTypeName or "ICON_LEADER_DEFAULT"
+        local icon = (isLocalPlayer or pDiplomacy:HasMet(kProposal.Target)) and "ICON_" .. playerTypeName or
+                       "ICON_LEADER_DEFAULT"
         pIconManager:UpdateIconSimple(icon, kProposal.Target, metPlayers[kProposal.Target],
                                       Locale.Lookup("LOC_WORLD_CONGRESS_TARGET_PROPOSAL_TT"))
         instance.Title:SetText(Locale.ToUpper(Locale.Lookup(kProposal.Name, pPlayerConfig:GetLeaderName())))
         instance.Status:SetText("")
         instance.Description:SetText(Locale.Lookup(kProposal.Description, pPlayerConfig:GetLeaderName()))
         instance.LeaderIcon.SelectButton:SetHide(false)
-        instance.LeaderIcon.TargetIcon:SetColor(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and COLOR_GREEN or COLOR_RED)
-        instance.LeaderIcon.TargetIcon:SetTexture(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and "Emergency_TargetAid44" or
-                                                      "Emergency_Target44")
+        instance.LeaderIcon.TargetIcon:SetColor(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and COLOR_GREEN or
+                                                  COLOR_RED)
+        instance.LeaderIcon.TargetIcon:SetTexture(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and
+                                                    "Emergency_TargetAid44" or "Emergency_Target44")
         instance.TypeIcon:SetHide(true)
       else
         instance.Title:SetText(Locale.ToUpper(Locale.Lookup(kProposal.Name)))
@@ -1648,9 +1773,13 @@ function PopulateSummaryProposals(kProposals, kProposalIM)
       instance.DownVoteStack:SetHide(not voteDirection or voteDirection > 0 or votes <= 0)
 
       if m_IsInSession then
-        for i = 1, 4 do instance["Line" .. i]:SetHide(false) end
+        for i = 1, 4 do
+          instance["Line" .. i]:SetHide(false)
+        end
       else
-        for i = 1, 4 do instance["Line" .. i]:SetHide(i > 2) end
+        for i = 1, 4 do
+          instance["Line" .. i]:SetHide(i > 2)
+        end
       end
       instance.CostContainer:SetHide(false)
 
@@ -1664,7 +1793,9 @@ function PopulateSummaryProposals(kProposals, kProposalIM)
         instance.isCollapsed = not instance.isCollapsed
         RealizeCollapseableProposal(instance)
       end)
-      instance.ExpandButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+      instance.ExpandButton:RegisterCallback(Mouse.eMouseEnter, function()
+        UI.PlaySound("Main_Menu_Mouse_Over")
+      end)
 
       instance.isCollapsed = true
       RealizeCollapseableProposal(instance)
@@ -1687,10 +1818,10 @@ function UpdateResolutionChoice(kResolutionChoice)
   kResolutionChoice.instance.Choice1.Root:SetShow(kResolutionChoice.choice == 1)
   kResolutionChoice.instance.Choice2.Root:SetShow(kResolutionChoice.choice == 2)
 
-  kResolutionChoice.instance.Choice1Slot:SetTexture(hasTarget and kResolutionChoice.choice == 1 and "WC_ProposalSlot_On" or
-                                                        "WC_ProposalSlot_Off")
-  kResolutionChoice.instance.Choice2Slot:SetTexture(hasTarget and kResolutionChoice.choice == 2 and "WC_ProposalSlot_On" or
-                                                        "WC_ProposalSlot_Off")
+  kResolutionChoice.instance.Choice1Slot:SetTexture(
+    hasTarget and kResolutionChoice.choice == 1 and "WC_ProposalSlot_On" or "WC_ProposalSlot_Off")
+  kResolutionChoice.instance.Choice2Slot:SetTexture(
+    hasTarget and kResolutionChoice.choice == 2 and "WC_ProposalSlot_On" or "WC_ProposalSlot_Off")
 
   local kVoteData
   for _, kInnerVoteData in pairs(m_kResolutionVotes) do
@@ -1701,7 +1832,8 @@ function UpdateResolutionChoice(kResolutionChoice)
   end
 
   local isSelected = hasTarget and hasChoice and kVoteData and (kVoteData.A.votes ~= 0 or kVoteData.B.votes ~= 0)
-  kResolutionChoice.instance.Root:SetTexture(isSelected and "WC_ProposalFrameOpen_Selected" or "WC_ProposalFrameOpen_Normal")
+  kResolutionChoice.instance.Root:SetTexture(isSelected and "WC_ProposalFrameOpen_Selected" or
+                                               "WC_ProposalFrameOpen_Normal")
 
   local lineColor = isSelected and {220 / 255, 190 / 255, 161 / 255} or {102 / 255, 91 / 255, 63 / 255}
   kResolutionChoice.instance.Line:SetColor(lineColor[1], lineColor[2], lineColor[3], 1)
@@ -1713,7 +1845,8 @@ end
 function PopulateEmergencyProposals()
   ResetReviewInstances()
 
-  local kSortedCategories = GetSortedProposalCategories(Game.GetWorldCongress():GetEmergencies(Game.GetLocalPlayer()).Proposals)
+  local kSortedCategories = GetSortedProposalCategories(Game.GetWorldCongress():GetEmergencies(Game.GetLocalPlayer())
+                                                          .Proposals)
   for _, kSorted in ipairs(kSortedCategories) do
     local proposalType = kSorted.type
     local kProposalDef = kSorted.kData
@@ -1722,7 +1855,9 @@ function PopulateEmergencyProposals()
     local titleInstance = m_kProposalTitleIM:GetInstance(Controls.ReviewProposalStack)
     local kCategoryProposals = kProposalCategory.ProposalsOfType
 
-    local updateFn = function() UpdateCategoryTitle(titleInstance, kCategoryProposals, kProposalDef, kProposalCategory.FavorCost) end
+    local updateFn = function()
+      UpdateCategoryTitle(titleInstance, kCategoryProposals, kProposalDef, kProposalCategory.FavorCost)
+    end
     if PopulateProposalStack(kCategoryProposals, m_kEmergencyProposalIM, kProposalCategory, updateFn) > 0 then
       updateFn()
     else
@@ -1735,9 +1870,12 @@ end
 --	Returns true if there are any available Emergency Proposals
 -- ===========================================================================
 function HasEmergencyProposals()
-  local kSortedCategories = GetSortedProposalCategories(Game.GetWorldCongress():GetEmergencies(Game.GetLocalPlayer()).Proposals)
+  local kSortedCategories = GetSortedProposalCategories(Game.GetWorldCongress():GetEmergencies(Game.GetLocalPlayer())
+                                                          .Proposals)
   for _, kSorted in ipairs(kSortedCategories) do
-    if kSorted.kCategory.ProposalsOfType and table.count(kSorted.kCategory.ProposalsOfType) > 0 then return true end
+    if kSorted.kCategory.ProposalsOfType and table.count(kSorted.kCategory.ProposalsOfType) > 0 then
+      return true
+    end
   end
   return false
 end
@@ -1746,12 +1884,15 @@ end
 --	Returns true if there are any available Emergency Proposals
 -- ===========================================================================
 function HasEmergencyProposalChoices()
-  local kSortedCategories = GetSortedProposalCategories(Game.GetWorldCongress():GetEmergencies(Game.GetLocalPlayer()).Proposals)
+  local kSortedCategories = GetSortedProposalCategories(Game.GetWorldCongress():GetEmergencies(Game.GetLocalPlayer())
+                                                          .Proposals)
   for _, kSorted in ipairs(kSortedCategories) do
     if kSorted.kCategory.ProposalsOfType and table.count(kSorted.kCategory.ProposalsOfType) > 0 then
       for _, kProposal in pairs(kSorted.kCategory.ProposalsOfType) do
         local kVoteData = m_kProposalVotes[GetProposalVoteKey(kProposal)]
-        if kVoteData and not kVoteData.instance.SelectBox:IsDisabled() then return true end
+        if kVoteData and not kVoteData.instance.SelectBox:IsDisabled() then
+          return true
+        end
       end
     end
   end
@@ -1810,7 +1951,9 @@ function PopulateReview()
       instance.DownVoteStack:SetHide(aVotes == 0)
       instance.ExpandButton:SetHide(false)
 
-      for i = 1, 4 do instance["Line" .. i]:SetHide(i == 2) end
+      for i = 1, 4 do
+        instance["Line" .. i]:SetHide(i == 2)
+      end
       instance.CostContainer:SetHide(true)
 
       if kResolutionData.TargetType == "PlayerType" then
@@ -1824,7 +1967,8 @@ function PopulateReview()
           local playerTypeName = pPlayerConfig:GetLeaderTypeName()
           local isLocalPlayer = playerID == localPlayerID
           local pDiplomacy = Players[localPlayerID]:GetDiplomacy()
-          local icon = (isLocalPlayer or pDiplomacy:HasMet(playerID)) and "ICON_" .. playerTypeName or "ICON_LEADER_DEFAULT"
+          local icon = (isLocalPlayer or pDiplomacy:HasMet(playerID)) and "ICON_" .. playerTypeName or
+                         "ICON_LEADER_DEFAULT"
           pIconManager:UpdateIconSimple(icon, playerID, isUniqueLeader[playerID] or false,
                                         Locale.Lookup("LOC_WORLD_CONGRESS_TARGET_RESOLUTION_TT"))
         end
@@ -1837,7 +1981,8 @@ function PopulateReview()
       end
 
       instance.TargetLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_REVIEW_PROPOSAL_TARGET"))
-      instance.ChoiceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_REVIEW_PROPOSAL_OUTCOME", kResolutionData.ChosenLabel))
+      instance.ChoiceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_REVIEW_PROPOSAL_OUTCOME",
+                                                 kResolutionData.ChosenLabel))
       instance.IconNew:SetShow(kResolutionData.IsNew and kResolutionData.IsNew ~= 0)
 
       instance.ExpandButton:RegisterCallback(Mouse.eLClick, function()
@@ -1845,7 +1990,9 @@ function PopulateReview()
         instance.isCollapsed = not instance.isCollapsed
         RealizeCollapseableVoters(instance)
       end)
-      instance.ExpandButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+      instance.ExpandButton:RegisterCallback(Mouse.eMouseEnter, function()
+        UI.PlaySound("Main_Menu_Mouse_Over")
+      end)
 
       -- Player Votes (visible when expanded)
       if table.count(kResolutionData.PlayerSelections) > 0 then
@@ -1873,12 +2020,15 @@ function PopulateReview()
           voterInstance.DownVoteIcon:SetToolTipString(aTT)
           voterInstance.DownVoteLabel:SetToolTipString(aTT)
 
-          for i = 1, 4 do voterInstance["Line" .. i]:SetHide(i == 2) end
+          for i = 1, 4 do
+            voterInstance["Line" .. i]:SetHide(i == 2)
+          end
           voterInstance.CostContainer:SetHide(true)
 
           if kResolutionData.TargetType == "PlayerType" then
             local targetPlayerID = tonumber(kData.ResolutionTarget)
-            local text, icon = targetPlayerID ~= -1 and GetPulldownNameAndIcons(kResolutionData, targetPlayerID) or "", ""
+            local text, icon = targetPlayerID ~= -1 and GetPulldownNameAndIcons(kResolutionData, targetPlayerID) or "",
+                               ""
             voterInstance.ChosenThing:SetText(text)
           else
             voterInstance.ChosenThing:SetText(Locale.Lookup(kData.ResolutionTarget))
@@ -1892,13 +2042,15 @@ function PopulateReview()
             local playerTypeName = pPlayerConfig:GetLeaderTypeName()
             local isLocalPlayer = playerID == localPlayerID
             local pDiplomacy = Players[localPlayerID]:GetDiplomacy()
-            local icon = (isLocalPlayer or pDiplomacy:HasMet(playerID)) and "ICON_" .. playerTypeName or "ICON_LEADER_DEFAULT"
+            local icon = (isLocalPlayer or pDiplomacy:HasMet(playerID)) and "ICON_" .. playerTypeName or
+                           "ICON_LEADER_DEFAULT"
             pIconManager:UpdateIconSimple(icon, playerID, isUniqueLeader[playerID] or false)
           end
           voterInstance.LeaderIcon.SelectButton:SetHide(not pPlayerConfig)
           voterInstance.TypeIcon:SetHide(pPlayerConfig ~= nil)
 
-          voterInstance.ChoiceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_REVIEW_VOTER_OUTCOME", kData.OptionChosenLabel))
+          voterInstance.ChoiceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_REVIEW_VOTER_OUTCOME",
+                                                          kData.OptionChosenLabel))
         end
 
         m_VerticalPaddingReviewIM:GetInstance(instance.VoterStack)
@@ -1983,11 +2135,15 @@ function PopulateActiveEffects()
       instance.DownVoteStack:SetHide(true)
       instance.ExpandButton:SetHide(true)
 
-      for i = 1, 4 do instance["Line" .. i]:SetHide(i > 2) end
+      for i = 1, 4 do
+        instance["Line" .. i]:SetHide(i > 2)
+      end
       instance.CostContainer:SetHide(false)
 
       if kResolutionData.TargetType == "PlayerType" then
-        if not metPlayers then metPlayers, isUniqueLeader = GetMetPlayersAndUniqueLeaders() end
+        if not metPlayers then
+          metPlayers, isUniqueLeader = GetMetPlayersAndUniqueLeaders()
+        end
 
         local playerID = tonumber(kResolutionData.ChosenThing)
         local text, icon = playerID ~= -1 and GetPulldownNameAndIcons(kResolutionData, playerID) or "", ""
@@ -1999,7 +2155,8 @@ function PopulateActiveEffects()
           local playerTypeName = pPlayerConfig:GetLeaderTypeName()
           local isLocalPlayer = playerID == localPlayerID
           local pDiplomacy = Players[localPlayerID]:GetDiplomacy()
-          local icon = (isLocalPlayer or pDiplomacy:HasMet(playerID)) and "ICON_" .. playerTypeName or "ICON_LEADER_DEFAULT"
+          local icon = (isLocalPlayer or pDiplomacy:HasMet(playerID)) and "ICON_" .. playerTypeName or
+                         "ICON_LEADER_DEFAULT"
           pIconManager:UpdateIconSimple(icon, playerID, isUniqueLeader[playerID] or false,
                                         Locale.Lookup("LOC_WORLD_CONGRESS_TARGET_RESOLUTION_TT"))
         end
@@ -2012,12 +2169,14 @@ function PopulateActiveEffects()
       end
 
       instance.TargetLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_REVIEW_PROPOSAL_TARGET"))
-      instance.ChoiceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_REVIEW_PROPOSAL_OUTCOME", kResolutionData.ChosenLabel))
+      instance.ChoiceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_REVIEW_PROPOSAL_OUTCOME",
+                                                 kResolutionData.ChosenLabel))
       instance.IconNew:SetShow(kResolutionData.IsNew and kResolutionData.IsNew ~= 0)
     end
   end
 
-  local kSortedCategories = GetSortedProposalCategories(Game.GetWorldCongress():GetProposals(Game.GetLocalPlayer()).Proposals)
+  local kSortedCategories = GetSortedProposalCategories(Game.GetWorldCongress():GetProposals(Game.GetLocalPlayer())
+                                                          .Proposals)
   for _, kSorted in ipairs(kSortedCategories) do
     local proposalType = kSorted.type
     local kProposalDef = kSorted.kData
@@ -2079,16 +2238,20 @@ function PopulateReviewProposals(kProposals, kProposalIM)
       instance.isCollapsed = not instance.isCollapsed
       RealizeCollapseableVoters(instance)
     end)
-    instance.ExpandButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+    instance.ExpandButton:RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
 
     -- Title + Target Icon
-    local proposalResult = upVotes > downVotes and "LOC_WORLD_CONGRESS_PROPOSAL_PASSED" or "LOC_WORLD_CONGRESS_PROPOSAL_FAILED"
+    local proposalResult = upVotes > downVotes and "LOC_WORLD_CONGRESS_PROPOSAL_PASSED" or
+                             "LOC_WORLD_CONGRESS_PROPOSAL_FAILED"
     local pIconManager = LeaderIcon:AttachInstance(instance.LeaderIcon)
     local pPlayerConfig = PlayerConfigurations[kProposal.TargetPlayer]
     if pPlayerConfig then
       local playerTypeName = pPlayerConfig:GetLeaderTypeName()
       local isLocalPlayer = kProposal.TargetPlayer == localPlayerID
-      local icon = (isLocalPlayer or pDiplomacy:HasMet(kProposal.TargetPlayer)) and "ICON_" .. playerTypeName or "ICON_LEADER_DEFAULT"
+      local icon = (isLocalPlayer or pDiplomacy:HasMet(kProposal.TargetPlayer)) and "ICON_" .. playerTypeName or
+                     "ICON_LEADER_DEFAULT"
       pIconManager:UpdateIconSimple(icon, kProposal.TargetPlayer, metPlayers[kProposal.TargetPlayer],
                                     Locale.Lookup("LOC_WORLD_CONGRESS_TARGET_PROPOSAL_TT"))
 
@@ -2097,9 +2260,10 @@ function PopulateReviewProposals(kProposals, kProposalIM)
       instance.Status:SetText(Locale.Lookup(proposalResult))
       instance.Description:SetText(Locale.Lookup(kProposal.Description, pPlayerConfig:GetLeaderName()))
       instance.LeaderIcon.SelectButton:SetHide(false)
-      instance.LeaderIcon.TargetIcon:SetColor(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and COLOR_GREEN or COLOR_RED)
-      instance.LeaderIcon.TargetIcon:SetTexture(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and "Emergency_TargetAid44" or
-                                                    "Emergency_Target44")
+      instance.LeaderIcon.TargetIcon:SetColor(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and COLOR_GREEN or
+                                                COLOR_RED)
+      instance.LeaderIcon.TargetIcon:SetTexture(kProposal.TypeName == "WC_EMERGENCY_REQUEST_AID" and
+                                                  "Emergency_TargetAid44" or "Emergency_Target44")
       instance.TypeIcon:SetHide(true)
     else
       instance.Title:SetText(Locale.ToUpper(Locale.Lookup(kProposal.Name)))
@@ -2110,7 +2274,9 @@ function PopulateReviewProposals(kProposals, kProposalIM)
       instance.TypeIcon:SetHide(false)
     end
 
-    for i = 1, 4 do instance["Line" .. i]:SetHide(i == 2) end
+    for i = 1, 4 do
+      instance["Line" .. i]:SetHide(i == 2)
+    end
     instance.CostContainer:SetHide(true)
 
     -- Player Votes (visible when expanded)
@@ -2131,12 +2297,13 @@ function PopulateReviewProposals(kProposals, kProposalIM)
         local playerName = GetVisiblePlayerName(playerID)
         if pPlayerConfig then
           local playerTypeName = pPlayerConfig:GetLeaderTypeName()
-          local icon = (playerID == localPlayerID or pDiplomacy:HasMet(playerID)) and "ICON_" .. playerTypeName or "ICON_LEADER_DEFAULT"
+          local icon = (playerID == localPlayerID or pDiplomacy:HasMet(playerID)) and "ICON_" .. playerTypeName or
+                         "ICON_LEADER_DEFAULT"
           pIconManager:UpdateIconSimple(icon, playerID, metPlayers[playerID])
           instance.Title:SetText(Locale.Lookup(playerName))
           -- TODO: Set truncate width of Reason field
           instance.Reason:SetText((kData.Votes == 0 and playerID == localPlayerID) and
-                                      Locale.Lookup("LOC_WC_VOTING_BLOCKER_NOT_INVITED_TO_EMERGENCY_DESC") or "")
+                                    Locale.Lookup("LOC_WC_VOTING_BLOCKER_NOT_INVITED_TO_EMERGENCY_DESC") or "")
         end
 
         local upTT = Locale.Lookup("LOC_WORLD_CONGRESS_REVIEW_UP_VOTES_PLAYER_TT", playerName, kData.Votes)
@@ -2214,7 +2381,9 @@ function OnAccept()
   elseif not m_IsInSession and m_ReviewTab == REVIEW_TAB_AVAILABLE_PROPOSALS then
 
     local totalCost = 0
-    for _, kVoteData in pairs(m_kProposalVotes) do totalCost = totalCost + kVoteData.cost end
+    for _, kVoteData in pairs(m_kProposalVotes) do
+      totalCost = totalCost + kVoteData.cost
+    end
     local dialogText = Locale.Lookup("LOC_WORLD_CONGRESS_CONFIRM_SUBMIT_PROPOSALS", totalCost)
 
     m_kPopupDialog:Close() -- clear out the popup incase it is already open.
@@ -2235,7 +2404,9 @@ function OnAccept()
 
       ClosePopup()
 
-      if m_HasSpecialSessionNotification then LuaEvents.WorldCongressPopup_DismissSpecialSessionNotification() end
+      if m_HasSpecialSessionNotification then
+        LuaEvents.WorldCongressPopup_DismissSpecialSessionNotification()
+      end
     end)
     m_kPopupDialog:Open()
   else
@@ -2252,12 +2423,20 @@ end
 -- ===========================================================================
 -- Next Page Sequence Button
 -- ===========================================================================
-function OnNext() if CanMoveToNextPhase() and SetPhase(m_CurrentPhase + 1) then return true end end
+function OnNext()
+  if CanMoveToNextPhase() and SetPhase(m_CurrentPhase + 1) then
+    return true
+  end
+end
 
 -- ===========================================================================
 -- Previous Page Sequence Button
 -- ===========================================================================
-function OnPrev() if m_CurrentPhase > 1 and SetPhase(m_CurrentPhase - 1) then return true end end
+function OnPrev()
+  if m_CurrentPhase > 1 and SetPhase(m_CurrentPhase - 1) then
+    return true
+  end
+end
 
 -- ===========================================================================
 -- Deal with changing phases
@@ -2275,29 +2454,40 @@ end
 function OnWorldCongressResults(selectedTab, delayShow)
 
   -- Ensure we're on the Active effects tab of WorldCongress
-  if selectedTab then m_ReviewTab = selectedTab end
+  if selectedTab then
+    m_ReviewTab = selectedTab
+  end
 
   -- Account for AutoPlay
-  if Game.GetLocalPlayer() >= 0 and SetStage(4) then ShowPopup(delayShow) end
+  if Game.GetLocalPlayer() >= 0 and SetStage(4) then
+    ShowPopup(delayShow)
+  end
 end
 
 -- ===========================================================================
 --	The load screen has closed.  Check to see if we have to restore our state
 -- ===========================================================================
-function OnLoadScreenClose() CheckShouldOpen() end
+function OnLoadScreenClose()
+  CheckShouldOpen()
+end
 
 -- ===========================================================================
 -- Open the Diplo Screen
 -- ===========================================================================
-function OnDiploButtonClicked() OpenDiplomacyLiteMode(Game.GetLocalPlayer()) end
+function OnDiploButtonClicked()
+  OpenDiplomacyLiteMode(Game.GetLocalPlayer())
+end
 
 -- ===========================================================================
 -- Shows the popup
 -- ===========================================================================
 function ShowPopup(delayShow, fromHotLoad)
-  if (GameConfiguration.IsPaused()) then return end
+  if (GameConfiguration.IsPaused()) then
+    return
+  end
   if ContextPtr:IsHidden() or fromHotLoad then
-    UIManager:QueuePopup(ContextPtr, PopupPriority.WorldCongressPopup, {AlwaysVisibleInQueue = true, DelayShow = delayShow})
+    UIManager:QueuePopup(ContextPtr, PopupPriority.WorldCongressPopup,
+                         {AlwaysVisibleInQueue = true, DelayShow = delayShow})
     Input.PushActiveContext(InputContext.Popup)
 
     RealizeSize(UIManager:GetScreenSizeVal())
@@ -2316,7 +2506,9 @@ function ClosePopup()
     UI.PlaySound("WC_Exit")
 
     -- Notify game core so turn blocker can be deactivated
-    if not m_IsInSession then UI.RequestPlayerOperation(Game.GetLocalPlayer(), PlayerOperations.WORLD_CONGRESS_LOOKED_AT_AVAILABLE, {}) end
+    if not m_IsInSession then
+      UI.RequestPlayerOperation(Game.GetLocalPlayer(), PlayerOperations.WORLD_CONGRESS_LOOKED_AT_AVAILABLE, {})
+    end
   end
 end
 
@@ -2343,7 +2535,9 @@ end
 -- ===========================================================================
 function OnInit(isReload)
   LateInitialize()
-  if isReload then LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID) end
+  if isReload then
+    LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
+  end
 end
 
 -- ===========================================================================
@@ -2374,7 +2568,9 @@ function OnShutdown()
   LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "ProposalVotes", DEBUG_RESET_DATA and {} or m_kProposalVotes)
   LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "ResolutionChoices", DEBUG_RESET_DATA and {} or m_kResolutionChoices)
 
-  if ContextPtr:IsVisible() then Input.PopContext() end
+  if ContextPtr:IsVisible() then
+    Input.PopContext()
+  end
 end
 
 -- ===========================================================================
@@ -2390,7 +2586,9 @@ function OnInputHandler(pInputStruct)
     elseif key == Keys.VK_RETURN then
       if m_CurrentStage == 4 then
         if m_ReviewTab == REVIEW_TAB_AVAILABLE_PROPOSALS then
-          if CanSubmit() then OnAccept() end
+          if CanSubmit() then
+            OnAccept()
+          end
         else
           ClosePopup()
         end
@@ -2410,18 +2608,24 @@ end
 -- ===========================================================================
 function OnShowFromIntro()
   UI.PlaySound("WC_BeginVoting")
-  if m_IsInSession then SetupWorldCongress(m_CurrentStage, true) end
+  if m_IsInSession then
+    SetupWorldCongress(m_CurrentStage, true)
+  end
 end
 
 -- ===========================================================================
 --	Callback that closes popup
 -- ===========================================================================
-function OnClose() ClosePopup() end
+function OnClose()
+  ClosePopup()
+end
 
 -- ===========================================================================
 --	LUA Event
 -- ===========================================================================
-function OnCloseFromDiplomacy() ClosePopup() end
+function OnCloseFromDiplomacy()
+  ClosePopup()
+end
 
 function OnPass()
   ClosePopup()
@@ -2444,7 +2648,11 @@ end
 -- ===========================================================================
 -- Open the screen in the Emergency Proposals tab
 -- ===========================================================================
-function OnWorldCongressEmergencyProposals() if HasEmergencyProposals() then OnWorldCongressResults(REVIEW_TAB_AVAILABLE_PROPOSALS) end end
+function OnWorldCongressEmergencyProposals()
+  if HasEmergencyProposals() then
+    OnWorldCongressResults(REVIEW_TAB_AVAILABLE_PROPOSALS)
+  end
+end
 
 -- ===========================================================================
 -- Flush vote data to ensure every congress has isolated data
@@ -2463,7 +2671,9 @@ end
 -- Update Turn Timers
 -- ===========================================================================
 function OnTurnTimerUpdated(elapsedTime, maxTurnTime)
-  if ContextPtr:IsHidden() then return end
+  if ContextPtr:IsHidden() then
+    return
+  end
   if maxTurnTime <= 0 then
     -- We're in a state where there isn't a turn time, hide all the turn timer elements.
     Controls.NextButton:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_NEXT"))
@@ -2496,10 +2706,18 @@ function OnUpdateUI(type, tag, iData1, iData2, strData1)
 end
 
 -- ===========================================================================
-function AssignActivePulldown(pulldown) m_kActivePulldown = pulldown end
+function AssignActivePulldown(pulldown)
+  m_kActivePulldown = pulldown
+end
 
 -- ===========================================================================
-function CloseActivePulldown() if (m_kActivePulldown ~= nil) then if (m_kActivePulldown:IsOpen()) then m_kActivePulldown:ForceClose() end end end
+function CloseActivePulldown()
+  if (m_kActivePulldown ~= nil) then
+    if (m_kActivePulldown:IsOpen()) then
+      m_kActivePulldown:ForceClose()
+    end
+  end
+end
 
 -- ===========================================================================
 --	Initialize
@@ -2512,10 +2730,18 @@ function LateInitialize()
   Controls.PrevButton:RegisterCallback(Mouse.eLClick, OnPrev)
   Controls.DiploButton:RegisterCallback(Mouse.eLClick, OnDiploButtonClicked)
   Controls.HideButton:RegisterCallback(Mouse.eLClick, OnClose)
-  Controls.LastResultsButton:RegisterCallback(Mouse.eLClick, function() OnWorldCongressResults(REVIEW_TAB_RESULTS) end)
-  Controls.CurrentEffectsButton:RegisterCallback(Mouse.eLClick, function() OnWorldCongressResults(REVIEW_TAB_CURRENT_EFFECTS) end)
-  Controls.AvailableProposalsButton:RegisterCallback(Mouse.eLClick, function() OnWorldCongressResults(REVIEW_TAB_AVAILABLE_PROPOSALS) end)
-  Controls.DescriptionContainer:RegisterSizeChanged(function() RealizeSize(UIManager:GetScreenSizeVal()) end)
+  Controls.LastResultsButton:RegisterCallback(Mouse.eLClick, function()
+    OnWorldCongressResults(REVIEW_TAB_RESULTS)
+  end)
+  Controls.CurrentEffectsButton:RegisterCallback(Mouse.eLClick, function()
+    OnWorldCongressResults(REVIEW_TAB_CURRENT_EFFECTS)
+  end)
+  Controls.AvailableProposalsButton:RegisterCallback(Mouse.eLClick, function()
+    OnWorldCongressResults(REVIEW_TAB_AVAILABLE_PROPOSALS)
+  end)
+  Controls.DescriptionContainer:RegisterSizeChanged(function()
+    RealizeSize(UIManager:GetScreenSizeVal())
+  end)
 
   LuaEvents.GameDebug_Return.Add(OnGameDebugReturn)
   LuaEvents.WorldCongressIntro_ShowWorldCongress.Add(OnShowFromIntro)
@@ -2542,11 +2768,17 @@ end
 -- ===========================================================================
 --	Callback Helpers
 -- ===========================================================================
-function OnOpenWorldCongressResultsNotification() OnWorldCongressResults(REVIEW_TAB_RESULTS, true) end
+function OnOpenWorldCongressResultsNotification()
+  OnWorldCongressResults(REVIEW_TAB_RESULTS, true)
+end
 
-function OnSpecialSessionNotificationAdded() m_HasSpecialSessionNotification = true end
+function OnSpecialSessionNotificationAdded()
+  m_HasSpecialSessionNotification = true
+end
 
-function OnSpecialSessionNotificationDismissed() m_HasSpecialSessionNotification = false end
+function OnSpecialSessionNotificationDismissed()
+  m_HasSpecialSessionNotification = false
+end
 
 -- ===========================================================================
 --	Initialize
@@ -2558,8 +2790,12 @@ function Initialize()
 
   Events.SystemUpdateUI.Add(OnUpdateUI)
   Events.LoadScreenClose.Add(OnLoadScreenClose)
-  Events.WorldCongressStage1.Add(function(i) OnWorldCongressStageChange(i, 1) end)
-  Events.WorldCongressStage2.Add(function(i) OnWorldCongressStageChange(i, 2) end)
+  Events.WorldCongressStage1.Add(function(i)
+    OnWorldCongressStageChange(i, 1)
+  end)
+  Events.WorldCongressStage2.Add(function(i)
+    OnWorldCongressStageChange(i, 2)
+  end)
   Events.LocalPlayerTurnEnd.Add(OnLocalPlayerTurnEnd)
   Events.TurnTimerUpdated.Add(OnTurnTimerUpdated)
   Events.GameConfigChanged.Add(OnGameConfigChanged)
@@ -2567,4 +2803,6 @@ function Initialize()
 end
 
 -- No capability means never initialize this so it can never be used.
-if GameCapabilities.HasCapability("CAPABILITY_WORLD_CONGRESS") then Initialize() end
+if GameCapabilities.HasCapability("CAPABILITY_WORLD_CONGRESS") then
+  Initialize()
+end

@@ -93,9 +93,15 @@ end
 
 -- ===========================================================================
 function IsEmpty(text)
-  if text == nil then return true end
-  if text == EMPTY_NOTE then return true end
-  if string.gsub(text, "^%s*(.-)%s*$", "%1") == nil then return true end
+  if text == nil then
+    return true
+  end
+  if text == EMPTY_NOTE then
+    return true
+  end
+  if string.gsub(text, "^%s*(.-)%s*$", "%1") == nil then
+    return true
+  end
   return false
 end
 
@@ -133,12 +139,16 @@ function CloseOtherPanel()
     LuaEvents.HistoricMoments_Close()
   end
 
-  if isExpansion2 then LuaEvents.Launchbar_Expansion2_ClimateScreen_Close() end
+  if isExpansion2 then
+    LuaEvents.Launchbar_Expansion2_ClimateScreen_Close()
+  end
 end
 
 -- ===========================================================================
 function Open()
-  if (Game.GetLocalPlayer() == -1) then return end
+  if (Game.GetLocalPlayer() == -1) then
+    return
+  end
   CloseOtherPanel()
 
   if not UIManager:IsInPopupQueue(ContextPtr) then
@@ -160,7 +170,9 @@ end
 
 -- ===========================================================================
 function Close()
-  if not ContextPtr:IsHidden() then UI.PlaySound("UI_Screen_Close") end
+  if not ContextPtr:IsHidden() then
+    UI.PlaySound("UI_Screen_Close")
+  end
   UIManager:DequeuePopup(ContextPtr)
 end
 
@@ -174,7 +186,13 @@ function ToggleNoteScreen()
 end
 
 -- ===========================================================================
-function OnInit(isReload) if isReload then if not ContextPtr:IsHidden() then Open() end end end
+function OnInit(isReload)
+  if isReload then
+    if not ContextPtr:IsHidden() then
+      Open()
+    end
+  end
+end
 
 -- ===========================================================================
 function OnInputHandler(pInputStruct)
@@ -197,7 +215,9 @@ function Initialize()
   ContextPtr:SetInitHandler(OnInit)
   ContextPtr:SetInputHandler(OnInputHandler, true)
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, Close)
-  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   LuaEvents.Cui_ToggleNoteScreen.Add(ToggleNoteScreen)
 
   windowHeight = Controls.Vignette:GetSizeY() - TOP_PANEL_OFFSET

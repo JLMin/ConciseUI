@@ -19,25 +19,23 @@ local cui_DistrictsIM = InstanceManager:new("DistrictInstance", "Top", Controls.
 local m_tabs
 local PopulationTrack = {}
 local DistrictsTypes = {
-  "HOLY_SITE",
-  "CAMPUS",
-  "THEATER",
-  "ENCAMPMENT",
-  "COMMERCIAL_HUB",
-  "HARBOR",
-  "INDUSTRIAL_ZONE",
-  "ENTERTAINMENT_COMPLEX",
-  "AERODROME",
-  "SPACEPORT"
+  "HOLY_SITE", "CAMPUS", "THEATER", "ENCAMPMENT", "COMMERCIAL_HUB", "HARBOR", "INDUSTRIAL_ZONE",
+  "ENTERTAINMENT_COMPLEX", "AERODROME", "SPACEPORT"
 }
 
 -- ===========================================================================
 -- Support functions
 -- ---------------------------------------------------------------------------
 function GetPercentGrowthColor(percent)
-  if percent == 0 then return "Error" end
-  if percent <= 0.25 then return "WarningMajor" end
-  if percent <= 0.5 then return "WarningMinor" end
+  if percent == 0 then
+    return "Error"
+  end
+  if percent <= 0.25 then
+    return "WarningMajor"
+  end
+  if percent <= 0.5 then
+    return "WarningMinor"
+  end
   return "White"
 end
 
@@ -45,16 +43,24 @@ end
 function GetHappinessColor(eHappiness)
   local happinessInfo = GameInfo.Happinesses[eHappiness]
   if (happinessInfo ~= nil) then
-    if (happinessInfo.GrowthModifier < 0) then return "StatBadCS" end
-    if (happinessInfo.GrowthModifier > 0) then return "StatGoodCS" end
+    if (happinessInfo.GrowthModifier < 0) then
+      return "StatBadCS"
+    end
+    if (happinessInfo.GrowthModifier > 0) then
+      return "StatGoodCS"
+    end
   end
   return "White"
 end
 
 -- ---------------------------------------------------------------------------
 function GetLoyaltyColor(loyalty)
-  if loyalty < 0 then return "StatBadCS" end
-  if loyalty > 0 then return "StatGoodCS" end
+  if loyalty < 0 then
+    return "StatBadCS"
+  end
+  if loyalty > 0 then
+    return "StatGoodCS"
+  end
   return "White"
 end
 
@@ -97,7 +103,9 @@ function PopulateCityStack()
       if currentProduction and currentProduction.Icons then
         cityInstance.ProductionProgressGrid:SetHide(false)
         for _, iconName in ipairs(currentProduction.Icons) do
-          if iconName and cityInstance.Icon:TrySetIcon(iconName) then break end
+          if iconName and cityInstance.Icon:TrySetIcon(iconName) then
+            break
+          end
         end
         cityInstance.ProductionProgress:SetPercent(currentProduction.PercentComplete)
         cityInstance.ProductionTurn:SetText(currentProduction.Turns .. "[ICON_TURN]")
@@ -110,7 +118,9 @@ function PopulateCityStack()
       UI.LookAtPlot(cityData.City:GetX(), cityData.City:GetY())
       UI.SelectCity(cityData.City)
     end)
-    cityInstance.CityButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+    cityInstance.CityButton:RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
     -- if population changed
     cityInstance.CityButton:SetTexture("Controls_ButtonControl")
     cityInstance.NewPopulation:SetHide(true)
@@ -144,7 +154,9 @@ function PopulateCityStack()
     cityInstance.HousingNum:SetColorByName(colorName)
     --
     local amenitiesNumText = cityData.AmenitiesNetAmount
-    if cityData.AmenitiesNetAmount > 0 then amenitiesNumText = "+" .. amenitiesNumText end
+    if cityData.AmenitiesNetAmount > 0 then
+      amenitiesNumText = "+" .. amenitiesNumText
+    end
     cityInstance.AmenitiesNum:SetText(amenitiesNumText)
     colorName = GetHappinessColor(cityData.Happiness)
     cityInstance.AmenitiesNum:SetColorByName(colorName)
@@ -152,8 +164,8 @@ function PopulateCityStack()
     cityInstance.ReligionNum:SetText(cityData.ReligionFollowers)
     --
     if isExpansion1 or isExpansion2 then
-      local culturalIdentity = cityData.City:GetCulturalIdentity();
-      local loyaltyPerTurn = culturalIdentity:GetLoyaltyPerTurn();
+      local culturalIdentity = cityData.City:GetCulturalIdentity()
+      local loyaltyPerTurn = culturalIdentity:GetLoyaltyPerTurn()
       colorName = GetLoyaltyColor(loyaltyPerTurn)
       cityInstance.SwitchableIcon:SetIcon("ICON_STAT_CULTURAL_FLAG")
       cityInstance.SwitchableNum:SetText(toPlusMinusString(loyaltyPerTurn))
@@ -206,7 +218,8 @@ function PopulateDistrict(instance, data)
 end
 
 -- ---------------------------------------------------------------------------
-function Foo() end
+function Foo()
+end
 
 -- ===========================================================================
 -- Population functions
@@ -218,12 +231,7 @@ function BuildPopulationData(playerID)
   local data = {}
   for i, city in cities:Members() do
     local name = city:GetName()
-    data[name] = {
-      Owner = city:GetOwner(),
-      Population = city:GetPopulation(),
-      HasChanged = false,
-      Amount = 0
-    }
+    data[name] = {Owner = city:GetOwner(), Population = city:GetPopulation(), HasChanged = false, Amount = 0}
   end
   PopulationTrack[playerID] = data
 end
@@ -318,7 +326,9 @@ end
 function Refresh()
   local playerID = Game.GetLocalPlayer()
   local player = Players[playerID]
-  if isNil(player) then return end
+  if isNil(player) then
+    return
+  end
   PopulateTabs()
   PopulateCityStack()
 end
@@ -326,7 +336,9 @@ end
 -- ===========================================================================
 function Initialize()
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, Close)
-  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.PauseDismissWindow:RegisterEndCallback(OnCloseEnd)
 
   LuaEvents.CuiOnToggleCityManager.Add(OnToggleCityManager)

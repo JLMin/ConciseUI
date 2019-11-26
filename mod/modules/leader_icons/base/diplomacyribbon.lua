@@ -96,8 +96,12 @@ end
 function AddLeader(iconName, playerID, kProps)
 
   local isUnique = false
-  if kProps == nil then kProps = {} end
-  if kProps.isUnqiue then isUnqiue = kProps.isUnqiue end
+  if kProps == nil then
+    kProps = {}
+  end
+  if kProps.isUnqiue then
+    isUnqiue = kProps.isUnqiue
+  end
 
   m_leadersMet = m_leadersMet + 1
 
@@ -108,7 +112,9 @@ function AddLeader(iconName, playerID, kProps)
   m_uiLeadersByPortrait[uiPortraitButton] = uiLeader
 
   leaderIcon:UpdateIcon(iconName, playerID, isUnqiue)
-  leaderIcon:RegisterCallback(Mouse.eLClick, function() OnLeaderClicked(playerID) end)
+  leaderIcon:RegisterCallback(Mouse.eLClick, function()
+    OnLeaderClicked(playerID)
+  end)
 
   --[[ CUI: disable vanilla events
     -- If using focus, setup mouse in/out callbacks... otherwise clear them.
@@ -133,7 +139,9 @@ function AddLeader(iconName, playerID, kProps)
   LuaEvents.CuiLeaderIconToolTip(leaderIcon.Controls.Portrait, playerID)
   LuaEvents.CuiRelationshipToolTip(leaderIcon.Controls.Relationship, playerID, allianceData)
   --
-  uiLeader.LeaderContainer:RegisterSizeChanged(function(uiControl) OnLeaderSizeChanged(uiLeader) end)
+  uiLeader.LeaderContainer:RegisterSizeChanged(function(uiControl)
+    OnLeaderSizeChanged(uiLeader)
+  end)
 
   FinishAddingLeader(playerID, uiLeader, kProps)
 
@@ -148,24 +156,26 @@ end
 function FinishAddingLeader(playerID, uiLeader, kProps)
 
   local isMasked = false
-  if kProps.isMasked then isMasked = kProps.isMasked end
+  if kProps.isMasked then
+    isMasked = kProps.isMasked
+  end
 
   -- Show fields for enabled victory types.
   local isHideScore = isMasked or (not (Game.IsVictoryEnabled("VICTORY_SCORE") or (not HasCapability("VICTORY_SCORE"))))
-  local isHideMilitary = isMasked or
-                             (not Game.IsVictoryEnabled("VICTORY_CONQUEST") or
-                                 not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"))
+  local isHideMilitary = isMasked or (not Game.IsVictoryEnabled("VICTORY_CONQUEST") or
+                           not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"))
   local isHideScience = isMasked or
-                            (not HasCapability("CAPABILITY_SCIENCE") or
-                                not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"))
+                          (not HasCapability("CAPABILITY_SCIENCE") or
+                            not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"))
   local isHideCulture = isMasked or
-                            (not HasCapability("CAPABILITY_CULTURE") or
-                                not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"))
+                          (not HasCapability("CAPABILITY_CULTURE") or
+                            not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"))
   local isHideGold = isMasked or
-                         (not HasCapability("CAPABILITY_GOLD") or not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"))
+                       (not HasCapability("CAPABILITY_GOLD") or
+                         not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"))
   local isHideFaith = isMasked or
-                          (not HasCapability("CAPABILITY_RELIGION") or
-                              not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"))
+                        (not HasCapability("CAPABILITY_RELIGION") or
+                          not GameCapabilities.HasCapability("CAPABILITY_DISPLAY_TOP_PANEL_YIELDS"))
 
   uiLeader.Score:SetHide(isHideScore)
   uiLeader.Military:SetHide(isHideMilitary)
@@ -195,7 +205,9 @@ function UpdateLeaders()
   if localPlayerID ~= -1 then
     local localPlayer = Players[localPlayerID]
     local localDiplomacy = localPlayer:GetDiplomacy()
-    table.sort(kPlayers, function(a, b) return localDiplomacy:GetMetTurn(a:GetID()) < localDiplomacy:GetMetTurn(b:GetID()) end)
+    table.sort(kPlayers, function(a, b)
+      return localDiplomacy:GetMetTurn(a:GetID()) < localDiplomacy:GetMetTurn(b:GetID())
+    end)
 
     AddLeader("ICON_" .. PlayerConfigurations[localPlayerID]:GetLeaderTypeName(), localPlayerID, {}) -- First, add local player.
     kMetPlayers, kUniqueLeaders = GetMetPlayersAndUniqueLeaders() -- Fill table for other players.
@@ -226,7 +238,9 @@ function UpdateLeaders()
         local iconName = "ICON_LEADER_DEFAULT"
 
         -- If in an MP game and a player leaves the name returned will be NIL.
-        if isMet and (leaderName ~= nil) then iconName = "ICON_" .. leaderName end
+        if isMet and (leaderName ~= nil) then
+          iconName = "ICON_" .. leaderName
+        end
 
         AddLeader(iconName, playerID, {isMasked = isMasked, isUnique = isUnique})
       end
@@ -242,7 +256,9 @@ end
 -- ===========================================================================
 function RealizeSize(additionalElementsWidth)
 
-  if additionalElementsWidth == nil then additionalElementsWidth = 0 end
+  if additionalElementsWidth == nil then
+    additionalElementsWidth = 0
+  end
 
   local MIN_LEFT_HOOKS = 260
   local RIGHT_HOOKS_INITIAL = 163
@@ -275,7 +291,9 @@ function RealizeSize(additionalElementsWidth)
   local uiPartialScreenHookBar = ContextPtr:LookUpControl("/InGame/PartialScreenHooks/ButtonStack")
   local uiLaunchBar = ContextPtr:LookUpControl("/InGame/LaunchBar/ButtonStack")
 
-  if (uiLaunchBar ~= nil) then launchBarWidth = math.max(uiLaunchBar:GetSizeX() + WORLD_TRACKER_OFFSET, MIN_LEFT_HOOKS) end
+  if (uiLaunchBar ~= nil) then
+    launchBarWidth = math.max(uiLaunchBar:GetSizeX() + WORLD_TRACKER_OFFSET, MIN_LEFT_HOOKS)
+  end
   if (uiPartialScreenHookBar ~= nil) then
     if uiPartialScreenHookRoot and uiPartialScreenHookRoot:IsVisible() then
       partialScreenBarWidth = uiPartialScreenHookBar:GetSizeX()
@@ -327,9 +345,13 @@ function RealizeScroll()
 end
 
 -- ===========================================================================
-function CanScrollLeft() return m_scrollIndex > 0 end
+function CanScrollLeft()
+  return m_scrollIndex > 0
+end
 -- ===========================================================================
-function CanScrollRight() return m_leadersMet - m_scrollIndex > g_maxNumLeaders end
+function CanScrollRight()
+  return m_leadersMet - m_scrollIndex > g_maxNumLeaders
+end
 
 -- ===========================================================================
 --	Initialize scroll animation in a particular direction
@@ -339,7 +361,9 @@ function Scroll(direction)
   m_scrollPercent = 0
   m_scrollIndex = m_scrollIndex + direction
 
-  if (m_scrollIndex < 0) then m_scrollIndex = 0 end
+  if (m_scrollIndex < 0) then
+    m_scrollIndex = 0
+  end
 
   if (not m_isScrolling) then
     ContextPtr:SetUpdate(UpdateScroll)
@@ -378,7 +402,11 @@ end
 -- ===========================================================================
 --	SystemUpdateUI Callback
 -- ===========================================================================
-function OnUpdateUI(type, tag, iData1, iData2, strData1) if (type == SystemUpdateUI.ScreenResize) then RealizeSize() end end
+function OnUpdateUI(type, tag, iData1, iData2, strData1)
+  if (type == SystemUpdateUI.ScreenResize) then
+    RealizeSize()
+  end
+end
 
 -- ===========================================================================
 --	EVENT
@@ -395,7 +423,11 @@ function OnUserOptionChanged(eOptionSet, hOptionKey, newOptionValue)
     RealizeScroll()
 
     -- Play appropriate animations
-    for id, _ in pairs(m_kActiveIds) do if Players[id] and Players[id]:IsTurnActive() then OnTurnBegin(id) end end
+    for id, _ in pairs(m_kActiveIds) do
+      if Players[id] and Players[id]:IsTurnActive() then
+        OnTurnBegin(id)
+      end
+    end
   end
 end
 
@@ -409,7 +441,9 @@ function OnDiplomacyMeet(player1ID, player2ID)
   -- Have a local player?
   if (localPlayerID ~= -1) then
     -- Was the local player involved?
-    if (player1ID == localPlayerID or player2ID == localPlayerID) then UpdateLeaders() end
+    if (player1ID == localPlayerID or player2ID == localPlayerID) then
+      UpdateLeaders()
+    end
   end
 end
 
@@ -423,7 +457,9 @@ function OnDiplomacyWarStateChange(player1ID, player2ID)
   -- Have a local player?
   if (localPlayerID ~= -1) then
     -- Was the local player involved?
-    if (player1ID == localPlayerID or player2ID == localPlayerID) then UpdateLeaders() end
+    if (player1ID == localPlayerID or player2ID == localPlayerID) then
+      UpdateLeaders()
+    end
   end
 end
 
@@ -448,8 +484,12 @@ end
 --	EVENT
 -- ===========================================================================
 function OnInterfaceModeChanged(eOldMode, eNewMode)
-  if eNewMode == InterfaceModeTypes.VIEW_MODAL_LENS then ContextPtr:SetHide(true) end
-  if eOldMode == InterfaceModeTypes.VIEW_MODAL_LENS then ContextPtr:SetHide(false) end
+  if eNewMode == InterfaceModeTypes.VIEW_MODAL_LENS then
+    ContextPtr:SetHide(true)
+  end
+  if eOldMode == InterfaceModeTypes.VIEW_MODAL_LENS then
+    ContextPtr:SetHide(false)
+  end
 end
 
 -- ===========================================================================
@@ -490,9 +530,13 @@ function UpdateStatValues(playerID, uiLeader)
 
   -- Show or hide all stats based on options.
   if m_ribbonStats == RibbonHUDStats.SHOW then
-    if uiLeader.StatStack:IsHidden() or m_isIniting then ShowStats(uiLeader) end
+    if uiLeader.StatStack:IsHidden() or m_isIniting then
+      ShowStats(uiLeader)
+    end
   elseif m_ribbonStats == RibbonHUDStats.FOCUS or m_ribbonStats == RibbonHUDStats.HIDE then
-    if uiLeader.StatStack:IsVisible() or m_isIniting then HideStats(uiLeader) end
+    if uiLeader.StatStack:IsVisible() or m_isIniting then
+      HideStats(uiLeader)
+    end
   end
 
 end
@@ -506,7 +550,9 @@ function OnTurnBegin(playerID)
     UpdateStatValues(playerID, uiLeader)
 
     local localPlayerID = Game.GetLocalPlayer()
-    if (localPlayerID == PlayerTypes.NONE or localPlayerID == PlayerTypes.OBSERVER) then return end
+    if (localPlayerID == PlayerTypes.NONE or localPlayerID == PlayerTypes.OBSERVER) then
+      return
+    end
     -- Update the approripate animation (alpha vs slide) based on what mode is being used.
     if m_ribbonStats == RibbonHUDStats.SHOW then
       if (not (playerID == localPlayerID or Players[localPlayerID]:GetDiplomacy():HasMet(playerID))) then
@@ -524,7 +570,9 @@ function OnTurnBegin(playerID)
 
   -- Kluge: autoplay layout will frequently size ribbon before other panels and place it behind them in t he HUD.
   local isAutoPlay = (Game.GetLocalPlayer() == -1)
-  if isAutoPlay then RealizeSize() end
+  if isAutoPlay then
+    RealizeSize()
+  end
 
   m_kActiveIds[playerID] = true
   UpdateLeaders()
@@ -559,7 +607,9 @@ end
 -- ===========================================================================
 function OnLocalTurnBegin()
   local playerID = Game.GetLocalPlayer()
-  if playerID == -1 then return end
+  if playerID == -1 then
+    return
+  end
   OnTurnBegin(playerID)
 end
 
@@ -568,39 +618,56 @@ end
 -- ===========================================================================
 function OnLocalTurnEnd()
   local playerID = Game.GetLocalPlayer()
-  if playerID == -1 then return end
+  if playerID == -1 then
+    return
+  end
   OnTurnEnd(playerID)
 end
 
 -- ===========================================================================
 --	LUAEvent
 -- ===========================================================================
-function OnLaunchBarResized(width) RealizeSize() end
+function OnLaunchBarResized(width)
+  RealizeSize()
+end
 
 -- ===========================================================================
 --	UI Callback
 -- ===========================================================================
-function OnScrollLeft() if CanScrollLeft() then Scroll(-1) end end
+function OnScrollLeft()
+  if CanScrollLeft() then
+    Scroll(-1)
+  end
+end
 
 -- ===========================================================================
 --	UI Callback
 -- ===========================================================================
-function OnScrollRight() if CanScrollRight() then Scroll(1) end end
+function OnScrollRight()
+  if CanScrollRight() then
+    Scroll(1)
+  end
+end
 
 -- ===========================================================================
 function OnChatReceived(fromPlayer, stayOnScreen)
   local instance = m_uiLeadersByID[fromPlayer]
-  if instance == nil then return end
+  if instance == nil then
+    return
+  end
   if stayOnScreen then
     Controls.ChatIndicatorWaitTimer:Stop()
-    instance.ChatIndicatorFade:RegisterEndCallback(function() end)
+    instance.ChatIndicatorFade:RegisterEndCallback(function()
+    end)
     table.insert(m_uiChatIconsVisible, instance.ChatIndicatorFade)
   else
     Controls.ChatIndicatorWaitTimer:Stop()
 
     instance.ChatIndicatorFade:RegisterEndCallback(function()
       Controls.ChatIndicatorWaitTimer:RegisterEndCallback(function()
-        instance.ChatIndicatorFade:RegisterEndCallback(function() instance.ChatIndicatorFade:SetToBeginning() end)
+        instance.ChatIndicatorFade:RegisterEndCallback(function()
+          instance.ChatIndicatorFade:SetToBeginning()
+        end)
         instance.ChatIndicatorFade:Reverse()
       end)
       Controls.ChatIndicatorWaitTimer:SetToBeginning()
@@ -613,7 +680,9 @@ end
 -- ===========================================================================
 function OnChatPanelShown(fromPlayer, stayOnScreen)
   for _, chatIndicatorFade in ipairs(m_uiChatIconsVisible) do
-    chatIndicatorFade:RegisterEndCallback(function() chatIndicatorFade:SetToBeginning() end)
+    chatIndicatorFade:RegisterEndCallback(function()
+      chatIndicatorFade:SetToBeginning()
+    end)
     chatIndicatorFade:Reverse()
   end
   chatIndicatorFade = {}
@@ -642,7 +711,9 @@ function OnRefresh()
     local localPlayerID = Game.GetLocalPlayer()
     if localPlayerID ~= -1 and Players[localPlayerID]:IsTurnActive() then
       local uiLeader = m_uiLeadersByID[localPlayerID]
-      if uiLeader ~= nil then UpdateStatValues(localPlayerID, uiLeader) end
+      if uiLeader ~= nil then
+        UpdateStatValues(localPlayerID, uiLeader)
+      end
     end
   else
     UI.DataError("Attempt to refresh diplomacy ribbon stats but no event triggered the refresh!")
@@ -656,9 +727,13 @@ end
 -- ===========================================================================
 function OnTreasuryChanged(playerID, yield, balance)
   local uiLeader = m_uiLeadersByID[playerID]
-  if uiLeader ~= nil then UpdateStatValues(playerID, uiLeader) end
+  if uiLeader ~= nil then
+    UpdateStatValues(playerID, uiLeader)
+  end
   -- If refresh is pending for local player, it can be cleared.
-  if playerID == Game.GetLocalPlayer() and table.count(g_kRefreshRequesters) > 0 then ContextPtr:ClearRequestRefresh() end
+  if playerID == Game.GetLocalPlayer() and table.count(g_kRefreshRequesters) > 0 then
+    ContextPtr:ClearRequestRefresh()
+  end
 end
 
 -- ===========================================================================
@@ -674,27 +749,69 @@ end
 --	Define EVENT callback functions so they can be added/removed based on
 --	whether or not yield stats are being shown.
 -- ===========================================================================
-OnAnarchyBegins = function() OnLocalStatUpdateRequest("OnAnarchyBegins") end
-OnAnarchyEnds = function() OnLocalStatUpdateRequest("OnAnarchyEnds") end
-OnCityFocusChanged = function() OnLocalStatUpdateRequest("OnCityFocusChanged") end
-OnCityInitialized = function() OnLocalStatUpdateRequest("OnCityInitialized") end
-OnCityProductionChanged = function() OnLocalStatUpdateRequest("OnCityProductionChanged") end
-OnCityWorkerChanged = function() OnLocalStatUpdateRequest("OnCityWorkerChanged") end
-OnDiplomacySessionClosed = function() OnLocalStatUpdateRequest("OnDiplomacySessionClosed") end
-OnFaithChanged = function() OnLocalStatUpdateRequest("OnFaithChanged") end
-OnGovernmentChanged = function() OnLocalStatUpdateRequest("OnGovernmentChanged") end
-OnGovernmentPolicyChanged = function() OnLocalStatUpdateRequest("OnGovernmentPolicyChanged") end
-OnGovernmentPolicyObsoleted = function() OnLocalStatUpdateRequest("OnGovernmentPolicyObsoleted") end
-OnGreatWorkCreated = function() OnLocalStatUpdateRequest("OnGreatWorkCreated") end
-OnImprovementAddedToMap = function() OnLocalStatUpdateRequest("OnImprovementAddedToMap") end
-OnImprovementRemovedFromMap = function() OnLocalStatUpdateRequest("OnImprovementRemovedFromMap") end
-OnPantheonFounded = function() OnLocalStatUpdateRequest("OnPantheonFounded") end
-OnPlayerAgeChanged = function() OnLocalStatUpdateRequest("OnPlayerAgeChanged") end
-OnResearchCompleted = function() OnLocalStatUpdateRequest("OnResearchCompleted") end
-OnUnitAddedToMap = function() OnLocalStatUpdateRequest("OnUnitAddedToMap") end
-OnUnitGreatPersonActivated = function() OnLocalStatUpdateRequest("OnUnitGreatPersonActivated") end
-OnUnitKilledInCombat = function() OnLocalStatUpdateRequest("OnUnitKilledInCombat") end
-OnUnitRemovedFromMap = function() OnLocalStatUpdateRequest("OnUnitRemovedFromMap") end
+OnAnarchyBegins = function()
+  OnLocalStatUpdateRequest("OnAnarchyBegins")
+end
+OnAnarchyEnds = function()
+  OnLocalStatUpdateRequest("OnAnarchyEnds")
+end
+OnCityFocusChanged = function()
+  OnLocalStatUpdateRequest("OnCityFocusChanged")
+end
+OnCityInitialized = function()
+  OnLocalStatUpdateRequest("OnCityInitialized")
+end
+OnCityProductionChanged = function()
+  OnLocalStatUpdateRequest("OnCityProductionChanged")
+end
+OnCityWorkerChanged = function()
+  OnLocalStatUpdateRequest("OnCityWorkerChanged")
+end
+OnDiplomacySessionClosed = function()
+  OnLocalStatUpdateRequest("OnDiplomacySessionClosed")
+end
+OnFaithChanged = function()
+  OnLocalStatUpdateRequest("OnFaithChanged")
+end
+OnGovernmentChanged = function()
+  OnLocalStatUpdateRequest("OnGovernmentChanged")
+end
+OnGovernmentPolicyChanged = function()
+  OnLocalStatUpdateRequest("OnGovernmentPolicyChanged")
+end
+OnGovernmentPolicyObsoleted = function()
+  OnLocalStatUpdateRequest("OnGovernmentPolicyObsoleted")
+end
+OnGreatWorkCreated = function()
+  OnLocalStatUpdateRequest("OnGreatWorkCreated")
+end
+OnImprovementAddedToMap = function()
+  OnLocalStatUpdateRequest("OnImprovementAddedToMap")
+end
+OnImprovementRemovedFromMap = function()
+  OnLocalStatUpdateRequest("OnImprovementRemovedFromMap")
+end
+OnPantheonFounded = function()
+  OnLocalStatUpdateRequest("OnPantheonFounded")
+end
+OnPlayerAgeChanged = function()
+  OnLocalStatUpdateRequest("OnPlayerAgeChanged")
+end
+OnResearchCompleted = function()
+  OnLocalStatUpdateRequest("OnResearchCompleted")
+end
+OnUnitAddedToMap = function()
+  OnLocalStatUpdateRequest("OnUnitAddedToMap")
+end
+OnUnitGreatPersonActivated = function()
+  OnLocalStatUpdateRequest("OnUnitGreatPersonActivated")
+end
+OnUnitKilledInCombat = function()
+  OnLocalStatUpdateRequest("OnUnitKilledInCombat")
+end
+OnUnitRemovedFromMap = function()
+  OnLocalStatUpdateRequest("OnUnitRemovedFromMap")
+end
 
 -- ===========================================================================
 function SubscribeYieldEvents()
@@ -760,7 +877,9 @@ function RealizeYieldEvents()
     end
     UnsubscribeYieldEvents()
   else
-    if m_isYieldsSubscribed then return end -- Already subscribed.
+    if m_isYieldsSubscribed then
+      return
+    end -- Already subscribed.
     SubscribeYieldEvents()
   end
 end
@@ -769,7 +888,9 @@ end
 --	CALLBACK
 -- ===========================================================================
 function OnShutdown()
-  if m_isYieldsSubscribed then UnsubscribeYieldEvents() end
+  if m_isYieldsSubscribed then
+    UnsubscribeYieldEvents()
+  end
 
   Events.DiplomacyDeclareWar.Remove(OnDiplomacyWarStateChange)
   Events.DiplomacyMakePeace.Remove(OnDiplomacyWarStateChange)
@@ -843,7 +964,9 @@ function OnInit(isReload)
   m_isIniting = false
 
   local localPlayerID = Game.GetLocalPlayer()
-  if localPlayerID ~= -1 and Players[localPlayerID]:IsTurnActive() then OnLocalTurnBegin() end
+  if localPlayerID ~= -1 and Players[localPlayerID]:IsTurnActive() then
+    OnLocalTurnBegin()
+  end
 end
 
 -- ===========================================================================

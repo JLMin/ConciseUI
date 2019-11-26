@@ -29,15 +29,25 @@ SupportInit()
 function GetVictoryTypes()
   local victoryTypes = {}
 
-  if Game.IsVictoryEnabled("VICTORY_TECHNOLOGY") then table.insert(victoryTypes, "SCIENCE") end
+  if Game.IsVictoryEnabled("VICTORY_TECHNOLOGY") then
+    table.insert(victoryTypes, "SCIENCE")
+  end
 
-  if Game.IsVictoryEnabled("VICTORY_CULTURE") then table.insert(victoryTypes, "CULTURE") end
+  if Game.IsVictoryEnabled("VICTORY_CULTURE") then
+    table.insert(victoryTypes, "CULTURE")
+  end
 
-  if Game.IsVictoryEnabled("VICTORY_CONQUEST") then table.insert(victoryTypes, "DOMINATION") end
+  if Game.IsVictoryEnabled("VICTORY_CONQUEST") then
+    table.insert(victoryTypes, "DOMINATION")
+  end
 
-  if Game.IsVictoryEnabled("VICTORY_RELIGIOUS") then table.insert(victoryTypes, "RELIGION") end
+  if Game.IsVictoryEnabled("VICTORY_RELIGIOUS") then
+    table.insert(victoryTypes, "RELIGION")
+  end
 
-  if Game.IsVictoryEnabled("VICTORY_DIPLOMATIC") then table.insert(victoryTypes, "DIPLOMATIC") end
+  if Game.IsVictoryEnabled("VICTORY_DIPLOMATIC") then
+    table.insert(victoryTypes, "DIPLOMATIC")
+  end
 
   return victoryTypes
 end
@@ -62,8 +72,14 @@ function GetScienceData()
   -- sort
   local comparator = function(t, a, b)
     local n = #t[a].cmp
-    for i = n, 1, -1 do if t[a].cmp[i] ~= t[b].cmp[i] then return t[a].cmp[i] > t[b].cmp[i] end end
-    if t[a].techs ~= t[b].techs then return t[a].techs > t[b].techs end
+    for i = n, 1, -1 do
+      if t[a].cmp[i] ~= t[b].cmp[i] then
+        return t[a].cmp[i] > t[b].cmp[i]
+      end
+    end
+    if t[a].techs ~= t[b].techs then
+      return t[a].techs > t[b].techs
+    end
     return t[a].scienceY > t[b].scienceY
   end
 
@@ -229,7 +245,8 @@ function GetGSScienceCustomData(playerID) -- science victory Gathering Storm
       if progress >= 100 then
         progresses[5] = "[ICON_Checkmark][ICON_Checkmark][ICON_Checkmark][ICON_Checkmark][ICON_Checkmark]"
       else
-        progresses[5] = lightYears .. "([COLOR_ModStatusGreen]+" .. lightYearsPerTurn .. "[ENDCOLOR]) / " .. totalLightYears
+        progresses[5] = lightYears .. "([COLOR_ModStatusGreen]+" .. lightYearsPerTurn .. "[ENDCOLOR]) / " ..
+                          totalLightYears
       end
       pValue[5] = progress
     end
@@ -257,8 +274,12 @@ function GetCultureData()
   local comparator = function(t, a, b)
     local aPercent = t[a].visiter / t[a].tourists
     local bPercent = t[b].visiter / t[b].tourists
-    if aPercent ~= bPercent then return aPercent > bPercent end
-    if t[a].tourism ~= t[b].tourism then return t[a].tourism > t[b].tourism end
+    if aPercent ~= bPercent then
+      return aPercent > bPercent
+    end
+    if t[a].tourism ~= t[b].tourism then
+      return t[a].tourism > t[b].tourism
+    end
     return t[a].cultureY > t[b].cultureY
   end
 
@@ -273,7 +294,9 @@ function GetCultureCustomData(playerID)
   for i, player in ipairs(Players) do
     if i ~= playerID and IsAliveAndMajor(i) and player:GetTeam() ~= pPlayer:GetTeam() then
       local iStaycationers = player:GetCulture():GetStaycationers()
-      if iStaycationers >= requiredTourists then requiredTourists = iStaycationers + 1 end
+      if iStaycationers >= requiredTourists then
+        requiredTourists = iStaycationers + 1
+      end
     end
   end
   data.visiter = pPlayer:GetCulture():GetTouristsTo()
@@ -297,7 +320,9 @@ function GetDominationData()
 
   -- sort
   local comparator = function(t, a, b)
-    if t[a].capture ~= t[b].capture then return t[a].capture > t[b].capture end
+    if t[a].capture ~= t[b].capture then
+      return t[a].capture > t[b].capture
+    end
     return t[a].strength > t[b].strength
   end
 
@@ -314,7 +339,9 @@ function GetMilitaryCustomData(playerID)
     cities = cities + 1
     local originalOwnerID = city:GetOriginalOwner()
     local pOriginalOwner = Players[originalOwnerID]
-    if (playerID ~= originalOwnerID and pOriginalOwner:IsMajor() and city:IsOriginalCapital()) then capitals = capitals + 1 end
+    if (playerID ~= originalOwnerID and pOriginalOwner:IsMajor() and city:IsOriginalCapital()) then
+      capitals = capitals + 1
+    end
   end
   data.cities = cities
   data.capture = capitals
@@ -337,7 +364,9 @@ function GetReligionData()
 
   -- sort
   local comparator = function(t, a, b)
-    if t[a].convert ~= t[b].convert then return t[a].convert > t[b].convert end
+    if t[a].convert ~= t[b].convert then
+      return t[a].convert > t[b].convert
+    end
     return t[a].faithY > t[b].faithY
   end
 
@@ -358,7 +387,9 @@ function GetReligionCustomData(playerID)
         local otherReligion = otherPlayer:GetReligion()
         if otherReligion ~= nil then
           local otherReligionType = otherReligion:GetReligionInMajorityOfCities()
-          if otherReligionType == playerReligionType then convertCount = convertCount + 1 end
+          if otherReligionType == playerReligionType then
+            convertCount = convertCount + 1
+          end
         end
       end
     end
@@ -385,8 +416,12 @@ function GetDiplomaticData()
 
   -- sort
   local comparator = function(t, a, b)
-    if t[a].current ~= t[b].current then return t[a].current > t[b].current end
-    if t[a].favor ~= t[b].favor then return t[a].favor > t[b].favor end
+    if t[a].current ~= t[b].current then
+      return t[a].current > t[b].current
+    end
+    if t[a].favor ~= t[b].favor then
+      return t[a].favor > t[b].favor
+    end
     return t[a].favorPT > t[b].favorPT
   end
 
@@ -434,12 +469,16 @@ function GetVictoryLeader(playerData, comparator)
   local localRank = 0
   for id, leader in SortedTable(playerData, comparator) do
     rank = rank + 1
-    if rank < 4 then table.insert(sortedLeader, leader) end
+    if rank < 4 then
+      table.insert(sortedLeader, leader)
+    end
     if id == localPlayerID then
       localLeader = leader
       localRank = rank
     end
   end
-  if localRank > 3 then table.insert(sortedLeader, localLeader) end
+  if localRank > 3 then
+    table.insert(sortedLeader, localLeader)
+  end
   return sortedLeader, localRank
 end

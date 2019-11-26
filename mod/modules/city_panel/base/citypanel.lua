@@ -97,7 +97,9 @@ local m_PrevInterfaceMode = InterfaceModeTypes.SELECTION
 -- ===========================================================================
 --
 -- ===========================================================================
-function Close() ContextPtr:SetHide(true) end
+function Close()
+  ContextPtr:SetHide(true)
+end
 
 -- ===========================================================================
 --	Helper, display the 3-way state of a yield based on the enum.
@@ -225,7 +227,7 @@ function ViewMain(data)
   local tooltip = Locale.Lookup("LOC_HUD_UNIT_PANEL_HEALTH_TOOLTIP", data.HitpointsCurrent, data.HitpointsTotal)
   if (data.CityWallTotalHP > 0) then
     tooltip = tooltip .. "[NEWLINE]" ..
-                  Locale.Lookup("LOC_HUD_UNIT_PANEL_WALL_HEALTH_TOOLTIP", data.CityWallCurrentHP, data.CityWallTotalHP)
+                Locale.Lookup("LOC_HUD_UNIT_PANEL_WALL_HEALTH_TOOLTIP", data.CityWallCurrentHP, data.CityWallTotalHP)
   end
   Controls.CityHealthMeters:SetToolTipString(tooltip)
 
@@ -295,7 +297,9 @@ function ViewMain(data)
   end
 
   local amenitiesNumText = data.AmenitiesNetAmount
-  if (data.AmenitiesNetAmount > 0) then amenitiesNumText = "+" .. amenitiesNumText end
+  if (data.AmenitiesNetAmount > 0) then
+    amenitiesNumText = "+" .. amenitiesNumText
+  end
   Controls.AmenitiesNum:SetText(amenitiesNumText)
   local colorName = GetHappinessColor(data.Happiness)
   Controls.AmenitiesNum:SetColorByName(colorName)
@@ -347,11 +351,13 @@ function ViewMain(data)
     Controls.GrowthLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_HUD_CITY_TURNS_UNTIL_GROWTH", data.TurnsUntilGrowth)))
   else
     Controls.GrowthLabel:SetColorByName("StatBadCS")
-    Controls.GrowthLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_HUD_CITY_TURNS_UNTIL_LOSS", math.abs(data.TurnsUntilGrowth))))
+    Controls.GrowthLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_HUD_CITY_TURNS_UNTIL_LOSS",
+                                                              math.abs(data.TurnsUntilGrowth))))
   end
 
   widthNumLabel = Controls.GrowthNum:GetSizeX()
-  TruncateStringWithTooltip(Controls.GrowthLabel, MAX_BEFORE_TRUNC_TURN_LABELS - widthNumLabel, Controls.GrowthLabel:GetText())
+  TruncateStringWithTooltip(Controls.GrowthLabel, MAX_BEFORE_TRUNC_TURN_LABELS - widthNumLabel,
+                            Controls.GrowthLabel:GetText())
 
   -- Production
   Controls.ProductionTurns:SetHide(m_isShowingPanels)
@@ -362,7 +368,9 @@ function ViewMain(data)
 
   Controls.ProductionDescriptionString:SetText(data.CurrentProductionDescription)
   -- Controls.ProductionDescription:SetText( "There was a young lady from Venus, who's body was shaped like a, THAT'S ENOUGH DATA." );
-  if (data.CurrentProductionStats ~= "") then Controls.ProductionStatString:SetText(data.CurrentProductionStats) end
+  if (data.CurrentProductionStats ~= "") then
+    Controls.ProductionStatString:SetText(data.CurrentProductionStats)
+  end
   Controls.ProductionDataStack:CalculateSize()
   Controls.ProductionDataScroll:CalculateSize()
 
@@ -382,15 +390,21 @@ function ViewMain(data)
     Controls.ProductionLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_HUD_CITY_NOTHING_PRODUCED")))
     widthNumLabel = 0
   else
-    Controls.ProductionLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_HUD_CITY_TURNS_UNTIL_COMPLETED", data.CurrentTurnsLeft)))
+    Controls.ProductionLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_HUD_CITY_TURNS_UNTIL_COMPLETED",
+                                                                  data.CurrentTurnsLeft)))
     widthNumLabel = Controls.ProductionNum:GetSizeX()
   end
 
-  TruncateStringWithTooltip(Controls.ProductionLabel, MAX_BEFORE_TRUNC_TURN_LABELS - widthNumLabel, Controls.ProductionLabel:GetText())
+  TruncateStringWithTooltip(Controls.ProductionLabel, MAX_BEFORE_TRUNC_TURN_LABELS - widthNumLabel,
+                            Controls.ProductionLabel:GetText())
 
   -- Tutorial lockdown
   if m_kTutorialDisabledControls ~= nil then
-    for _, name in ipairs(m_kTutorialDisabledControls) do if Controls[name] ~= nil then Controls[name]:SetDisabled(true) end end
+    for _, name in ipairs(m_kTutorialDisabledControls) do
+      if Controls[name] ~= nil then
+        Controls[name]:SetDisabled(true)
+      end
+    end
   end
 
 end
@@ -401,8 +415,12 @@ end
 function GetHappinessColor(eHappiness)
   local happinessInfo = GameInfo.Happinesses[eHappiness]
   if (happinessInfo ~= nil) then
-    if (happinessInfo.GrowthModifier < 0) then return "StatBadCS" end
-    if (happinessInfo.GrowthModifier > 0) then return "StatGoodCS" end
+    if (happinessInfo.GrowthModifier < 0) then
+      return "StatBadCS"
+    end
+    if (happinessInfo.GrowthModifier > 0) then
+      return "StatGoodCS"
+    end
   end
   return "StatNormalCS"
 end
@@ -411,14 +429,22 @@ end
 --	Return ColorSet name
 -- ===========================================================================
 function GetTurnsUntilGrowthColor(turns)
-  if turns < 1 then return "StatBadCS" end
+  if turns < 1 then
+    return "StatBadCS"
+  end
   return "StatGoodCS"
 end
 
 function GetPercentGrowthColor(percent)
-  if percent == 0 then return "Error" end
-  if percent <= 0.25 then return "WarningMajor" end
-  if percent <= 0.5 then return "WarningMinor" end
+  if percent == 0 then
+    return "Error"
+  end
+  if percent <= 0.25 then
+    return "WarningMajor"
+  end
+  if percent <= 0.5 then
+    return "WarningMinor"
+  end
   return "StatNormalCS"
 end
 
@@ -433,7 +459,9 @@ function SetYieldFocus(yieldType)
   if pCitizens:IsFavoredYield(yieldType) then
     tParameters[CityCommandTypes.PARAM_DATA0] = 0 -- boolean (1=true, 0=false)
   else
-    if pCitizens:IsDisfavoredYield(yieldType) then SetYieldIgnore(yieldType) end
+    if pCitizens:IsDisfavoredYield(yieldType) then
+      SetYieldIgnore(yieldType)
+    end
     tParameters[CityCommandTypes.PARAM_DATA0] = 1 -- boolean (1=true, 0=false)
   end
   CityManager.RequestCommand(g_pCity, CityCommandTypes.SET_FOCUS, tParameters)
@@ -450,7 +478,9 @@ function SetYieldIgnore(yieldType)
   if pCitizens:IsDisfavoredYield(yieldType) then
     tParameters[CityCommandTypes.PARAM_DATA0] = 0 -- boolean (1=true, 0=false)
   else
-    if (pCitizens:IsFavoredYield(yieldType)) then SetYieldFocus(yieldType) end
+    if (pCitizens:IsFavoredYield(yieldType)) then
+      SetYieldFocus(yieldType)
+    end
     tParameters[CityCommandTypes.PARAM_DATA0] = 1 -- boolean (1=true, 0=false)
   end
   CityManager.RequestCommand(g_pCity, CityCommandTypes.SET_FOCUS, tParameters)
@@ -466,7 +496,9 @@ function Refresh()
 
   if m_pPlayer ~= nil and g_pCity ~= nil then
     m_kData = GetCityData(g_pCity)
-    if m_kData == nil then return end
+    if m_kData == nil then
+      return
+    end
 
     ViewMain(m_kData)
 
@@ -480,7 +512,9 @@ end
 
 -- ===========================================================================
 function RefreshIfMatch(ownerPlayerID, cityID)
-  if g_pCity ~= nil and ownerPlayerID == g_pCity:GetOwner() and cityID == g_pCity:GetID() then Refresh() end
+  if g_pCity ~= nil and ownerPlayerID == g_pCity:GetOwner() and cityID == g_pCity:GetID() then
+    Refresh()
+  end
 end
 
 -- ===========================================================================
@@ -512,19 +546,25 @@ end
 --	GAME Event
 --	Yield changes
 -- ===========================================================================
-function OnCityFocusChange(ownerPlayerID, cityID) RefreshIfMatch(ownerPlayerID, cityID) end
+function OnCityFocusChange(ownerPlayerID, cityID)
+  RefreshIfMatch(ownerPlayerID, cityID)
+end
 
 -- ===========================================================================
 --	GAME Event
 -- ===========================================================================
-function OnCityWorkerChanged(ownerPlayerID, cityID) RefreshIfMatch(ownerPlayerID, cityID) end
+function OnCityWorkerChanged(ownerPlayerID, cityID)
+  RefreshIfMatch(ownerPlayerID, cityID)
+end
 
 -- ===========================================================================
 --	GAME Event
 -- ===========================================================================
 function OnCityProductionChanged(ownerPlayerID, cityID)
   -- CUI
-  if Controls.ChangeProductionCheck:IsChecked() then Controls.ChangeProductionCheck:SetCheck(false) end
+  if Controls.ChangeProductionCheck:IsChecked() then
+    Controls.ChangeProductionCheck:SetCheck(false)
+  end
   --
   RefreshIfMatch(ownerPlayerID, cityID)
 end
@@ -532,18 +572,24 @@ end
 -- ===========================================================================
 --	GAME Event
 -- ===========================================================================
-function OnCityProductionCompleted(ownerPlayerID, cityID) RefreshIfMatch(ownerPlayerID, cityID) end
+function OnCityProductionCompleted(ownerPlayerID, cityID)
+  RefreshIfMatch(ownerPlayerID, cityID)
+end
 
 -- ===========================================================================
 --	GAME Event
 -- ===========================================================================
-function OnCityProductionUpdated(ownerPlayerID, cityID, eProductionType, eProductionObject) RefreshIfMatch(ownerPlayerID, cityID) end
+function OnCityProductionUpdated(ownerPlayerID, cityID, eProductionType, eProductionObject)
+  RefreshIfMatch(ownerPlayerID, cityID)
+end
 
 -- ===========================================================================
 --	GAME Event
 -- ===========================================================================
 function OnPlayerResourceChanged(ownerPlayerID, resourceTypeID)
-  if (Game.GetLocalPlayer() ~= nil and ownerPlayerID == Game.GetLocalPlayer()) then Refresh() end
+  if (Game.GetLocalPlayer() ~= nil and ownerPlayerID == Game.GetLocalPlayer()) then
+    Refresh()
+  end
 end
 
 -- ===========================================================================
@@ -575,7 +621,9 @@ function OnCitySelectionChanged(ownerPlayerID, cityID, i, j, k, isSelected, isEd
         local siloPlot = Map.GetPlot(siloPlotX, siloPlotY)
         if siloPlot then
           local owningCity = Cities.GetPlotPurchaseCity(siloPlot)
-          if owningCity:GetID() == cityID then shouldSwitchToSelection = false end
+          if owningCity:GetID() == cityID then
+            shouldSwitchToSelection = false
+          end
         end
       end
       if UI.GetInterfaceMode() == InterfaceModeTypes.CITY_RANGE_ATTACK then
@@ -588,7 +636,9 @@ function OnCitySelectionChanged(ownerPlayerID, cityID, i, j, k, isSelected, isEd
           UI.SetInterfaceMode(InterfaceModeTypes.CITY_RANGE_ATTACK)
         end
       end
-      if shouldSwitchToSelection then UI.SetInterfaceMode(InterfaceModeTypes.SELECTION) end
+      if shouldSwitchToSelection then
+        UI.SetInterfaceMode(InterfaceModeTypes.SELECTION)
+      end
 
       OnToggleOverviewPanel()
       ContextPtr:SetHide(false)
@@ -596,7 +646,9 @@ function OnCitySelectionChanged(ownerPlayerID, cityID, i, j, k, isSelected, isEd
       -- Handle case where production panel is opened from clicking a city banener directly.
       local isProductionOpen = false
       local uiProductionPanel = ContextPtr:LookUpControl("/InGame/ProductionPanel")
-      if uiProductionPanel and uiProductionPanel:IsHidden() == false then isProductionOpen = true end
+      if uiProductionPanel and uiProductionPanel:IsHidden() == false then
+        isProductionOpen = true
+      end
       if isProductionOpen then
         AnimateToWithProductionQueue()
       else
@@ -604,7 +656,9 @@ function OnCitySelectionChanged(ownerPlayerID, cityID, i, j, k, isSelected, isEd
       end
 
       Refresh()
-      if UI.GetInterfaceMode() == InterfaceModeTypes.CITY_MANAGEMENT then DisplayGrowthTile() end
+      if UI.GetInterfaceMode() == InterfaceModeTypes.CITY_MANAGEMENT then
+        DisplayGrowthTile()
+      end
     else
       Close()
       -- Tell the CityPanelOverview a city was deselected
@@ -627,7 +681,9 @@ end
 function AnimateToWithProductionQueue()
   if IsRoomToPushOutPanel() then
     Controls.CityPanelSlide:SetEndVal(ANIM_OFFSET_OPEN_WITH_PRODUCTION_LIST, 0)
-    Controls.CityPanelSlide:RegisterEndCallback(function() Controls.CityPanelSlide:SetBeginVal(ANIM_OFFSET_OPEN_WITH_PRODUCTION_LIST, 0) end)
+    Controls.CityPanelSlide:RegisterEndCallback(function()
+      Controls.CityPanelSlide:SetBeginVal(ANIM_OFFSET_OPEN_WITH_PRODUCTION_LIST, 0)
+    end)
     Controls.CityPanelSlide:SetToBeginning()
     Controls.CityPanelSlide:Play()
   end
@@ -637,7 +693,9 @@ end
 function AnimateToOpenFromWithProductionQueue()
   if IsRoomToPushOutPanel() then
     Controls.CityPanelSlide:SetEndVal(ANIM_OFFSET_OPEN, 0)
-    Controls.CityPanelSlide:RegisterEndCallback(function() Controls.CityPanelSlide:SetBeginVal(ANIM_OFFSET_OPEN, 0) end)
+    Controls.CityPanelSlide:RegisterEndCallback(function()
+      Controls.CityPanelSlide:SetBeginVal(ANIM_OFFSET_OPEN, 0)
+    end)
     Controls.CityPanelSlide:SetToBeginning()
     Controls.CityPanelSlide:Play()
   end
@@ -680,7 +738,9 @@ end
 -- ===========================================================================
 function OnInit(isHotload)
   LateInitialize()
-  if isHotload then LuaEvents.GameDebug_GetValues("CityPanel") end
+  if isHotload then
+    LuaEvents.GameDebug_GetValues("CityPanel")
+  end
   m_isInitializing = false
   Refresh()
 end
@@ -726,7 +786,9 @@ end
 -- ===========================================================================
 function OnGameDebugReturn(context, contextTable)
   function RunWithNoError()
-    if context ~= "CityPanel" or contextTable == nil then return end
+    if context ~= "CityPanel" or contextTable == nil then
+      return
+    end
     local isHidden = contextTable["isHidden"]
     ContextPtr:SetHide(isHidden)
   end
@@ -749,7 +811,9 @@ end
 -- ===========================================================================
 --	LUA Event
 -- ===========================================================================
-function OnProductionPanelOpen() AnimateToWithProductionQueue() end
+function OnProductionPanelOpen()
+  AnimateToWithProductionQueue()
+end
 
 -- ===========================================================================
 --	LUA Event
@@ -760,16 +824,24 @@ function OnTutorialOpen()
 end
 
 -- ===========================================================================
-function OnBreakdown() LuaEvents.CityPanel_ShowBreakdownTab() end
+function OnBreakdown()
+  LuaEvents.CityPanel_ShowBreakdownTab()
+end
 
 -- ===========================================================================
-function OnReligion() LuaEvents.CityPanel_ShowReligionTab() end
+function OnReligion()
+  LuaEvents.CityPanel_ShowReligionTab()
+end
 
 -- ===========================================================================
-function OnAmenities() LuaEvents.CityPanel_ShowAmenitiesTab() end
+function OnAmenities()
+  LuaEvents.CityPanel_ShowAmenitiesTab()
+end
 
 -- ===========================================================================
-function OnHousing() LuaEvents.CityPanel_ShowHousingTab() end
+function OnHousing()
+  LuaEvents.CityPanel_ShowHousingTab()
+end
 
 -- ===========================================================================
 -- function OnCheckQueue()
@@ -781,7 +853,9 @@ function OnHousing() LuaEvents.CityPanel_ShowHousingTab() end
 --	Refresh();
 -- end
 -- ===========================================================================
-function OnCitizensGrowth() LuaEvents.CityPanel_ShowCitizensTab() end
+function OnCitizensGrowth()
+  LuaEvents.CityPanel_ShowCitizensTab()
+end
 
 -- ===========================================================================
 --	Set a yield to one of 3 check states.
@@ -789,7 +863,9 @@ function OnCitizensGrowth() LuaEvents.CityPanel_ShowCitizensTab() end
 --	yieldName	Name of the yield used in the UI controls
 -- ===========================================================================
 function OnCheckYield(yieldType, yieldName)
-  if Controls.YieldsArea:IsDisabled() then return end -- Via tutorial event
+  if Controls.YieldsArea:IsDisabled() then
+    return
+  end -- Via tutorial event
   if Controls[yieldName .. "Check"]:IsChecked() then
     SetYieldFocus(yieldType)
   else
@@ -805,7 +881,9 @@ end
 --	yieldName	Name of the yield used in the UI controls
 -- ===========================================================================
 function OnResetYieldToNormal(yieldType, yieldName)
-  if Controls.YieldsArea:IsDisabled() then return end -- Via tutorial event
+  if Controls.YieldsArea:IsDisabled() then
+    return
+  end -- Via tutorial event
   Controls[yieldName .. "Ignore"]:SetHide(true)
   Controls[yieldName .. "Check"]:SetDisabled(false)
   SetYieldIgnore(yieldType) -- One more ignore to flip it off
@@ -845,7 +923,9 @@ function CuiOnToggleManageTile()
     CuiForceHideCityBanner()
     RecenterCameraOnCity()
     UILens.ToggleLayerOn(m_CitizenManagement)
-    if GameCapabilities.HasCapability("CAPABILITY_GOLD") then UILens.ToggleLayerOn(m_PurchasePlot) end
+    if GameCapabilities.HasCapability("CAPABILITY_GOLD") then
+      UILens.ToggleLayerOn(m_PurchasePlot)
+    end
   else
     UI.SetInterfaceMode(InterfaceModeTypes.SELECTION)
     CuiForceShowCityBanner()
@@ -918,7 +998,9 @@ function OnTogglePurchaseWithFaith()
 end
 
 -- ===========================================================================
-function OnCloseOverviewPanel() Controls.ToggleOverviewPanel:SetCheck(false) end
+function OnCloseOverviewPanel()
+  Controls.ToggleOverviewPanel:SetCheck(false)
+end
 -- ===========================================================================
 --	Turn on/off layers and switch the interface mode based on what is checked.
 --	Interface mode is changed first as the Lens system may inquire as to the
@@ -942,7 +1024,9 @@ function OnToggleManageCitizens()
 end
 
 -- ===========================================================================
-function OnLocalPlayerTurnBegin() Refresh() end
+function OnLocalPlayerTurnBegin()
+  Refresh()
+end
 
 -- ===========================================================================
 --	Enable a control unless it's in the tutorial lock down list.
@@ -993,10 +1077,12 @@ function DisplayGrowthTile()
 
         UILens.SetLayerGrowthHex(m_PurchasePlot, Game.GetLocalPlayer(), g_growthPlotId, 1, "GrowthHexBG")
         UILens.SetLayerGrowthHex(m_PurchasePlot, Game.GetLocalPlayer(), g_growthPlotId, nextTurnGrowth, "GrowthHexNext")
-        UILens.SetLayerGrowthHex(m_PurchasePlot, Game.GetLocalPlayer(), g_growthPlotId, currentGrowth, "GrowthHexCurrent")
+        UILens.SetLayerGrowthHex(m_PurchasePlot, Game.GetLocalPlayer(), g_growthPlotId, currentGrowth,
+                                 "GrowthHexCurrent")
 
         local turnsRemaining = cityCulture:GetTurnsUntilExpansion()
-        Controls.TurnsLeftDescription:SetText(Locale.ToUpper(Locale.Lookup("LOC_HUD_CITY_TURNS_UNTIL_BORDER_GROWTH", turnsRemaining)))
+        Controls.TurnsLeftDescription:SetText(Locale.ToUpper(
+                                                Locale.Lookup("LOC_HUD_CITY_TURNS_UNTIL_BORDER_GROWTH", turnsRemaining)))
         Controls.TurnsLeftLabel:SetText(turnsRemaining)
         Controls.GrowthHexStack:CalculateSize()
         g_growthHexTextWidth = Controls.GrowthHexStack:GetSizeX()
@@ -1039,10 +1125,14 @@ function OnProductionPanelListModeChanged(listMode)
 end
 
 -- ===========================================================================
-function OnCityPanelSetOverViewState(isOpened) Controls.ToggleOverviewPanel:SetCheck(isOpened) end
+function OnCityPanelSetOverViewState(isOpened)
+  Controls.ToggleOverviewPanel:SetCheck(isOpened)
+end
 
 -- ===========================================================================
-function OnCityPanelToggleManageCitizens() Controls.ManageCitizensCheck:SetAndCall(not Controls.ManageCitizensCheck:IsChecked()) end
+function OnCityPanelToggleManageCitizens()
+  Controls.ManageCitizensCheck:SetAndCall(not Controls.ManageCitizensCheck:IsChecked())
+end
 
 -- ===========================================================================
 --	GAME Event
@@ -1053,7 +1143,9 @@ function OnInterfaceModeChanged(eOldMode, eNewMode)
 
   if eOldMode == InterfaceModeTypes.CITY_MANAGEMENT then
     -- CUI: combine buttons.
-    if Controls.ManageTileCheck:IsChecked() then Controls.ManageTileCheck:SetAndCall(false) end
+    if Controls.ManageTileCheck:IsChecked() then
+      Controls.ManageTileCheck:SetAndCall(false)
+    end
     -- if Controls.PurchaseTileCheck:IsChecked()   then Controls.PurchaseTileCheck:SetAndCall( false ); end
     -- if Controls.ManageCitizensCheck:IsChecked() then Controls.ManageCitizensCheck:SetAndCall( false ); end
     --
@@ -1063,13 +1155,19 @@ function OnInterfaceModeChanged(eOldMode, eNewMode)
     HideGrowthTile()
   end
 
-  if eNewMode == InterfaceModeTypes.CITY_MANAGEMENT then DisplayGrowthTile() end
+  if eNewMode == InterfaceModeTypes.CITY_MANAGEMENT then
+    DisplayGrowthTile()
+  end
 
   if eNewMode == InterfaceModeTypes.CITY_RANGE_ATTACK or eNewMode == InterfaceModeTypes.DISTRICT_RANGE_ATTACK then
-    if ContextPtr:IsHidden() == false then Close() end
+    if ContextPtr:IsHidden() == false then
+      Close()
+    end
   elseif eOldMode == InterfaceModeTypes.CITY_RANGE_ATTACK or eOldMode == InterfaceModeTypes.DISTRICT_RANGE_ATTACK then
     -- If we leave CITY_RANGE_ATTACK with a city selected then show the city panel again
-    if UI.GetHeadSelectedCity() then ContextPtr:SetHide(false) end
+    if UI.GetHeadSelectedCity() then
+      ContextPtr:SetHide(false)
+    end
   end
 
   if eNewMode == InterfaceModeTypes.SELECTION or eNewMode == InterfaceModeTypes.CITY_MANAGEMENT then
@@ -1096,7 +1194,9 @@ function OnInterfaceModeChanged(eOldMode, eNewMode)
       local districtHash = UI.GetInterfaceModeParameter(CityOperationTypes.PARAM_DISTRICT_TYPE)
       local district = GameInfo.Districts[districtHash]
       local kPlot = Map.GetPlotByIndex(newGrowthPlot)
-      if kPlot:CanHaveDistrict(district.Index, g_pCity:GetOwner(), g_pCity:GetID()) then DisplayGrowthTile() end
+      if kPlot:CanHaveDistrict(district.Index, g_pCity:GetOwner(), g_pCity:GetID()) then
+        DisplayGrowthTile()
+      end
     end
 
   elseif eNewMode == InterfaceModeTypes.BUILDING_PLACEMENT then
@@ -1105,11 +1205,15 @@ function OnInterfaceModeChanged(eOldMode, eNewMode)
       local buildingHash = UI.GetInterfaceModeParameter(CityOperationTypes.PARAM_BUILDING_TYPE)
       local building = GameInfo.Buildings[buildingHash]
       local kPlot = Map.GetPlotByIndex(newGrowthPlot)
-      if kPlot:CanHaveWonder(building.Index, g_pCity:GetOwner(), g_pCity:GetID()) then DisplayGrowthTile() end
+      if kPlot:CanHaveWonder(building.Index, g_pCity:GetOwner(), g_pCity:GetID()) then
+        DisplayGrowthTile()
+      end
     end
   end
 
-  if not ContextPtr:IsHidden() then ViewMain(m_kData) end
+  if not ContextPtr:IsHidden() then
+    ViewMain(m_kData)
+  end
 end
 
 -- ===========================================================================
@@ -1122,7 +1226,9 @@ function OnLocalPlayerChanged(eLocalPlayer, ePrevLocalPlayer)
     return
   end
   m_pPlayer = Players[eLocalPlayer]
-  if ContextPtr:IsHidden() == false then Close() end
+  if ContextPtr:IsHidden() == false then
+    Close()
+  end
 end
 
 -- ===========================================================================
@@ -1133,9 +1239,13 @@ end
 --	kParentControls		DEPRECATED, not needed
 -- ===========================================================================
 function SetupCollapsibleToggle(pCheckBoxControl, pButtonControl, pAreaControl, kParentControls)
-  pCheckBoxControl:RegisterCheckHandler(function() pAreaControl:SetHide(pCheckBoxControl:IsChecked()) end)
+  pCheckBoxControl:RegisterCheckHandler(function()
+    pAreaControl:SetHide(pCheckBoxControl:IsChecked())
+  end)
   if pButtonControl ~= nil then
-    pButtonControl:RegisterCallback(Mouse.eLClick, function() pCheckBoxControl:SetAndCall(not pCheckBoxControl:IsChecked()) end)
+    pButtonControl:RegisterCallback(Mouse.eLClick, function()
+      pCheckBoxControl:SetAndCall(not pCheckBoxControl:IsChecked())
+    end)
   end
 end
 
@@ -1146,11 +1256,17 @@ end
 -- ===========================================================================
 function OnTutorial_ContextDisableItems(contextName, kIdsToDisable)
 
-  if contextName ~= "CityPanel" then return end
+  if contextName ~= "CityPanel" then
+    return
+  end
 
   -- Enable any existing controls that are disabled
   if m_kTutorialDisabledControls ~= nil then
-    for _, name in ipairs(m_kTutorialDisabledControls) do if Controls[name] ~= nil then Controls[name]:SetDisabled(false) end end
+    for _, name in ipairs(m_kTutorialDisabledControls) do
+      if Controls[name] ~= nil then
+        Controls[name]:SetDisabled(false)
+      end
+    end
   end
 
   m_kTutorialDisabledControls = kIdsToDisable
@@ -1162,7 +1278,7 @@ function OnTutorial_ContextDisableItems(contextName, kIdsToDisable)
         Controls[name]:SetDisabled(true)
       else
         UI.DataError("Tutorial requested the control '" .. name ..
-                         "' be disabled in the city panel, but no such control exists in that context.")
+                       "' be disabled in the city panel, but no such control exists in that context.")
       end
     end
   end
@@ -1173,14 +1289,15 @@ function CuiGetFoodToolTip(data)
   local foodToolTip = -- vanila tooltip
   data.FoodPerTurnToolTip .. "[NEWLINE][NEWLINE]" .. -- food consumption
   toPlusMinusString(-(data.FoodPerTurn - data.FoodSurplus)) .. " " .. Locale.Lookup("LOC_HUD_CITY_FOOD_CONSUMPTION") ..
-      "[NEWLINE]------------------[NEWLINE]" .. -- happiness
-  GetColorPercentString(1 + data.HappinessGrowthModifier / 100, 2) .. " " .. Locale.Lookup("LOC_HUD_CITY_HAPPINESS_GROWTH_BONUS") ..
-      "[NEWLINE]" .. -- other
-  GetColorPercentString(1 + Round(data.OtherGrowthModifiers, 2), 2) .. " " .. Locale.Lookup("LOC_HUD_CITY_OTHER_GROWTH_BONUSES") ..
-      "[NEWLINE]" .. -- housing
-  GetColorPercentString(data.HousingMultiplier, 2) .. " " .. Locale.Lookup("LOC_HUD_CITY_HOUSING_CAPACITY")
+    "[NEWLINE]------------------[NEWLINE]" .. -- happiness
+  GetColorPercentString(1 + data.HappinessGrowthModifier / 100, 2) .. " " ..
+    Locale.Lookup("LOC_HUD_CITY_HAPPINESS_GROWTH_BONUS") .. "[NEWLINE]" .. -- other
+    GetColorPercentString(1 + Round(data.OtherGrowthModifiers, 2), 2) .. " " ..
+    Locale.Lookup("LOC_HUD_CITY_OTHER_GROWTH_BONUSES") .. "[NEWLINE]" .. -- housing
+    GetColorPercentString(data.HousingMultiplier, 2) .. " " .. Locale.Lookup("LOC_HUD_CITY_HOUSING_CAPACITY")
   if data.Occupied then
-    foodToolTip = foodToolTip .. "[NEWLINE]" .. "x" .. data.OccupationMultiplier .. Locale.Lookup("LOC_HUD_CITY_OCCUPATION_MULTIPLIER")
+    foodToolTip = foodToolTip .. "[NEWLINE]" .. "x" .. data.OccupationMultiplier ..
+                    Locale.Lookup("LOC_HUD_CITY_OCCUPATION_MULTIPLIER")
   end
   return foodToolTip
 end
@@ -1219,18 +1336,42 @@ function Initialize()
   Controls.HousingButton:RegisterCallback(Mouse.eLClick, OnHousing)
   Controls.CitizensGrowthButton:RegisterCallback(Mouse.eLClick, OnCitizensGrowth)
 
-  Controls.CultureCheck:RegisterCheckHandler(function() OnCheckYield(YieldTypes.CULTURE, "Culture") end)
-  Controls.FaithCheck:RegisterCheckHandler(function() OnCheckYield(YieldTypes.FAITH, "Faith") end)
-  Controls.FoodCheck:RegisterCheckHandler(function() OnCheckYield(YieldTypes.FOOD, "Food") end)
-  Controls.GoldCheck:RegisterCheckHandler(function() OnCheckYield(YieldTypes.GOLD, "Gold") end)
-  Controls.ProductionCheck:RegisterCheckHandler(function() OnCheckYield(YieldTypes.PRODUCTION, "Production") end)
-  Controls.ScienceCheck:RegisterCheckHandler(function() OnCheckYield(YieldTypes.SCIENCE, "Science") end)
-  Controls.CultureIgnore:RegisterCallback(Mouse.eLClick, function() OnResetYieldToNormal(YieldTypes.CULTURE, "Culture") end)
-  Controls.FaithIgnore:RegisterCallback(Mouse.eLClick, function() OnResetYieldToNormal(YieldTypes.FAITH, "Faith") end)
-  Controls.FoodIgnore:RegisterCallback(Mouse.eLClick, function() OnResetYieldToNormal(YieldTypes.FOOD, "Food") end)
-  Controls.GoldIgnore:RegisterCallback(Mouse.eLClick, function() OnResetYieldToNormal(YieldTypes.GOLD, "Gold") end)
-  Controls.ProductionIgnore:RegisterCallback(Mouse.eLClick, function() OnResetYieldToNormal(YieldTypes.PRODUCTION, "Production") end)
-  Controls.ScienceIgnore:RegisterCallback(Mouse.eLClick, function() OnResetYieldToNormal(YieldTypes.SCIENCE, "Science") end)
+  Controls.CultureCheck:RegisterCheckHandler(function()
+    OnCheckYield(YieldTypes.CULTURE, "Culture")
+  end)
+  Controls.FaithCheck:RegisterCheckHandler(function()
+    OnCheckYield(YieldTypes.FAITH, "Faith")
+  end)
+  Controls.FoodCheck:RegisterCheckHandler(function()
+    OnCheckYield(YieldTypes.FOOD, "Food")
+  end)
+  Controls.GoldCheck:RegisterCheckHandler(function()
+    OnCheckYield(YieldTypes.GOLD, "Gold")
+  end)
+  Controls.ProductionCheck:RegisterCheckHandler(function()
+    OnCheckYield(YieldTypes.PRODUCTION, "Production")
+  end)
+  Controls.ScienceCheck:RegisterCheckHandler(function()
+    OnCheckYield(YieldTypes.SCIENCE, "Science")
+  end)
+  Controls.CultureIgnore:RegisterCallback(Mouse.eLClick, function()
+    OnResetYieldToNormal(YieldTypes.CULTURE, "Culture")
+  end)
+  Controls.FaithIgnore:RegisterCallback(Mouse.eLClick, function()
+    OnResetYieldToNormal(YieldTypes.FAITH, "Faith")
+  end)
+  Controls.FoodIgnore:RegisterCallback(Mouse.eLClick, function()
+    OnResetYieldToNormal(YieldTypes.FOOD, "Food")
+  end)
+  Controls.GoldIgnore:RegisterCallback(Mouse.eLClick, function()
+    OnResetYieldToNormal(YieldTypes.GOLD, "Gold")
+  end)
+  Controls.ProductionIgnore:RegisterCallback(Mouse.eLClick, function()
+    OnResetYieldToNormal(YieldTypes.PRODUCTION, "Production")
+  end)
+  Controls.ScienceIgnore:RegisterCallback(Mouse.eLClick, function()
+    OnResetYieldToNormal(YieldTypes.SCIENCE, "Science")
+  end)
   Controls.NextCityButton:RegisterCallback(Mouse.eLClick, OnNextCity)
   Controls.PrevCityButton:RegisterCallback(Mouse.eLClick, OnPreviousCity)
 
@@ -1240,7 +1381,9 @@ function Initialize()
     -- Controls.PurchaseTileCheck:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
     --
     Controls.ProduceWithGoldCheck:RegisterCheckHandler(OnTogglePurchaseWithGold)
-    Controls.ProduceWithGoldCheck:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+    Controls.ProduceWithGoldCheck:RegisterCallback(Mouse.eMouseEnter, function()
+      UI.PlaySound("Main_Menu_Mouse_Over")
+    end)
   else
     -- Controls.PurchaseTileCheck:SetHide(true);
     Controls.ProduceWithGoldCheck:SetHide(true)
@@ -1248,16 +1391,24 @@ function Initialize()
 
   -- CUI: combine buttons.
   Controls.ManageTileCheck:RegisterCheckHandler(CuiOnToggleManageTile)
-  Controls.ManageTileCheck:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ManageTileCheck:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   -- Controls.ManageCitizensCheck:RegisterCheckHandler(	OnToggleManageCitizens );
   -- Controls.ManageCitizensCheck:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
   --
   Controls.ChangeProductionCheck:RegisterCheckHandler(OnToggleProduction)
-  Controls.ChangeProductionCheck:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ChangeProductionCheck:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.ProduceWithFaithCheck:RegisterCheckHandler(OnTogglePurchaseWithFaith)
-  Controls.ProduceWithFaithCheck:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ProduceWithFaithCheck:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.ToggleOverviewPanel:RegisterCheckHandler(OnToggleOverviewPanel)
-  Controls.ToggleOverviewPanel:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ToggleOverviewPanel:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   -- Game Core Events
   Events.CityAddedToMap.Add(OnCityAddedToMap)

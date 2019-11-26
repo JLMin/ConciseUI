@@ -49,7 +49,11 @@ function Refresh()
   -- Add all other cities to city stack
   local localPlayer = Players[Game.GetLocalPlayer()]
   local playerCities = localPlayer:GetCities()
-  for _, city in playerCities:Members() do if city ~= originCity and CanTeleportToCity(city) then AddCity(city) end end
+  for _, city in playerCities:Members() do
+    if city ~= originCity and CanTeleportToCity(city) then
+      AddCity(city)
+    end
+  end
 
   -- Calculate Control Size
   Controls.CityScrollPanel:CalculateInternalSize()
@@ -120,7 +124,9 @@ function CanTeleportToCity(city)
   local eOperation = UI.GetInterfaceModeParameter(UnitOperationTypes.PARAM_OPERATION_TYPE)
 
   local pSelectedUnit = UI.GetHeadSelectedUnit()
-  if (UnitManager.CanStartOperation(pSelectedUnit, eOperation, nil, tParameters)) then return true end
+  if (UnitManager.CanStartOperation(pSelectedUnit, eOperation, nil, tParameters)) then
+    return true
+  end
 
   return false
 end
@@ -146,30 +152,42 @@ end
 function OnInterfaceModeChanged(oldMode, newMode)
   if (oldMode == InterfaceModeTypes.TELEPORT_TO_CITY) then
     -- Only close if already open
-    if m_AnimSupport:IsVisible() then Close() end
+    if m_AnimSupport:IsVisible() then
+      Close()
+    end
   end
   if (newMode == InterfaceModeTypes.TELEPORT_TO_CITY) then
     -- Only open if selected unit is a trade unit
     local pSelectedUnit = UI.GetHeadSelectedUnit()
     local pSelectedUnitInfo = GameInfo.Units[pSelectedUnit:GetUnitType()]
-    if pSelectedUnitInfo.MakeTradeRoute then Open() end
+    if pSelectedUnitInfo.MakeTradeRoute then
+      Open()
+    end
   end
 end
 
 -- ===========================================================================
 function OnCitySelectionChanged(owner, ID, i, j, k, bSelected, bEditable)
   -- Close if we select a city
-  if m_AnimSupport:IsVisible() and owner == Game.GetLocalPlayer() and owner ~= -1 then Close() end
+  if m_AnimSupport:IsVisible() and owner == Game.GetLocalPlayer() and owner ~= -1 then
+    Close()
+  end
 end
 
 -- ===========================================================================
 function OnUnitSelectionChanged(playerID, unitID, hexI, hexJ, hexK, bSelected, bEditable)
   -- Close if we select a unit
-  if m_AnimSupport:IsVisible() and playerID ~= -1 and playerID == Game.GetLocalPlayer() then Close() end
+  if m_AnimSupport:IsVisible() and playerID ~= -1 and playerID == Game.GetLocalPlayer() then
+    Close()
+  end
 end
 
 ------------------------------------------------------------------------------------------------
-function OnLocalPlayerTurnEnd() if (GameConfiguration.IsHotseat()) then Close() end end
+function OnLocalPlayerTurnEnd()
+  if (GameConfiguration.IsHotseat()) then
+    Close()
+  end
+end
 
 -- ===========================================================================
 function Open()
@@ -199,10 +217,18 @@ end
 -- ===========================================================================
 --	HOT-RELOADING EVENTS
 -- ===========================================================================
-function OnInit(isReload) if isReload then LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID) end end
-function OnShutdown() LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "isVisible", m_AnimSupport:IsVisible()) end
+function OnInit(isReload)
+  if isReload then
+    LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
+  end
+end
+function OnShutdown()
+  LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "isVisible", m_AnimSupport:IsVisible())
+end
 function OnGameDebugReturn(context, contextTable)
-  if context == RELOAD_CACHE_ID and contextTable["isVisible"] ~= nil and contextTable["isVisible"] then OnOpen() end
+  if context == RELOAD_CACHE_ID and contextTable["isVisible"] ~= nil and contextTable["isVisible"] then
+    OnOpen()
+  end
 end
 
 -- CUI =======================================================================
@@ -235,7 +261,11 @@ function CuiRealizeLookAtCity(city)
 end
 
 -- CUI =======================================================================
-function CuiOnChangeOriginCity() if cui_newCity then TeleportToCity(cui_newCity) end end
+function CuiOnChangeOriginCity()
+  if cui_newCity then
+    TeleportToCity(cui_newCity)
+  end
+end
 
 -- CUI =======================================================================
 function CuiInit()
@@ -245,7 +275,9 @@ function CuiInit()
   Controls.ReplaceTitle:SetText(Locale.ToUpper(Locale.Lookup("LOC_UNITOPERATION_MOVE_TO_DESCRIPTION")))
   -- reg
   Controls.ChangeOriginCityButton:RegisterCallback(Mouse.eLClick, CuiOnChangeOriginCity)
-  Controls.ChangeOriginCityButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.ChangeOriginCityButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 end
 
 -- ===========================================================================
@@ -276,6 +308,8 @@ function Initialize()
 
   -- Control Events
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClose)
-  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 end
 Initialize()

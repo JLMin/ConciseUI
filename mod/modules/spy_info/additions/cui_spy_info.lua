@@ -11,43 +11,45 @@ local isAttached = false
 -- ---------------------------------------------------------------------------
 function RefreshSpyInfo()
   local localPlayer = Players[Game.GetLocalPlayer()]
-  if localPlayer == nil then return end
+  if localPlayer == nil then
+    return
+  end
 
   local numberOfSpies = 0
 
   -- normal spies
-	local localPlayerUnits = localPlayer:GetUnits();
-	for i, unit in localPlayerUnits:Members() do
-		local unitInfo = GameInfo.Units[unit:GetUnitType()];
-		if unitInfo.Spy then
-			numberOfSpies = numberOfSpies + 1;
-		end
-	end
-  
+  local localPlayerUnits = localPlayer:GetUnits()
+  for i, unit in localPlayerUnits:Members() do
+    local unitInfo = GameInfo.Units[unit:GetUnitType()]
+    if unitInfo.Spy then
+      numberOfSpies = numberOfSpies + 1
+    end
+  end
+
   -- captured spies
-	for i, player in ipairs(Game.GetPlayers()) do
-		local playerDiplomacy = player:GetDiplomacy();
-		local numCapturedSpies = playerDiplomacy:GetNumSpiesCaptured();
-		for i=0,numCapturedSpies-1,1 do
-			local spyInfo = playerDiplomacy:GetNthCapturedSpy(player:GetID(), i);
-			if spyInfo and spyInfo.OwningPlayer == Game.GetLocalPlayer() then
-				numberOfSpies = numberOfSpies + 1;
-			end
-		end
-	end
-  
-	-- travelling spies
-	local localPlayerDiplomacy = Players[Game.GetLocalPlayer()]:GetDiplomacy();
-	if localPlayerDiplomacy then
-		local numSpiesOffMap = localPlayerDiplomacy:GetNumSpiesOffMap();
-		for i=0,numSpiesOffMap-1,1 do
-			local spyOffMapInfo = localPlayerDiplomacy:GetNthOffMapSpy(Game.GetLocalPlayer(), i);
-			if spyOffMapInfo and spyOffMapInfo.ReturnTurn ~= -1 then
-				numberOfSpies = numberOfSpies + 1;
-			end
-		end
-	end
-  
+  for i, player in ipairs(Game.GetPlayers()) do
+    local playerDiplomacy = player:GetDiplomacy()
+    local numCapturedSpies = playerDiplomacy:GetNumSpiesCaptured()
+    for i = 0, numCapturedSpies - 1, 1 do
+      local spyInfo = playerDiplomacy:GetNthCapturedSpy(player:GetID(), i)
+      if spyInfo and spyInfo.OwningPlayer == Game.GetLocalPlayer() then
+        numberOfSpies = numberOfSpies + 1
+      end
+    end
+  end
+
+  -- travelling spies
+  local localPlayerDiplomacy = Players[Game.GetLocalPlayer()]:GetDiplomacy()
+  if localPlayerDiplomacy then
+    local numSpiesOffMap = localPlayerDiplomacy:GetNumSpiesOffMap()
+    for i = 0, numSpiesOffMap - 1, 1 do
+      local spyOffMapInfo = localPlayerDiplomacy:GetNthOffMapSpy(Game.GetLocalPlayer(), i)
+      if spyOffMapInfo and spyOffMapInfo.ReturnTurn ~= -1 then
+        numberOfSpies = numberOfSpies + 1
+      end
+    end
+  end
+
   local spyCapacity = localPlayerDiplomacy:GetSpyCapacity()
   if spyCapacity > 0 then
     local coloredAvailable = numberOfSpies

@@ -36,7 +36,9 @@ function ViewMyRoutes()
   SetAvailableRoutesTabSelected(false)
 
   local localPlayerID = Game.GetLocalPlayer()
-  if (localPlayerID == -1) then return end
+  if (localPlayerID == -1) then
+    return
+  end
 
   -- Update Header
   local playerTrade = Players[localPlayerID]:GetTrade()
@@ -74,7 +76,9 @@ function ViewMyRoutes()
   if routesSortedByPlayer[Game.GetLocalPlayer()] ~= nil then
     CreatePlayerHeader(Players[Game.GetLocalPlayer()])
 
-    for i, route in ipairs(routesSortedByPlayer[Game.GetLocalPlayer()]) do AddRouteFromRouteInfo(route) end
+    for i, route in ipairs(routesSortedByPlayer[Game.GetLocalPlayer()]) do
+      AddRouteFromRouteInfo(route)
+    end
   end
 
   -- Add routes to other civs
@@ -86,7 +90,9 @@ function ViewMyRoutes()
       if not playerInfluence:CanReceiveInfluence() then
         CreatePlayerHeader(Players[playerID])
 
-        for i, route in ipairs(routes) do AddRouteFromRouteInfo(route) end
+        for i, route in ipairs(routes) do
+          AddRouteFromRouteInfo(route)
+        end
       else
         -- Add city state routes
         if not haveAddedCityStateHeader then
@@ -94,7 +100,9 @@ function ViewMyRoutes()
           CreateCityStateHeader()
         end
 
-        for i, route in ipairs(routes) do AddRouteFromRouteInfo(route) end
+        for i, route in ipairs(routes) do
+          AddRouteFromRouteInfo(route)
+        end
       end
     end
   end
@@ -144,7 +152,9 @@ function ViewRoutesToCities()
           -- Check that the destination city owner is the local player
           if route.DestinationCityPlayer == Game.GetLocalPlayer() then
             -- Make sure we have a table for each destination player
-            if routesSortedByPlayer[route.OriginCityPlayer] == nil then routesSortedByPlayer[route.OriginCityPlayer] = {} end
+            if routesSortedByPlayer[route.OriginCityPlayer] == nil then
+              routesSortedByPlayer[route.OriginCityPlayer] = {}
+            end
             table.insert(routesSortedByPlayer[route.OriginCityPlayer], route)
           end
         end
@@ -159,7 +169,9 @@ function ViewRoutesToCities()
     if not playerInfluence:CanReceiveInfluence() then
       CreatePlayerHeader(Players[playerID])
 
-      for i, route in ipairs(routes) do AddRouteFromRouteInfo(route) end
+      for i, route in ipairs(routes) do
+        AddRouteFromRouteInfo(route)
+      end
     else
       table.insert(cityStateRoutes, routes)
     end
@@ -173,7 +185,9 @@ function ViewRoutesToCities()
       CreateCityStateHeader()
     end
 
-    for i, route in ipairs(routes) do AddRouteFromRouteInfo(route) end
+    for i, route in ipairs(routes) do
+      AddRouteFromRouteInfo(route)
+    end
   end
 end
 
@@ -185,7 +199,9 @@ function ViewAvailableRoutes()
   SetAvailableRoutesTabSelected(true)
 
   local localPlayerID = Game.GetLocalPlayer()
-  if (localPlayerID == -1) then return end
+  if (localPlayerID == -1) then
+    return
+  end
 
   local tradeManager = Game.GetTradeManager()
 
@@ -208,7 +224,8 @@ function ViewAvailableRoutes()
       for cityID in pLocalPlayerCities:Members() do
         local originCity = pLocalPlayerCities:FindID(cityID)
         if originCity ~= nil then
-          if tradeManager:CanStartRoute(originCity:GetOwner(), originCity:GetID(), destinationCity:GetOwner(), destinationCity:GetID(), true) then
+          if tradeManager:CanStartRoute(originCity:GetOwner(), originCity:GetID(), destinationCity:GetOwner(),
+                                        destinationCity:GetID(), true) then
             -- Add Civ/CityState Header
             local pPlayerInfluence = destinationPlayer:GetInfluence()
             if not pPlayerInfluence:CanReceiveInfluence() then
@@ -266,7 +283,9 @@ function AddChooseRouteButton(tradeUnit)
   local simpleButtonInstance = m_SimpleButtonInstanceIM:GetInstance()
   simpleButtonInstance.GridButton:SetText(Locale.Lookup("LOC_TRADE_OVERVIEW_CHOOSE_ROUTE"))
   simpleButtonInstance.GridButton:SetDisabled(false)
-  simpleButtonInstance.GridButton:RegisterCallback(Mouse.eLClick, function() SelectUnit(tradeUnit) end)
+  simpleButtonInstance.GridButton:RegisterCallback(Mouse.eLClick, function()
+    SelectUnit(tradeUnit)
+  end)
 end
 
 -- ===========================================================================
@@ -303,8 +322,9 @@ function AddRoute(originPlayer, originCity, destinationPlayer, destinationCity, 
   local routeInstance = m_RouteInstanceIM:GetInstance()
 
   -- Update Route Label
-  routeInstance.RouteLabel:SetText(Locale.ToUpper(originCity:GetName()) .. " " .. Locale.ToUpper("LOC_TRADE_OVERVIEW_TO") .. " " ..
-                                       Locale.ToUpper(destinationCity:GetName()))
+  routeInstance.RouteLabel:SetText(Locale.ToUpper(originCity:GetName()) .. " " ..
+                                     Locale.ToUpper("LOC_TRADE_OVERVIEW_TO") .. " " ..
+                                     Locale.ToUpper(destinationCity:GetName()))
 
   -- Update Route Yields
   routeInstance.ResourceStack:DestroyAllChildren()
@@ -478,7 +498,9 @@ function AddRoute(originPlayer, originCity, destinationPlayer, destinationCity, 
           LuaEvents.TradeOverview_SelectRouteFromOverview(destinationPlayer:GetID(), destinationCity:GetID())
         end)
       else
-        routeInstance.GridButton:RegisterCallback(Mouse.eLClick, function() SelectUnit(tradeUnit) end)
+        routeInstance.GridButton:RegisterCallback(Mouse.eLClick, function()
+          SelectUnit(tradeUnit)
+        end)
       end
     end
   end
@@ -536,7 +558,9 @@ end
 
 -- ===========================================================================
 function SetBenefitsFilter(showMyBenefits)
-  if showMyBenefits == nil then return end
+  if showMyBenefits == nil then
+    return
+  end
 
   m_showMyBenefits = showMyBenefits
 
@@ -574,7 +598,8 @@ function CreatePlayerHeader(player)
   local baseTourismModifier = GlobalParameters.TOURISM_TRADE_ROUTE_BONUS
   local extraTourismModifier = Players[Game.GetLocalPlayer()]:GetCulture():GetExtraTradeRouteTourismModifier()
   -- TODO: Use LOC_TRADE_OVERVIEW_TOURISM_BONUS when we can update the text
-  headerInstance.TourismBonusPercentage:SetText("+" .. Locale.ToPercent((baseTourismModifier + extraTourismModifier) / 100))
+  headerInstance.TourismBonusPercentage:SetText("+" ..
+                                                  Locale.ToPercent((baseTourismModifier + extraTourismModifier) / 100))
 
   if hasTradeRoute then
     headerInstance.TourismBonusCheckmark:SetHide(false)
@@ -625,19 +650,23 @@ function GetYieldsFromCity(originCity, destinationCity)
 
   -- From route
   local routeYields = tradeManager:CalculateOriginYieldsFromPotentialRoute(originCity:GetOwner(), originCity:GetID(),
-                                                                           destinationCity:GetOwner(), destinationCity:GetID())
+                                                                           destinationCity:GetOwner(),
+                                                                           destinationCity:GetID())
   -- From path
-  local pathYields = tradeManager:CalculateOriginYieldsFromPath(originCity:GetOwner(), originCity:GetID(), destinationCity:GetOwner(),
-                                                                destinationCity:GetID())
+  local pathYields = tradeManager:CalculateOriginYieldsFromPath(originCity:GetOwner(), originCity:GetID(),
+                                                                destinationCity:GetOwner(), destinationCity:GetID())
   -- From modifiers
   local modifierYields = tradeManager:CalculateOriginYieldsFromModifiers(originCity:GetOwner(), originCity:GetID(),
-                                                                         destinationCity:GetOwner(), destinationCity:GetID())
+                                                                         destinationCity:GetOwner(),
+                                                                         destinationCity:GetID())
 
   -- Add the yields together and return the result
   local i
   local yieldCount = #routeYields
 
-  for i = 1, yieldCount, 1 do routeYields[i] = routeYields[i] + pathYields[i] + modifierYields[i] end
+  for i = 1, yieldCount, 1 do
+    routeYields[i] = routeYields[i] + pathYields[i] + modifierYields[i]
+  end
 
   return routeYields
 
@@ -648,20 +677,25 @@ function GetYieldsForDestinationCity(originCity, destinationCity)
   local tradeManager = Game.GetTradeManager()
 
   -- From route
-  local routeYields = tradeManager:CalculateDestinationYieldsFromPotentialRoute(originCity:GetOwner(), originCity:GetID(),
-                                                                                destinationCity:GetOwner(), destinationCity:GetID())
+  local routeYields = tradeManager:CalculateDestinationYieldsFromPotentialRoute(originCity:GetOwner(),
+                                                                                originCity:GetID(),
+                                                                                destinationCity:GetOwner(),
+                                                                                destinationCity:GetID())
   -- From path
-  local pathYields = tradeManager:CalculateDestinationYieldsFromPath(originCity:GetOwner(), originCity:GetID(), destinationCity:GetOwner(),
-                                                                     destinationCity:GetID())
+  local pathYields = tradeManager:CalculateDestinationYieldsFromPath(originCity:GetOwner(), originCity:GetID(),
+                                                                     destinationCity:GetOwner(), destinationCity:GetID())
   -- From modifiers
   local modifierYields = tradeManager:CalculateDestinationYieldsFromModifiers(originCity:GetOwner(), originCity:GetID(),
-                                                                              destinationCity:GetOwner(), destinationCity:GetID())
+                                                                              destinationCity:GetOwner(),
+                                                                              destinationCity:GetID())
 
   -- Add the yields together and return the result
   local i
   local yieldCount = #routeYields
 
-  for i = 1, yieldCount, 1 do routeYields[i] = routeYields[i] + pathYields[i] + modifierYields[i] end
+  for i = 1, yieldCount, 1 do
+    routeYields[i] = routeYields[i] + pathYields[i] + modifierYields[i]
+  end
 
   return routeYields
 end
@@ -670,7 +704,9 @@ end
 function Open()
   -- dont show panel if there is no local player
   local localPlayerID = Game.GetLocalPlayer()
-  if (localPlayerID == -1) then return end
+  if (localPlayerID == -1) then
+    return
+  end
 
   m_AnimSupport.Show()
   UI.PlaySound("CityStates_Panel_Open")
@@ -678,7 +714,9 @@ end
 
 -- ===========================================================================
 function Close()
-  if not ContextPtr:IsHidden() then UI.PlaySound("CityStates_Panel_Close") end
+  if not ContextPtr:IsHidden() then
+    UI.PlaySound("CityStates_Panel_Close")
+  end
   m_AnimSupport.Hide()
 end
 
@@ -709,7 +747,9 @@ function OnAvailableRoutesButton()
 end
 
 -- ===========================================================================
-function OnClose() Close() end
+function OnClose()
+  Close()
+end
 
 -- ===========================================================================
 function OnBenefitsButton()
@@ -725,22 +765,36 @@ end
 --	Explicit close (from partial screen hooks), part of closing everything,
 -- ===========================================================================
 function OnCloseAllExcept(contextToStayOpen)
-  if contextToStayOpen == ContextPtr:GetID() then return end
+  if contextToStayOpen == ContextPtr:GetID() then
+    return
+  end
   Close()
 end
 
 ------------------------------------------------------------------------------------------------
-function OnLocalPlayerTurnEnd() if (GameConfiguration.IsHotseat()) then Close() end end
+function OnLocalPlayerTurnEnd()
+  if (GameConfiguration.IsHotseat()) then
+    Close()
+  end
+end
 
 -- ===========================================================================
 --	Game Event
 -- ===========================================================================
-function OnInterfaceModeChanged(eOldMode, eNewMode) if eNewMode == InterfaceModeTypes.VIEW_MODAL_LENS then Close() end end
+function OnInterfaceModeChanged(eOldMode, eNewMode)
+  if eNewMode == InterfaceModeTypes.VIEW_MODAL_LENS then
+    Close()
+  end
+end
 
 -- ===========================================================================
 --	UI EVENT
 -- ===========================================================================
-function OnInit(isReload) if isReload then LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID) end end
+function OnInit(isReload)
+  if isReload then
+    LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
+  end
+end
 
 -- ===========================================================================
 --	UI EVENT
@@ -762,7 +816,9 @@ function OnGameDebugReturn(context, contextTable)
     else
       SetBenefitsFilter(false)
     end
-    if contextTable["isHidden"] ~= nil and not contextTable["isHidden"] then Open() end
+    if contextTable["isHidden"] ~= nil and not contextTable["isHidden"] then
+      Open()
+    end
     if contextTable["currentTab"] ~= nil then
       m_currentTab = contextTable["currentTab"]
       Refresh()
@@ -772,25 +828,41 @@ end
 
 -- ===========================================================================
 function OnUnitOperationStarted(ownerID, unitID, operationID)
-  if m_AnimSupport.IsVisible() and operationID == UnitOperationTypes.MAKE_TRADE_ROUTE then Refresh() end
+  if m_AnimSupport.IsVisible() and operationID == UnitOperationTypes.MAKE_TRADE_ROUTE then
+    Refresh()
+  end
 end
 
 -- ===========================================================================
-function OnPolicyChanged(ePlayer) if m_AnimSupport.IsVisible() and ePlayer == Game.GetLocalPlayer() then Refresh() end end
+function OnPolicyChanged(ePlayer)
+  if m_AnimSupport.IsVisible() and ePlayer == Game.GetLocalPlayer() then
+    Refresh()
+  end
+end
 
 -- ===========================================================================
 function Initialize()
   -- Control Events
   Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClose)
-  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CloseButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.MyRoutesButton:RegisterCallback(Mouse.eLClick, OnMyRoutesButton)
-  Controls.MyRoutesButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.MyRoutesButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.RoutesToCitiesButton:RegisterCallback(Mouse.eLClick, OnRoutesToCitiesButton)
-  Controls.RoutesToCitiesButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.RoutesToCitiesButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.AvailableRoutesButton:RegisterCallback(Mouse.eLClick, OnAvailableRoutesButton)
-  Controls.AvailableRoutesButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.AvailableRoutesButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.BenefitsButton:RegisterCallback(Mouse.eLClick, OnBenefitsButton)
-  Controls.BenefitsButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.BenefitsButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
 
   -- Lua Events
   LuaEvents.PartialScreenHooks_OpenTradeOverview.Add(OnOpen)

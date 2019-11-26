@@ -16,7 +16,9 @@ function GetMapPinConfig(iPlayerID, mapPinID)
   local playerCfg = PlayerConfigurations[iPlayerID]
   if (playerCfg ~= nil) then
     local playerMapPins = playerCfg:GetMapPins()
-    if (playerMapPins ~= nil) then return playerMapPins[mapPinID] end
+    if (playerMapPins ~= nil) then
+      return playerMapPins[mapPinID]
+    end
   end
   return nil
 end
@@ -26,7 +28,9 @@ end
 function SetMapPinIcon(imageControl, mapPinIconName)
   if (imageControl ~= nil and mapPinIconName ~= nil) then
     local iconName = mapPinIconName
-    if (not imageControl:SetIcon(iconName)) then imageControl:SetIcon("ICON_MAP_PIN_SQUARE") end
+    if (not imageControl:SetIcon(iconName)) then
+      imageControl:SetIcon("ICON_MAP_PIN_SQUARE")
+    end
   end
 end
 
@@ -39,7 +43,9 @@ function SortMapPinEntryStack(a, b)
   local pinEntryB = m_MapPinListButtonToPinEntry[controlStringB]
   if (pinEntryA ~= nil and pinEntryB ~= nil) then
     -- CUI: sorting
-    if pinEntryA.orderID ~= pinEntryB.orderID then return (pinEntryA.orderID or -1) < (pinEntryB.orderID or -1) end
+    if pinEntryA.orderID ~= pinEntryB.orderID then
+      return (pinEntryA.orderID or -1) < (pinEntryB.orderID or -1)
+    end
     local pinNameA = Locale.ToLower(pinEntryA.MapPinName:GetText())
     local pinNameB = Locale.ToLower(pinEntryB.MapPinName:GetText())
 
@@ -213,7 +219,9 @@ end
 -------------------------------------------------
 -- External Event Handlers
 -------------------------------------------------
-function OnPlayerInfoChanged(playerID) BuildMapPinList() end
+function OnPlayerInfoChanged(playerID)
+  BuildMapPinList()
+end
 
 -------------------------------------------------
 -------------------------------------------------
@@ -227,12 +235,17 @@ function OnInterfaceModeChanged(eNewMode)
   end
 end
 
-function OnLocalPlayerChanged(eLocalPlayer, ePrevLocalPlayer) BuildMapPinList() end
+function OnLocalPlayerChanged(eLocalPlayer, ePrevLocalPlayer)
+  BuildMapPinList()
+end
 
 -------------------------------------------------
 -- ShowHideHandler
 -------------------------------------------------
-function ShowHideHandler(bIsHide, bIsInit) if (not bIsHide) then end end
+function ShowHideHandler(bIsHide, bIsInit)
+  if (not bIsHide) then
+  end
+end
 ContextPtr:SetShowHideHandler(ShowHideHandler)
 
 -- CUI =======================================================================
@@ -280,7 +293,9 @@ end
 
 -- CUI =======================================================================
 function CuiOnIngameAction(actionId)
-  if (Game.GetLocalPlayer() == -1) then return end
+  if (Game.GetLocalPlayer() == -1) then
+    return
+  end
   if actionId == Input.GetActionId("CuiActionPlaceMapPin") then
     CuiOnToggleMapPin()
     UI.PlaySound("Play_UI_Click")
@@ -299,7 +314,9 @@ end
 function Initialize()
   CuiInit() -- CUI
   Controls.AddPinButton:RegisterCallback(Mouse.eLClick, OnAddPinButton)
-  Controls.AddPinButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.AddPinButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Events.PlayerInfoChanged.Add(OnPlayerInfoChanged)
   Events.InterfaceModeChanged.Add(OnInterfaceModeChanged)
   Events.LocalPlayerChanged.Add(OnLocalPlayerChanged)

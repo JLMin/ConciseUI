@@ -57,7 +57,9 @@ local m_currentSeaLevelPhase = 0
 function Open(selectedTabName)
 
   m_playerID = Game.GetLocalPlayer() -- Get ID and leave if during autoplay
-  if m_playerID == -1 then return end
+  if m_playerID == -1 then
+    return
+  end
 
   m_kSliceIM:ResetInstances() -- Instance manager that generates pie chart slices.
 
@@ -65,14 +67,22 @@ function Open(selectedTabName)
 
   UpdateClimateChangeEventsData()
 
-  if selectedTabName == "Overview" or selectedTabName == nil then m_tabs.SelectTab(Controls.ButtonOverview) end
-  if selectedTabName == "CO2Levels" then m_tabs.SelectTab(Controls.ButtonCO2Levels) end
-  if selectedTabName == "EventHistory" then m_tabs.SelectTab(Controls.ButtonEventHistory) end
+  if selectedTabName == "Overview" or selectedTabName == nil then
+    m_tabs.SelectTab(Controls.ButtonOverview)
+  end
+  if selectedTabName == "CO2Levels" then
+    m_tabs.SelectTab(Controls.ButtonCO2Levels)
+  end
+  if selectedTabName == "EventHistory" then
+    m_tabs.SelectTab(Controls.ButtonEventHistory)
+  end
 
   UI.PlaySound("UI_Screen_Open")
 
   -- From ModalScreen_PlayerYieldsHelper
-  if not RefreshYields() then Controls.Vignette:SetSizeY(m_TopPanelHeight) end
+  if not RefreshYields() then
+    Controls.Vignette:SetSizeY(m_TopPanelHeight)
+  end
 
   -- From Civ6_styles: FullScreenVignetteConsumer
   Controls.ScreenAnimIn:SetToBeginning()
@@ -103,14 +113,20 @@ end
 --	LUA Event, Callback
 --	Close this screen
 -- ===========================================================================
-function OnClose() if not ContextPtr:IsHidden() then Close() end end
+function OnClose()
+  if not ContextPtr:IsHidden() then
+    Close()
+  end
+end
 
 -- ===========================================================================
 --	LUA Event
 --	Explicit close (from partial screen hooks), part of closing everything,
 -- ===========================================================================
 function OnCloseAllExcept(contextToStayOpen)
-  if contextToStayOpen == ContextPtr:GetID() then return end
+  if contextToStayOpen == ContextPtr:GetID() then
+    return
+  end
   Close()
 end
 
@@ -222,7 +238,9 @@ function RefreshCurrentEvent()
       if pCurrentPlot ~= nil then
         local pLocalPlayerVis = PlayersVisibility[Game.GetLocalPlayer()]
         if pLocalPlayerVis ~= nil then
-          if pLocalPlayerVis:IsRevealed(pCurrentPlot:GetX(), pCurrentPlot:GetY()) then bIsEventVisible = true end
+          if pLocalPlayerVis:IsRevealed(pCurrentPlot:GetX(), pCurrentPlot:GetY()) then
+            bIsEventVisible = true
+          end
         end
       end
 
@@ -247,7 +265,9 @@ function RefreshCurrentEvent()
       -- Get the territory name as a back up to continent name
       local territoryName = nil
       local pTerritory = Territories.GetTerritoryAt(kCurrentEvent.CurrentLocation)
-      if pTerritory then territoryName = pTerritory:GetName() end
+      if pTerritory then
+        territoryName = pTerritory:GetName()
+      end
       -- Current Location and Direction
       local location = ""
       if pCurrentPlot ~= nil then
@@ -265,7 +285,8 @@ function RefreshCurrentEvent()
       local direction = Locale.Lookup(GetDirectionText(kCurrentEvent.CurrentDirection))
 
       if not bIsEventVisible then
-        Controls.WeatherLocation:SetText(Locale.Lookup("LOC_CLIMATE_SCREEN_LOCATION", Locale.Lookup("LOC_CIVICS_TREE_UNREVEALED_CIVIC")))
+        Controls.WeatherLocation:SetText(Locale.Lookup("LOC_CLIMATE_SCREEN_LOCATION",
+                                                       Locale.Lookup("LOC_CIVICS_TREE_UNREVEALED_CIVIC")))
       elseif location ~= "" and direction ~= "" then
         Controls.WeatherLocation:SetText(Locale.Lookup("LOC_CLIMATE_SCREEN_LOCATION_DIRECTION", location, direction))
       elseif location ~= "" then
@@ -403,7 +424,8 @@ function TabSelectOverview()
     local kDeforestationLevel = GameInfo.DeforestationLevels[deforestationType]
     deforestationName = kDeforestationLevel.Name
     deforestationDescription = kDeforestationLevel.Description
-    TempTooltip = Locale.Lookup("LOC_CLIMATE_TEMPERATURE_TOOLTIP", deforestationName, deforestationDescription, co2Modifier)
+    TempTooltip = Locale.Lookup("LOC_CLIMATE_TEMPERATURE_TOOLTIP", deforestationName, deforestationDescription,
+                                co2Modifier)
   end
   local co2Modifier = GameClimate.GetCO2FootprintModifier()
 
@@ -445,20 +467,26 @@ function TabSelectOverview()
   Controls.GlobalTempGrid:SetToolTipString(TempTooltip)
 
   Controls.WorldAgeText:SetHide(m_worldAgeName == nil)
-  if m_worldAgeName then Controls.WorldAgeText:SetText(Locale.Lookup("LOC_CLIMATE_WORLD_AGE", m_worldAgeName)) end
+  if m_worldAgeName then
+    Controls.WorldAgeText:SetText(Locale.Lookup("LOC_CLIMATE_WORLD_AGE", m_worldAgeName))
+  end
 
   Controls.RealismText:SetHide(m_RealismName == nil)
-  if m_RealismName then Controls.RealismText:SetText(Locale.Lookup("LOC_CLIMATE_REALISM", m_RealismName)) end
+  if m_RealismName then
+    Controls.RealismText:SetText(Locale.Lookup("LOC_CLIMATE_REALISM", m_RealismName))
+  end
 
   -- Right
   Controls.StormChanceNum:SetText(Locale.Lookup("LOC_CLIMATE_PERCENT_CHANCE", stormChance))
   Controls.StormChanceFromClimateChange:SetText(Locale.Lookup("LOC_CLIMATE_AMOUNT_FROM_CLIMATE_CHANGE", stormIncrease))
 
   Controls.RiverFloodChanceNum:SetText(Locale.Lookup("LOC_CLIMATE_PERCENT_CHANCE", riverFloodChance))
-  Controls.RiverFloodChanceFromClimateChange:SetText(Locale.Lookup("LOC_CLIMATE_AMOUNT_FROM_CLIMATE_CHANGE", riverFloodIncrease))
+  Controls.RiverFloodChanceFromClimateChange:SetText(Locale.Lookup("LOC_CLIMATE_AMOUNT_FROM_CLIMATE_CHANGE",
+                                                                   riverFloodIncrease))
 
   Controls.DroughtActivityChanceNum:SetText(Locale.Lookup("LOC_CLIMATE_PERCENT_CHANCE", droughtChance))
-  Controls.DroughtChanceFromClimateChange:SetText(Locale.Lookup("LOC_CLIMATE_AMOUNT_FROM_CLIMATE_CHANGE", droughtIncrease))
+  Controls.DroughtChanceFromClimateChange:SetText(Locale.Lookup("LOC_CLIMATE_AMOUNT_FROM_CLIMATE_CHANGE",
+                                                                droughtIncrease))
 
   Controls.VolcanicActivityChanceNum:SetText(Locale.Lookup("LOC_CLIMATE_PERCENT_CHANCE", volcanoEruptChance))
   Controls.VolatileNum:SetText(Locale.Lookup("LOC_CLIMATE_VOLCANO_VOLATILE_NUM", volcanoNaturalWonder))
@@ -474,7 +502,9 @@ function TabSelectOverview()
     szSeaLevel = GameInfo.RandomEvents[m_currentSeaLevelEvent].Description
   end
 
-  if szSeaLevel == nil then szSeaLevel = "0" end
+  if szSeaLevel == nil then
+    szSeaLevel = "0"
+  end
 
   Controls.PolarIceLostNum:SetText(Locale.Lookup("LOC_CLIMATE_LOST", iIceLoss))
   if nextIceLostTurns > 0 and ClimateLevel < MAX_PHASES then
@@ -528,10 +558,13 @@ function BuildPieChart(uiHolder, sliceIM, kSliceAmounts, kColors)
   -- Determine total amount from slices and check bounds (create non-1 multiplier if necessary.)
   local total = 0
   local multiplier = 1
-  for i, v in ipairs(kSliceAmounts) do total = total + v end
+  for i, v in ipairs(kSliceAmounts) do
+    total = total + v
+  end
   if total > 1.0 then
     multiplier = 1.0 / total
-    UI.DataError("Total of pie chart slices " .. tostring(total) .. " exceeds 1.0 (100%).  Applying multiplier " .. tostring(multiplier))
+    UI.DataError("Total of pie chart slices " .. tostring(total) .. " exceeds 1.0 (100%).  Applying multiplier " ..
+                   tostring(multiplier))
   elseif total < 0 then
     UI.DataError("Total of slices " .. tostring(total) .. " is less than 0!  Something is fishy with your data.")
     total = 0
@@ -540,8 +573,9 @@ function BuildPieChart(uiHolder, sliceIM, kSliceAmounts, kColors)
   -- If colors were not passed in, generate a table.
   if kColors == nil or table.count(kColors) == 0 then
     kColors = {
-      UI.GetColorValueFromHexLiteral(0xff000099), UI.GetColorValueFromHexLiteral(0xff008888), UI.GetColorValueFromHexLiteral(0xff009900),
-      UI.GetColorValueFromHexLiteral(0xff888800), UI.GetColorValueFromHexLiteral(0xff990000), UI.GetColorValueFromHexLiteral(0xff880088)
+      UI.GetColorValueFromHexLiteral(0xff000099), UI.GetColorValueFromHexLiteral(0xff008888),
+      UI.GetColorValueFromHexLiteral(0xff009900), UI.GetColorValueFromHexLiteral(0xff888800),
+      UI.GetColorValueFromHexLiteral(0xff990000), UI.GetColorValueFromHexLiteral(0xff880088)
     }
   end
   local maxColors = #kColors
@@ -644,7 +678,9 @@ function CreateEventInstance(kEvent, kEventDef, iTurn)
   local kInstance = m_kEventRowInstance:GetInstance()
 
   -- Icon
-  if kEventDef.IconSmall and kEventDef.IconSmall ~= "" then kInstance.Icon:SetTexture(kEventDef.IconSmall) end
+  if kEventDef.IconSmall and kEventDef.IconSmall ~= "" then
+    kInstance.Icon:SetTexture(kEventDef.IconSmall)
+  end
 
   -- Name
   kInstance.EventTypeName:SetText(Locale.ToUpper(kEventDef.Name))
@@ -660,7 +696,9 @@ function CreateEventInstance(kEvent, kEventDef, iTurn)
   -- Get the territory name as a back up to continent name
   local territoryName = nil
   local pTerritory = Territories.GetTerritoryAt(kEvent.StartLocation)
-  if pTerritory then territoryName = pTerritory:GetName() end
+  if pTerritory then
+    territoryName = pTerritory:GetName()
+  end
   -- Location
   local pPlot = Map.GetPlotByIndex(kEvent.StartLocation)
   if pPlot ~= nil then
@@ -757,8 +795,8 @@ function RealizePlayerCO2()
         uiResource.Amount:SetText(co2Amount)
         uiResource.Icon:SetIcon("ICON_" .. kResourceInfo.ResourceType)
         uiResource.Palette:SetColor(color)
-        uiResource.Top:SetToolTipString(Locale.Lookup("LOC_CLIMATE_RESOURCE_CONSUMED_LAST_TURN", resourceLastTurn, kResourceInfo.Name,
-                                                      amountLastTurn))
+        uiResource.Top:SetToolTipString(Locale.Lookup("LOC_CLIMATE_RESOURCE_CONSUMED_LAST_TURN", resourceLastTurn,
+                                                      kResourceInfo.Name, amountLastTurn))
 
         table.insert(kResourceUseAmounts, amount)
         total = total + co2Amount
@@ -769,7 +807,9 @@ function RealizePlayerCO2()
   end
 
   -- Now total is known, create an array based on percentages (0.0 - 1.0) each resources makes and chart it.
-  for i, amount in ipairs(kResourceUseAmounts) do table.insert(kSliceAmounts, amount / total) end
+  for i, amount in ipairs(kResourceUseAmounts) do
+    table.insert(kSliceAmounts, amount / total)
+  end
 
   BuildPieChart(Controls.TotalContributionsPie, m_kSliceIM, kSliceAmounts, kColors)
 end
@@ -783,7 +823,9 @@ function TabCO2ByCiviliation()
   m_kCivCO2IM:ResetInstances()
 
   -- Realease instances of pie slices previously used in the global section.
-  for _, uiSliceInstance in ipairs(m_kGlobalPieSlices) do m_kSliceIM:ReleaseInstance(uiSliceInstance) end
+  for _, uiSliceInstance in ipairs(m_kGlobalPieSlices) do
+    m_kSliceIM:ReleaseInstance(uiSliceInstance)
+  end
 
   local pLocalPlayer = Players[m_playerID]
   local pPlayerDiplomacy = pLocalPlayer:GetDiplomacy()
@@ -797,7 +839,9 @@ function TabCO2ByCiviliation()
     local playerID = pPlayer:GetID()
     local CO2FootprintNum = GameClimate.GetPlayerCO2Footprint(playerID, false)
 
-    if CO2FootprintNum > 0 then total = total + CO2FootprintNum end
+    if CO2FootprintNum > 0 then
+      total = total + CO2FootprintNum
+    end
 
     -- Only chart a slice if player has been met.
     if pPlayerDiplomacy:HasMet(playerID) or m_playerID == playerID then
@@ -829,7 +873,9 @@ function TabCO2ByCiviliation()
 
   -- Now total is known, create an array based on percentages (0.0 - 1.0) for each player and chart it.
   local kSliceAmounts = {} -- hold the % each resource is contributing to CO2
-  for i, amount in ipairs(kFootprints) do table.insert(kSliceAmounts, amount / total) end
+  for i, amount in ipairs(kFootprints) do
+    table.insert(kSliceAmounts, amount / total)
+  end
 
   m_kGlobalPieSlices = BuildPieChart(Controls.GlobalContributionsPie, m_kSliceIM, kSliceAmounts, kColors)
 end
@@ -843,7 +889,9 @@ function TabCO2ByResource()
   m_kCivCO2IM:ResetInstances()
 
   -- Realease instances of pie slices previously used in the global section.
-  for _, uiSliceInstance in ipairs(m_kGlobalPieSlices) do m_kSliceIM:ReleaseInstance(uiSliceInstance) end
+  for _, uiSliceInstance in ipairs(m_kGlobalPieSlices) do
+    m_kSliceIM:ReleaseInstance(uiSliceInstance)
+  end
 
   local kResourceUseAmounts = {} -- hold raw CO2 usage amounts by each resource
   local kSliceAmounts = {} -- hold the % each resource is contributing to CO2
@@ -886,7 +934,9 @@ function TabCO2ByResource()
   end
 
   -- Now total is known, create an array based on percentages (0.0 - 1.0) each resources makes and chart it.
-  for i, amount in ipairs(kResourceUseAmounts) do table.insert(kSliceAmounts, amount / total) end
+  for i, amount in ipairs(kResourceUseAmounts) do
+    table.insert(kSliceAmounts, amount / total)
+  end
 
   m_kGlobalPieSlices = BuildPieChart(Controls.GlobalContributionsPie, m_kSliceIM, kSliceAmounts, kColors)
 end
@@ -899,7 +949,9 @@ function TabCO2Deforestation()
   m_kCO2CivsIM:ResetInstances()
 
   -- Realease instances of pie slices previously used in the global section.
-  for _, uiSliceInstance in ipairs(m_kGlobalPieSlices) do m_kSliceIM:ReleaseInstance(uiSliceInstance) end
+  for _, uiSliceInstance in ipairs(m_kGlobalPieSlices) do
+    m_kSliceIM:ReleaseInstance(uiSliceInstance)
+  end
 
 end
 
@@ -910,7 +962,9 @@ function UpdateClimateChangeEventsData()
   local iCurrentClimateChangePoints = GameClimate.GetClimateChangeForLastSeaLevelEvent()
   for row in GameInfo.RandomEvents() do
     if (row.EffectOperatorType == "SEA_LEVEL") then
-      if (m_firstSeaLevelEvent == -1) then m_firstSeaLevelEvent = row.Index end
+      if (m_firstSeaLevelEvent == -1) then
+        m_firstSeaLevelEvent = row.Index
+      end
       if (row.ClimateChangePoints == iCurrentClimateChangePoints) then
         m_currentSeaLevelEvent = row.Index
         m_currentSeaLevelPhase = m_currentSeaLevelEvent - m_firstSeaLevelEvent + 1
@@ -932,7 +986,8 @@ function UpdatePhaseBar(phase, realismAmount, globalTemp)
     phase = 1
   end
   if phase > MAX_PHASES then
-    UI.DataError("SetPhaseBar() needs to cap phase of " .. tostring(phase) .. " to max phase of " .. tostring(MAX_PHASE) .. ".")
+    UI.DataError(
+      "SetPhaseBar() needs to cap phase of " .. tostring(phase) .. " to max phase of " .. tostring(MAX_PHASE) .. ".")
     phase = MAX_PHASES
   end
 
@@ -946,7 +1001,9 @@ function UpdatePhaseBar(phase, realismAmount, globalTemp)
   end
 
   -- Update tooltips for all phases
-  for i = 1, MAX_PHASES, 1 do UpdatePhaseTooltips(i) end
+  for i = 1, MAX_PHASES, 1 do
+    UpdatePhaseTooltips(i)
+  end
 end
 
 -- ===========================================================================
@@ -969,7 +1026,9 @@ end
 -- ===========================================================================
 function UpdatePhaseTooltips(segmentNum)
   local kEventDef = GameInfo.RandomEvents[m_firstSeaLevelEvent + segmentNum - 1]
-  if kEventDef == nil then return end
+  if kEventDef == nil then
+    return
+  end
 
   local szPhaseName = kEventDef.Name
   local szSeaLevelRise = kEventDef.Description
@@ -991,13 +1050,15 @@ function UpdatePhaseTooltips(segmentNum)
   end
 
   local tooltip = Locale.ToUpper(szPhaseName) .. "[NEWLINE]" .. "[NEWLINE]" ..
-                      Locale.Lookup("LOC_CLIMATE_CLIMATE_CHANGE_POINTS_TOOLTIP", GameClimate.GetClimateChangeLevel(), iPoints) ..
-                      "[NEWLINE]" .. Locale.Lookup("LOC_CLIMATE_FROM_WORLD_REALISM_NUM_TOOLTIP", GameClimate.GetClimateChangeFromRealism()) ..
-                      "[NEWLINE]" ..
-                      Locale.Lookup("LOC_CLIMATE_FROM_GLOBAL_TEMPERATURE_NUM_TOOLTIP", GameClimate.GetClimateChangeFromTemperature()) ..
-                      "[NEWLINE]" .. "[NEWLINE]" .. Locale.ToUpper("LOC_CLIMATE_EFFECTS_ADDED_THIS_PHASE_TOOLTIP") .. "[NEWLINE]" ..
-                      "[NEWLINE]" .. Locale.Lookup("LOC_CLIMATE_SEA_LEVEL_RISES_NUM_TOOLTIP", szSeaLevelRise) .. szAtOrAboveString ..
-                      "[NEWLINE]" .. "[NEWLINE]" .. Locale.Lookup("LOC_CLIMATE_POLAR_ICE_MELT_TOOLTIP", kEventDef.IceLoss)
+                    Locale.Lookup("LOC_CLIMATE_CLIMATE_CHANGE_POINTS_TOOLTIP", GameClimate.GetClimateChangeLevel(),
+                                  iPoints) .. "[NEWLINE]" ..
+                    Locale.Lookup("LOC_CLIMATE_FROM_WORLD_REALISM_NUM_TOOLTIP",
+                                  GameClimate.GetClimateChangeFromRealism()) .. "[NEWLINE]" ..
+                    Locale.Lookup("LOC_CLIMATE_FROM_GLOBAL_TEMPERATURE_NUM_TOOLTIP",
+                                  GameClimate.GetClimateChangeFromTemperature()) .. "[NEWLINE]" .. "[NEWLINE]" ..
+                    Locale.ToUpper("LOC_CLIMATE_EFFECTS_ADDED_THIS_PHASE_TOOLTIP") .. "[NEWLINE]" .. "[NEWLINE]" ..
+                    Locale.Lookup("LOC_CLIMATE_SEA_LEVEL_RISES_NUM_TOOLTIP", szSeaLevelRise) .. szAtOrAboveString ..
+                    "[NEWLINE]" .. "[NEWLINE]" .. Locale.Lookup("LOC_CLIMATE_POLAR_ICE_MELT_TOOLTIP", kEventDef.IceLoss)
 
   if (szLongDescription ~= nil and szLongDescription ~= "") then
     tooltip = tooltip .. "[NEWLINE][NEWLINE]" .. Locale.Lookup(szLongDescription)
@@ -1054,7 +1115,9 @@ end
 -- ===========================================================================
 function OnInit(isReload)
   LateInitialize()
-  if isReload then LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID) end
+  if isReload then
+    LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
+  end
 end
 
 -- ===========================================================================
@@ -1065,18 +1128,28 @@ end
 
 -- ===========================================================================
 function OnGameDebugReturn(context, contextTable)
-  if context ~= RELOAD_CACHE_ID then return end
+  if context ~= RELOAD_CACHE_ID then
+    return
+  end
   m_currentTabName = contextTable["m_currentTabName"]
-  if contextTable["isHidden"] ~= nil and not contextTable["isHidden"] then Open(m_currentTabName) end
+  if contextTable["isHidden"] ~= nil and not contextTable["isHidden"] then
+    Open(m_currentTabName)
+  end
 end
 
 -- ===========================================================================
 function OnPlayerTurnActivated(ePlayer, isFirstTime)
-  if ContextPtr:IsHidden() == false and ePlayer == Game.GetLocalPlayer() then Open(m_currentTabName) end
+  if ContextPtr:IsHidden() == false and ePlayer == Game.GetLocalPlayer() then
+    Open(m_currentTabName)
+  end
 end
 
 -- ===========================================================================
-function OnLocalPlayerTurnEnd() if GameConfiguration.IsHotseat() and ContextPtr:IsVisible() then Close() end end
+function OnLocalPlayerTurnEnd()
+  if GameConfiguration.IsHotseat() and ContextPtr:IsVisible() then
+    Close()
+  end
+end
 
 -- ===========================================================================
 function Initialize()
@@ -1092,7 +1165,9 @@ function Initialize()
     query = "SELECT * FROM DomainValues where Domain = 'WorldAge' and Value = ? LIMIT 1"
     pResults = DB.ConfigurationQuery(query, worldAgeNum)
     kResult = pResults[1]
-    if kResult ~= nil then m_worldAgeName = Locale.Lookup(kResult.Name) end
+    if kResult ~= nil then
+      m_worldAgeName = Locale.Lookup(kResult.Name)
+    end
   end
 
   local realismLevel = GameConfiguration.GetValue("GAME_REALISM")
@@ -1100,12 +1175,16 @@ function Initialize()
     query = "SELECT * FROM RealismSettings ORDER BY rowid"
     pResults = DB.Query(query)
     kResult = pResults[realismLevel + 1]
-    if kResult ~= nil then m_RealismName = Locale.Lookup(kResult.Name) end
+    if kResult ~= nil then
+      m_RealismName = Locale.Lookup(kResult.Name)
+    end
   end
 
   UpdateClimateChangeEventsData() -- Required for phase segment initialization.
 
-  for phase = 1, MAX_PHASES, 1 do InitPhaseSegment(phase) end
+  for phase = 1, MAX_PHASES, 1 do
+    InitPhaseSegment(phase)
+  end
 
   -- UI Events
   ContextPtr:SetInitHandler(OnInit)
@@ -1125,4 +1204,6 @@ function Initialize()
 end
 
 -- No capability means never initialize this so it can never be used.
-if GameCapabilities.HasCapability("CAPABILITY_WORLD_CLIMATE_VIEW") then Initialize() end
+if GameCapabilities.HasCapability("CAPABILITY_WORLD_CLIMATE_VIEW") then
+  Initialize()
+end

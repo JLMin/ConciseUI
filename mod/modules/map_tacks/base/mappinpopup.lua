@@ -27,9 +27,10 @@ local g_cachedChatPanelTarget = nil -- Cached player target for ingame chat pane
 -- When we aren't quite so crunched on time, it would be good to add the map pins table to the database
 -- CUI: change "name" to "name", name == nil
 local defaultIcons = {
-  {icon = "ICON_MAP_PIN_STRENGTH"}, {icon = "ICON_MAP_PIN_RANGED"}, {icon = "ICON_MAP_PIN_BOMBARD"}, {icon = "ICON_MAP_PIN_DISTRICT"},
-  {icon = "ICON_MAP_PIN_CHARGES"}, {icon = "ICON_MAP_PIN_DEFENSE"}, {icon = "ICON_MAP_PIN_MOVEMENT"}, {icon = "ICON_MAP_PIN_NO"},
-  {icon = "ICON_MAP_PIN_PLUS"}, {icon = "ICON_MAP_PIN_CIRCLE"}, {icon = "ICON_MAP_PIN_TRIANGLE"}, {icon = "ICON_MAP_PIN_SUN"},
+  {icon = "ICON_MAP_PIN_STRENGTH"}, {icon = "ICON_MAP_PIN_RANGED"}, {icon = "ICON_MAP_PIN_BOMBARD"},
+  {icon = "ICON_MAP_PIN_DISTRICT"}, {icon = "ICON_MAP_PIN_CHARGES"}, {icon = "ICON_MAP_PIN_DEFENSE"},
+  {icon = "ICON_MAP_PIN_MOVEMENT"}, {icon = "ICON_MAP_PIN_NO"}, {icon = "ICON_MAP_PIN_PLUS"},
+  {icon = "ICON_MAP_PIN_CIRCLE"}, {icon = "ICON_MAP_PIN_TRIANGLE"}, {icon = "ICON_MAP_PIN_SUN"},
   {icon = "ICON_MAP_PIN_SQUARE"}, {icon = "ICON_MAP_PIN_DIAMOND"}
 }
 
@@ -76,7 +77,9 @@ function PlayerTargetToMapPinVisibility(playerTargetData)
 end
 
 function MapPinIsVisibleToChatTarget(mapPinVisibility, chatPlayerTarget)
-  if (chatPlayerTarget == nil or mapPinVisibility == nil) then return false end
+  if (chatPlayerTarget == nil or mapPinVisibility == nil) then
+    return false
+  end
 
   if (mapPinVisibility == ChatTargetTypes.CHATTARGET_ALL) then
     -- All pins are visible to all
@@ -87,16 +90,22 @@ function MapPinIsVisibleToChatTarget(mapPinVisibility, chatPlayerTarget)
     local localPlayer = PlayerConfigurations[localPlayerID]
     local localTeam = localPlayer:GetTeam()
     if (chatPlayerTarget.targetType == ChatTargetTypes.CHATTARGET_TEAM) then
-      if (localTeam == chatPlayerTarget.targetID) then return true end
-    elseif (chatPlayerTarget.targetType == ChatTargetTypes.CHATTARGET_PLAYER and chatPlayerTarget.targetID ~= NO_PLAYERTARGET_ID) then
+      if (localTeam == chatPlayerTarget.targetID) then
+        return true
+      end
+    elseif (chatPlayerTarget.targetType == ChatTargetTypes.CHATTARGET_PLAYER and chatPlayerTarget.targetID ~=
+      NO_PLAYERTARGET_ID) then
       local chatPlayerID = chatPlayerTarget.targetID
       local chatPlayer = PlayerConfigurations[chatPlayerID]
       local chatTeam = chatPlayer:GetTeam()
-      if (localTeam == chatTeam) then return true end
+      if (localTeam == chatTeam) then
+        return true
+      end
     end
   elseif (mapPinVisibility >= 0) then
     -- Individual map pin is only visible to that player.
-    if (chatPlayerTarget.targetType == ChatTargetTypes.CHATTARGET_PLAYER and mapPinVisibility == chatPlayerTarget.targetID) then
+    if (chatPlayerTarget.targetType == ChatTargetTypes.CHATTARGET_PLAYER and mapPinVisibility ==
+      chatPlayerTarget.targetID) then
       return true
     end
   end
@@ -108,7 +117,9 @@ end
 --
 -------------------------------------------------------------------------------
 function SetMapPinIcon(imageControl, mapPinIconName)
-  if (imageControl ~= nil and mapPinIconName ~= nil) then imageControl:SetIcon(mapPinIconName) end
+  if (imageControl ~= nil and mapPinIconName ~= nil) then
+    imageControl:SetIcon(mapPinIconName)
+  end
 end
 
 -- ===========================================================================
@@ -168,7 +179,11 @@ function PopulateIconOptions()
 end
 
 -- ===========================================================================
-function UpdateIconOptionColors() for iconIndex, iconEntry in pairs(g_iconOptionEntries) do UpdateIconOptionColor(iconIndex) end end
+function UpdateIconOptionColors()
+  for iconIndex, iconEntry in pairs(g_iconOptionEntries) do
+    UpdateIconOptionColor(iconIndex)
+  end
+end
 
 -- ===========================================================================
 function UpdateIconOptionColor(iconEntryIndex)
@@ -246,13 +261,17 @@ end
 -- ===========================================================================
 function OnChatPanel_PlayerTargetChanged(playerTargetTable)
   g_cachedChatPanelTarget = playerTargetTable
-  if (not ContextPtr:IsHidden()) then ShowHideSendToChatButton() end
+  if (not ContextPtr:IsHidden()) then
+    ShowHideSendToChatButton()
+  end
 end
 
 -- ===========================================================================
 function ShowHideSendToChatButton()
   local editPin = GetEditPinConfig()
-  if (editPin == nil) then return end
+  if (editPin == nil) then
+    return
+  end
 
   local privatePin = editPin:IsPrivate()
   local showSendButton = GameConfiguration.IsNetworkMultiplayer() and not privatePin
@@ -335,19 +354,25 @@ function OnDelete()
   UIManager:DequeuePopup(ContextPtr)
 end
 
-function OnCancel() UIManager:DequeuePopup(ContextPtr) end
+function OnCancel()
+  UIManager:DequeuePopup(ContextPtr)
+end
 ----------------------------------------------------------------
 -- Event Handlers
 ----------------------------------------------------------------
 function OnMapPinPlayerInfoChanged(playerID)
-  PlayerTarget_OnPlayerInfoChanged(playerID, Controls.VisibilityPull, nil, nil, g_visibilityTargetEntries, g_playerTarget, true)
+  PlayerTarget_OnPlayerInfoChanged(playerID, Controls.VisibilityPull, nil, nil, g_visibilityTargetEntries,
+                                   g_playerTarget, true)
 end
 
 function OnLocalPlayerChanged()
   g_playerTarget.targetID = Game.GetLocalPlayer()
-  PopulateTargetPull(Controls.VisibilityPull, nil, nil, g_visibilityTargetEntries, g_playerTarget, true, OnVisibilityPull)
+  PopulateTargetPull(Controls.VisibilityPull, nil, nil, g_visibilityTargetEntries, g_playerTarget, true,
+                     OnVisibilityPull)
 
-  if (not ContextPtr:IsHidden()) then UIManager:DequeuePopup(ContextPtr) end
+  if (not ContextPtr:IsHidden()) then
+    UIManager:DequeuePopup(ContextPtr)
+  end
 end
 
 -- ===========================================================================
@@ -365,7 +390,9 @@ end
 -- ===========================================================================
 function OnInputHandler(pInputStruct)
   local uiMsg = pInputStruct:GetMessageType()
-  if uiMsg == KeyEvents.KeyUp then return KeyHandler(pInputStruct:GetKey()) end
+  if uiMsg == KeyEvents.KeyUp then
+    return KeyHandler(pInputStruct:GetKey())
+  end
   return false
 end
 
@@ -379,8 +406,12 @@ function CuiGetDistrictIcons()
 
   -- check leader & civ unique
   local unique = {}
-  for _, item in ipairs(pLeader.TraitCollection) do unique[item.TraitType] = true end
-  for _, item in ipairs(pCiv.TraitCollection) do unique[item.TraitType] = true end
+  for _, item in ipairs(pLeader.TraitCollection) do
+    unique[item.TraitType] = true
+  end
+  for _, item in ipairs(pCiv.TraitCollection) do
+    unique[item.TraitType] = true
+  end
 
   -- mark unique
   local districts = {}
@@ -413,7 +444,11 @@ end
 function CuiGetWonderIcons()
   local icons = {}
 
-  for item in GameInfo.Buildings() do if item.IsWonder then table.insert(icons, CuiGetIconByItem(item)) end end
+  for item in GameInfo.Buildings() do
+    if item.IsWonder then
+      table.insert(icons, CuiGetIconByItem(item))
+    end
+  end
 
   return icons
 end
@@ -482,13 +517,20 @@ function Initialize()
   LuaEvents.CuiMapPinSettingChange.Add(CuiRefresh)
   CuiRefresh()
   -- PopulateIconOptions();
-  PopulateTargetPull(Controls.VisibilityPull, nil, nil, g_visibilityTargetEntries, g_playerTarget, true, OnVisibilityPull)
+  PopulateTargetPull(Controls.VisibilityPull, nil, nil, g_visibilityTargetEntries, g_playerTarget, true,
+                     OnVisibilityPull)
   Controls.DeleteButton:RegisterCallback(Mouse.eLClick, OnDelete)
-  Controls.DeleteButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.DeleteButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.SendToChatButton:RegisterCallback(Mouse.eLClick, OnSendToChatButton)
-  Controls.SendToChatButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.SendToChatButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.OkButton:RegisterCallback(Mouse.eLClick, OnOk)
-  Controls.OkButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.OkButton:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
   Controls.PinName:RegisterCommitCallback(OnOk)
 
   LuaEvents.MapPinPopup_RequestMapPin.Add(RequestMapPin)
@@ -504,7 +546,9 @@ function Initialize()
   LuaEvents.MapPinPopup_RequestChatPlayerTarget()
 
   local canChangeName = GameCapabilities.HasCapability("CAPABILITY_RENAME")
-  if (not canChangeName) then Controls.PinFrame:SetHide(true) end
+  if (not canChangeName) then
+    Controls.PinFrame:SetHide(true)
+  end
 
 end
 Initialize()

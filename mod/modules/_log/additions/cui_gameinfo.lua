@@ -35,7 +35,9 @@ local function GenerateModInfo(mod)
   }
   if not mod.Official and mod.SubscriptionId then
     local details = Modding.GetSubscriptionDetails(mod.SubscriptionId)
-    if details and details.LastUpdated then modInfo.Update = Locale.Lookup("LOC_MODS_LAST_UPDATED", details.LastUpdated) end
+    if details and details.LastUpdated then
+      modInfo.Update = Locale.Lookup("LOC_MODS_LAST_UPDATED", details.LastUpdated)
+    end
   end
   return modInfo
 end
@@ -61,7 +63,9 @@ local function LoadInstalledMods()
       else
         CuiGameInfo.InstalledCom = CuiGameInfo.InstalledCom + 1
       end
-      if isNil(CuiGameInfo.Mods[mod.Id]) then CuiGameInfo.Mods[mod.Id] = {} end
+      if isNil(CuiGameInfo.Mods[mod.Id]) then
+        CuiGameInfo.Mods[mod.Id] = {}
+      end
       local modInfo = GenerateModInfo(mod)
       CuiGameInfo.Mods[mod.Id] = modInfo
     end
@@ -72,9 +76,15 @@ end
 local function LoadActiveMods()
   local mods = Modding.GetActiveMods()
   for _, mod in ipairs(mods) do
-    if mod.Id == Tutorial then CuiGameInfo.IsTutorial = mod.Enabled end
-    if mod.Id == RiseAndFall then CuiGameInfo.IsRiseAndFall = mod.Enabled end
-    if mod.Id == GatheringStorm then CuiGameInfo.IsGatheringStorm = mod.Enabled end
+    if mod.Id == Tutorial then
+      CuiGameInfo.IsTutorial = mod.Enabled
+    end
+    if mod.Id == RiseAndFall then
+      CuiGameInfo.IsRiseAndFall = mod.Enabled
+    end
+    if mod.Id == GatheringStorm then
+      CuiGameInfo.IsGatheringStorm = mod.Enabled
+    end
     if mod.Id ~= Tutorial and mod.Source == "Mod" then
       CuiGameInfo.ActiveAll = CuiGameInfo.ActiveAll + 1
       if mod.Official then
@@ -93,19 +103,27 @@ end
 
 -- ---------------------------------------------------------------------------
 local function SortMods(usMods)
-  if isNil(usMods) then return nil end
+  if isNil(usMods) then
+    return nil
+  end
 
   local mods = {}
-  for _, mod in pairs(usMods) do table.insert(mods, mod) end
+  for _, mod in pairs(usMods) do
+    table.insert(mods, mod)
+  end
 
   table.sort(mods, function(a, b)
     local sortOverrides = {["4873eb62-8ccc-4574-b784-dda455e74e68"] = -2, ["1B28771A-C749-434B-9053-D1380C553DE9"] = -1}
 
     local aSort = sortOverrides[a.Id] or 0
     local bSort = sortOverrides[b.Id] or 0
-    if aSort ~= bSort then return aSort < bSort end
+    if aSort ~= bSort then
+      return aSort < bSort
+    end
 
-    if a.Official ~= b.Official then return a.Official end
+    if a.Official ~= b.Official then
+      return a.Official
+    end
 
     return Locale.Compare(a.Name, b.Name) == -1
   end)

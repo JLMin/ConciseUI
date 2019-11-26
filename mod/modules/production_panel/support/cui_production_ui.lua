@@ -48,7 +48,9 @@ end
 
 -- ---------------------------------------------------------------------------
 function PopulateGroup(groupIM, itemIM, data, group, mode)
-  if isNil(data) then return end
+  if isNil(data) then
+    return
+  end
 
   local groupInstance = {}
 
@@ -64,12 +66,20 @@ function PopulateGroup(groupIM, itemIM, data, group, mode)
     end
   elseif mode == MODE.GOLD or mode == MODE.FAITH then
     local items = {}
-    if mode == MODE.GOLD then items = GetPurchaseItemsByYield(data, Y_GOLD) end
-    if mode == MODE.FAITH then items = GetPurchaseItemsByYield(data, Y_FAITH) end
-    if isNil(items) then return end
+    if mode == MODE.GOLD then
+      items = GetPurchaseItemsByYield(data, Y_GOLD)
+    end
+    if mode == MODE.FAITH then
+      items = GetPurchaseItemsByYield(data, Y_FAITH)
+    end
+    if isNil(items) then
+      return
+    end
     groupInstance = groupIM:GetInstance()
     local groupList = groupInstance.List
-    for _, item in ipairs(items) do PopulatePurchaseItem(groupList, itemIM, item, mode) end
+    for _, item in ipairs(items) do
+      PopulatePurchaseItem(groupList, itemIM, item, mode)
+    end
   end
 
   if not isNil(groupInstance) then
@@ -85,7 +95,9 @@ function PopulateGroup(groupIM, itemIM, data, group, mode)
       OnSizeChangeFunc = OnUnitListSizeChanged
     end
     if OnSizeChangeFunc then
-      groupInstance.Top:RegisterSizeChanged(function() OnSizeChangeFunc(groupIM, groupInstance.Top:GetSizeY()) end)
+      groupInstance.Top:RegisterSizeChanged(function()
+        OnSizeChangeFunc(groupIM, groupInstance.Top:GetSizeY())
+      end)
       OnSizeChangeFunc(groupIM, groupInstance.Top:GetSizeY())
     end
   end
@@ -94,13 +106,19 @@ end
 -- ---------------------------------------------------------------------------
 function PopulateProduceItem(parent, itemIM, item, mode)
   local skipItem = false
-  if mode == MODE.PROD then skipItem = ItemDisabledInProdu(item, m_queue) end
-  if mode == MODE.QUEUE then skipItem = ItemDisabledInQueue(item, m_queue) end
+  if mode == MODE.PROD then
+    skipItem = ItemDisabledInProdu(item, m_queue)
+  end
+  if mode == MODE.QUEUE then
+    skipItem = ItemDisabledInQueue(item, m_queue)
+  end
 
   local canPurchase = false
   if skipItem then
     canPurchase = CanPurchaseItem(item)
-    if not canPurchase then return end
+    if not canPurchase then
+      return
+    end
   end
 
   local instance = itemIM:GetInstance(parent)
@@ -140,25 +158,41 @@ function PopulateProduceItem(parent, itemIM, item, mode)
 
     -- buildings in this district
     if not isNil(item.Buildings) then
-      for _, building in ipairs(item.Buildings) do PopulateProduceItem(parent, itemIM, building, mode) end
+      for _, building in ipairs(item.Buildings) do
+        PopulateProduceItem(parent, itemIM, building, mode)
+      end
     end
   end
   --
-  if item.IsBuilding then if not item.MustPurchase then instance.CostText:SetText(TurnString(item.Turns)) end end
-  --
-  if item.IsWonder then instance.CostText:SetText(TurnString(item.Turns)) end
-  --
-  if item.IsUnit then
-    if not item.MustPurchase then instance.CostText:SetText(TurnString(item.Turns)) end
-    --
-    local corps = item.Corps
-    if not isNil(corps) then PopulateProduceItem(parent, itemIM, corps, mode) end
-    --
-    local army = item.Army
-    if not isNil(army) then PopulateProduceItem(parent, itemIM, army, mode) end
+  if item.IsBuilding then
+    if not item.MustPurchase then
+      instance.CostText:SetText(TurnString(item.Turns))
+    end
   end
   --
-  if item.IsProject then instance.CostText:SetText(TurnString(item.Turns)) end
+  if item.IsWonder then
+    instance.CostText:SetText(TurnString(item.Turns))
+  end
+  --
+  if item.IsUnit then
+    if not item.MustPurchase then
+      instance.CostText:SetText(TurnString(item.Turns))
+    end
+    --
+    local corps = item.Corps
+    if not isNil(corps) then
+      PopulateProduceItem(parent, itemIM, corps, mode)
+    end
+    --
+    local army = item.Army
+    if not isNil(army) then
+      PopulateProduceItem(parent, itemIM, army, mode)
+    end
+  end
+  --
+  if item.IsProject then
+    instance.CostText:SetText(TurnString(item.Turns))
+  end
 end
 
 -- ---------------------------------------------------------------------------
@@ -208,12 +242,20 @@ end
 -- ---------------------------------------------------------------------------
 function SetupHeader(instance, title)
   instance.Header:SetText(Locale.Lookup(title))
-  instance.Header:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
-  instance.Header:RegisterCallback(Mouse.eLClick, function() OnExpand(instance) end)
+  instance.Header:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
+  instance.Header:RegisterCallback(Mouse.eLClick, function()
+    OnExpand(instance)
+  end)
 
   instance.HeaderOn:SetText(Locale.Lookup(title))
-  instance.HeaderOn:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
-  instance.HeaderOn:RegisterCallback(Mouse.eLClick, function() OnCollapse(instance) end)
+  instance.HeaderOn:RegisterCallback(Mouse.eMouseEnter, function()
+    UI.PlaySound("Main_Menu_Mouse_Over")
+  end)
+  instance.HeaderOn:RegisterCallback(Mouse.eLClick, function()
+    OnCollapse(instance)
+  end)
 
   OnExpand(instance)
 end
@@ -246,8 +288,12 @@ function SetBasicItemInstance(instance, item)
 
   instance.Icon:SetIcon("ICON_" .. item.Type)
   local name = Locale.Lookup(item.Name)
-  if item.IsCorps then name = name .. " [ICON_Corps]" end
-  if item.IsArmy then name = name .. " [ICON_Army]" end
+  if item.IsCorps then
+    name = name .. " [ICON_Corps]"
+  end
+  if item.IsArmy then
+    name = name .. " [ICON_Army]"
+  end
   instance.Name:SetText(name)
 end
 
@@ -278,9 +324,13 @@ function SetupProduceButtons(instance, item)
 
     instance.GoldCost:SetText(item.GoldCost .. "[ICON_GOLD]")
 
-    instance.GoldButton:RegisterMouseEnterCallback(function() OnGoldCostButtonMouse(instance, "Enter") end)
+    instance.GoldButton:RegisterMouseEnterCallback(function()
+      OnGoldCostButtonMouse(instance, "Enter")
+    end)
 
-    instance.GoldButton:RegisterMouseExitCallback(function() OnGoldCostButtonMouse(instance, "Exit") end)
+    instance.GoldButton:RegisterMouseExitCallback(function()
+      OnGoldCostButtonMouse(instance, "Exit")
+    end)
   end
 
   if item.FaithUnlock then
@@ -294,9 +344,13 @@ function SetupProduceButtons(instance, item)
 
     instance.FaithCost:SetText(item.FaithCost .. "[ICON_FAITH]")
 
-    instance.FaithButton:RegisterMouseEnterCallback(function() OnFaithCostButtonMouse(instance, "Enter") end)
+    instance.FaithButton:RegisterMouseEnterCallback(function()
+      OnFaithCostButtonMouse(instance, "Enter")
+    end)
 
-    instance.FaithButton:RegisterMouseExitCallback(function() OnFaithCostButtonMouse(instance, "Exit") end)
+    instance.FaithButton:RegisterMouseExitCallback(function()
+      OnFaithCostButtonMouse(instance, "Exit")
+    end)
   end
 
   if item.IsProject and item.IsRepeatable then
@@ -312,22 +366,36 @@ end
 
 -- ---------------------------------------------------------------------------
 function RegisterProduceButtons(instance, item)
-  instance.Button:RegisterCallback(Mouse.eRClick, function() LuaEvents.OpenCivilopedia(item.Type) end)
+  instance.Button:RegisterCallback(Mouse.eRClick, function()
+    LuaEvents.OpenCivilopedia(item.Type)
+  end)
   --
   if item.IsDistrict then
-    instance.Button:RegisterCallback(Mouse.eLClick, function() OnBuildDistrict(m_city, item) end)
+    instance.Button:RegisterCallback(Mouse.eLClick, function()
+      OnBuildDistrict(m_city, item)
+    end)
 
-    instance.GoldButton:RegisterCallback(Mouse.eLClick, function() OnPurchaseDistrict(m_city, item, Y_GOLD) end)
+    instance.GoldButton:RegisterCallback(Mouse.eLClick, function()
+      OnPurchaseDistrict(m_city, item, Y_GOLD)
+    end)
 
-    instance.FaithButton:RegisterCallback(Mouse.eLClick, function() OnPurchaseDistrict(m_city, item, Y_FAITH) end)
+    instance.FaithButton:RegisterCallback(Mouse.eLClick, function()
+      OnPurchaseDistrict(m_city, item, Y_FAITH)
+    end)
   end
   --
   if item.IsBuilding or item.IsWonder then
-    instance.Button:RegisterCallback(Mouse.eLClick, function() OnBuildBuilding(m_city, item) end)
+    instance.Button:RegisterCallback(Mouse.eLClick, function()
+      OnBuildBuilding(m_city, item)
+    end)
 
-    instance.GoldButton:RegisterCallback(Mouse.eLClick, function() OnPurchaseBuilding(m_city, item, Y_GOLD) end)
+    instance.GoldButton:RegisterCallback(Mouse.eLClick, function()
+      OnPurchaseBuilding(m_city, item, Y_GOLD)
+    end)
 
-    instance.FaithButton:RegisterCallback(Mouse.eLClick, function() OnPurchaseBuilding(m_city, item, Y_FAITH) end)
+    instance.FaithButton:RegisterCallback(Mouse.eLClick, function()
+      OnPurchaseBuilding(m_city, item, Y_FAITH)
+    end)
   end
   --
   if item.IsUnit then
@@ -340,28 +408,46 @@ function RegisterProduceButtons(instance, item)
       formation = UNIT_ARMY
     end
 
-    instance.Button:RegisterCallback(Mouse.eLClick, function() OnBuildUnit(m_city, item, formation) end)
+    instance.Button:RegisterCallback(Mouse.eLClick, function()
+      OnBuildUnit(m_city, item, formation)
+    end)
 
-    instance.GoldButton:RegisterCallback(Mouse.eLClick, function() OnPurchaseUnit(m_city, item, formation, Y_GOLD) end)
+    instance.GoldButton:RegisterCallback(Mouse.eLClick, function()
+      OnPurchaseUnit(m_city, item, formation, Y_GOLD)
+    end)
 
-    instance.FaithButton:RegisterCallback(Mouse.eLClick, function() OnPurchaseUnit(m_city, item, formation, Y_FAITH) end)
+    instance.FaithButton:RegisterCallback(Mouse.eLClick, function()
+      OnPurchaseUnit(m_city, item, formation, Y_FAITH)
+    end)
   end
   --
   if item.IsProject then
-    instance.Button:RegisterCallback(Mouse.eLClick, function() OnBuildProject(m_city, item) end)
+    instance.Button:RegisterCallback(Mouse.eLClick, function()
+      OnBuildProject(m_city, item)
+    end)
 
-    instance.RepeatButton:RegisterCallback(Mouse.eLClick, function() OnRepeatProject(m_city, item) end)
+    instance.RepeatButton:RegisterCallback(Mouse.eLClick, function()
+      OnRepeatProject(m_city, item)
+    end)
   end
 end
 
 -- ---------------------------------------------------------------------------
 function RegisterPurchaseButtons(instance, item, yield)
-  instance.Button:RegisterCallback(Mouse.eRClick, function() LuaEvents.OpenCivilopedia(item.Type) end)
+  instance.Button:RegisterCallback(Mouse.eRClick, function()
+    LuaEvents.OpenCivilopedia(item.Type)
+  end)
 
-  if item.IsDistrict then instance.Button:RegisterCallback(Mouse.eLClick, function() OnPurchaseDistrict(m_city, item, yield) end) end
+  if item.IsDistrict then
+    instance.Button:RegisterCallback(Mouse.eLClick, function()
+      OnPurchaseDistrict(m_city, item, yield)
+    end)
+  end
   --
   if item.IsBuilding or item.IsWonder then
-    instance.Button:RegisterCallback(Mouse.eLClick, function() OnPurchaseBuilding(m_city, item, yield) end)
+    instance.Button:RegisterCallback(Mouse.eLClick, function()
+      OnPurchaseBuilding(m_city, item, yield)
+    end)
   end
   --
   if item.IsUnit then
@@ -374,7 +460,9 @@ function RegisterPurchaseButtons(instance, item, yield)
       formation = UNIT_ARMY
     end
 
-    instance.Button:RegisterCallback(Mouse.eLClick, function() OnPurchaseUnit(m_city, item, formation, yield) end)
+    instance.Button:RegisterCallback(Mouse.eLClick, function()
+      OnPurchaseUnit(m_city, item, formation, yield)
+    end)
   end
   --
   if item.IsProject then
@@ -418,11 +506,15 @@ end
 function OnBuildDistrict(city, districtEntry)
   StopRepeatProject(city)
 
-  if CheckQueueItemSelected() then return end
+  if CheckQueueItemSelected() then
+    return
+  end
 
   local bNeedsPlacement = districtEntry.RequiresPlacement
 
-  if m_queue:HasBeenPlaced(districtEntry.Hash) then bNeedsPlacement = false end
+  if m_queue:HasBeenPlaced(districtEntry.Hash) then
+    bNeedsPlacement = false
+  end
 
   if bNeedsPlacement then
     local tParameters = {}
@@ -444,7 +536,9 @@ end
 function OnPurchaseDistrict(city, districtEntry, yield)
   local bNeedsPlacement = districtEntry.RequiresPlacement
 
-  if m_queue:HasBeenPlaced(districtEntry.Hash) then bNeedsPlacement = false end
+  if m_queue:HasBeenPlaced(districtEntry.Hash) then
+    bNeedsPlacement = false
+  end
 
   if bNeedsPlacement then
     local tParameters = {}
@@ -470,17 +564,23 @@ end
 function OnBuildBuilding(city, buildingEntry)
   StopRepeatProject(city)
 
-  if CheckQueueItemSelected() then return end
+  if CheckQueueItemSelected() then
+    return
+  end
 
   local bNeedsPlacement = buildingEntry.RequiresPlacement
 
   UI.SetInterfaceMode(InterfaceModeTypes.SELECTION)
 
-  if m_queue:HasBeenPlaced(buildingEntry.Hash) then bNeedsPlacement = false end
+  if m_queue:HasBeenPlaced(buildingEntry.Hash) then
+    bNeedsPlacement = false
+  end
 
   if bNeedsPlacement then
     local cityBuildings = city:GetBuildings()
-    if cityBuildings:HasBuilding(buildingEntry.Hash) then bNeedsPlacement = false end
+    if cityBuildings:HasBuilding(buildingEntry.Hash) then
+      bNeedsPlacement = false
+    end
   end
 
   if bNeedsPlacement then
@@ -518,7 +618,9 @@ end
 function OnBuildUnit(city, unitEntry, formation)
   StopRepeatProject(city)
 
-  if CheckQueueItemSelected() then return end
+  if CheckQueueItemSelected() then
+    return
+  end
 
   local tParameters = {}
   tParameters[CityOperationTypes.PARAM_UNIT_TYPE] = unitEntry.Hash
@@ -550,7 +652,9 @@ end
 function OnBuildProject(city, projectEntry)
   StopRepeatProject(city)
 
-  if CheckQueueItemSelected() then return end
+  if CheckQueueItemSelected() then
+    return
+  end
 
   local tParameters = {}
   tParameters[CityOperationTypes.PARAM_PROJECT_TYPE] = projectEntry.Hash
@@ -565,7 +669,9 @@ end
 function OnRepeatProject(city, projectEntry)
   AddProjectToRepeatList(city, projectEntry.Hash)
 
-  if CheckQueueItemSelected() then return end
+  if CheckQueueItemSelected() then
+    return
+  end
 
   local tParameters = {}
   tParameters[CityOperationTypes.PARAM_PROJECT_TYPE] = projectEntry.Hash
@@ -582,10 +688,14 @@ end
 function ItemDisabledInProdu(item, queue)
 
   local hash = queue:GetCurrentProductionTypeHash()
-  if item.IsDistrict or item.IsWonder or item.IsUnit or item.IsProject then return item.Hash == hash end
+  if item.IsDistrict or item.IsWonder or item.IsUnit or item.IsProject then
+    return item.Hash == hash
+  end
 
   if item.IsBuilding then
-    if item.Hash == hash then return true end
+    if item.Hash == hash then
+      return true
+    end
     return item.PrereqHash == hash
   end
 
@@ -594,13 +704,23 @@ end
 
 -- ---------------------------------------------------------------------------
 function ItemDisabledInQueue(item, queue)
-  if item.IsDistrict then return IsItemInQueue(item, queue) and item.OnePerCity end
-  if item.IsWonder then return IsItemInQueue(item, queue) end
-  if item.IsUnit then return false end
-  if item.IsProject then return IsItemInQueue(item, queue) and not item.IsRepeatable end
+  if item.IsDistrict then
+    return IsItemInQueue(item, queue) and item.OnePerCity
+  end
+  if item.IsWonder then
+    return IsItemInQueue(item, queue)
+  end
+  if item.IsUnit then
+    return false
+  end
+  if item.IsProject then
+    return IsItemInQueue(item, queue) and not item.IsRepeatable
+  end
 
   if item.IsBuilding then
-    if IsItemInQueue(item, queue) then return true end
+    if IsItemInQueue(item, queue) then
+      return true
+    end
     local district = GameInfo.Districts[item.PrereqType]
     local fakeDistrict = {IsDistrict = true, BasicType = GetDistrictBaseType(district)}
     return IsItemInQueue(fakeDistrict, queue) and district.OnePerCity
@@ -610,10 +730,14 @@ end
 -- ---------------------------------------------------------------------------
 function IsItemInQueue(item, queue)
 
-  if item.IsUnit then return false end
+  if item.IsUnit then
+    return false
+  end
 
   local hash = queue:GetCurrentProductionTypeHash()
-  if item.Hash == hash then return true end
+  if item.Hash == hash then
+    return true
+  end
 
   for i = 1, 7 do
     local queueEntry = queue:GetAt(i)
@@ -623,7 +747,9 @@ function IsItemInQueue(item, queue)
         local pDistrictDef = GameInfo.Districts[queueEntry.DistrictType]
         if pDistrictDef and pDistrictDef.DistrictType then
           local basicType = GetDistrictBaseType(pDistrictDef)
-          if basicType == item.BasicType then return true end
+          if basicType == item.BasicType then
+            return true
+          end
         end
       end
     end
@@ -631,14 +757,22 @@ function IsItemInQueue(item, queue)
     if item.IsBuilding or item.IsWonder then
       if queueEntry and queueEntry.BuildingType then
         local pBuildingDef = GameInfo.Buildings[queueEntry.BuildingType]
-        if pBuildingDef and pBuildingDef.BuildingType then if pBuildingDef.BuildingType == item.Type then return true end end
+        if pBuildingDef and pBuildingDef.BuildingType then
+          if pBuildingDef.BuildingType == item.Type then
+            return true
+          end
+        end
       end
     end
     --
     if item.IsProject then
       if queueEntry and queueEntry.ProjectType then
         local pProjectDef = GameInfo.Projects[queueEntry.ProjectType]
-        if pProjectDef and pProjectDef.ProjectType then if pProjectDef.ProjectType == item.Type then return true end end
+        if pProjectDef and pProjectDef.ProjectType then
+          if pProjectDef.ProjectType == item.Type then
+            return true
+          end
+        end
       end
     end
     --
@@ -648,35 +782,53 @@ function IsItemInQueue(item, queue)
 end
 
 -- ---------------------------------------------------------------------------
-function CanPurchaseItem(item) return item.GoldUnlock or item.FaithUnlock end
+function CanPurchaseItem(item)
+  return item.GoldUnlock or item.FaithUnlock
+end
 
 -- ---------------------------------------------------------------------------
 function GetPurchaseItemsByYield(data, yield)
   local items = {}
 
   for _, item in ipairs(data) do
-    if yield == Y_GOLD and item.GoldUnlock then table.insert(items, item) end
-    if yield == Y_FAITH and item.FaithUnlock then table.insert(items, item) end
+    if yield == Y_GOLD and item.GoldUnlock then
+      table.insert(items, item)
+    end
+    if yield == Y_FAITH and item.FaithUnlock then
+      table.insert(items, item)
+    end
 
     if item.IsDistrict then
       local buildings = item.Buildings
       if not isNil(buildings) then
         for _, b in ipairs(buildings) do
-          if yield == Y_GOLD and b.GoldUnlock then table.insert(items, b) end
-          if yield == Y_FAITH and b.FaithUnlock then table.insert(items, b) end
+          if yield == Y_GOLD and b.GoldUnlock then
+            table.insert(items, b)
+          end
+          if yield == Y_FAITH and b.FaithUnlock then
+            table.insert(items, b)
+          end
         end
       end
     elseif item.IsUnit then
       local c = item.Corps
       if not isNil(c) then
-        if yield == Y_GOLD and c.GoldUnlock then table.insert(items, c) end
-        if yield == Y_FAITH and c.FaithUnlock then table.insert(items, c) end
+        if yield == Y_GOLD and c.GoldUnlock then
+          table.insert(items, c)
+        end
+        if yield == Y_FAITH and c.FaithUnlock then
+          table.insert(items, c)
+        end
       end
       --
       local a = item.Army
       if not isNil(a) then
-        if yield == Y_GOLD and a.GoldUnlock then table.insert(items, a) end
-        if yield == Y_FAITH and a.FaithUnlock then table.insert(items, a) end
+        if yield == Y_GOLD and a.GoldUnlock then
+          table.insert(items, a)
+        end
+        if yield == Y_FAITH and a.FaithUnlock then
+          table.insert(items, a)
+        end
       end
     end
   end

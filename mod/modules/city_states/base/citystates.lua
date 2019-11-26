@@ -30,12 +30,24 @@ local NUM_ENVOY_TOKENS_FOR_THIRD_BONUS = 6
 local MAX_BEFORE_TRUNC_SUZERAIN = 310
 
 local DIPLO_PIP_INFO = {}
-DIPLO_PIP_INFO["DIPLO_STATE_PROTECTOR"] = {IconName = "ICON_RELATIONSHIP_SUZERAIN", Tooltip = "LOC_CITY_STATES_DIPLO_SUZERAIN"}
+DIPLO_PIP_INFO["DIPLO_STATE_PROTECTOR"] = {
+  IconName = "ICON_RELATIONSHIP_SUZERAIN",
+  Tooltip = "LOC_CITY_STATES_DIPLO_SUZERAIN"
+}
 DIPLO_PIP_INFO["DIPLO_STATE_PATRON"] = {IconName = "ICON_RELATIONSHIP_GOOD", Tooltip = "LOC_CITY_STATES_DIPLO_GOOD"}
 DIPLO_PIP_INFO["DIPLO_STATE_AWARE"] = {IconName = "ICON_RELATIONSHIP_NEUTRAL", Tooltip = "LOC_CITY_STATES_DIPLO_AWARE"}
-DIPLO_PIP_INFO["DIPLO_STATE_WAR_WITH_MAJOR"] = {IconName = "ICON_RELATIONSHIP_WAR", Tooltip = "LOC_CITY_STATES_DIPLO_WAR"}
-DIPLO_PIP_INFO["DIPLO_STATE_WAR_WITH_MINOR"] = {IconName = "ICON_RELATIONSHIP_WAR", Tooltip = "LOC_CITY_STATES_DIPLO_WAR"}
-DIPLO_PIP_INFO["DIPLO_STATE_MINOR_MINOR_WAR"] = {IconName = "ICON_RELATIONSHIP_WAR", Tooltip = "LOC_CITY_STATES_DIPLO_WAR"}
+DIPLO_PIP_INFO["DIPLO_STATE_WAR_WITH_MAJOR"] = {
+  IconName = "ICON_RELATIONSHIP_WAR",
+  Tooltip = "LOC_CITY_STATES_DIPLO_WAR"
+}
+DIPLO_PIP_INFO["DIPLO_STATE_WAR_WITH_MINOR"] = {
+  IconName = "ICON_RELATIONSHIP_WAR",
+  Tooltip = "LOC_CITY_STATES_DIPLO_WAR"
+}
+DIPLO_PIP_INFO["DIPLO_STATE_MINOR_MINOR_WAR"] = {
+  IconName = "ICON_RELATIONSHIP_WAR",
+  Tooltip = "LOC_CITY_STATES_DIPLO_WAR"
+}
 
 local RELOAD_CACHE_ID = "CityStates" -- Must be unique (usually the same as the file name)
 
@@ -64,7 +76,8 @@ local m_InfluenceRowIM = InstanceManager:new("InfluenceRowInstance", "Top", Cont
 local m_QuestsIM = InstanceManager:new("QuestInstance", "Top", Controls.QuestsStack)
 local m_RelationshipsButtonIM = InstanceManager:new("RelationshipIcon", "Background", Controls.RelationshipsButtonStack)
 local m_RelationshipsCivsIM = InstanceManager:new("RelationshipIcon", "Background", Controls.RelationshipsCivsStack)
-local m_RelationshipsCityStatesIM = InstanceManager:new("RelationshipIcon", "Background", Controls.RelationshipsCityStatesStack)
+local m_RelationshipsCityStatesIM = InstanceManager:new("RelationshipIcon", "Background",
+                                                        Controls.RelationshipsCityStatesStack)
 -- CUI: icon instance
 local m_SuzerainIM = InstanceManager:new("CuiSuzerainInstance", "Top", Controls.SuzerainStack)
 
@@ -87,7 +100,11 @@ local m_isLocalPlayerTurn = true
 
 function GetCityStatesMetNum()
   local total = 0
-  for _, kCityState in pairs(m_kCityStates) do if kCityState.isHasMet then total = total + 1 end end
+  for _, kCityState in pairs(m_kCityStates) do
+    if kCityState.isHasMet then
+      total = total + 1
+    end
+  end
   return total
 end
 
@@ -101,7 +118,7 @@ function LookAtCityState(iPlayerID)
   if pPlayerCities:GetCount() > 1 then
     -- Might change in the future; currently city states will just raze
     UI.DataError("The CityState player " .. tostring(iPlayerID) .. " has " .. tostring(pPlayerCities:GetCount()) ..
-                     " cities, but should only have 1.")
+                   " cities, but should only have 1.")
   end
 
   -- Determine where camera should point.
@@ -109,7 +126,8 @@ function LookAtCityState(iPlayerID)
   local contextX = Controls.CityStateScroll:GetSizeX() -- Use scroll panel width to determine area consumed
   local cameraXOffset = ((screenX - contextX) * 0.5) / screenX -- Ratio (0 - 1) of available viewing space.
   if cameraXOffset < 0.1 or cameraXOffset > 0.9 then
-    UI.DataError("Got a whack offset for camera 'centering' of viewable space for the City States: " .. tostring(cameraXOffset))
+    UI.DataError("Got a whack offset for camera 'centering' of viewable space for the City States: " ..
+                   tostring(cameraXOffset))
     cameraXOffset = 0.33
   end
 
@@ -226,7 +244,8 @@ function GetSuzerainBonusText(playerID)
   local leader = PlayerConfigurations[playerID]:GetLeaderTypeName()
   local leaderInfo = GameInfo.Leaders[leader]
   if leaderInfo == nil then
-    UI.DataError("GetSuzerainBonusText, cannot determine the type of city state suzerain bonus for player #: " .. tostring(playerID))
+    UI.DataError("GetSuzerainBonusText, cannot determine the type of city state suzerain bonus for player #: " ..
+                   tostring(playerID))
     return "UNKNOWN"
   end
 
@@ -238,7 +257,8 @@ function GetSuzerainBonusText(playerID)
       local traitInfo = GameInfo.Traits[leaderTraitPairInfo.TraitType]
       if (traitInfo ~= nil) then
         local name = PlayerConfigurations[playerID]:GetCivilizationShortDescription()
-        text = text .. "[COLOR:SuzerainDark]" .. Locale.Lookup("LOC_CITY_STATES_SUZERAIN_UNIQUE_BONUS", name) .. "[ENDCOLOR] "
+        text = text .. "[COLOR:SuzerainDark]" .. Locale.Lookup("LOC_CITY_STATES_SUZERAIN_UNIQUE_BONUS", name) ..
+                 "[ENDCOLOR] "
         text = text .. Locale.Lookup(traitInfo.Description)
       end
     end
@@ -257,9 +277,13 @@ function GetSuzerainBonusText(playerID)
       local resource = resourceInfo.Index
       -- Include exports, so we see what another player is getting if suzerain
       if (player:GetResources():HasResource(resource) or player:GetResources():HasExportedResource(resource)) then
-        local amount = player:GetResources():GetResourceAmount(resource) + player:GetResources():GetExportedResourceAmount(resource)
-        if (resourceIcons ~= "") then resourceIcons = resourceIcons .. comma_separator end
-        resourceIcons = resourceIcons .. amount .. " [ICON_" .. resourceInfo.ResourceType .. "] " .. Locale.Lookup(resourceInfo.Name)
+        local amount = player:GetResources():GetResourceAmount(resource) +
+                         player:GetResources():GetExportedResourceAmount(resource)
+        if (resourceIcons ~= "") then
+          resourceIcons = resourceIcons .. comma_separator
+        end
+        resourceIcons = resourceIcons .. amount .. " [ICON_" .. resourceInfo.ResourceType .. "] " ..
+                          Locale.Lookup(resourceInfo.Name)
       end
     end
   end
@@ -317,7 +341,8 @@ function GetRelationships(cityStateID)
       civEntry.TeamID = pPlayerConfig:GetTeam()
       civEntry.DiploState = GameInfo.DiplomaticStates[diploStateID].StateType
       civEntry.DiploTooltip = GetRelationshipDiplomaticTooltip(cityStateID, playerID, diploStateID)
-      civEntry.HasMet = playerID == Game.GetLocalPlayer() or Players[Game.GetLocalPlayer()]:GetDiplomacy():HasMet(playerID)
+      civEntry.HasMet = playerID == Game.GetLocalPlayer() or
+                          Players[Game.GetLocalPlayer()]:GetDiplomacy():HasMet(playerID)
 
       table.insert(kRelationships.CivRelationships, civEntry)
     end
@@ -337,7 +362,8 @@ function GetRelationships(cityStateID)
       cityStateEntry.TeamID = pPlayerConfig:GetTeam()
       cityStateEntry.DiploState = GameInfo.DiplomaticStates[diploStateID].StateType
       cityStateEntry.DiploTooltip = GetRelationshipDiplomaticTooltip(cityStateID, playerID, diploStateID)
-      cityStateEntry.HasMet = playerID == Game.GetLocalPlayer() or Players[Game.GetLocalPlayer()]:GetDiplomacy():HasMet(playerID)
+      cityStateEntry.HasMet = playerID == Game.GetLocalPlayer() or
+                                Players[Game.GetLocalPlayer()]:GetDiplomacy():HasMet(playerID)
 
       local primaryColor, secondaryColor = UI.GetPlayerColors(playerID)
       cityStateEntry.Color = secondaryColor
@@ -444,7 +470,8 @@ function GetTypeAtlasPieces(kCityState, size)
   elseif kCityState.Type == "INDUSTRIAL" then
     iconName = "ICON_CITYSTATE_INDUSTRIAL"
   else
-    UI.DataError("WARNING: Unknown type '" .. kCityState.Type .. "' for getting the City-State icon (at size " .. tostring(size) .. ")")
+    UI.DataError("WARNING: Unknown type '" .. kCityState.Type .. "' for getting the City-State icon (at size " ..
+                   tostring(size) .. ")")
     return 0, 0, "", ""
   end
 
@@ -479,7 +506,9 @@ end
 -- ===========================================================================
 function SumEnvoyChanges()
   local sum = 0
-  for _, value in pairs(m_kEnvoyChanges) do sum = sum + value end
+  for _, value in pairs(m_kEnvoyChanges) do
+    sum = sum + value
+  end
   return sum
 end
 
@@ -487,12 +516,15 @@ end
 function Close()
   m_kEnvoyChanges = {} -- Zero out any pending envoy choices
 
-  if not ContextPtr:IsHidden() then UI.PlaySound("CityStates_Panel_Close") end
+  if not ContextPtr:IsHidden() then
+    UI.PlaySound("CityStates_Panel_Close")
+  end
 
   local localPlayerID = Game.GetLocalPlayer()
   if (localPlayerID ~= -1) then
     local localPlayer = Players[localPlayerID]
-    if (localPlayer ~= nil and localPlayer:GetInfluence() ~= nil and not localPlayer:GetInfluence():IsGivingTokensConsidered()) then
+    if (localPlayer ~= nil and localPlayer:GetInfluence() ~= nil and
+      not localPlayer:GetInfluence():IsGivingTokensConsidered()) then
       localPlayer:GetInfluence():SetGivingTokensConsidered(true)
     end
   end
@@ -504,7 +536,9 @@ end
 --	UI Callback
 --	Clicking close on interface.
 -- ===========================================================================
-function OnClose() Close() end
+function OnClose()
+  Close()
+end
 
 -- ===========================================================================
 --	UI Callback
@@ -524,7 +558,9 @@ end
 --	Explicit close (from partial screen hooks), part of closing everything,
 -- ===========================================================================
 function OnCloseAllExcept(contextToStayOpen)
-  if contextToStayOpen == ContextPtr:GetID() then return end
+  if contextToStayOpen == ContextPtr:GetID() then
+    return
+  end
   Close()
 end
 
@@ -532,12 +568,16 @@ end
 --	LUA Event
 --	Explicit close called from else-where.
 -- ===========================================================================
-function OnCloseCityStates() Close() end
+function OnCloseCityStates()
+  Close()
+end
 
 -- ===========================================================================
 --	LUA Event
 -- ===========================================================================
-function OnOpenCityStates() OpenOverview() end
+function OnOpenCityStates()
+  OpenOverview()
+end
 
 -- ===========================================================================
 --	LUA Event
@@ -548,7 +588,9 @@ function OnOpenCityStates() OpenOverview() end
 function OpenOverview(iPlayer)
   -- dont show panel if there is no local player
   local localPlayerID = Game.GetLocalPlayer()
-  if (localPlayerID == -1) then return end
+  if (localPlayerID == -1) then
+    return
+  end
 
   UI.PlaySound("CityStates_Panel_Open")
   m_mode = MODE.Overview
@@ -565,7 +607,9 @@ end
 function OnOpenSendEnvoys(iPlayer)
   -- dont show panel if there is no local player
   local localPlayerID = Game.GetLocalPlayer()
-  if (localPlayerID == -1) then return end
+  if (localPlayerID == -1) then
+    return
+  end
 
   m_mode = MODE.SendEnvoys
   UI.PlaySound("CityStates_Panel_Open")
@@ -577,7 +621,9 @@ end
 --	LUA EVENT
 --	Open panel pointing to a specific City State
 -- ===========================================================================
-function OnRaiseMinorCivicsPanel(playerID) OpenSingleViewCityState(playerID) end
+function OnRaiseMinorCivicsPanel(playerID)
+  OpenSingleViewCityState(playerID)
+end
 
 -- ===========================================================================
 --	Open panel pointing to a specific City State
@@ -585,9 +631,13 @@ function OnRaiseMinorCivicsPanel(playerID) OpenSingleViewCityState(playerID) end
 function OpenSingleViewCityState(playerID)
   -- dont show panel if there is no local player
   local localPlayerID = Game.GetLocalPlayer()
-  if (localPlayerID == -1) then return end
+  if (localPlayerID == -1) then
+    return
+  end
 
-  if m_mode == MODE.Overview or m_mode == MODE.SendEnvoys then m_mode = MODE.EnvoySent end
+  if m_mode == MODE.Overview or m_mode == MODE.SendEnvoys then
+    m_mode = MODE.EnvoySent
+  end
 
   UI.PlaySound("CityStates_Panel_Open")
   m_iCurrentCityState = playerID
@@ -632,19 +682,24 @@ end
 function RealizeListHeader()
   local sum = SumEnvoyChanges()
 
-  if (m_kPlayerData.EnvoyTokens - sum) < 0 then UI.DataError("Less envoy tokens than going into the deploy envoy.") end
+  if (m_kPlayerData.EnvoyTokens - sum) < 0 then
+    UI.DataError("Less envoy tokens than going into the deploy envoy.")
+  end
 
   local header = Locale.ToUpper(Locale.Lookup("LOC_CITY_STATES_OVERVIEW"))
   if m_mode == MODE.SendEnvoys then
     header = Locale.ToUpper(Locale.Lookup("LOC_CITY_STATES_SEND_ENVOYS", (m_kPlayerData.EnvoyTokens - sum)))
-    header = header .. " " .. Locale.Lookup("LOC_CITY_STATES_SEND_ENVOY_AMOUNT", (m_kPlayerData.EnvoyTokens - sum)) .. " " -- HACK: space on end due to textcontrol bug, see below
+    header = header .. " " .. Locale.Lookup("LOC_CITY_STATES_SEND_ENVOY_AMOUNT", (m_kPlayerData.EnvoyTokens - sum)) ..
+               " " -- HACK: space on end due to textcontrol bug, see below
   end
   -- TODO: Space after [ICON..] breaks smallcaps?! ??TRON: header="SEND ENVOYS (2[ICON_Envoy] )";
   -- print("Envoy Header:",header);
   Controls.Header:SetText(header)
 
   local localPlayer = Players[Game.GetLocalPlayer()]
-  if (localPlayer == nil) then return end
+  if (localPlayer == nil) then
+    return
+  end
 
   local playerInfluence = localPlayer:GetInfluence()
   local influenceBalance = Round(playerInfluence:GetPointsEarned(), 1)
@@ -653,7 +708,8 @@ function RealizeListHeader()
   local envoysPerThreshold = playerInfluence:GetTokensPerThreshold()
   local currentEnvoys = playerInfluence:GetTokensToGive()
 
-  local envoyDetails = Locale.Lookup("LOC_TOP_PANEL_INFLUENCE_TOOLTIP_POINTS_THRESHOLD", envoysPerThreshold, influenceThreshold)
+  local envoyDetails = Locale.Lookup("LOC_TOP_PANEL_INFLUENCE_TOOLTIP_POINTS_THRESHOLD", envoysPerThreshold,
+                                     influenceThreshold)
   Controls.EnvoyDetails:SetText(envoyDetails)
 
   local sTooltip = ""
@@ -661,7 +717,8 @@ function RealizeListHeader()
     sTooltip = sTooltip .. Locale.Lookup("LOC_TOP_PANEL_INFLUENCE_TOOLTIP_ENVOYS", currentEnvoys)
     sTooltip = sTooltip .. "[NEWLINE][NEWLINE]"
   end
-  sTooltip = sTooltip .. Locale.Lookup("LOC_TOP_PANEL_INFLUENCE_TOOLTIP_POINTS_THRESHOLD", envoysPerThreshold, influenceThreshold)
+  sTooltip = sTooltip ..
+               Locale.Lookup("LOC_TOP_PANEL_INFLUENCE_TOOLTIP_POINTS_THRESHOLD", envoysPerThreshold, influenceThreshold)
   sTooltip = sTooltip .. "[NEWLINE][NEWLINE]"
   sTooltip = sTooltip .. Locale.Lookup("LOC_TOP_PANEL_INFLUENCE_TOOLTIP_POINTS_BALANCE", influenceBalance)
   sTooltip = sTooltip .. "[NEWLINE]"
@@ -725,7 +782,9 @@ end
 function OnLessEnvoyTokens(iPlayer)
 
   local amount = m_kEnvoyChanges[iPlayer]
-  if amount == nil then amount = 0 end
+  if amount == nil then
+    amount = 0
+  end
   amount = amount - 1
   if amount < 0 then
     -- Do nothing, below the initial value
@@ -871,7 +930,8 @@ function AddCityStateRow(kCityState)
   local questToolTip = Locale.Lookup("LOC_CITY_STATES_QUESTS")
   local numQuests = 0
   local cityStateName = Locale.ToUpper(Locale.Lookup(kCityState.Name) ..
-                                           (kCityState.isAlive and "" or "(" .. Locale.Lookup("LOC_CITY_STATES_DESTROYED") .. ")"))
+                                         (kCityState.isAlive and "" or "(" .. Locale.Lookup("LOC_CITY_STATES_DESTROYED") ..
+                                           ")"))
 
   -- Set name, truncate if necessary
   kInst.NameLabel:SetText(cityStateName)
@@ -879,12 +939,18 @@ function AddCityStateRow(kCityState)
   TruncateStringWithTooltip(kInst.NameLabel, targetSize, cityStateName)
 
   kInst.NameLabel:SetColor(kCityState.ColorSecondary)
-  kInst.NameButton:SetColor(Mouse.eLClick, function() OpenSingleViewCityState(kCityState.iPlayer) end)
-  kInst.NameButton:RegisterCallback(Mouse.eLClick, function() OpenSingleViewCityState(kCityState.iPlayer) end)
+  kInst.NameButton:SetColor(Mouse.eLClick, function()
+    OpenSingleViewCityState(kCityState.iPlayer)
+  end)
+  kInst.NameButton:RegisterCallback(Mouse.eLClick, function()
+    OpenSingleViewCityState(kCityState.iPlayer)
+  end)
 
   textureOffsetX, textureOffsetY, textureSheet, tooltip = GetRelationshipPipAtlasPieces(kCityState)
   kInst.DiplomacyPip:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
-  if GameCapabilities.HasCapability("CAPABILITY_MILITARY") then kInst.DiplomacyPip:SetToolTipString(tooltip) end
+  if GameCapabilities.HasCapability("CAPABILITY_MILITARY") then
+    kInst.DiplomacyPip:SetToolTipString(tooltip)
+  end
 
   -- CUI Quest
   for _, kQuest in pairs(kCityState.Quests) do
@@ -934,8 +1000,10 @@ function AddCityStateRow(kCityState)
   kInst.BonusImageSuzerainOff:SetColor(COLOR_ICON_BONUS_OFF)
   kInst.BonusImageSuzerainOn:SetHide(not kCityState.isBonusSuzerain)
   kInst.BonusImageSuzerainOn:SetColor(COLOR_ICON_BONUS_ON)
-  kInst.BonusImageSuzerainOff:SetToolTipString(kCityState.Bonuses["Suzerain"].Title .. "[NEWLINE]" .. kCityState.Bonuses["Suzerain"].Details)
-  kInst.BonusImageSuzerainOn:SetToolTipString(kCityState.Bonuses["Suzerain"].Title .. "[NEWLINE]" .. kCityState.Bonuses["Suzerain"].Details)
+  kInst.BonusImageSuzerainOff:SetToolTipString(kCityState.Bonuses["Suzerain"].Title .. "[NEWLINE]" ..
+                                                 kCityState.Bonuses["Suzerain"].Details)
+  kInst.BonusImageSuzerainOn:SetToolTipString(kCityState.Bonuses["Suzerain"].Title .. "[NEWLINE]" ..
+                                                kCityState.Bonuses["Suzerain"].Details)
   kInst.BonusIconSuzerain:SetColor(kCityState.isBonusSuzerain and kCityState.ColorSecondary or COLOR_ICON_BONUS_OFF)
   kInst.BonusTextSuzerain:SetColor(kCityState.isBonusSuzerain and kCityState.ColorSecondary or COLOR_TEXT_BONUS_OFF)
   kInst.BonusTextSuzerain:SetText(kCityState.SuzerainTokensNeeded)
@@ -949,7 +1017,9 @@ function AddCityStateRow(kCityState)
   kInst.Icon:SetIcon("ICON_" .. kCityState.CivType)
   kInst.Icon:SetToolTipString(Locale.Lookup(GetTypeTooltip(kCityState)))
   kInst.Icon:SetColor(kCityState.ColorSecondary)
-  kInst.Button:RegisterCallback(Mouse.eLClick, function() OpenSingleViewCityState(kCityState.iPlayer) end)
+  kInst.Button:RegisterCallback(Mouse.eLClick, function()
+    OpenSingleViewCityState(kCityState.iPlayer)
+  end)
 
   return kInst
 end
@@ -960,9 +1030,13 @@ end
 function ViewList()
 
   local localPlayerID = Game.GetLocalPlayer()
-  if (localPlayerID == -1) then return end
+  if (localPlayerID == -1) then
+    return
+  end
 
-  if (m_kPlayerData == nil or m_kPlayerData.EnvoyTokens == nil) then return end
+  if (m_kPlayerData == nil or m_kPlayerData.EnvoyTokens == nil) then
+    return
+  end
 
   -- Last minute switch; if there are envoy tokens left and at least one City-State has
   -- been met, then allow player to change the # of envoys sent.
@@ -1009,7 +1083,9 @@ function ViewList()
   -- CUI: ui setup
   m_SuzerainIM:ResetInstances()
   Controls.Totals:SetText(Locale.Lookup("LOC_CUI_CSP_ENVOYS_SUZERAIN", cui_Envoys, cui_Suzerain))
-  for _, item in SortedTable(cui_SuzerainList, function(t, a, b) return t[a].idx < t[b].idx end) do
+  for _, item in SortedTable(cui_SuzerainList, function(t, a, b)
+    return t[a].idx < t[b].idx
+  end) do
     local cui_sInst = m_SuzerainIM:GetInstance()
     cui_sInst.SuzerainImage:SetTexture(IconManager:FindIconAtlas(item.icon, 26))
     cui_sInst.SuzerainImage:SetColor(item.num > 0 and item.color or COLOR_ICON_BONUS_OFF)
@@ -1063,7 +1139,8 @@ function ViewList()
           kItem.Icon:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
           kItem.Icon:SetColor(kCityState.ColorSecondary)
           kItem.Title:SetColor(kCityState.ColorSecondary)
-          TruncateStringWithTooltip(kItem.Title, MAX_BEFORE_TRUNC_SUZERAIN, Locale.Lookup(kCityState.Bonuses["Suzerain"].Title))
+          TruncateStringWithTooltip(kItem.Title, MAX_BEFORE_TRUNC_SUZERAIN,
+                                    Locale.Lookup(kCityState.Bonuses["Suzerain"].Title))
           kItem.Details:SetText(kCityState.Bonuses["Suzerain"].Details)
         end
 
@@ -1123,7 +1200,9 @@ end
 function ViewCityState(iPlayer)
 
   local localPlayerID = Game.GetLocalPlayer()
-  if (localPlayerID == -1) then return end
+  if (localPlayerID == -1) then
+    return
+  end
 
   local pLocalPlayer = Players[localPlayerID]
   local pLocalPlayerDiplomacy = pLocalPlayer:GetDiplomacy()
@@ -1145,7 +1224,9 @@ function ViewCityState(iPlayer)
 
       textureOffsetX, textureOffsetY, textureSheet, tooltip = GetRelationshipPipAtlasPieces(kCityState)
       kInst.DiplomacyPip:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
-      if GameCapabilities.HasCapability("CAPABILITY_MILITARY") then kInst.DiplomacyPip:SetToolTipString(tooltip) end
+      if GameCapabilities.HasCapability("CAPABILITY_MILITARY") then
+        kInst.DiplomacyPip:SetToolTipString(tooltip)
+      end
     end
   end
   Controls.CityStateIconStack:CalculateSize()
@@ -1172,7 +1253,9 @@ function ViewCityState(iPlayer)
 
   local textureOffsetX, textureOffsetY, textureSheet, tooltip = GetRelationshipPipAtlasPieces(kCityState)
   Controls.DiplomacyPip:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
-  if GameCapabilities.HasCapability("CAPABILITY_MILITARY") then Controls.DiplomacyPip:SetToolTipString(tooltip) end
+  if GameCapabilities.HasCapability("CAPABILITY_MILITARY") then
+    Controls.DiplomacyPip:SetToolTipString(tooltip)
+  end
 
   if GameCapabilities.HasCapability("CAPABILITY_MILITARY") then
     Controls.PeaceWarButton:SetHide(false)
@@ -1188,8 +1271,8 @@ function ViewCityState(iPlayer)
             warPeaceTooltip = warPeaceTooltip .. Locale.Lookup("LOC_CITY_STATES_SUZERAIN_WAR_NO_PEACE")
           else
             warPeaceTooltip = warPeaceTooltip ..
-                                  Locale.Lookup("LOC_CITY_STATES_TURNS_WAR",
-                                                m_iTurnsOfWar + kCityState.iTurnChanged - Game.GetCurrentGameTurn())
+                                Locale.Lookup("LOC_CITY_STATES_TURNS_WAR",
+                                              m_iTurnsOfWar + kCityState.iTurnChanged - Game.GetCurrentGameTurn())
           end
         end
       end
@@ -1202,13 +1285,15 @@ function ViewCityState(iPlayer)
           warPeaceTooltip = Locale.Lookup("LOC_CIVILIZATION_NOT_ABLE_TO_DECLARE_SURPRISE_WAR")
         else
           warPeaceTooltip = warPeaceTooltip .. " " ..
-                                Locale.Lookup("LOC_CITY_STATES_TURNS_PEACE",
-                                              m_iTurnsOfPeace + kCityState.iTurnChanged - Game.GetCurrentGameTurn())
+                              Locale.Lookup("LOC_CITY_STATES_TURNS_PEACE",
+                                            m_iTurnsOfPeace + kCityState.iTurnChanged - Game.GetCurrentGameTurn())
         end
       end
     end
     Controls.PeaceWarButton:SetToolTipString(warPeaceTooltip)
-    Controls.PeaceWarButton:RegisterCallback(Mouse.eLClick, function() OnChangeWarPeaceStatus(kCityState) end)
+    Controls.PeaceWarButton:RegisterCallback(Mouse.eLClick, function()
+      OnChangeWarPeaceStatus(kCityState)
+    end)
 
     Controls.LevyMilitaryButton:SetHide(false)
     Controls.LevyMilitaryButton:SetDisabled(not kCityState.CanLevyMilitary)
@@ -1220,7 +1305,9 @@ function ViewCityState(iPlayer)
                                         kCityState.LevyMilitaryTurnLimit)
       Controls.LevyMilitaryButton:SetToolTipString(levyTooltip)
     end
-    Controls.LevyMilitaryButton:RegisterCallback(Mouse.eLClick, function() OnLevyMilitary(kCityState) end)
+    Controls.LevyMilitaryButton:RegisterCallback(Mouse.eLClick, function()
+      OnLevyMilitary(kCityState)
+    end)
   else
     Controls.LevyMilitaryButton:SetHide(true)
     Controls.PeaceWarButton:SetHide(true)
@@ -1283,7 +1370,8 @@ function ViewCityState(iPlayer)
     kItem = m_EnvoysBonusItemIM:GetInstance()
     textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas("ICON_ENVOY_BONUS_SUZERAIN", 50)
     kItem.Icon:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
-    TruncateStringWithTooltip(kItem.Title, MAX_BEFORE_TRUNC_SUZERAIN, Locale.Lookup(kCityState.Bonuses["Suzerain"].Title))
+    TruncateStringWithTooltip(kItem.Title, MAX_BEFORE_TRUNC_SUZERAIN,
+                              Locale.Lookup(kCityState.Bonuses["Suzerain"].Title))
     kItem.Details:SetText(kCityState.Bonuses["Suzerain"].Details)
 
     local PADDING = 40
@@ -1311,15 +1399,23 @@ function ViewCityState(iPlayer)
     -- First determine the large # of envoy tokens given for influence so
     -- there can be a max for the ratio to set the bar.
     local largestAmount = 0
-    for iOtherPlayer, influence in pairs(kCityState.Influence) do if influence > largestAmount then largestAmount = influence end end
+    for iOtherPlayer, influence in pairs(kCityState.Influence) do
+      if influence > largestAmount then
+        largestAmount = influence
+      end
+    end
 
     -- Ensure highest influenced civilizations are at the top of the list
     local kSortTable = {}
     function SortHighestFirst(a, b)
       local aOrder = kSortTable[tostring(a)]
       local bOrder = kSortTable[tostring(b)]
-      if aOrder == nil then return false end
-      if bOrder == nil then return true end
+      if aOrder == nil then
+        return false
+      end
+      if bOrder == nil then
+        return true
+      end
       return aOrder.influence > bOrder.influence
     end
 
@@ -1358,15 +1454,16 @@ function ViewCityState(iPlayer)
     ViewRelationships(kCityState)
   else
 
-    UI.DataError("City-States in an unhandled mode '" .. tostring(m_mode) .. "' when attempting to view a single City-State.")
+    UI.DataError("City-States in an unhandled mode '" .. tostring(m_mode) ..
+                   "' when attempting to view a single City-State.")
     return
   end
 end
 
 -- ===========================================================================
 function OnSingleViewStackSizeChanged()
-  Controls.ReportTabContainer:SetParentRelativeSizeY(REPORT_CONTAINER_SIZE_PADDING - Controls.SingleViewStack:GetSizeY() -
-                                                         Controls.SingleViewStack:GetOffsetY())
+  Controls.ReportTabContainer:SetParentRelativeSizeY(
+    REPORT_CONTAINER_SIZE_PADDING - Controls.SingleViewStack:GetSizeY() - Controls.SingleViewStack:GetOffsetY())
 end
 
 -- ===========================================================================
@@ -1426,7 +1523,9 @@ function RefreshRelationshipStack(kRelationships, StackIM)
       instance.Icon:LocalizeAndSetToolTip(kRelationship.PlayerName)
 
       -- Update color if it exists in the data
-      if kRelationship.Color ~= nil then instance.Icon:SetColor(kRelationship.Color) end
+      if kRelationship.Color ~= nil then
+        instance.Icon:SetColor(kRelationship.Color)
+      end
 
       -- Update team ribbon
       if #Teams[kRelationship.TeamID] > 1 then
@@ -1469,7 +1568,9 @@ end
 function GetData()
 
   local localPlayerID = Game.GetLocalPlayer()
-  if (localPlayerID == -1) then return end
+  if (localPlayerID == -1) then
+    return
+  end
 
   m_kCityStates = {} -- Clear any previous data
   m_kPlayerData = {}
@@ -1482,7 +1583,9 @@ function GetData()
   local envoyTokensAvailable = 0
   if pLocalPlayerInfluence ~= nil then
     envoyTokensAvailable = pLocalPlayerInfluence:GetTokensToGive()
-    if pLocalPlayerInfluence:CanGiveInfluence() and envoyTokensAvailable > 0 then isCanGiveInfluence = true end
+    if pLocalPlayerInfluence:CanGiveInfluence() and envoyTokensAvailable > 0 then
+      isCanGiveInfluence = true
+    end
   end
 
   -- Build player specific data for interacting with CityStates
@@ -1508,7 +1611,9 @@ function GetData()
       -- Take this CityState and compare against others to determine influence information.
       for _, iInfluencePlayer in ipairs(PlayerManager.GetAliveMajorIDs()) do
         local tokensReceived = pPlayerInfluence:GetTokensReceived(iInfluencePlayer)
-        if tokensReceived > 0 then kInfluence[iInfluencePlayer] = tokensReceived end
+        if tokensReceived > 0 then
+          kInfluence[iInfluencePlayer] = tokensReceived
+        end
       end
 
     end
@@ -1534,7 +1639,9 @@ function GetData()
 
       local iPlayerDiploState = pPlayer:GetDiplomaticAI():GetDiplomaticStateIndex(localPlayerID)
       local diplomaticState = nil
-      if iPlayerDiploState ~= -1 then diplomaticState = GameInfo.DiplomaticStates[iPlayerDiploState].StateType end
+      if iPlayerDiploState ~= -1 then
+        diplomaticState = GameInfo.DiplomaticStates[iPlayerDiploState].StateType
+      end
 
       local pPlayerConfig = PlayerConfigurations[iPlayer]
 
@@ -1589,22 +1696,30 @@ function GetData()
       local title, details = GetBonusText(iPlayer, NUM_ENVOY_TOKENS_FOR_FIRST_BONUS)
       kCityState.Bonuses[NUM_ENVOY_TOKENS_FOR_FIRST_BONUS] = {Title = title, Details = details}
       if kCityState.isBonus1 then
-        if m_kLastCityStates ~= nil and not m_kLastCityStates[iPlayer].isBonus1 then isNewBonusAchieved = true end
+        if m_kLastCityStates ~= nil and not m_kLastCityStates[iPlayer].isBonus1 then
+          isNewBonusAchieved = true
+        end
       end
       title, details = GetBonusText(iPlayer, NUM_ENVOY_TOKENS_FOR_SECOND_BONUS)
       kCityState.Bonuses[NUM_ENVOY_TOKENS_FOR_SECOND_BONUS] = {Title = title, Details = details}
       if kCityState.isBonus3 then
-        if m_kLastCityStates ~= nil and not m_kLastCityStates[iPlayer].isBonus3 then isNewBonusAchieved = true end
+        if m_kLastCityStates ~= nil and not m_kLastCityStates[iPlayer].isBonus3 then
+          isNewBonusAchieved = true
+        end
       end
       title, details = GetBonusText(iPlayer, NUM_ENVOY_TOKENS_FOR_THIRD_BONUS)
       kCityState.Bonuses[NUM_ENVOY_TOKENS_FOR_THIRD_BONUS] = {Title = title, Details = details}
       if kCityState.isBonus6 then
-        if m_kLastCityStates ~= nil and not m_kLastCityStates[iPlayer].isBonus6 then isNewBonusAchieved = true end
+        if m_kLastCityStates ~= nil and not m_kLastCityStates[iPlayer].isBonus6 then
+          isNewBonusAchieved = true
+        end
       end
       details = GetSuzerainBonusText(iPlayer)
       kCityState.Bonuses["Suzerain"] = {Title = Locale.Lookup("LOC_CITY_STATES_SUZERAIN_ENVOYS"), Details = details}
       if kCityState.isBonusSuzerain then
-        if m_kLastCityStates ~= nil and not m_kLastCityStates[iPlayer].isBonusSuzerain then isNewBonusAchieved = true end
+        if m_kLastCityStates ~= nil and not m_kLastCityStates[iPlayer].isBonusSuzerain then
+          isNewBonusAchieved = true
+        end
       end
 
       -- Save to master table
@@ -1613,7 +1728,9 @@ function GetData()
   end
 
   -- Play sound if any city state just achieved a bonus.
-  if isNewBonusAchieved then UI.PlaySound("Receive_Envoy_Bonus") end
+  if isNewBonusAchieved then
+    UI.PlaySound("Receive_Envoy_Bonus")
+  end
 
   -- Clear previous cached city states items and store currect.
   m_kLastCityStates = nil
@@ -1656,7 +1773,11 @@ end
 -- ===========================================================================
 --	UI EVENT
 -- ===========================================================================
-function OnInit(isReload) if isReload then LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID) end end
+function OnInit(isReload)
+  if isReload then
+    LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID)
+  end
+end
 
 -- ===========================================================================
 --	UI EVENT
@@ -1673,14 +1794,19 @@ end
 -- ===========================================================================
 function OnGameDebugReturn(context, contextTable)
   if context == RELOAD_CACHE_ID then
-    if contextTable["m_mode"] ~= nil then m_mode = contextTable["m_mode"] end
-    if contextTable["m_iCurrentCityState"] ~= nil then m_iCurrentCityState = contextTable["m_iCurrentCityState"] end
+    if contextTable["m_mode"] ~= nil then
+      m_mode = contextTable["m_mode"]
+    end
+    if contextTable["m_iCurrentCityState"] ~= nil then
+      m_iCurrentCityState = contextTable["m_iCurrentCityState"]
+    end
     if contextTable["isHidden"] ~= nil and not contextTable["isHidden"] then
       if m_mode == MODE.Overview then
         OpenOverview()
       elseif m_mode == MODE.SendEnvoys then
         OnOpenSendEnvoys()
-      elseif m_mode == MODE.EnvoySent or m_mode == MODE.InfluencedBy or m_mode == MODE.Quests or m_mode == MODE.Relationships then
+      elseif m_mode == MODE.EnvoySent or m_mode == MODE.InfluencedBy or m_mode == MODE.Quests or m_mode ==
+        MODE.Relationships then
         m_kScreenSlideAnim.Show()
         Refresh()
       end
@@ -1694,7 +1820,9 @@ end
 function OnCityLiberated(playerID, cityID)
   if not ContextPtr:IsHidden() then
     local localPlayerID = Game.GetLocalPlayer()
-    if (localPlayerID == -1) then return end
+    if (localPlayerID == -1) then
+      return
+    end
     Refresh()
   end
 end
@@ -1709,7 +1837,9 @@ function OnDiplomacyDeclareWar(firstPlayerID, secondPlayerID)
       m_kEnvoyChanges = {} -- Zero out any pending envoy choices
     end
   end
-  if not ContextPtr:IsHidden() then Refresh() end
+  if not ContextPtr:IsHidden() then
+    Refresh()
+  end
 end
 
 -- ===========================================================================
@@ -1722,7 +1852,9 @@ function OnDiplomacyMakePeace(firstPlayerID, secondPlayerID)
       m_kEnvoyChanges = {} -- Zero out any pending envoy choices
     end
   end
-  if not ContextPtr:IsHidden() then Refresh() end
+  if not ContextPtr:IsHidden() then
+    Refresh()
+  end
 end
 
 -- ===========================================================================
@@ -1731,7 +1863,9 @@ end
 function OnInfluenceChanged()
   if not ContextPtr:IsHidden() then
     local localPlayerID = Game.GetLocalPlayer()
-    if (localPlayerID == -1) then return end
+    if (localPlayerID == -1) then
+      return
+    end
     Refresh()
   end
 end
@@ -1742,7 +1876,9 @@ end
 function OnInfluenceGiven()
   if not ContextPtr:IsHidden() then
     local localPlayerID = Game.GetLocalPlayer()
-    if (localPlayerID == -1) then return end
+    if (localPlayerID == -1) then
+      return
+    end
     Refresh()
   end
 end
@@ -1750,7 +1886,11 @@ end
 -- ===========================================================================
 --	Game Event
 -- ===========================================================================
-function OnInterfaceModeChanged(eOldMode, eNewMode) if eNewMode == InterfaceModeTypes.VIEW_MODAL_LENS then Close() end end
+function OnInterfaceModeChanged(eOldMode, eNewMode)
+  if eNewMode == InterfaceModeTypes.VIEW_MODAL_LENS then
+    Close()
+  end
+end
 
 -- ===========================================================================
 --	Game Event
@@ -1758,7 +1898,9 @@ function OnInterfaceModeChanged(eOldMode, eNewMode) if eNewMode == InterfaceMode
 function OnQuestChanged()
   if not ContextPtr:IsHidden() then
     local localPlayerID = Game.GetLocalPlayer()
-    if (localPlayerID == -1) then return end
+    if (localPlayerID == -1) then
+      return
+    end
     Refresh()
   end
 end
@@ -1768,22 +1910,30 @@ end
 -- ===========================================================================
 function OnUpdateUI(type, tag, iData1, iData2, strData1)
   m_kScreenSlideAnim.OnUpdateUI(type, tag, iData1, iData2, strData1)
-  if type == SystemUpdateUI.ScreenResize then Resize() end
+  if type == SystemUpdateUI.ScreenResize then
+    Resize()
+  end
 end
 
 -- ===========================================================================
-function Resize() _, m_height = UIManager:GetScreenSizeVal() end
+function Resize()
+  _, m_height = UIManager:GetScreenSizeVal()
+end
 
 -- ===========================================================================
 --	Player Turn Events
 -- ===========================================================================
 function OnLocalPlayerTurnBegin()
   m_isLocalPlayerTurn = true
-  if not ContextPtr:IsHidden() then Refresh() end
+  if not ContextPtr:IsHidden() then
+    Refresh()
+  end
 end
 function OnLocalPlayerTurnEnd()
   m_isLocalPlayerTurn = false
-  if not ContextPtr:IsHidden() then Refresh() end
+  if not ContextPtr:IsHidden() then
+    Refresh()
+  end
 end
 
 -- ===========================================================================
@@ -1798,7 +1948,7 @@ function Initialize()
 
   -- Check:
   if NUM_ENVOY_TOKENS_FOR_FIRST_BONUS == NUM_ENVOY_TOKENS_FOR_SECOND_BONUS or NUM_ENVOY_TOKENS_FOR_SECOND_BONUS ==
-      NUM_ENVOY_TOKENS_FOR_THIRD_BONUS or NUM_ENVOY_TOKENS_FOR_FIRST_BONUS == NUM_ENVOY_TOKENS_FOR_THIRD_BONUS then
+    NUM_ENVOY_TOKENS_FOR_THIRD_BONUS or NUM_ENVOY_TOKENS_FOR_FIRST_BONUS == NUM_ENVOY_TOKENS_FOR_THIRD_BONUS then
     UI.DataError("At least 2 city state bonuses have the same value, this will cause issues!")
   end
 

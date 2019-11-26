@@ -23,8 +23,9 @@ function SupportInit()
   localDiplomacy = localPlayer:GetDiplomacy()
   metPlayers, uniqueLeaders = GetMetPlayersAndUniqueLeaders()
   --
-  table.sort(aliveMajors,
-             function(a, b) return localDiplomacy:GetMetTurn(a:GetID()) < localDiplomacy:GetMetTurn(b:GetID()) end)
+  table.sort(aliveMajors, function(a, b)
+    return localDiplomacy:GetMetTurn(a:GetID()) < localDiplomacy:GetMetTurn(b:GetID())
+  end)
 end
 SupportInit()
 
@@ -56,7 +57,9 @@ function GetWonderData()
     local color1, color2 = UI.GetPlayerColors(playerID)
     local config = PlayerConfigurations[playerID]
     local civName = Locale.Lookup(config:GetCivilizationDescription())
-    if pData.isLocalPlayer then civName = Locale.Lookup("LOC_GAMESUMMARY_CONTEXT_LOCAL", civName) end
+    if pData.isLocalPlayer then
+      civName = Locale.Lookup("LOC_GAMESUMMARY_CONTEXT_LOCAL", civName)
+    end
     local shouldShow = pData.isLocalPlayer or pData.isMet or pData.isHuman
     if not shouldShow then
       civName = Locale.Lookup("LOC_DIPLOPANEL_UNMET_PLAYER")
@@ -86,8 +89,12 @@ function GetWonderData()
     end
   end
   --
-  for _, wonder in pairs(tmpWonderList) do table.insert(wonders, wonder) end
-  table.sort(wonders, function(a, b) return a.Index < b.Index end)
+  for _, wonder in pairs(tmpWonderList) do
+    table.insert(wonders, wonder)
+  end
+  table.sort(wonders, function(a, b)
+    return a.Index < b.Index
+  end)
 
   wonderData.Wonders = wonders
   wonderData.Colors = colorSet
@@ -188,11 +195,17 @@ function GetResourceData()
       return t[a].Amount > t[b].Amount
     end
   end
-  for _, item in SortedTable(r_luxury, comparatorLuxury) do table.insert(sorted_luxury, item) end
+  for _, item in SortedTable(r_luxury, comparatorLuxury) do
+    table.insert(sorted_luxury, item)
+  end
 
   local sorted_strategic = {}
-  local comparatorStrategic = function(t, a, b) return t[a].Order < t[b].Order end
-  for _, item in SortedTable(r_strategic, comparatorStrategic) do table.insert(sorted_strategic, item) end
+  local comparatorStrategic = function(t, a, b)
+    return t[a].Order < t[b].Order
+  end
+  for _, item in SortedTable(r_strategic, comparatorStrategic) do
+    table.insert(sorted_strategic, item)
+  end
 
   resourceData.Luxury = sorted_luxury
   resourceData.Strategic = sorted_strategic
@@ -230,7 +243,9 @@ function GetBorderData()
                                                                         DealItemTypes.AGREEMENTS, pForDealFrom)
         if (possibleAgreementsFrom ~= nil) then
           for i, entry in ipairs(possibleAgreementsFrom) do
-            if entry.SubTypeName == "LOC_DIPLOACTION_OPEN_BORDERS_NAME" then canImport = true end
+            if entry.SubTypeName == "LOC_DIPLOACTION_OPEN_BORDERS_NAME" then
+              canImport = true
+            end
           end
         end
       end
@@ -241,7 +256,9 @@ function GetBorderData()
                                                                       pForDealTo)
         if (possibleAgreementsTo ~= nil) then
           for i, entry in ipairs(possibleAgreementsTo) do
-            if entry.SubTypeName == "LOC_DIPLOACTION_OPEN_BORDERS_NAME" then canExport = true end
+            if entry.SubTypeName == "LOC_DIPLOACTION_OPEN_BORDERS_NAME" then
+              canExport = true
+            end
           end
         end
       end
@@ -254,7 +271,9 @@ function GetBorderData()
         CanExport = canExport,
         IsMet = pData.isMet
       })
-      if canImport or canExport then active = true end
+      if canImport or canExport then
+        active = true
+      end
     end
   end
 
@@ -270,12 +289,16 @@ function GetTradeData()
   local leaders = {}
   local active = false
 
-  if not GameCapabilities.HasCapability("CAPABILITY_TRADE") then return nil end
+  if not GameCapabilities.HasCapability("CAPABILITY_TRADE") then
+    return nil
+  end
 
   local playerTrade = localPlayer:GetTrade()
   local routesActive = playerTrade:GetNumOutgoingRoutes()
   local routesCap = playerTrade:GetOutgoingRouteCapacity()
-  if routesCap > 0 and routesCap > routesActive then active = true end
+  if routesCap > 0 and routesCap > routesActive then
+    active = true
+  end
 
   local playerData = GetPlayerBasicData()
 
@@ -286,7 +309,9 @@ function GetTradeData()
       local isTraded = false
       local playerCities = player:GetCities()
       for _, city in playerCities:Members() do
-        if city:GetTrade():HasTradeRouteFrom(localPlayerID) then isTraded = true end
+        if city:GetTrade():HasTradeRouteFrom(localPlayerID) then
+          isTraded = true
+        end
       end
       local isWar = IsAtWar(localPlayerID, playerID)
       table.insert(leaders, {Icon = pData.leaderIcon, IsTraded = isTraded, IsWar = isWar, IsMet = pData.isMet})
