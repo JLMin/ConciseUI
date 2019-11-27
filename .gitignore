@@ -1,8 +1,4 @@
 .vscode
-steam_description.txt
-steam_features.txt
-steam_updates.txt
-test.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

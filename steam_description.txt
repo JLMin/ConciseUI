@@ -1,0 +1,12 @@
+Concise UI greatly improves the game experience by modifying the vanilla UI and adding new UI elements to the game.
+Game Versions: [i]1.0.0.341 (443561)[/i]
+[list]
+[*][url=https://steamcommunity.com/workshop/filedetails/discussion/1671978687/1841314700720486548/]Features List[/url]
+[*][url=https://steamcommunity.com/workshop/filedetails/discussion/1671978687/1841314700720498460/]Important Updates[/url], last update: [i]11/11/2019[/i].
+[*][url=https://steamcommunity.com/workshop/filedetails/discussion/1671978687/1836811737969706024/]Bug Report[/url].
+[/list]
+
+[i]If you feel generous, you can buy me a cup of coffee through [url=https://www.paypal.me/eudaimonia6]PayPal[/url].
+have fun gaming :)[/i]
+
+[url=https://github.com/JLMin/ConciseUI]GitHub[/url].
