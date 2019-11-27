@@ -5,7 +5,7 @@ from xml.dom import minidom
 from datetime import date
 
 # Pathes
-MOD_PATH = os.path.dirname(os.path.abspath(__file__)) + '\\mod\\'
+MOD_PATH = os.path.dirname(os.path.abspath(__file__)) + r'\mod\\'
 MODINFO_PATH = MOD_PATH + 'cui.modinfo'
 
 # Mod Information

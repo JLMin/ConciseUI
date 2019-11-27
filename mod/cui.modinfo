@@ -9,10 +9,10 @@
     <CompatibleVersions>2.0</CompatibleVersions>
   </Properties>
   <ActionCriteria>
-    <Criteria any="1" id="Expansion1AndBeyond">
+    <Criteria id="Expansion1AndBeyond" any="1">
       <RuleSetInUse>RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
     </Criteria>
-    <Criteria any="1" id="Expansion2AndBeyond">
+    <Criteria id="Expansion2AndBeyond" any="1">
       <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
     </Criteria>
   </ActionCriteria>
@@ -119,7 +119,7 @@
       <File>modules/world_tracker/base/worldtracker.lua</File>
       <File>modules/world_tracker/base/worldtracker.xml</File>
     </ImportFiles>
-    <ImportFiles criteria="Expansion1AndBeyond" id="Cui_Expansion1">
+    <ImportFiles id="Cui_Expansion1" criteria="Expansion1AndBeyond">
       <Properties>
         <LoadOrder>13</LoadOrder>
       </Properties>
@@ -129,7 +129,7 @@
       <File>modules/leader_icons/expansion1/diplomacyribbon_expansion1.lua</File>
       <File>modules/popup_and_remind/expansion1/historicmoments.lua</File>
     </ImportFiles>
-    <ImportFiles criteria="Expansion2AndBeyond" id="Cui_Expansion2">
+    <ImportFiles id="Cui_Expansion2" criteria="Expansion2AndBeyond">
       <Properties>
         <LoadOrder>14</LoadOrder>
       </Properties>

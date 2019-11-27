@@ -1,8 +1,8 @@
 import os, shutil, errno
 from build import build
 
-MOD_PATH = os.path.dirname(os.path.abspath(__file__)) + '\\mod'
-DIST = 'E:\\Steam\\steamapps\\workshop\\content\\289070\\1671978687'
+MOD_PATH = os.path.dirname(os.path.abspath(__file__)) + r'\mod'
+DIST = r'F:\Steam\steamapps\workshop\content\289070\1671978687'
 
 
 def remove_copy(src, dst):
