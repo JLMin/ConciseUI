@@ -2,7 +2,7 @@ LastUpdate = "19/11/21"
 
 UpdateContent = ""
 
-function BuildContext()
+function BuildContent()
   local updates = {
     {date = "2019/11/21", content = "Add Russian language by [iMiAMi]."},
     {date = "2019/11/20", content = "Add Korean language by [firefanda]."},
@@ -16,4 +16,4 @@ function BuildContext()
     UpdateContent = UpdateContent .. item.date .. "[NEWLINE]" .. item.content
   end
 end
-BuildContext()
+BuildContent()

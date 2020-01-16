@@ -1286,15 +1286,21 @@ end
 
 -- CUI =======================================================================
 function CuiGetFoodToolTip(data)
-  local foodToolTip = -- vanila tooltip
-  data.FoodPerTurnToolTip .. "[NEWLINE][NEWLINE]" .. -- food consumption
+  local foodToolTip =
+  -- vanila tooltip
+  data.FoodPerTurnToolTip .. "[NEWLINE][NEWLINE]" ..
+  -- food consumption
   toPlusMinusString(-(data.FoodPerTurn - data.FoodSurplus)) .. " " .. Locale.Lookup("LOC_HUD_CITY_FOOD_CONSUMPTION") ..
-    "[NEWLINE]------------------[NEWLINE]" .. -- happiness
+    "[NEWLINE]------------------[NEWLINE]" ..
+  -- happiness
   GetColorPercentString(1 + data.HappinessGrowthModifier / 100, 2) .. " " ..
-    Locale.Lookup("LOC_HUD_CITY_HAPPINESS_GROWTH_BONUS") .. "[NEWLINE]" .. -- other
+    Locale.Lookup("LOC_HUD_CITY_HAPPINESS_GROWTH_BONUS") .. "[NEWLINE]" ..
+  -- other
     GetColorPercentString(1 + Round(data.OtherGrowthModifiers, 2), 2) .. " " ..
-    Locale.Lookup("LOC_HUD_CITY_OTHER_GROWTH_BONUSES") .. "[NEWLINE]" .. -- housing
+    Locale.Lookup("LOC_HUD_CITY_OTHER_GROWTH_BONUSES") .. "[NEWLINE]" ..
+  -- housing
     GetColorPercentString(data.HousingMultiplier, 2) .. " " .. Locale.Lookup("LOC_HUD_CITY_HOUSING_CAPACITY")
+
   if data.Occupied then
     foodToolTip = foodToolTip .. "[NEWLINE]" .. "x" .. data.OccupationMultiplier ..
                     Locale.Lookup("LOC_HUD_CITY_OCCUPATION_MULTIPLIER")
