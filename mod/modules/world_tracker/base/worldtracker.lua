@@ -83,9 +83,6 @@ local cui_CombatPanel = {}
 local cui_CombatCount = 0
 local cui_CombatLogs = {}
 
-local cui_IsGossipTurnShown = false
-local cui_IsCombatTurnShown = false
-
 local m_useGossipLog = CuiSettings:GetBoolean(CuiSettings.WT_GOSSIP_LOG)
 local m_useCombatLog = CuiSettings:GetBoolean(CuiSettings.WT_COMBAT_LOG)
 local cui_MaxLog = 50
@@ -423,9 +420,6 @@ function OnLocalPlayerTurnBegin()
   if localPlayer ~= -1 then
     m_isDirty = true
   end
-  -- CUI
-  cui_IsGossipTurnShown = false
-  cui_IsCombatTurnShown = false
 end
 
 -- ===========================================================================
@@ -924,51 +918,46 @@ end
 --	CUI Log Functions
 -- ---------------------------------------------------------------------------
 function CuiUpdateLog(logString, displayTime, logType)
-
-  if (logType == ReportingStatusTypes.GOSSIP) and (not cui_IsGossipTurnShown) then
-    CuiAddNewLog(nil, logType)
-    cui_IsGossipTurnShown = true
-  elseif (logType == ReportingStatusTypes.DEFAULT) and (not cui_IsCombatTurnShown) then
-    CuiAddNewLog(nil, logType)
-    cui_IsCombatTurnShown = true
+  if logType == ReportingStatusTypes.GOSSIP then
+    CuiAddGossipLog(logString)
+  elseif logType == ReportingStatusTypes.DEFAULT then
+    CuiAddCombatLog(logString)
   end
-
-  CuiAddNewLog(logString, logType)
 end
 
 -- ---------------------------------------------------------------------------
-function CuiAddNewLog(logString, logType)
-  local logPanel, entries, counter = nil
-  if logType == ReportingStatusTypes.GOSSIP then
-    logPanel = cui_GossipPanel
-    entries = cui_GossipLogs
-    if logString then
-      cui_GossipCount = cui_GossipCount + 1
-    end
-    counter = cui_GossipCount
-  elseif logType == ReportingStatusTypes.DEFAULT then
-    logPanel = cui_CombatPanel
-    entries = cui_CombatLogs
-    if logString then
-      cui_CombatCount = cui_CombatCount + 1
-    end
-    counter = cui_CombatCount
-  else
-    return
-  end
+function CuiTurnString()
+  local turnLookup = Locale.Lookup("{LOC_TOP_PANEL_CURRENT_TURN:upper} ")
+  turnString = "[COLOR_FLOAT_GOLD]" .. turnLookup .. Game.GetCurrentGameTurn() .. "[ENDCOLOR]"
+  return turnString
+end
 
+-- ---------------------------------------------------------------------------
+function CuiAddGossipLog(logString)
+  if cui_GossipCount == 0 then
+    CuiAddLog(CuiTurnString(), cui_GossipPanel, cui_GossipLogs)
+  end
+  CuiAddLog(logString, cui_GossipPanel, cui_GossipLogs)
+  cui_GossipCount = cui_GossipCount + 1
+  cui_GossipPanel.NewLogNumber:SetText("[ICON_NEW] " .. cui_GossipCount)
+end
+
+-- ---------------------------------------------------------------------------
+function CuiAddCombatLog(logString)
+  if cui_CombatCount == 0 then
+    CuiAddLog(CuiTurnString(), cui_CombatPanel, cui_CombatLogs)
+  end
+  CuiAddLog(logString, cui_CombatPanel, cui_CombatLogs)
+  cui_CombatCount = cui_CombatCount + 1
+  cui_CombatPanel.NewLogNumber:SetText("[ICON_NEW] " .. cui_CombatCount)
+end
+
+-- ---------------------------------------------------------------------------
+function CuiAddLog(logString, logPanel, entries)
   local instance = {}
   ContextPtr:BuildInstanceForControl("LogInstance", instance, logPanel.LogStack)
-
-  if logString == nil then
-    local turnLookup = Locale.Lookup("{LOC_TOP_PANEL_CURRENT_TURN:upper} ")
-    logString = "[COLOR_FLOAT_GOLD]" .. turnLookup .. Game.GetCurrentGameTurn() .. "[ENDCOLOR]"
-  else
-    logPanel.NewLogNumber:SetText("[ICON_NEW] " .. counter)
-  end
   instance.String:SetText(logString)
   instance.LogRoot:SetSizeY(instance.String:GetSizeY() + 6)
-
   table.insert(entries, instance)
 
   -- Remove the earliest entry if the log limit has been reached
@@ -980,7 +969,6 @@ function CuiAddNewLog(logString, logType)
   -- Refresh log and reprocess size
   logPanel.LogStack:CalculateSize()
   logPanel.LogStack:ReprocessAnchoring()
-
 end
 
 -- ---------------------------------------------------------------------------
@@ -1086,7 +1074,9 @@ end
 -- ---------------------------------------------------------------------------
 function CuiLogCounterReset()
   cui_GossipCount = 0
+  cui_GossipPanel.NewLogNumber:SetText("")
   cui_CombatCount = 0
+  cui_CombatPanel.NewLogNumber:SetText("")
 end
 
 -- ---------------------------------------------------------------------------

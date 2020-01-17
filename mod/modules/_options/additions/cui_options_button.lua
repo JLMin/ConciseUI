@@ -16,10 +16,8 @@ end
 
 -- ---------------------------------------------------------------------------
 function SetupUI()
-  Controls.LastUpdate:SetText(LastUpdate)
-  if not isNil(UpdateContent) then
-    Controls.LastUpdate:SetToolTipString(UpdateContent)
-  end
+  Controls.Version:SetText(CuiVersion)
+  Controls.Version:SetToolTipString(VersionDetail)
   CuiRegCallback(Controls.CuiOptionButton, OpenOptionMenu, OpenOptionMenu)
 end
 

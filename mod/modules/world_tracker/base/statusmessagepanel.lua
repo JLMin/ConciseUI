@@ -22,36 +22,28 @@ local m_isGossipExpanded = false
 local m_kMessages = {}
 
 -- ===========================================================================
---	FUNCTIONS
--- ===========================================================================
--- CUI =======================================================================
-local cui_UseVanilaGossip = false
-local cui_UseVanilaCombat = false
-
-function CuiLogReset()
-  cui_UseVanilaGossip = CuiSettings:GetBoolean(CuiSettings.DF_GOSSIP_LOG)
-  cui_UseVanilaCombat = CuiSettings:GetBoolean(CuiSettings.DF_COMBAT_LOG)
-end
-LuaEvents.CuiLogSettingChange.Add(CuiLogReset)
-
--- ===========================================================================
 --	EVENT
 --	subType	when gossip it's the db enum for the gossip type
 -- ===========================================================================
 function OnStatusMessage(message, displayTime, type, subType)
 
-  -- CUI
-  if (not cui_UseVanilaGossip and type == ReportingStatusTypes.GOSSIP) or
-    (not cui_UseVanilaCombat and type == ReportingStatusTypes.DEFAULT) then
-    return
-  end
-  --
-
   if (type == ReportingStatusTypes.GOSSIP) then
+    -- CUI
+    local cui_UseVanilaGossip = CuiSettings:GetBoolean(CuiSettings.DF_GOSSIP_LOG)
+    if (not cui_UseVanilaGossip) then
+      return
+    end
+    --
     AddGossip(subType, message, displayTime)
   end
 
   if (type == ReportingStatusTypes.DEFAULT) then
+    -- CUI
+    local cui_UseVanilaCombat = CuiSettings:GetBoolean(CuiSettings.DF_COMBAT_LOG)
+    if (not cui_UseVanilaCombat) then
+      return
+    end
+    --
     AddDefault(message, displayTime)
   end
 

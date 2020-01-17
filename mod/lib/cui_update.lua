@@ -1,19 +1,5 @@
-LastUpdate = "19/11/21"
+CuiVersion = "1.4.4"
+LastUpdate = "2020/01/17"
 
-UpdateContent = ""
-
-function BuildContent()
-  local updates = {
-    {date = "2019/11/21", content = "Add Russian language by [iMiAMi]."},
-    {date = "2019/11/20", content = "Add Korean language by [firefanda]."},
-    {date = "2019/11/19", content = "Add City Status in world tracker."}
-  }
-
-  UpdateContent = "Concies UI - Recent Updates"
-
-  for _, item in ipairs(updates) do
-    UpdateContent = UpdateContent .. "[NEWLINE][NEWLINE]"
-    UpdateContent = UpdateContent .. item.date .. "[NEWLINE]" .. item.content
-  end
-end
-BuildContent()
+VersionDetail = "Concise UI - " .. CuiVersion .. "[NEWLINE]" ..
+                "Last Update: " .. LastUpdate
