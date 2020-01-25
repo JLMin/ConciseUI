@@ -17,7 +17,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("it_IT", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                       "Click sinistro aggiunge, click destro sottrae"),
 ("it_IT", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "Loro hanno già"),
 ("it_IT", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "Noi abbiamo già"),
-("it_IT", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "We only have one"),
+("it_IT", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "Ne abbiamo solo una"),
 
 -- =============================================================================
 -- Diplomatic Banner
@@ -60,8 +60,8 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("it_IT", "LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP",                             "Mostra/nascondi banner città"),
 ("it_IT", "LOC_CUI_MO_SHOW_TRADERS",                                            "Mostra commercianti"),
 ("it_IT", "LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP",                                  "Mostra/nascondi icone commerciante"),
-("it_IT", "LOC_CUI_MO_SHOW_RELIGIONS",                                          "Show Religion Units"),
-("it_IT", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Toggle Religion Flags"),
+("it_IT", "LOC_CUI_MO_SHOW_RELIGIONS",                                          "Mostra unità religiose"),
+("it_IT", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Mostra/nascondi bandiere religiose"),
 
 -- =============================================================================
 -- Report Screen
@@ -73,8 +73,8 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
 -- Top Panel
-("it_IT", "LOC_CUI_SI_SPY_AVAILABLE",                                           "{1_num} [ICON_Unit] {1_num : plural 1?Spia; other?Spie;} disponibile/i"),
-("it_IT", "LOC_CUI_SI_SPY_CAPACITY",                                            "{1_num} [ICON_Unit] {1_num : plural 1?Spia; other?Spie;} arruolabile/i"),
+("it_IT", "LOC_CUI_SI_SPY_AVAILABLE",                                           "{1_num} [ICON_Unit] {1_num : plural 1?Spia disponibile; other?Spie disponibili;}"),
+("it_IT", "LOC_CUI_SI_SPY_CAPACITY",                                            "{1_num} [ICON_Unit] {1_num : plural 1?Spia arruolabile; other?Spie arruolabili;}"),
 
 -- =============================================================================
 -- World Tracker
@@ -124,41 +124,41 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
 -- Options
-("it_IT", "LOC_CUI_OPTIONS_TAB_VICTORY",                                        "Victories"),
-("it_IT", "LOC_CUI_OPTIONS_TAB_LOG",                                            "Logs"),
-("it_IT", "LOC_CUI_OPTIONS_TAB_POPUP",                                          "Popups"),
-("it_IT", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "Remind"),
+("it_IT", "LOC_CUI_OPTIONS_TAB_VICTORY",                                        "Vittorie"),
+("it_IT", "LOC_CUI_OPTIONS_TAB_LOG",                                            "Registri"),
+("it_IT", "LOC_CUI_OPTIONS_TAB_POPUP",                                          "Popup"),
+("it_IT", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "Ricorda"),
 --
-("it_IT", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "Please select the victory you want to track."),
-("it_IT", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Please select where the logs will be displayed."),
-("it_IT", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Please select the popups you want to enable."),
-("it_IT", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Please select the reminders you want to use."),
-("it_IT", "LOC_CUI_OPTIONS_DESC_SPEED",                                         "Please select quick combat & movement objects."),
+("it_IT", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "Seleziona la vittoria di cui vuoi tenere traccia."),
+("it_IT", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Seleziona i registri che vuoi che vengano mostrati."),
+("it_IT", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Seleziona i popup che vuoi abilitare."),
+("it_IT", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Seleziona i 'Ricorda' che vuoi attivare."),
+("it_IT", "LOC_CUI_OPTIONS_DESC_SPEED",                                         "Seleziona il combattimento rapido & il movimento oggetti."),
 --
-("it_IT", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "Disable"),
-("it_IT", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                        "Default position"),
-("it_IT", "LOC_CUI_OPTIONS_LOG_WORLDTRACKER",                                   "World Tracker"),
-("it_IT", "LOC_CUI_OPTIONS_LOG_BOTH",                                           "Both"),
+("it_IT", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "Disabilita"),
+("it_IT", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                        "Posizione standard"),
+("it_IT", "LOC_CUI_OPTIONS_LOG_WORLDTRACKER",                                   "Registro Mondiale"),
+("it_IT", "LOC_CUI_OPTIONS_LOG_BOTH",                                           "Entrambi"),
 --
-("it_IT", "LOC_CUI_OPTIONS_POPUP_RESEARCH",                                     "Tech/Civic complete"),
-("it_IT", "LOC_CUI_OPTIONS_POPUP_AUDIO",                                        "Tech/Civic audio"),
-("it_IT", "LOC_CUI_OPTIONS_POPUP_ERA_SCORE",                                    "Gain era score"),
-("it_IT", "LOC_CUI_OPTIONS_POPUP_GREAT_WORK",                                   "Create great works"),
-("it_IT", "LOC_CUI_OPTIONS_POPUP_RELIC",                                        "Get relics"),
+("it_IT", "LOC_CUI_OPTIONS_POPUP_RESEARCH",                                     "Tecnologia/Politica completata"),
+("it_IT", "LOC_CUI_OPTIONS_POPUP_AUDIO",                                        "Tecnologia/Politica completata"),
+("it_IT", "LOC_CUI_OPTIONS_POPUP_ERA_SCORE",                                    "Guadagna punti epoca"),
+("it_IT", "LOC_CUI_OPTIONS_POPUP_GREAT_WORK",                                   "Crea un grande capolavoro"),
+("it_IT", "LOC_CUI_OPTIONS_POPUP_RELIC",                                        "Ottieni reliquie"),
 --
-("it_IT", "LOC_CUI_OPTIONS_REMIND_TECH",                                        "Tech complete by eureka"),
-("it_IT", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "Civic complete by inspire"),
-("it_IT", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Free government chance"),
-("it_IT", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Governor titles available"),
+("it_IT", "LOC_CUI_OPTIONS_REMIND_TECH",                                        "Tecnologia completata con l'eureka"),
+("it_IT", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "Politica completata con l'ispirazione"),
+("it_IT", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Probabilità di governo gratuito"),
+("it_IT", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Titoli di governatore disponibili"),
 --
 ("it_IT", "LOC_CUI_OPTIONS_QUICK_COMBAT",                                       "Combattimento rapido"),
 ("it_IT", "LOC_CUI_OPTIONS_QUICK_MOVEMENT",                                     "Movimento rapido"),
-("it_IT", "LOC_CUI_OPTIONS_SPEED_PLAYER_ONLY",                                  "Player Only"),
-("it_IT", "LOC_CUI_OPTIONS_SPEED_AI_ONLY",                                      "AI Only"),
+("it_IT", "LOC_CUI_OPTIONS_SPEED_PLAYER_ONLY",                                  "Solo giocatore"),
+("it_IT", "LOC_CUI_OPTIONS_SPEED_AI_ONLY",                                      "Solo IA"),
 
 -- =============================================================================
 -- Screenshot
-("it_IT", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Enter Screenshot Mode[NEWLINE][NEWLINE]Screenshot Mode will hide most or all UI Elements, allows you to take clean screenshots.[NEWLINE][NEWLINE]Left-click hide all UI Elements[NEWLINE]Right-click hide all UI Elements except for City Banners[NEWLINE]Hold ALT to rotate the screen[NEWLINE]Press ESC to exit Screenshot Mode"),
+("it_IT", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Entra in modalità Cattura Schermo[NEWLINE][NEWLINE]La modalità Cattura Schermo nasconderà la maggior parte degli elementi della UI, permettendoti di fare screenshot senza che nulla si metta davanti. Inoltre, la rotazione della telecamera non si resetterà mentre sei in questa modalità.[NEWLINE][NEWLINE]Il tasto sinistro del mouse nasconderà gli elementi della UI.[NEWLINE]Il tasto destr odel mouse nasconderà tutti gli elementi della UI fatta eccezione per i Banner delle Città.[NEWLINE]Premi ESC per uscire dalla Modalità Cattura Schermo."),
 
 -- =============================================================================
 ("it_IT", "LOC_CUI_COLON", ": ");
