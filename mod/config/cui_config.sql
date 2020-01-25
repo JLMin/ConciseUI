@@ -77,10 +77,10 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_IMPROVED",     "ja_JP", "改善済み資源の表示"),
 ("LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",   "ja_JP", "ユニットアイコンの表示"),
 ("LOC_CUI_CONFIG_TOGGLE_TRADERS",      "ja_JP", "交易商アイコンの表示"),
-("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "ja_JP", "Toggle Religion Icons"),
+("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "ja_JP", "宗教アイコンの表示"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "ja_JP", "都市バナーの表示"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "ja_JP", "ユニット一覧を開く"),
-("LOC_CUI_CONFIG_OPEN_NOTES",          "ja_JP", "Open Notes"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "ja_JP", "ノートを開く"),
 
 -- ===========================================================================
 -- [Korean] by [firefanda] 10/22/2019
@@ -158,7 +158,7 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 ("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "zh_Hans_HK", "开启/关闭宗教单位图标"),
 ("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "zh_Hans_HK", "开启/关闭城市横幅"),
 ("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "zh_Hans_HK", "打开单位列表"),
-("LOC_CUI_CONFIG_OPEN_NOTES",          "zh_Hans_HK", "打开备忘录"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "zh_Hans_HK", "打开备忘录");
 
 -- ===========================================================================
 -- EOF

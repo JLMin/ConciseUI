@@ -17,7 +17,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ja_JP", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                       "左クリックで追加 / 右クリックで撤回"),
 ("ja_JP", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "相手が所有している"),
 ("ja_JP", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "自分が所有している"),
-("ja_JP", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "We only have one"),
+("ja_JP", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "1つしか所有していない"),
 
 -- =============================================================================
 -- Diplomatic Banner
@@ -60,8 +60,8 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ja_JP", "LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP",                             "都市バナーの切り替え"),
 ("ja_JP", "LOC_CUI_MO_SHOW_TRADERS",                                            "交易商アイコンを表示"),
 ("ja_JP", "LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP",                                  "交易商アイコンの切り替え"),
-("ja_JP", "LOC_CUI_MO_SHOW_RELIGIONS",                                          "Show Religion Units"),
-("ja_JP", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Toggle Religion Flags"),
+("ja_JP", "LOC_CUI_MO_SHOW_RELIGIONS",                                          "宗教ユニットを表示"),
+("ja_JP", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "宗教表示の切り替え"),
 
 -- =============================================================================
 -- Report Screen
@@ -98,67 +98,67 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ja_JP", "LOC_CUI_TP_SORT_BY_TURNS_REMAINING_TOOLTIP",                         "[ICON_Turn]残りターンで並べ替え"),
 ("ja_JP", "LOC_CUI_TP_REPEAT",                                                  "繰り返す"),
 ("ja_JP", "LOC_CUI_TP_REPEAT_TOOLTIP",                                          "交易路を繰り返す。デフォルトでは、前回と同じ交易路を選択する。"),
-("ja_JP", "LOC_CUI_TP_SELECT_A_CITY",                                           "Select a New Origin City."),
+("ja_JP", "LOC_CUI_TP_SELECT_A_CITY",                                           "出発する都市を選択する。"),
 
 -- =============================================================================
 -- Espionage Panel
-("ja_JP", "LOC_CUI_EP_SHOW_CITYS",                                              "Show Cities"),
-("ja_JP", "LOC_CUI_EP_SIPHON_FUNDS",                                            "Gain ({1_GoldString}) Gold yields."),
+("ja_JP", "LOC_CUI_EP_SHOW_CITYS",                                              "都市を表示"),
+("ja_JP", "LOC_CUI_EP_SIPHON_FUNDS",                                            "ゴールドを獲得する ({1_GoldString})"),
 
 -- =============================================================================
 -- Production Panel
-("ja_JP", "LOC_CUI_PP_QUEUE_DEFAULT",                                           "Use Queue By Default"),
+("ja_JP", "LOC_CUI_PP_QUEUE_DEFAULT",                                           "デフォルトで生産キューを使用"),
 
 -- =============================================================================
 -- Great Works
-("ja_JP", "LOC_CUI_GW_SORT_BY_CITY",                                            "Sort By City"),
-("ja_JP", "LOC_CUI_GW_SORT_BY_BUILDING",                                        "Sort By Building"),
-("ja_JP", "LOC_CUI_GW_THEMING_HELPER",                                          "Theming Helper"),
-("ja_JP", "LOC_CUI_GW_THEMING_HELPER_TOOLTIP",                                  "Pick three Great Works / Artifacts of the same colors and different numbers to complete a theme."),
+("ja_JP", "LOC_CUI_GW_SORT_BY_CITY",                                            "都市で並べ替え"),
+("ja_JP", "LOC_CUI_GW_SORT_BY_BUILDING",                                        "建造物で並べ替え"),
+("ja_JP", "LOC_CUI_GW_THEMING_HELPER",                                          "テーマ化のヒント"),
+("ja_JP", "LOC_CUI_GW_THEMING_HELPER_TOOLTIP",                                  "傑作を3つ選択 / 同じ色の遺物と異なる数字でテーマ化達成"),
 
 -- =============================================================================
 -- Notes
-("ja_JP", "LOC_CUI_NOTES",                                                      "Notes"),
-("ja_JP", "LOC_CUI_NOTE_LAST_EDIT",                                             "[ Turn: {1_num} ]"),
-("ja_JP", "LOC_CUI_NOTE_EMPTY",                                                 "Empty Note"),
+("ja_JP", "LOC_CUI_NOTES",                                                      "ノート"),
+("ja_JP", "LOC_CUI_NOTE_LAST_EDIT",                                             "[ ターン: {1_num} ]"),
+("ja_JP", "LOC_CUI_NOTE_EMPTY",                                                 "空白"),
 
 -- =============================================================================
 -- Options
-("ja_JP", "LOC_CUI_OPTIONS_TAB_VICTORY",                                        "Victories"),
-("ja_JP", "LOC_CUI_OPTIONS_TAB_LOG",                                            "Logs"),
-("ja_JP", "LOC_CUI_OPTIONS_TAB_POPUP",                                          "Popups"),
-("ja_JP", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "Remind"),
+("ja_JP", "LOC_CUI_OPTIONS_TAB_VICTORY",                                        "勝利"),
+("ja_JP", "LOC_CUI_OPTIONS_TAB_LOG",                                            "ログ"),
+("ja_JP", "LOC_CUI_OPTIONS_TAB_POPUP",                                          "ポップアップ"),
+("ja_JP", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "リマインド"),
 --
-("ja_JP", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "Please select the victory you want to track."),
-("ja_JP", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Please select where the logs will be displayed."),
-("ja_JP", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Please select the popups you want to enable."),
-("ja_JP", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Please select the reminders you want to use."),
-("ja_JP", "LOC_CUI_OPTIONS_DESC_SPEED",                                         "Please select quick combat & movement objects."),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "確認したい勝利条件を選択"),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_LOG",                                           "表示したいログを選択"),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "有効にしたいポップアップを選択"),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "利用したいリマインダーを選択"),
+("ja_JP", "LOC_CUI_OPTIONS_DESC_SPEED",                                         "クイック戦闘・移動の対象を選択"),
 --
-("ja_JP", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "Disable"),
-("ja_JP", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                        "Default position"),
-("ja_JP", "LOC_CUI_OPTIONS_LOG_WORLDTRACKER",                                   "World Tracker"),
-("ja_JP", "LOC_CUI_OPTIONS_LOG_BOTH",                                           "Both"),
+("ja_JP", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "無効"),
+("ja_JP", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                        "デフォルト"),
+("ja_JP", "LOC_CUI_OPTIONS_LOG_WORLDTRACKER",                                   "ワールドトラッカー"),
+("ja_JP", "LOC_CUI_OPTIONS_LOG_BOTH",                                           "両方"),
 --
-("ja_JP", "LOC_CUI_OPTIONS_POPUP_RESEARCH",                                     "Tech/Civic complete"),
-("ja_JP", "LOC_CUI_OPTIONS_POPUP_AUDIO",                                        "Tech/Civic audio"),
-("ja_JP", "LOC_CUI_OPTIONS_POPUP_ERA_SCORE",                                    "Gain era score"),
-("ja_JP", "LOC_CUI_OPTIONS_POPUP_GREAT_WORK",                                   "Create great works"),
-("ja_JP", "LOC_CUI_OPTIONS_POPUP_RELIC",                                        "Get relics"),
+("ja_JP", "LOC_CUI_OPTIONS_POPUP_RESEARCH",                                     "技術/社会制度の取得"),
+("ja_JP", "LOC_CUI_OPTIONS_POPUP_AUDIO",                                        "技術/社会制度の音声"),
+("ja_JP", "LOC_CUI_OPTIONS_POPUP_ERA_SCORE",                                    "時代スコアの獲得"),
+("ja_JP", "LOC_CUI_OPTIONS_POPUP_GREAT_WORK",                                   "傑作の誕生"),
+("ja_JP", "LOC_CUI_OPTIONS_POPUP_RELIC",                                        "遺物の獲得"),
 --
-("ja_JP", "LOC_CUI_OPTIONS_REMIND_TECH",                                        "Tech complete by eureka"),
-("ja_JP", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "Civic complete by inspire"),
-("ja_JP", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Free government chance"),
-("ja_JP", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Governor titles available"),
+("ja_JP", "LOC_CUI_OPTIONS_REMIND_TECH",                                        "ひらめきで技術取得"),
+("ja_JP", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "天啓で社会制度取得"),
+("ja_JP", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "政府が変更可能"),
+("ja_JP", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "総督の称号が利用可能"),
 --
 ("ja_JP", "LOC_CUI_OPTIONS_QUICK_COMBAT",                                       "クイック戦闘"),
 ("ja_JP", "LOC_CUI_OPTIONS_QUICK_MOVEMENT",                                     "クイック移動"),
-("ja_JP", "LOC_CUI_OPTIONS_SPEED_PLAYER_ONLY",                                  "Player Only"),
-("ja_JP", "LOC_CUI_OPTIONS_SPEED_AI_ONLY",                                      "AI Only"),
+("ja_JP", "LOC_CUI_OPTIONS_SPEED_PLAYER_ONLY",                                  "プレイヤーのみ"),
+("ja_JP", "LOC_CUI_OPTIONS_SPEED_AI_ONLY",                                      "AIのみ"),
 
 -- =============================================================================
 -- Screenshot
-("ja_JP", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Enter Screenshot Mode[NEWLINE][NEWLINE]Screenshot Mode will hide most or all UI Elements, allows you to take clean screenshots.[NEWLINE][NEWLINE]Left-click hide all UI Elements[NEWLINE]Right-click hide all UI Elements except for City Banners[NEWLINE]Hold ALT to rotate the screen[NEWLINE]Press ESC to exit Screenshot Mode"),
+("ja_JP", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "スクリーンショットモードに切り替え[NEWLINE][NEWLINE]ユーザーインターフェースの全部あるいは大半を隠す。[NEWLINE]障害物がないスクリーンショットの撮影に最適。[NEWLINE]このモードの間は回転したカメラの向きが固定される。[NEWLINE][NEWLINE]左クリック：ユーザーインターフェースを全て隠す。[NEWLINE]右クリック：都市バナー以外のユーザーインターフェースを隠す。[NEWLINE]ESC キー：スクリーンショットモードを終了する。"),
 
 -- =============================================================================
 ("ja_JP", "LOC_CUI_COLON", ": ");
