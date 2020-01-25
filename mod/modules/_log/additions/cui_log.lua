@@ -29,9 +29,7 @@ function LogC:line(l)
 end
 
 function LogC:property(p, v)
-  if not v then
-    v = "."
-  end
+  if isNil(v) then v = "." end
   local pL = string.len(p)
   local mL = self.sL - pL
   local m = string.rep(".", mL)
