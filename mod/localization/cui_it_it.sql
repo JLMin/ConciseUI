@@ -1,5 +1,5 @@
 -- =============================================================================
--- CUI Ingame Text - [Italian] by [Diaz Ex Machina] 2/18/2019
+-- CUI Ingame Text - [Italian] by [Diaz Ex Machina / LeecanIt] 2/18/2019
 -- =============================================================================
 
 INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
