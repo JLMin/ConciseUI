@@ -1,4 +1,4 @@
-CuiVersion = "1.4.5"
+CuiVersion = "1.4.6"
 LastUpdate = "2020/01/26"
 
 VersionDetail = "Concise UI - " .. CuiVersion .. "[NEWLINE]" ..

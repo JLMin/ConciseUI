@@ -18,8 +18,6 @@ TTManager:GetTypeControlTable("CuiRelationshipTT", CuiRelationshipTT)
 local resourcesInstance = InstanceManager:new("ResourceInstance", "Top", Controls.ResourceInstanceContainer)
 local reasonInstance = InstanceManager:new("ReasonInstance", "Top", Controls.ReasonInstanceContainer)
 
-local localPlayer = Players[Game.GetLocalPlayer()]
-
 -- ===========================================================================
 function GetPlayerData(playerID)
   local data = {}
@@ -317,6 +315,7 @@ end
 -- ===========================================================================
 function GetAccessLevelTooltip(otherPlayerID)
   local tooltip = ""
+  local localPlayer = Players[Game.GetLocalPlayer()]
   local localPlayerDiplomacy = localPlayer:GetDiplomacy()
   local iAccessLevel = localPlayerDiplomacy:GetVisibilityOn(otherPlayerID)
   tooltip = Locale.Lookup("LOC_DIPLOMACY_OVERVIEW_ACCESS_LEVEL") .. Locale.Lookup("LOC_CUI_COLON") ..
@@ -504,6 +503,7 @@ end
 
 -- ===========================================================================
 function SetLeaderIconToolTip(tControl, playerID)
+  local localPlayer = Players[Game.GetLocalPlayer()]
   if playerID == Game.GetLocalPlayer() or localPlayer:GetDiplomacy():HasMet(playerID) then
     tControl:SetToolTipType("CuiLeaderIconTT")
     tControl:ClearToolTipCallback()
@@ -515,6 +515,7 @@ end
 
 -- ===========================================================================
 function SetRelationShipToolTip(tControl, playerID, allianceData)
+  local localPlayer = Players[Game.GetLocalPlayer()]
   if playerID ~= Game.GetLocalPlayer() and localPlayer:GetDiplomacy():HasMet(playerID) then
     if tControl:IsHidden() then
       tControl:SetHide(false)

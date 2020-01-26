@@ -1,19 +1,20 @@
 -- Copyright 2014-2019, Firaxis Games.
+
 --	Hotloading note: The World Tracker button check now positions based on how many hooks are showing.
 --	You'll need to save "LaunchBar" to see the tracker button appear.
+
 include("InstanceManager")
 include("TechAndCivicSupport")
 include("SupportFunctions")
 include("GameCapabilities")
-include("ToolTipHelper") -- CUI
 
 g_TrackedItems = {} -- Populated by WorldTrackerItems_* scripts;
-
 include("WorldTrackerItem_", true)
 
 -- Include self contained additional tabs
 g_ExtraIconData = {}
 include("CivicsTreeIconLoader_", true)
+
 include("cui_helper") -- CUI
 include("cui_settings") -- CUI
 include("cui_tracker_support") -- CUI
@@ -692,9 +693,9 @@ function UpdateWonderToolTip()
   for _, wonder in ipairs(wonderData.Wonders) do
     local wonderIcon = wonderInstance:GetInstance(CuiWonderTT.WonderIconStack)
     wonderIcon.Icon:SetIcon(wonder.Icon)
-    local hasColor = wonder.Color1 ~= "Clear"
-    local alpha = hasColor and 0.5 or 1.0
-    local back = hasColor and "Black" or "Clear"
+    local beenBuilt = wonder.BeenBuilt
+    local alpha = beenBuilt and 0.5 or 1.0
+    local back = beenBuilt and "Black" or "Clear"
     wonderIcon.Icon:SetAlpha(alpha)
     wonderIcon.Back:SetColorByName(back)
     wonderIcon.Color1:SetColor(wonder.Color1)
@@ -1085,8 +1086,6 @@ function CuiTrackerRefresh()
   if localPlayer == nil then
     return
   end
-
-  SupportInit()
 
   wonderData = GetWonderData()
   resourceData = GetResourceData()

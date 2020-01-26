@@ -8,36 +8,27 @@ include("TeamSupport")
 include("EspionageSupport")
 include("cui_helper")
 
-local aliveMajors = nil
 local localPlayerID = nil
 local localPlayer = nil
 local localDiplomacy = nil
-local metPlayers = nil
-local uniqueLeaders = nil
 
 -- ---------------------------------------------------------------------------
-function SupportInit()
-  aliveMajors = PlayerManager.GetAliveMajors()
+function PlayerInit()
   localPlayerID = Game.GetLocalPlayer()
   localPlayer = Players[localPlayerID]
   localDiplomacy = localPlayer:GetDiplomacy()
-  metPlayers, uniqueLeaders = GetMetPlayersAndUniqueLeaders()
-  --
-  table.sort(aliveMajors, function(a, b)
-    return localDiplomacy:GetMetTurn(a:GetID()) < localDiplomacy:GetMetTurn(b:GetID())
-  end)
 end
-SupportInit()
+PlayerInit()
 
 -- ===========================================================================
 -- Data Function
 -- ---------------------------------------------------------------------------
 function GetWonderData()
+  PlayerInit()
+
   local wonderData = {}
   local wonders = {}
   local colorSet = {}
-
-  local playerData = GetPlayerBasicData()
 
   local tmpWonderList = {}
   for building in GameInfo.Buildings() do
@@ -45,26 +36,28 @@ function GetWonderData()
       local name = building.Name
       local index = building.Index
       local icon = "ICON_" .. building.BuildingType
-      local wonder = {Index = index, Icon = icon, Color1 = "Clear", Color2 = "Clear"}
+      local wonder = {Index = index, Icon = icon, BeenBuilt = false, Color1 = "Clear", Color2 = "Clear"}
       tmpWonderList[name] = wonder
     end
   end
-  --
+
+  local playerData = CuiGetPlayerBasicData()
   for _, pData in pairs(playerData) do
     local playerID = pData.playerID
     local player = Players[playerID]
     --
-    local color1, color2 = UI.GetPlayerColors(playerID)
-    local config = PlayerConfigurations[playerID]
-    local civName = Locale.Lookup(config:GetCivilizationDescription())
-    if pData.isLocalPlayer then
-      civName = Locale.Lookup("LOC_GAMESUMMARY_CONTEXT_LOCAL", civName)
-    end
-    local shouldShow = pData.isLocalPlayer or pData.isMet or pData.isHuman
-    if not shouldShow then
-      civName = Locale.Lookup("LOC_DIPLOPANEL_UNMET_PLAYER")
-      color1 = "black"
-      color2 = "black"
+    local civName = Locale.Lookup("LOC_DIPLOPANEL_UNMET_PLAYER")
+    local color1 = 0
+    local color2 = 0
+    --
+    local visible = pData.isLocalPlayer or pData.isMet
+    if visible then
+      local config = PlayerConfigurations[playerID]
+      civName = Locale.Lookup(config:GetCivilizationDescription())
+      if pData.isLocalPlayer then
+        civName = Locale.Lookup("LOC_GAMESUMMARY_CONTEXT_LOCAL", civName)
+      end
+      color1, color2 = UI.GetPlayerColors(playerID)
     end
 
     local indicator = {CivName = civName, Color1 = color1, Color2 = color2}
@@ -80,6 +73,7 @@ function GetWonderData()
             local building = GameInfo.Buildings[budType]
             if building.IsWonder and buds:HasBuilding(building.Index) then
               local name = building.Name
+              tmpWonderList[name].BeenBuilt = true
               tmpWonderList[name].Color1 = color1
               tmpWonderList[name].Color2 = color2
             end
@@ -103,6 +97,8 @@ end
 
 -- ---------------------------------------------------------------------------
 function GetResourceData()
+  PlayerInit()
+
   local resourceData = {}
   local r_luxury = {}
   local r_strategic = {}
@@ -216,16 +212,17 @@ end
 
 -- ---------------------------------------------------------------------------
 function GetBorderData()
+  PlayerInit()
+
   local borderData = {}
   local leaders = {}
   local active = false
 
-  local playerData = GetPlayerBasicData()
-
+  local playerData = CuiGetPlayerBasicData()
   for _, pData in pairs(playerData) do
     local playerID = pData.playerID
-    if (not pData.isLocalPlayer) and (pData.isMet or pData.isHuman) then
-
+    local visible = (not pData.isLocalPlayer) and pData.isMet
+    if visible then
       local hasImport = false
       local hasExport = false
       local canImport = false
@@ -285,6 +282,8 @@ end
 
 -- ---------------------------------------------------------------------------
 function GetTradeData()
+  PlayerInit()
+
   local tradeData = {}
   local leaders = {}
   local active = false
@@ -300,12 +299,12 @@ function GetTradeData()
     active = true
   end
 
-  local playerData = GetPlayerBasicData()
-
+  local playerData = CuiGetPlayerBasicData()
   for _, pData in pairs(playerData) do
     local playerID = pData.playerID
     local player = Players[playerID]
-    if (not pData.isLocalPlayer) and (pData.isMet or pData.isHuman) then
+    local visible = (not pData.isLocalPlayer) and pData.isMet
+    if visible then
       local isTraded = false
       local playerCities = player:GetCities()
       for _, city in playerCities:Members() do
@@ -329,25 +328,6 @@ end
 -- ===========================================================================
 -- Help Function
 -- ---------------------------------------------------------------------------
-function GetPlayerBasicData()
-  local playerData = {}
-
-  for _, pPlayer in ipairs(aliveMajors) do
-    local playerID = pPlayer:GetID()
-    local pPlayerConfig = PlayerConfigurations[playerID]
-    playerData[playerID] = {
-      playerID = playerID,
-      isLocalPlayer = playerID == Game.GetLocalPlayer(),
-      isHuman = GameConfiguration.IsAnyMultiplayer() and pPlayerConfig:IsHuman(),
-      isMet = metPlayers[playerID],
-      leaderName = pPlayerConfig:GetLeaderTypeName(),
-      leaderIcon = "ICON_" .. pPlayerConfig:GetLeaderTypeName()
-    }
-  end
-
-  return playerData
-end
-
 function IsAtWar(lPlayerID, tPlayerID)
 
   local tPlayer = Players[tPlayerID]

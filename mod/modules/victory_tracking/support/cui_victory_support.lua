@@ -6,23 +6,6 @@ include("SupportFunctions")
 include("TeamSupport")
 include("cui_helper")
 
-local aliveMajors = nil
-local localPlayerID = nil
-local localPlayer = nil
-local localDiplomacy = nil
-local kMetPlayers = nil
-local kUniqueLeaders = nil
-
--- ---------------------------------------------------------------------------
-function SupportInit()
-  aliveMajors = PlayerManager.GetAliveMajors()
-  localPlayerID = Game.GetLocalPlayer()
-  localPlayer = Players[localPlayerID]
-  localDiplomacy = localPlayer:GetDiplomacy()
-  kMetPlayers, kUniqueLeaders = GetMetPlayersAndUniqueLeaders()
-end
-SupportInit()
-
 -- ===========================================================================
 -- Victory Conditions
 -- ---------------------------------------------------------------------------
@@ -54,7 +37,7 @@ end
 
 -- Science ===================================================================
 function GetScienceData()
-  local playerData = GetPlayerBasicData()
+  local playerData = CuiGetPlayerBasicData()
 
   -- add data
   for _, pData in pairs(playerData) do
@@ -233,6 +216,8 @@ function GetGSScienceCustomData(playerID) -- science victory Gathering Storm
 
   -- 5th - final mission
   if progresses[4] == "[ICON_CheckmarkBlue]" then
+    local localPlayerID = Game.GetLocalPlayer()
+    local localPlayer = Players[localPlayerID]
     if localPlayer then
       local lightYears = pPlayerStats:GetScienceVictoryPoints()
       local lightYearsPerTurn = pPlayer:GetStats():GetScienceVictoryPointsPerTurn()
@@ -257,7 +242,7 @@ end
 
 -- Culture ===================================================================
 function GetCultureData()
-  local playerData = GetPlayerBasicData()
+  local playerData = CuiGetPlayerBasicData()
 
   -- add data
   for _, pData in pairs(playerData) do
@@ -306,7 +291,7 @@ end
 
 -- Domination ================================================================
 function GetDominationData()
-  local playerData = GetPlayerBasicData()
+  local playerData = CuiGetPlayerBasicData()
 
   -- add data
   for _, pData in pairs(playerData) do
@@ -350,7 +335,7 @@ end
 
 -- Religion ==================================================================
 function GetReligionData()
-  local playerData = GetPlayerBasicData()
+  local playerData = CuiGetPlayerBasicData()
 
   -- add data
   for _, pData in pairs(playerData) do
@@ -401,7 +386,7 @@ end
 
 -- Diplomatic ================================================================
 function GetDiplomaticData()
-  local playerData = GetPlayerBasicData()
+  local playerData = CuiGetPlayerBasicData()
 
   -- add data
   for _, pData in pairs(playerData) do
@@ -442,26 +427,6 @@ end
 -- ===========================================================================
 -- Help Function
 -- ---------------------------------------------------------------------------
-function GetPlayerBasicData()
-  local playerData = {}
-
-  for _, pPlayer in ipairs(aliveMajors) do
-    local playerID = pPlayer:GetID()
-    local pPlayerConfig = PlayerConfigurations[playerID]
-    playerData[playerID] = {
-      playerID = playerID,
-      isLocalPlayer = playerID == Game.GetLocalPlayer(),
-      isHuman = GameConfiguration.IsAnyMultiplayer() and pPlayerConfig:IsHuman(),
-      isMet = kMetPlayers[playerID],
-      leaderName = pPlayerConfig:GetLeaderTypeName(),
-      leaderIcon = "ICON_" .. pPlayerConfig:GetLeaderTypeName()
-    }
-  end
-
-  return playerData
-end
-
--- ---------------------------------------------------------------------------
 function GetVictoryLeader(playerData, comparator)
   local sortedLeader = {}
   local rank = 0
@@ -472,6 +437,7 @@ function GetVictoryLeader(playerData, comparator)
     if rank < 4 then
       table.insert(sortedLeader, leader)
     end
+    local localPlayerID = Game.GetLocalPlayer()
     if id == localPlayerID then
       localLeader = leader
       localRank = rank

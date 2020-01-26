@@ -479,22 +479,25 @@ function PopulateLeaderStack()
             end
             ]]
       else
+        instance.FavorLabel:SetText("")
         instance.FavorContainer:SetHide(true)
         -- instance.GrievanceContainer:SetHide(true); -- CUI
       end
+      instance.GrievanceLabel:SetText("")
       instance.GrievanceContainer:SetHide(true) -- CUI
 
       local icon = (isLocalPlayer or pDiplomacy:HasMet(playerID)) and "ICON_" .. leaderName or "ICON_LEADER_DEFAULT"
       uiLeaderIcon:UpdateIcon(icon, playerID, kIsUniqueLeader[leaderName], grievanceTT)
     else
       instance.FavorLabel:SetText("")
-      instance.GrievanceLabel:SetText("")
       instance.FavorContainer:SetHide(true)
+      instance.GrievanceLabel:SetText("")
       instance.GrievanceContainer:SetHide(true)
       uiLeaderIcon:UpdateIcon("ICON_LEADER_DEFAULT", playerID)
     end
-
     -- CUI: use advanced tooltip
+    uiLeaderIcon.Controls.Portrait:ClearToolTipCallback()
+    uiLeaderIcon.Controls.Relationship:ClearToolTipCallback()
     local allianceData = CuiGetAllianceData(playerID)
     LuaEvents.CuiLeaderIconToolTip(uiLeaderIcon.Controls.Portrait, playerID)
     LuaEvents.CuiRelationshipToolTip(uiLeaderIcon.Controls.Relationship, playerID, allianceData)

@@ -27,8 +27,6 @@ local diplomaticData = {}
 
 -- ---------------------------------------------------------------------------
 function GetData()
-  SupportInit()
-
   local victoryTypes = GetVictoryTypes()
   for _, vType in ipairs(victoryTypes) do
     if vType == "SCIENCE" then

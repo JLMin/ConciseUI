@@ -105,3 +105,33 @@ function CuiSetIconToSize(iconControl, iconName, iconSize)
   iconControl:SetTexture(x, y, szIconName)
   iconControl:SetSizeVal(iconSize, iconSize)
 end
+
+-- ---------------------------------------------------------------------------
+function CuiGetPlayerBasicData()
+  local localPlayerID = Game.GetLocalPlayer()
+  local localPlayer = Players[localPlayerID]
+  local localDiplomacy = localPlayer:GetDiplomacy()
+
+  local aliveMajors = PlayerManager.GetAliveMajors()
+  table.sort(aliveMajors, function(a, b)
+    return localDiplomacy:GetMetTurn(a:GetID()) < localDiplomacy:GetMetTurn(b:GetID())
+  end)
+
+  local playerData = {}
+  local metPlayers, uniqueLeaders = GetMetPlayersAndUniqueLeaders()
+
+  for _, pPlayer in ipairs(aliveMajors) do
+    local playerID = pPlayer:GetID()
+    local pPlayerConfig = PlayerConfigurations[playerID]
+    playerData[playerID] = {
+      playerID = playerID,
+      isLocalPlayer = playerID == Game.GetLocalPlayer(),
+      isHuman = GameConfiguration.IsAnyMultiplayer() and pPlayerConfig:IsHuman(),
+      isMet = metPlayers[playerID],
+      leaderName = pPlayerConfig:GetLeaderTypeName(),
+      leaderIcon = "ICON_" .. pPlayerConfig:GetLeaderTypeName()
+    }
+  end
+
+  return playerData
+end
