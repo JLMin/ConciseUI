@@ -1,4 +1,6 @@
-import os, shutil, errno
+import os
+import shutil
+import errno
 from build import build
 
 MOD_PATH = os.path.dirname(os.path.abspath(__file__)) + r'\mod'

@@ -13,9 +13,11 @@ MOD_ID      = '5f504949-398a-4038-a838-43c3acc4dc10'
 MOD_VERSION = '1.4.6'
 MOD_NAME    = '[COLOR_Civ6LightBlue]Concise UI[ENDCOLOR]'
 MOD_TEASER  = 'For a better gaming experience.'
-MOD_DESC    = 'Concise UI greatly improves the game experience by '\
-              'modifying the vanilla UI and adding new UI elements to the game.'\
-              '[NEWLINE][NEWLINE]Game Version: 1.0.0.341 (443561)'
+MOD_DESC    = (
+    'Concise UI greatly improves the game experience by '
+    'modifying the vanilla UI and adding new UI elements to the game.'
+    '[NEWLINE][NEWLINE]Game Version: 1.0.0.341 (443561)'
+)
 MOD_AUTHOR  = 'eudaimonia'
 MOD_SAVED   = '0'
 MOD_COMPT   = '2.0'
@@ -53,7 +55,8 @@ def __build_modinfo():
     if 'config' in mod_files:
         frontend = SubElement(root, 'FrontEndActions')
         fe_text = SubElement(frontend, 'UpdateText', id='Cui_Front_End_Text')
-        fe_database = SubElement(frontend, 'UpdateDatabase', id='Cui_Front_End_Database')
+        fe_database = SubElement(
+            frontend, 'UpdateDatabase', id='Cui_Front_End_Database')
         for file in mod_files['config']:
             if file.endswith('sql'):
                 SubElement(fe_text, 'File').text = file
@@ -98,14 +101,16 @@ def __build_modinfo():
             SubElement(base, 'File').text = file
     # mod expansion1
     if 'expansion1' in mod_files:
-        expansion1 = SubElement(ingame, 'ImportFiles', id='Cui_Expansion1', criteria=CRITERIA_1)
+        expansion1 = SubElement(ingame, 'ImportFiles',
+                                id='Cui_Expansion1', criteria=CRITERIA_1)
         expansion1_p = SubElement(expansion1, 'Properties')
         SubElement(expansion1_p, 'LoadOrder').text = '13'
         for file in mod_files['expansion1']:
             SubElement(expansion1, 'File').text = file
     # mod expansion2
     if 'expansion2' in mod_files:
-        expansion2 = SubElement(ingame, 'ImportFiles', id='Cui_Expansion2', criteria=CRITERIA_2)
+        expansion2 = SubElement(ingame, 'ImportFiles',
+                                id='Cui_Expansion2', criteria=CRITERIA_2)
         expansion2_p = SubElement(expansion2, 'Properties')
         SubElement(expansion2_p, 'LoadOrder').text = '14'
         for file in mod_files['expansion2']:
@@ -166,10 +171,10 @@ def __get_groups(root_path, groups=None):
 def __get_files(folder_path):
     file_set = set()
     files = os.listdir(folder_path)
-    for file in files:
+    for file_ in files:
         # rename all mod files to lower case
-        old_name = os.path.join(folder_path, file)
-        new_name = os.path.join(folder_path, file.lower())
+        old_name = os.path.join(folder_path, file_)
+        new_name = os.path.join(folder_path, file_.lower())
         os.rename(old_name, new_name)
         # get the relative path for modinfo to use
         relative_path = os.path.relpath(new_name, MOD_PATH)
