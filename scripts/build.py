@@ -1,3 +1,8 @@
+"""
+This script automatically generates the 'cui.modinfo' based on the mod files.
+It relies heavily on how mod files are organized.
+"""
+
 from pathlib import Path
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element, SubElement
@@ -40,10 +45,6 @@ def build():
 
 
 def _modinfo():
-    """
-    Construct the modinfo file based on the mod files.
-    """
-
     root = Element('Mod', id=MOD_ID, version=MOD_VERSION)
     _add_properties(root)
     _add_criteria(root)
