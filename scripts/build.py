@@ -62,7 +62,7 @@ def _save(modinfo):
         f.write(modinfo.decode('utf-8'))
 
 
-""" sub elements """
+# sub elements #################################################################
 
 
 def _add_properties(root):
@@ -158,7 +158,7 @@ def _add_files(root):
     _sub_files(sub=files, key=None, suffix=None)
 
 
-""" help functions """
+# help functions ###############################################################
 
 
 def _get_files(mod_path, key, suffix):
