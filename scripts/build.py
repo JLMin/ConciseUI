@@ -4,10 +4,9 @@ It relies heavily on how mod files are organized.
 """
 
 from pathlib import Path
+from xml.dom.minidom import parseString
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element, SubElement
-from xml.dom.minidom import parseString
-
 
 # Paths
 PATH_PROJECT = Path(__file__).parents[1]

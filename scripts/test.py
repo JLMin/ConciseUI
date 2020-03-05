@@ -1,12 +1,12 @@
 """
-This script copies the mod from the project folder
-to the steam directory for testing purposes.
+This script copies the mod from the project directory to the steam directory
+for testing purposes.
 """
 
-from pathlib import Path
 import shutil
-from build import build
+from pathlib import Path
 
+from build import build
 
 # Paths
 PATH_PROJECT = Path(__file__).parents[1]
