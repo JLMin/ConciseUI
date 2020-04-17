@@ -6,159 +6,159 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
 -- City Panel
-("pl_PL", "LOC_CUI_CP_MANAGE_CITIZENS_TILES",                                   "Manage Citizens and Tiles"),
+("pl_PL", "LOC_CUI_CP_MANAGE_CITIZENS_TILES",                                   "Zarządzaj polami i obywatelami"),
 
 -- =============================================================================
 -- City States Panel
-("pl_PL", "LOC_CUI_CSP_ENVOYS_SUZERAIN",                                        "Envoys Sent: {1_num}, Suzerain of: {2_num}"),
+("pl_PL", "LOC_CUI_CSP_ENVOYS_SUZERAIN",                                        "Wysłani Emisariusze: {1_num}, Suzeren: {2_num}"),
 
 -- =============================================================================
 -- Deal Panel
-("pl_PL", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                       "L-Click Add, R-Click Subtract"),
-("pl_PL", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "They already have"),
-("pl_PL", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "We already have"),
-("pl_PL", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "We only have one"),
+("pl_PL", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                       "LPM - Dodaj, PPM - Odejmij"),
+("pl_PL", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "Posiadają już"),
+("pl_PL", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "Już posiadamy"),
+("pl_PL", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "Mamy tylko jedną sztukę"),
 
 -- =============================================================================
 -- Diplomatic Banner
-("pl_PL", "LOC_CUI_DB_CITY",                                                    "Cities: {1_num}"),
-("pl_PL", "LOC_CUI_DB_RELIGION",                                                "Religion: {1_name}"),
-("pl_PL", "LOC_CUI_DB_NONE",                                                    "None"),
-("pl_PL", "LOC_CUI_DB_PEACE_DEAL_AVAILABLE",                                    "[Peace Deal is Available]"),
-("pl_PL", "LOC_CUI_DB_PEACE_DEAL_NOT_AVAILABLE",                                "[Peace Deal: {1_Remaining}[ICON_TURN]]"),
-("pl_PL", "LOC_CUI_DB_RELATIONSHIP",                                            "Relationship: {1_Relationship}"),
-("pl_PL", "LOC_CUI_DB_GRIEVANCES_NONE",                                         "No Grievances"),
-("pl_PL", "LOC_CUI_DB_GRIEVANCES",                                              "Grievances: {1_Grievances}"),
-("pl_PL", "LOC_CUI_DB_THEY_CAN_OFFER",                                          "They can offer:"),
-("pl_PL", "LOC_CUI_DB_WE_CAN_OFFER",                                            "We can offer:"),
-("pl_PL", "LOC_CUI_DB_GOLD",                                                    "Gold:"),
-("pl_PL", "LOC_CUI_DB_GOLD_AND_FAVOR",                                          "Gold and Diplomatic Favors:"),
-("pl_PL", "LOC_CUI_DB_SCORE_AND_YIELDS",                                        "Score and Yields:"),
-("pl_PL", "LOC_CUI_DB_MARS_PROJECT",                                            "Mars Colony: {1_progress}  {2_progress}  {3_progress}"),
-("pl_PL", "LOC_CUI_DB_EXOPLANET_EXPEDITION",                                    "Exoplanet Expedition: {1_progress}{2_progress}{3_progress}{4_progress}{5_progress}"),
-("pl_PL", "LOC_CUI_DB_VISITING_TOURISTS",                                       "Visiting Tourists: {1_num} / {2_total}"),
-("pl_PL", "LOC_CUI_DB_CAPITALS_CAPTURED",                                       "Capitals Captured: {1_num}"),
-("pl_PL", "LOC_CUI_DB_CIVS_CONVERTED",                                          "Civilizations Converted: {1_num} / {2_total}"),
-("pl_PL", "LOC_CUI_DB_DIPLOMATIC_POINT",                                        "Diplomatic Victory Point: {1_num} / {2_total}"),
+("pl_PL", "LOC_CUI_DB_CITY",                                                    "Ilość miast: {1_num}"),
+("pl_PL", "LOC_CUI_DB_RELIGION",                                                "Religia: {1_name}"),
+("pl_PL", "LOC_CUI_DB_NONE",                                                    "Brak"),
+("pl_PL", "LOC_CUI_DB_PEACE_DEAL_AVAILABLE",                                    "[Możliwe zawarcie pokoju]"),
+("pl_PL", "LOC_CUI_DB_PEACE_DEAL_NOT_AVAILABLE",                                "[Pokój za: {1_Remaining}[ICON_TURN]]"),
+("pl_PL", "LOC_CUI_DB_RELATIONSHIP",                                            "Stosunki: {1_Relationship}"),
+("pl_PL", "LOC_CUI_DB_GRIEVANCES_NONE",                                         "Brak uraz"),
+("pl_PL", "LOC_CUI_DB_GRIEVANCES",                                              "Urazy: {1_Grievances}"),
+("pl_PL", "LOC_CUI_DB_THEY_CAN_OFFER",                                          "Oferują:"),
+("pl_PL", "LOC_CUI_DB_WE_CAN_OFFER",                                            "Możemy zaoferować:"),
+("pl_PL", "LOC_CUI_DB_GOLD",                                                    "Złoto:"),
+("pl_PL", "LOC_CUI_DB_GOLD_AND_FAVOR",                                          "Złoto i Względy Dyplomatyczne:"),
+("pl_PL", "LOC_CUI_DB_SCORE_AND_YIELDS",                                        "Wynik i Przychody:"),
+("pl_PL", "LOC_CUI_DB_MARS_PROJECT",                                            "Kolonia Marsjańska: {1_progress}  {2_progress}  {3_progress}"),
+("pl_PL", "LOC_CUI_DB_EXOPLANET_EXPEDITION",                                    "Ekspedycja Egzoplanetarna: {1_progress}{2_progress}{3_progress}{4_progress}{5_progress}"),
+("pl_PL", "LOC_CUI_DB_VISITING_TOURISTS",                                       "Turyści: {1_num} / {2_total}"),
+("pl_PL", "LOC_CUI_DB_CAPITALS_CAPTURED",                                       "Zdobytych stolic: {1_num}"),
+("pl_PL", "LOC_CUI_DB_CIVS_CONVERTED",                                          "Nawrócone Cywilizacje: {1_num} / {2_total}"),
+("pl_PL", "LOC_CUI_DB_DIPLOMATIC_POINT",                                        "Punkty Zwycięstwa Dyplomatycznego: {1_num} / {2_total}"),
 
 -- =============================================================================
 -- Espionage Panel
-("pl_PL", "LOC_CUI_EP_FILTER_ALL",                                              "All"),
-("pl_PL", "LOC_CUI_EP_FILTER_SHOW_CITIES",                                      "Show Cities"),
+("pl_PL", "LOC_CUI_EP_FILTER_ALL",                                              "Wszystkie"),
+("pl_PL", "LOC_CUI_EP_FILTER_SHOW_CITIES",                                      "Pokaż miasta"),
 
 -- =============================================================================
 -- Minimap Panel
-("pl_PL", "LOC_CUI_MP_SHOW_DISTRICTS_TOOLTIP",                                  "Show Districts Icons"),
-("pl_PL", "LOC_CUI_MP_SHOW_WONDERS_TOOLTIP",                                    "Show Wonders Icons"),
-("pl_PL", "LOC_CUI_MP_AUTONAMING",                                              "Naming"),
-("pl_PL", "LOC_CUI_MP_AUTONAMING_TOOLTIP",                                      "Auto-naming pins"),
-("pl_PL", "LOC_CUI_MO_SHOW_IMPROVED_RESOURCES",                                 "Show Improved Resource Icons"),
-("pl_PL", "LOC_CUI_MO_TOGGLE_IMPROVED_TOOLTIP",                                 "Toggle Improved Resource Icons"),
-("pl_PL", "LOC_CUI_MO_SHOW_UNIT_FLAGS",                                         "Show Unit Flags"),
-("pl_PL", "LOC_CUI_MP_TOGGLE_UNIT_FLAGS_TOOLTIP",                               "Toggle Unit Flags"),
-("pl_PL", "LOC_CUI_MO_SHOW_CITY_BANNERS",                                       "Show City Banners"),
-("pl_PL", "LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP",                             "Toggle City Banners"),
-("pl_PL", "LOC_CUI_MO_SHOW_TRADERS",                                            "Show Traders"),
-("pl_PL", "LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP",                                  "Toggle Trader Flags"),
-("pl_PL", "LOC_CUI_MO_SHOW_RELIGIONS",                                          "Show Religion Units"),
-("pl_PL", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Toggle Religion Flags"),
+("pl_PL", "LOC_CUI_MP_SHOW_DISTRICTS_TOOLTIP",                                  "Pokaż Ikony Dystryktów"),
+("pl_PL", "LOC_CUI_MP_SHOW_WONDERS_TOOLTIP",                                    "Pokaż Ikony Cudów"),
+("pl_PL", "LOC_CUI_MP_AUTONAMING",                                              "Nazwy"),
+("pl_PL", "LOC_CUI_MP_AUTONAMING_TOOLTIP",                                      "Automatyczny tekst dla znaczników"),
+("pl_PL", "LOC_CUI_MO_SHOW_IMPROVED_RESOURCES",                                 "Pokaż ikony ulepszonych zasobów"),
+("pl_PL", "LOC_CUI_MO_TOGGLE_IMPROVED_TOOLTIP",                                 "Włącz/wyłącz ikony ulepszonych zasobów"),
+("pl_PL", "LOC_CUI_MO_SHOW_UNIT_FLAGS",                                         "Pokaż ikony jednostek"),
+("pl_PL", "LOC_CUI_MP_TOGGLE_UNIT_FLAGS_TOOLTIP",                               "Włącz/wyłącz ikony jednostek"),
+("pl_PL", "LOC_CUI_MO_SHOW_CITY_BANNERS",                                       "Pokaż Sztandary Miast"),
+("pl_PL", "LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP",                             "Włącz/wyłącz sztandary miast"),
+("pl_PL", "LOC_CUI_MO_SHOW_TRADERS",                                            "Pokaż ikony kupców"),
+("pl_PL", "LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP",                                  "Włącz/wyłącz ikony kupców"),
+("pl_PL", "LOC_CUI_MO_SHOW_RELIGIONS",                                          "Pokaż ikony jednostek religijnych"),
+("pl_PL", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Włącz/wyłącz ikony jednostek religijnych"),
 
 -- =============================================================================
 -- Report Screen
-("pl_PL", "LOC_CUI_RS_SHOW_CITY_DETAILS",                                       "Show City Details"),
-("pl_PL", "LOC_CUI_RS_BUILDING_NUMBER",                                         "Number of Buildings"),
-("pl_PL", "LOC_CUI_RS_TOTALS",                                                  "Totals: {1_num}"),
-("pl_PL", "LOC_CUI_RS_DEALS_OUTGOING",                                          "Outgoing"),
-("pl_PL", "LOC_CUI_RS_DEALS_INCOMING",                                          "Incoming"),
+("pl_PL", "LOC_CUI_RS_SHOW_CITY_DETAILS",                                       "Pokaż szczegóły miasta"),
+("pl_PL", "LOC_CUI_RS_BUILDING_NUMBER",                                         "Ilość budynków"),
+("pl_PL", "LOC_CUI_RS_TOTALS",                                                  "Ilość: {1_num}"),
+("pl_PL", "LOC_CUI_RS_DEALS_OUTGOING",                                          "Eksportowane"),
+("pl_PL", "LOC_CUI_RS_DEALS_INCOMING",                                          "Importowane"),
 
 -- =============================================================================
 -- SpyInfo
-("pl_PL", "LOC_CUI_SI_SPY_AVAILABLE",                                           "{1_num} [ICON_Unit] {1_num : plural 1?Spy; other?Spies;} available"),
-("pl_PL", "LOC_CUI_SI_SPY_CAPACITY",                                            "{1_num} [ICON_Unit] {1_num : plural 1?Spy; other?Spies;} capacity"),
+("pl_PL", "LOC_CUI_SI_SPY_AVAILABLE",                                           "Użycie: {1_num} [ICON_Unit] {1_num : plural 1?Szpieg; other?Szpiegów;}"),
+("pl_PL", "LOC_CUI_SI_SPY_CAPACITY",                                            "Limit: {1_num} [ICON_Unit] {1_num : plural 1?Szpieg; other?Szpiegów;}"),
 
 -- =============================================================================
 -- World Tracker
-("pl_PL", "LOC_CUI_WT_REMINDER",                                                "Reminder"),
-("pl_PL", "LOC_CUI_WT_TECH_REMINDER_TOOLTIP",                                   "The background color changes to green when the technology can be finished by getting an Eureka."),
-("pl_PL", "LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP",                                  "The background color changes to green when the civic can be finished by getting an Inspiration."),
-("pl_PL", "LOC_CUI_WT_GOSSIP_LOG",                                              "Gossip Log"),
-("pl_PL", "LOC_CUI_WT_COMBAT_LOG",                                              "Combat Log"),
-("pl_PL", "LOC_CUI_WT_PERSIST",                                                 "Persist"),
-("pl_PL", "LOC_CUI_WT_GLOG_PERSIST_TOOLTIP",                                    "Do not clear the gossip log between turns."),
-("pl_PL", "LOC_CUI_WT_CLOG_PERSIST_TOOLTIP",                                    "Do not clear the combat log between turns."),
+("pl_PL", "LOC_CUI_WT_REMINDER",                                                "Przypomnienie"),
+("pl_PL", "LOC_CUI_WT_TECH_REMINDER_TOOLTIP",                                   "Tło zmienia kolor na zielony, gdy technologia może zostać ukończona przez zdobycie Eureki."),
+("pl_PL", "LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP",                                  "Tło zmienia kolor na zielony, gdy idea może zostać ukończona przez zdobycie Eureki."),
+("pl_PL", "LOC_CUI_WT_GOSSIP_LOG",                                              "Dziennik Plotek:"),
+("pl_PL", "LOC_CUI_WT_COMBAT_LOG",                                              "Dziennik Bitew:"),
+("pl_PL", "LOC_CUI_WT_PERSIST",                                                 "Trwanie"),
+("pl_PL", "LOC_CUI_WT_GLOG_PERSIST_TOOLTIP",                                    "Nie czyść dziennika plotek między turami."),
+("pl_PL", "LOC_CUI_WT_CLOG_PERSIST_TOOLTIP",                                    "Nie czyść dziennika walki między turami."),
 
 -- =============================================================================
 -- Trade Panel
-("pl_PL", "LOC_CUI_TP_SORT_BY_FOOD_TOOLTIP",                                    "Sort by [ICON_Food]Food."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_PRODUCTION_TOOLTIP",                              "Sort by [ICON_Production]Production."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_GOLD_TOOLTIP",                                    "Sort by [ICON_Gold]Gold."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_SCIENCE_TOOLTIP",                                 "Sort by [ICON_Science]Science."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_CULTURE_TOOLTIP",                                 "Sort by [ICON_Culture]Culture."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_FAITH_TOOLTIP",                                   "Sort by [ICON_Faith]Faith."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_TURNS_REMAINING_TOOLTIP",                         "Sort by [ICON_Turn]Turns to complete route."),
-("pl_PL", "LOC_CUI_TP_REPEAT",                                                  "Repeat"),
-("pl_PL", "LOC_CUI_TP_REPEAT_TOOLTIP",                                          "To have this trader repeat this trade route indefinitely."),
-("pl_PL", "LOC_CUI_TP_SELECT_A_CITY",                                           "Select a New Origin City."),
+("pl_PL", "LOC_CUI_TP_SORT_BY_FOOD_TOOLTIP",                                    "Sortowanie po [ICON_Food]Żywności."),
+("pl_PL", "LOC_CUI_TP_SORT_BY_PRODUCTION_TOOLTIP",                              "Sortowanie po [ICON_Production]Produkcji."),
+("pl_PL", "LOC_CUI_TP_SORT_BY_GOLD_TOOLTIP",                                    "Sortowanie po [ICON_Gold]Złocie."),
+("pl_PL", "LOC_CUI_TP_SORT_BY_SCIENCE_TOOLTIP",                                 "Sortowanie po [ICON_Science]Nauce."),
+("pl_PL", "LOC_CUI_TP_SORT_BY_CULTURE_TOOLTIP",                                 "Sortowanie po [ICON_Culture]Kulturze."),
+("pl_PL", "LOC_CUI_TP_SORT_BY_FAITH_TOOLTIP",                                   "Sortowanie po [ICON_Faith]Wierze."),
+("pl_PL", "LOC_CUI_TP_SORT_BY_TURNS_REMAINING_TOOLTIP",                         "Sortowanie po [ICON_Turn]Czasie ukończenia."),
+("pl_PL", "LOC_CUI_TP_REPEAT",                                                  "Powtarzaj"),
+("pl_PL", "LOC_CUI_TP_REPEAT_TOOLTIP",                                          "Jeśli chcesz, żeby kupiec wykonywał ten szlak cały czas."),
+("pl_PL", "LOC_CUI_TP_SELECT_A_CITY",                                           "Wybierz nowe miasto docelowe."),
 
 -- =============================================================================
 -- Espionage Panel
-("pl_PL", "LOC_CUI_EP_SHOW_CITYS",                                              "Show Cities"),
-("pl_PL", "LOC_CUI_EP_SIPHON_FUNDS",                                            "Gain ({1_GoldString}) Gold yields."),
+("pl_PL", "LOC_CUI_EP_SHOW_CITYS",                                              "Pokaż Miasta"),
+("pl_PL", "LOC_CUI_EP_SIPHON_FUNDS",                                            "Kradnie: ({1_GoldString}) złota."),
 
 -- =============================================================================
 -- Production Panel
-("pl_PL", "LOC_CUI_PP_QUEUE_DEFAULT",                                           "Use Queue By Default"),
+("pl_PL", "LOC_CUI_PP_QUEUE_DEFAULT",                                           "Zawsze pokazuj kolejkę budowy"),
 
 -- =============================================================================
 -- Great Works
-("pl_PL", "LOC_CUI_GW_SORT_BY_CITY",                                            "Sort By City"),
-("pl_PL", "LOC_CUI_GW_SORT_BY_BUILDING",                                        "Sort By Building"),
-("pl_PL", "LOC_CUI_GW_THEMING_HELPER",                                          "Theming Helper"),
-("pl_PL", "LOC_CUI_GW_THEMING_HELPER_TOOLTIP",                                  "Pick three Great Works / Artifacts of the same color and different numbers to complete a theme."),
+("pl_PL", "LOC_CUI_GW_SORT_BY_CITY",                                            "Sortuj po mieście"),
+("pl_PL", "LOC_CUI_GW_SORT_BY_BUILDING",                                        "Sortuj po typie budynku"),
+("pl_PL", "LOC_CUI_GW_THEMING_HELPER",                                          "Asystent Tematyczny"),
+("pl_PL", "LOC_CUI_GW_THEMING_HELPER_TOOLTIP",                                  "Wybierz trzy Wielkie Dzieła / Artefakty tego samego koloru i różnym numerem aby uzyskać premię tematyczną."),
 
 -- =============================================================================
 -- Notes
-("pl_PL", "LOC_CUI_NOTES",                                                      "Notes"),
-("pl_PL", "LOC_CUI_NOTE_LAST_EDIT",                                             "[ Turn: {1_num} ]"),
-("pl_PL", "LOC_CUI_NOTE_EMPTY",                                                 "Empty Note"),
+("pl_PL", "LOC_CUI_NOTES",                                                      "Notatki"),
+("pl_PL", "LOC_CUI_NOTE_LAST_EDIT",                                             "[ Tura: {1_num} ]"),
+("pl_PL", "LOC_CUI_NOTE_EMPTY",                                                 "Pusta notatka"),
 
 -- =============================================================================
 -- Options
-("pl_PL", "LOC_CUI_OPTIONS_TAB_VICTORY",                                        "Victories"),
-("pl_PL", "LOC_CUI_OPTIONS_TAB_LOG",                                            "Logs"),
-("pl_PL", "LOC_CUI_OPTIONS_TAB_POPUP",                                          "Popups"),
-("pl_PL", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "Remind"),
+("pl_PL", "LOC_CUI_OPTIONS_TAB_VICTORY",                                        "Zwycięstwa"),
+("pl_PL", "LOC_CUI_OPTIONS_TAB_LOG",                                            "Dzienniki"),
+("pl_PL", "LOC_CUI_OPTIONS_TAB_POPUP",                                          "Okienka"),
+("pl_PL", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "Przypomnienia"),
 --
-("pl_PL", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "Please select the victory you want to track."),
-("pl_PL", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Please select where the logs will be displayed."),
-("pl_PL", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Please select the popups you want to enable."),
-("pl_PL", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Please select the reminders you want to use."),
-("pl_PL", "LOC_CUI_OPTIONS_DESC_SPEED",                                         "Please select quick combat & movement objects."),
+("pl_PL", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "Wybierz typ zwycięstwa który chcesz śledzić:"),
+("pl_PL", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Wybierz gdzie dzienniki będą wyświetlane:"),
+("pl_PL", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Wybierz które wyskakujące okienka mają się pojawiać:"),
+("pl_PL", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Wybierz przypomnienia które chcesz włączyć:"),
+("pl_PL", "LOC_CUI_OPTIONS_DESC_SPEED",                                         "Wybierz opcje szybkiego ruchu i walki:"),
 --
-("pl_PL", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "Disable"),
-("pl_PL", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                        "Default position"),
-("pl_PL", "LOC_CUI_OPTIONS_LOG_WORLDTRACKER",                                   "World Tracker"),
-("pl_PL", "LOC_CUI_OPTIONS_LOG_BOTH",                                           "Both"),
+("pl_PL", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "Wyłącz"),
+("pl_PL", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                        "Domyślna Pozycja"),
+("pl_PL", "LOC_CUI_OPTIONS_LOG_WORLDTRACKER",                                   "Panel Postępów"),
+("pl_PL", "LOC_CUI_OPTIONS_LOG_BOTH",                                           "Oba"),
 --
-("pl_PL", "LOC_CUI_OPTIONS_POPUP_RESEARCH",                                     "Tech/Civic complete"),
-("pl_PL", "LOC_CUI_OPTIONS_POPUP_AUDIO",                                        "Tech/Civic audio"),
-("pl_PL", "LOC_CUI_OPTIONS_POPUP_ERA_SCORE",                                    "Gain era score"),
-("pl_PL", "LOC_CUI_OPTIONS_POPUP_GREAT_WORK",                                   "Create great works"),
-("pl_PL", "LOC_CUI_OPTIONS_POPUP_RELIC",                                        "Get relics"),
+("pl_PL", "LOC_CUI_OPTIONS_POPUP_RESEARCH",                                     "Ukończenie Technologii/Idei:"),
+("pl_PL", "LOC_CUI_OPTIONS_POPUP_AUDIO",                                        "Dźwięk Technologii/Idei:"),
+("pl_PL", "LOC_CUI_OPTIONS_POPUP_ERA_SCORE",                                    "Historyczne Wydarzenia:"),
+("pl_PL", "LOC_CUI_OPTIONS_POPUP_GREAT_WORK",                                   "Stworzenie Wielkiego Dzieła:"),
+("pl_PL", "LOC_CUI_OPTIONS_POPUP_RELIC",                                        "Stworzenie Reliktu:"),
 --
-("pl_PL", "LOC_CUI_OPTIONS_REMIND_TECH",                                        "Tech complete by eureka"),
-("pl_PL", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "Civic complete by inspire"),
-("pl_PL", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Free government chance"),
-("pl_PL", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Governor titles available"),
+("pl_PL", "LOC_CUI_OPTIONS_REMIND_TECH",                                        "Ukończenie technologii przez eurekę:"),
+("pl_PL", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "Ukończenie idei przez eurekę:"),
+("pl_PL", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Darmowa zmiana ustroju:"),
+("pl_PL", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Nowy tytuł Gubernatora dostępny:"),
 --
-("pl_PL", "LOC_CUI_OPTIONS_QUICK_COMBAT",                                       "Quick Combat"),
-("pl_PL", "LOC_CUI_OPTIONS_QUICK_MOVEMENT",                                     "Quick Movement"),
-("pl_PL", "LOC_CUI_OPTIONS_SPEED_PLAYER_ONLY",                                  "Player Only"),
-("pl_PL", "LOC_CUI_OPTIONS_SPEED_AI_ONLY",                                      "AI Only"),
+("pl_PL", "LOC_CUI_OPTIONS_QUICK_COMBAT",                                       "Szybka walka:"),
+("pl_PL", "LOC_CUI_OPTIONS_QUICK_MOVEMENT",                                     "Szybki ruch:"),
+("pl_PL", "LOC_CUI_OPTIONS_SPEED_PLAYER_ONLY",                                  "Tylko gracz"),
+("pl_PL", "LOC_CUI_OPTIONS_SPEED_AI_ONLY",                                      "Tylko AI"),
 
 -- =============================================================================
 -- Screenshot
-("pl_PL", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Enter Screenshot Mode[NEWLINE][NEWLINE]Screenshot Mode will hide most or all UI Elements, allows you to take clean screenshots.[NEWLINE][NEWLINE]Left-click hide all UI Elements[NEWLINE]Right-click hide all UI Elements except for City Banners[NEWLINE]Hold ALT to rotate the screen[NEWLINE]Press ESC to exit Screenshot Mode"),
+("pl_PL", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "Wejdź w tryb fotograficzny[NEWLINE][NEWLINE]Tryb fotograficzny ukryje wszystkie elementy UI i pozwoli zrobić czyste zdjęcie ekranu.[NEWLINE][NEWLINE]Lewy przycisk myszy ukryje wszystkie elementy UI[NEWLINE]Prawy przycisk myszy ukryje wszystkie elementy UI poza banerami miast[NEWLINE]Przytrzymaj ALT aby obracać ekranem[NEWLINE]Kliknij ESC aby wyjść z trybu fotograficznego"),
 
 -- =============================================================================
 ("pl_PL", "LOC_CUI_COLON", ": ");
