@@ -9,7 +9,9 @@ from xml.dom.minidom import parseString
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element, SubElement
 
-from version import MOD_VERSION, GAME_VERSION
+# Version
+GAME_VERSION = '1.0.1.501 (504666)'
+MOD_VERSION = '1.5.1'
 
 # Paths
 PATH_PROJECT = Path(__file__).parents[1]
