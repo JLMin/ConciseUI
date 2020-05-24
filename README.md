@@ -6,7 +6,7 @@
 
 Concise UI greatly improves the game experience by modifying the vanilla UI and adding new UI elements to the game.
 
-> Supported game versions: _1.0.0.341 (443561)_
+> Supported game versions: _1.0.1.501 (504666)_
 
 ## How to Install
 

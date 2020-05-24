@@ -2,7 +2,6 @@ Concise UI greatly improves the game experience by modifying the vanilla UI and 
 Game Versions: [i]1.0.1.501 (504666)[/i]
 [list]
 [*][url=https://steamcommunity.com/workshop/filedetails/discussion/1671978687/1841314700720486548/]Features List[/url].
-[*][url=https://steamcommunity.com/workshop/filedetails/discussion/1671978687/1841314700720498460/]Important Updates[/url].
 [*][url=https://steamcommunity.com/workshop/filedetails/discussion/1671978687/1836811737969706024/]Bug Report[/url].
 [/list]
 
