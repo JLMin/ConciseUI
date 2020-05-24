@@ -1,22 +1,22 @@
--- Copyright 2017-2018, Firaxis Games.
+-- Copyright 2017-2019, Firaxis Games.
 
 -- Base File
-include("DiplomacyRibbon")
+include("DiplomacyRibbon");
 include("cuileadericonsupport") -- CUI
 
 -- ===========================================================================
 -- Cached Base Functions
 -- ===========================================================================
-BASE_AddLeader = AddLeader
+BASE_AddLeader = AddLeader;
 
 -- ===========================================================================
-function AddLeader(iconName, playerID, kProps)
-    local leaderIcon, instance = BASE_AddLeader(iconName, playerID, kProps)
-    local localPlayer = Players[Game.GetLocalPlayer()]
+function AddLeader(iconName : string, playerID : number, kProps: table)
+	local oLeaderIcon	:object = BASE_AddLeader(iconName, playerID, kProps);
+	local localPlayerID	:number = Game.GetLocalPlayer();
 
-    if localPlayerID == -1 or localPlayerID == 1000 then
-        return
-    end
+	if localPlayerID == PlayerTypes.NONE or localPlayerID == PlayerTypes.OBSERVER then
+		return;
+	end
 
     -- CUI
     if playerID == Game.GetLocalPlayer() or localPlayer:GetDiplomacy():HasMet(playerID) then

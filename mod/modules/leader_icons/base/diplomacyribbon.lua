@@ -5,9 +5,9 @@ include("InstanceManager");
 include("LeaderIcon");
 include("PlayerSupport");
 include("SupportFunctions");
-include('GameCapabilities')
-include('cui_settings')
-include('cuileadericonsupport')
+include("GameCapabilities")
+include("cui_settings")
+include("cuileadericonsupport")
 
 -- ===========================================================================
 --    CONSTANTS
