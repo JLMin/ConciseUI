@@ -14,6 +14,11 @@ The easiest way is to subscribe on [Steam Workshop](https://steamcommunity.com/s
 
 Or you can install this mod manually, [download](https://github.com/JLMin/ConciseUI/archive/master.zip).
 
+## Contribution
+Since I have uninstalled the game, I am unable to update the mod functionality,
+If anyone would like to continue to maintain the mod, I am more than willing to accept PRs.
+If you need help in the maintenance process, please feel free to contact me.
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details
