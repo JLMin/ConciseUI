@@ -15,7 +15,7 @@ PATH_MODINFO = Path(PATH_MOD, 'cui.modinfo')
 
 # Mod Information
 MOD_ID      = '5f504949-398a-4038-a838-43c3acc4dc10'
-MOD_VERSION = '1.4.6'
+MOD_VERSION = '1.5.0'
 MOD_NAME    = '[COLOR_Civ6LightBlue]Concise UI[ENDCOLOR]'
 MOD_TEASER  = 'For a better gaming experience.'
 MOD_DESC    = (

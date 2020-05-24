@@ -71,9 +71,9 @@
     </Container>
   </Container>
 
-  <!-- ==================================================================	-->
-  <!--	Instances																													-->
-  <!-- ==================================================================	-->
+  <!-- ==================================================================    -->
+  <!--    Instances                                                                                                                    -->
+  <!-- ==================================================================    -->
   <Instance Name="PanelInstance">
     <GridButton ID="Top" Size="460,200" Offset="0,10" Texture="Governments_Backing" SliceCorner="180,70" SliceTextureSize="352,145" Anchor="C,T">
       <Image ID="Portrait" Anchor="C,C" Offset="0,10" Size="140,140" Alpha="0.2"/>

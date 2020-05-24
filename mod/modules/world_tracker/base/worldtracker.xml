@@ -77,15 +77,15 @@
 
 
   <!-- ================================================================== -->
-  <!--	INSTANCES																			  									-->
-  <!--	Used by TechAndCivicSupport.lua																		-->
+  <!--    INSTANCES                                                                                                                  -->
+  <!--    Used by TechAndCivicSupport.lua                                                                        -->
   <!-- ================================================================== -->
 
   <Include File="WorldTrackerCivic"/>
   <Include File="WorldTrackerResearch"/>
 
   <!-- ================================================================== -->
-  <!--	CUI Start                                                         -->
+  <!--    CUI Start                                                         -->
   <!-- ================================================================== -->
 
   <!-- CUI: Tracker Instance -->

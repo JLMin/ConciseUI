@@ -11,67 +11,68 @@ TTManager:GetTypeControlTable("CuiGreatPersonTT", CuiGreatPersonTT)
 
 -- ===========================================================================
 function UpdateGreatPersonTooltip(tControl, tData_Player, tData_GP)
+    local classData = GameInfo.GreatPersonClasses[tData_GP.ClassID]
 
-  local classData = GameInfo.GreatPersonClasses[tData_GP.ClassID]
-
-  -- Prep Instance Managers
-  if CuiGreatPersonTT["PlayerIM"] ~= nil then
-    CuiGreatPersonTT["PlayerIM"]:ResetInstances()
-  else
-    CuiGreatPersonTT["PlayerIM"] = InstanceManager:new("CuiRecruitInstance", "Top", CuiGreatPersonTT.ProgressStack)
-  end
-
-  local classText = Locale.Lookup(classData.Name)
-  CuiGreatPersonTT.Label:SetText(classText)
-  CuiGreatPersonTT.Divider:SetSizeX(CuiGreatPersonTT.Label:GetSizeX() + 60)
-
-  for i, kPlayerPoints in ipairs(tData_Player) do
-    local canEarnAnotherOfThisClass = true
-    if (kPlayerPoints.MaxPlayerInstances ~= nil and kPlayerPoints.NumInstancesEarned ~= nil) then
-      canEarnAnotherOfThisClass = kPlayerPoints.MaxPlayerInstances > kPlayerPoints.NumInstancesEarned
+    -- Prep Instance Managers
+    if CuiGreatPersonTT["PlayerIM"] ~= nil then
+        CuiGreatPersonTT["PlayerIM"]:ResetInstances()
+    else
+        CuiGreatPersonTT["PlayerIM"] = InstanceManager:new("CuiRecruitInstance", "Top", CuiGreatPersonTT.ProgressStack)
     end
-    if (canEarnAnotherOfThisClass) then
 
-      local tProgressInstance = CuiGreatPersonTT["PlayerIM"]:GetInstance()
+    local classText = Locale.Lookup(classData.Name)
+    CuiGreatPersonTT.Label:SetText(classText)
+    CuiGreatPersonTT.Divider:SetSizeX(CuiGreatPersonTT.Label:GetSizeX() + 60)
 
-      local sProgress = ""
-      local sTurns = ""
-      local pointTotal = tData_GP.RecruitCost
-      local pointPlayer = Round(kPlayerPoints.PointsTotal, 0)
-      local percent = Clamp(pointPlayer / pointTotal, 0, 1)
-
-      if percent < 1 then
-        local pointRemaining = Round(pointTotal - pointPlayer, 0)
-        local pointPerturn = Round(kPlayerPoints.PointsPerTurn, 1)
-        local turnsRemaining = pointPerturn == 0 and 999 or math.ceil(pointRemaining / pointPerturn)
-        if pointPerturn == 0 then
-          sProgress = "-"
-        else
-          sProgress = "[COLOR_ModStatusGreen]+" .. pointPerturn .. "[ENDCOLOR]"
+    for i, kPlayerPoints in ipairs(tData_Player) do
+        local canEarnAnotherOfThisClass = true
+        if (kPlayerPoints.MaxPlayerInstances ~= nil and kPlayerPoints.NumInstancesEarned ~= nil) then
+            canEarnAnotherOfThisClass = kPlayerPoints.MaxPlayerInstances > kPlayerPoints.NumInstancesEarned
         end
-        sTurns = turnsRemaining .. "[ICON_TURN]"
-      end
+        if (canEarnAnotherOfThisClass) then
+            local tProgressInstance = CuiGreatPersonTT["PlayerIM"]:GetInstance()
 
-      tProgressInstance.Country:SetText(kPlayerPoints.PlayerName)
-      tProgressInstance.Point:SetText(sProgress)
-      tProgressInstance.TurnsRemaining:SetText(sTurns)
-      tProgressInstance.ProgressBar:SetPercent(percent)
-      tProgressInstance.YouIndicator:SetHide(not (kPlayerPoints.PlayerID == Game.GetLocalPlayer()))
-      tProgressInstance.YouBacking:SetHide(not (kPlayerPoints.PlayerID == Game.GetLocalPlayer()))
+            local sProgress = ""
+            local sTurns = ""
+            local pointTotal = tData_GP.RecruitCost
+            local pointPlayer = Round(kPlayerPoints.PointsTotal, 0)
+            local percent = Clamp(pointPlayer / pointTotal, 0, 1)
 
-      tProgressInstance.CivilizationIcon = tProgressInstance.CivilizationIcon or CivilizationIcon:new(tProgressInstance)
-      tProgressInstance.CivilizationIcon:UpdateIconFromPlayerID(kPlayerPoints.PlayerID)
+            if percent < 1 then
+                local pointRemaining = Round(pointTotal - pointPlayer, 0)
+                local pointPerturn = Round(kPlayerPoints.PointsPerTurn, 1)
+                local turnsRemaining = pointPerturn == 0 and 999 or math.ceil(pointRemaining / pointPerturn)
+                if pointPerturn == 0 then
+                    sProgress = "-"
+                else
+                    sProgress = "[COLOR_ModStatusGreen]+" .. pointPerturn .. "[ENDCOLOR]"
+                end
+                sTurns = turnsRemaining .. "[ICON_TURN]"
+            end
+
+            tProgressInstance.Country:SetText(kPlayerPoints.PlayerName)
+            tProgressInstance.Point:SetText(sProgress)
+            tProgressInstance.TurnsRemaining:SetText(sTurns)
+            tProgressInstance.ProgressBar:SetPercent(percent)
+            tProgressInstance.YouIndicator:SetHide(not (kPlayerPoints.PlayerID == Game.GetLocalPlayer()))
+            tProgressInstance.YouBacking:SetHide(not (kPlayerPoints.PlayerID == Game.GetLocalPlayer()))
+
+            tProgressInstance.CivilizationIcon =
+                tProgressInstance.CivilizationIcon or CivilizationIcon:new(tProgressInstance)
+            tProgressInstance.CivilizationIcon:UpdateIconFromPlayerID(kPlayerPoints.PlayerID)
+        end
     end
-  end
 end
 
 -- ===========================================================================
 function SetGreatPersonToolTip(tControl, tData_Player, tData_GP)
-  tControl:SetToolTipType("CuiGreatPersonTT")
-  tControl:ClearToolTipCallback()
-  tControl:SetToolTipCallback(function()
-    UpdateGreatPersonTooltip(tControl, tData_Player, tData_GP)
-  end)
+    tControl:SetToolTipType("CuiGreatPersonTT")
+    tControl:ClearToolTipCallback()
+    tControl:SetToolTipCallback(
+        function()
+            UpdateGreatPersonTooltip(tControl, tData_Player, tData_GP)
+        end
+    )
 end
 
 -- ===========================================================================
