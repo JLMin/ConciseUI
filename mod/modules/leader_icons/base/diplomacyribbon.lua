@@ -157,8 +157,8 @@ function AddLeader(iconName : string, playerID : number, kProps: table)
     -- end
 
   local allianceData = CuiGetAllianceData(playerID)
-  LuaEvents.CuiLeaderIconToolTip(leaderIcon.Controls.Portrait, playerID)
-  LuaEvents.CuiRelationshipToolTip(leaderIcon.Controls.Relationship, playerID, allianceData)
+  LuaEvents.CuiLeaderIconToolTip(oLeaderIcon.Controls.Portrait, playerID)
+  LuaEvents.CuiRelationshipToolTip(oLeaderIcon.Controls.Relationship, playerID, allianceData)
   --
 
     oLeaderIcon.LeaderContainer:RegisterSizeChanged(

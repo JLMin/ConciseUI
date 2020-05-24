@@ -3,7 +3,7 @@
   <Properties>
     <Name>[COLOR_Civ6LightBlue]Concise UI[ENDCOLOR]</Name>
     <Teaser>For a better gaming experience.</Teaser>
-    <Description>Concise UI greatly improves the game experience by modifying the vanilla UI and adding new UI elements to the game.[NEWLINE][NEWLINE]Game Version: 1.0.0.341 (443561)</Description>
+    <Description>Concise UI greatly improves the game experience by modifying the vanilla UI and adding new UI elements to the game.[NEWLINE][NEWLINE]Game Version: 1.0.1.501 (504666)</Description>
     <Authors>eudaimonia</Authors>
     <AffectsSavedGames>0</AffectsSavedGames>
     <CompatibleVersions>2.0</CompatibleVersions>
@@ -89,8 +89,6 @@
       <File>modules/espionage_panel/base/espionagechooser.lua</File>
       <File>modules/espionage_panel/base/espionagechooser.xml</File>
       <File>modules/espionage_panel/base/espionagesupport.lua</File>
-      <File>modules/great_people/base/greatpeoplepopup.lua</File>
-      <File>modules/great_people/base/greatpeoplepopup.xml</File>
       <File>modules/great_work/base/greatworksoverview.lua</File>
       <File>modules/great_work/base/greatworksoverview.xml</File>
       <File>modules/leader_icons/base/diplomacyactionview.lua</File>
@@ -148,8 +146,6 @@
       <Properties>
         <LoadOrder>15</LoadOrder>
       </Properties>
-      <File>modules/great_people/additions/cui_great_people_tt.lua</File>
-      <File>modules/great_people/additions/cui_great_people_tt.xml</File>
       <File>modules/leader_icons/additions/cui_leader_icon_tt.lua</File>
       <File>modules/leader_icons/additions/cui_leader_icon_tt.xml</File>
       <File>modules/map_options/additions/cui_map_options.lua</File>
@@ -184,7 +180,6 @@
       <Properties>
         <Context>InGame</Context>
       </Properties>
-      <File>modules/great_people/additions/cui_great_people_tt.xml</File>
       <File>modules/leader_icons/additions/cui_leader_icon_tt.xml</File>
       <File>modules/map_options/additions/cui_map_options.xml</File>
       <File>modules/notes/additions/cui_note_button.xml</File>
@@ -250,10 +245,6 @@
     <File>modules/espionage_panel/expansion1/espionagechooser_expansion1.lua</File>
     <File>modules/espionage_panel/expansion2/espionagechooser.xml</File>
     <File>modules/espionage_panel/expansion2/espionagechooser_expansion1.lua</File>
-    <File>modules/great_people/additions/cui_great_people_tt.lua</File>
-    <File>modules/great_people/additions/cui_great_people_tt.xml</File>
-    <File>modules/great_people/base/greatpeoplepopup.lua</File>
-    <File>modules/great_people/base/greatpeoplepopup.xml</File>
     <File>modules/great_work/base/greatworksoverview.lua</File>
     <File>modules/great_work/base/greatworksoverview.xml</File>
     <File>modules/great_work/expansion2/greatworksoverview_expansion2.lua</File>

@@ -3,10 +3,13 @@ This script automatically generates the 'cui.modinfo' based on the mod files.
 It relies heavily on how mod files are organized.
 """
 
+from datetime import date
 from pathlib import Path
 from xml.dom.minidom import parseString
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element, SubElement
+
+from version import MOD_VERSION, GAME_VERSION
 
 # Paths
 PATH_PROJECT = Path(__file__).parents[1]
@@ -15,13 +18,12 @@ PATH_MODINFO = Path(PATH_MOD, 'cui.modinfo')
 
 # Mod Information
 MOD_ID      = '5f504949-398a-4038-a838-43c3acc4dc10'
-MOD_VERSION = '1.5.0'
 MOD_NAME    = '[COLOR_Civ6LightBlue]Concise UI[ENDCOLOR]'
 MOD_TEASER  = 'For a better gaming experience.'
 MOD_DESC    = (
     'Concise UI greatly improves the game experience by '
     'modifying the vanilla UI and adding new UI elements to the game.'
-    '[NEWLINE][NEWLINE]Game Version: 1.0.0.341 (443561)'
+    f'[NEWLINE][NEWLINE]Game Version: {GAME_VERSION}'
 )
 MOD_AUTHOR  = 'eudaimonia'
 MOD_SAVED   = '0'
@@ -33,6 +35,7 @@ RULE_SET_2  = 'RULESET_EXPANSION_2'
 
 
 def build():
+    write_version_info()
     modinfo = _modinfo()
     try:
         _save(modinfo)
@@ -41,6 +44,17 @@ def build():
         print(f'[×] build failed\n    > {err_name}: {e.args}')
     else:
         print('[√] build complete')
+
+
+def write_version_info():
+    update_file = Path(PATH_MOD, 'lib/cui_update.lua')
+    lines = []
+    with open(update_file, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+    lines[0] = f'CuiVersion = "{MOD_VERSION}"\n'
+    lines[1] = f'LastUpdate = "{date.today()}"\n'
+    with open(update_file, 'w', encoding='utf-8') as f:
+        f.writelines(lines)
 
 
 def _modinfo():
