@@ -10,14 +10,14 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
 -- City States Panel
-("de_DE", "LOC_CUI_CSP_ENVOYS_SUZERAIN",                                        "Gesandte: {1_num}, Suzerän von: {2_num}"),
+("de_DE", "LOC_CUI_CSP_ENVOYS_SUZERAIN",                                        "Gesandte gesamt: {1_num}, Suzerän aktiv: {2_num}"),
 
 -- =============================================================================
 -- Deal Panel
 ("de_DE", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                       "L-Klick Hinzufügen, R-Klick Abziehen"),
 ("de_DE", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "Das haben sie schon"),
-("de_DE", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "Das haben wir schon"),
-("de_DE", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "Wir haben nur eins"),
+("de_DE", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "Das habt Ihr schon"),
+("de_DE", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "Ihr habt nur 1 Einheit davon"),
 
 -- =============================================================================
 -- Diplomatic Banner
@@ -30,7 +30,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_DB_GRIEVANCES_NONE",                                         "Keine Missstände"),
 ("de_DE", "LOC_CUI_DB_GRIEVANCES",                                              "Missstände: {1_Grievances}"),
 ("de_DE", "LOC_CUI_DB_THEY_CAN_OFFER",                                          "Sie können bieten:"),
-("de_DE", "LOC_CUI_DB_WE_CAN_OFFER",                                            "Wir können bieten:"),
+("de_DE", "LOC_CUI_DB_WE_CAN_OFFER",                                            "Ihr könnt bieten:"),
 ("de_DE", "LOC_CUI_DB_GOLD",                                                    "Gold:"),
 ("de_DE", "LOC_CUI_DB_GOLD_AND_FAVOR",                                          "Gold und Diplomatische Gefallen:"),
 ("de_DE", "LOC_CUI_DB_SCORE_AND_YIELDS",                                        "Punkte und Erträge:"),
@@ -52,16 +52,16 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_MP_SHOW_WONDERS_TOOLTIP",                                    "Weltwundersymbole anzeigen"),
 ("de_DE", "LOC_CUI_MP_AUTONAMING",                                              "Benennen"),
 ("de_DE", "LOC_CUI_MP_AUTONAMING_TOOLTIP",                                      "Nadeln automatisch benennen"),
-("de_DE", "LOC_CUI_MO_SHOW_IMPROVED_RESOURCES",                                 "Strategische Ressourcensymbole anzeigen"),
-("de_DE", "LOC_CUI_MO_TOGGLE_IMPROVED_TOOLTIP",                                 "Strategische Ressourcensymbole umschalten"),
-("de_DE", "LOC_CUI_MO_SHOW_UNIT_FLAGS",                                         "Einheitenflaggen anzeigen"),
-("de_DE", "LOC_CUI_MP_TOGGLE_UNIT_FLAGS_TOOLTIP",                               "Einheitenflaggen umschalten"),
-("de_DE", "LOC_CUI_MO_SHOW_CITY_BANNERS",                                       "Städtebanner anzeigen"),
-("de_DE", "LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP",                             "Städtebanner umschalten"),
-("de_DE", "LOC_CUI_MO_SHOW_TRADERS",                                            "Händler anzeigen"),
-("de_DE", "LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP",                                  "Händler umschalten"),
-("de_DE", "LOC_CUI_MO_SHOW_RELIGIONS",                                          "Propheten anzeigen"),
-("de_DE", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Propheten umschalten"),
+("de_DE", "LOC_CUI_MO_SHOW_IMPROVED_RESOURCES",                                 "Strategische Ressourcensymbole"),
+("de_DE", "LOC_CUI_MO_TOGGLE_IMPROVED_TOOLTIP",                                 "Strategische Ressourcensymbole ein/aus"),
+("de_DE", "LOC_CUI_MO_SHOW_UNIT_FLAGS",                                         "Einheitenflaggen"),
+("de_DE", "LOC_CUI_MP_TOGGLE_UNIT_FLAGS_TOOLTIP",                               "Einheitenflaggen ein/aus"),
+("de_DE", "LOC_CUI_MO_SHOW_CITY_BANNERS",                                       "Städtebanner"),
+("de_DE", "LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP",                             "Städtebanner ein/aus"),
+("de_DE", "LOC_CUI_MO_SHOW_TRADERS",                                            "Händler"),
+("de_DE", "LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP",                                  "Händler ein/aus"),
+("de_DE", "LOC_CUI_MO_SHOW_RELIGIONS",                                          "Religionseinheiten"),
+("de_DE", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Religionseinheiten ein/aus"),
 
 -- =============================================================================
 -- Report Screen
@@ -80,7 +80,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 -- World Tracker
 ("de_DE", "LOC_CUI_WT_REMINDER",                                                "Erinnerung"),
 ("de_DE", "LOC_CUI_WT_TECH_REMINDER_TOOLTIP",                                   "Die Hintergrundfarbe wird grün, wenn die Technologie mit einem Heureka vollständig erforscht werden kann."),
-("de_DE", "LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP",                                  "Die Hintergrundfarbe wird grün, wenn die Ausrichtung durch eine Inspiration abgeschlossen werden kann."),
+("de_DE", "LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP",                                  "Die Hintergrundfarbe wird grün, wenn die Ausrichtung durch eine Eingebung abgeschlossen werden kann."),
 ("de_DE", "LOC_CUI_WT_GOSSIP_LOG",                                              "Gerüchte"),
 ("de_DE", "LOC_CUI_WT_COMBAT_LOG",                                              "Kampfberichte"),
 ("de_DE", "LOC_CUI_WT_PERSIST",                                                 "Beibehalten"),
@@ -127,13 +127,13 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_OPTIONS_TAB_VICTORY",                                        "Siege"),
 ("de_DE", "LOC_CUI_OPTIONS_TAB_LOG",                                            "Aufzeichnungen"),
 ("de_DE", "LOC_CUI_OPTIONS_TAB_POPUP",                                          "Pop-ups"),
-("de_DE", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "Erinnern"),
+("de_DE", "LOC_CUI_OPTIONS_TAB_REMIND",                                         "Benachrichtigungen"),
 --
-("de_DE", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "Bitte wähle den Sieg, den du verfolgen möchtest."),
-("de_DE", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Bitte wähle, wo die Aufzeichnungen angezeigt werden sollen."),
-("de_DE", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Bitte wähle die Pop-ups, die du aktivieren möchtest."),
-("de_DE", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Bitte wähle die Erinnerungen, die du verwenden möchtest."),
-("de_DE", "LOC_CUI_OPTIONS_DESC_SPEED",                                         "Bitte wähle Schnellkampf- und fortbewegungsobjekte."),
+("de_DE", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "Wählt den Sieg, den Ihr verfolgen möchtet."),
+("de_DE", "LOC_CUI_OPTIONS_DESC_LOG",                                           "Wählt den Ort, an dem Eure Aufzeichnungen angezeigt werden sollen."),
+("de_DE", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "Wählt die Pop-ups, die Ihr aktivieren möchtet."),
+("de_DE", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "Wählt die Benachrichtigungen, die Ihr verwenden möchtet."),
+("de_DE", "LOC_CUI_OPTIONS_DESC_SPEED",                                         "Wählt das Verhalten von Schnellkampf- und Schnellfortbewegungsobjekte."),
 --
 ("de_DE", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "Deaktivieren"),
 ("de_DE", "LOC_CUI_OPTIONS_LOG_DEFAULT",                                        "Standardposition"),
@@ -149,7 +149,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_OPTIONS_REMIND_TECH",                                        "Technologie durch Heureka abgeschlossen"),
 ("de_DE", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "Ausrichtung durch Inspiration abgeschlossen"),
 ("de_DE", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Möglichkeit kostenlos die Regierungsform zu wechseln"),
-("de_DE", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Gouverneur-Title verfügbar"),
+("de_DE", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Gouverneur-Titel verfügbar"),
 --
 ("de_DE", "LOC_CUI_OPTIONS_QUICK_COMBAT",                                       "Schnellkampf"),
 ("de_DE", "LOC_CUI_OPTIONS_QUICK_MOVEMENT",                                     "Schnellfortbewegung"),
