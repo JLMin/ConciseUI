@@ -9,13 +9,13 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 -- ===========================================================================
 ("LOC_CUI_CONFIG_CATEGORY",            "de_DE", "Concise UI"),
 ("LOC_CUI_CONFIG_PLACE_MAP_PIN",       "de_DE", "Kartennadel hinzufügen"),
-("LOC_CUI_CONFIG_TOGGLE_IMPROVED",     "de_DE", "Fortgeschrittene Resourcen anzeigen"),
-("LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",   "de_DE", "Einheitenflagge anzeigen"),
-("LOC_CUI_CONFIG_TOGGLE_TRADERS",      "de_DE", "Handelsymbole anzeigen"),
-("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "de_DE", "Toggle Religion Icons"),
-("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "de_DE", "Stadtbanner anzeigen"),
-("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "de_DE", "Öffne Einheitenliste"),
-("LOC_CUI_CONFIG_OPEN_NOTES",          "de_DE", "Open Notes"),
+("LOC_CUI_CONFIG_TOGGLE_IMPROVED",     "de_DE", "Strategische Resourcen anzeigen"),
+("LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",   "de_DE", "Einheitenflaggen anzeigen"),
+("LOC_CUI_CONFIG_TOGGLE_TRADERS",      "de_DE", "Handelssymbole anzeigen"),
+("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "de_DE", "Religionssymbole anzeigen"),
+("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "de_DE", "Städtebanner anzeigen"),
+("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "de_DE", "Einheitenliste öffnen"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "de_DE", "Notizen öffnen"),
 
 -- ===========================================================================
 -- [English] by [eudaimonia]
