@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Cui In Game Note Screen, eudaimonia, 2/10/2019 -->
+<!-- Cui In Game Note Screen -->
 
 <Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd" Style="FontNormal16" FontStyle="Shadow">
 
@@ -24,7 +24,7 @@
   </Container>
 
   <!-- ==================================================================    -->
-  <!--    Instances                                                                                                                    -->
+  <!--    Instances                                                          -->
   <!-- ==================================================================    -->
   <Instance Name="NoteEnter">
     <Container ID="Top" Anchor="C,T" Size="parent-40,62">

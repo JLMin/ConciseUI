@@ -37,9 +37,9 @@ RULE_SET_2  = 'RULESET_EXPANSION_2'
 
 
 def build():
-    update_version_info()
-    modinfo = _modinfo()
     try:
+        update_version_info()
+        modinfo = _modinfo()
         _save(modinfo)
     except Exception as e:
         err_name = type(e).__name__

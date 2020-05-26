@@ -1,7 +1,3 @@
--- ===========================================================================
--- Cui General Help Functions
--- eudaimonia, 2/7/2019
--- ===========================================================================
 isExpansion1 = Modding.IsModActive("1B28771A-C749-434B-9053-D1380C553DE9")
 isExpansion2 = Modding.IsModActive("4873eb62-8ccc-4574-b784-dda455e74e68")
 

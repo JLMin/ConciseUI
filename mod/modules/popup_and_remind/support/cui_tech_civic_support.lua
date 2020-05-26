@@ -1,3 +1,5 @@
+-- ===========================================================================
+-- Cui Tech and Civic Help Functions
 -- ---------------------------------------------------------------------------
 function CuiIsFutureTechAndGet(eTech)
     for tech in GameInfo.Technologies() do

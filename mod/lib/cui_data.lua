@@ -2,7 +2,6 @@ include("CitySupport")
 include("SupportFunctions")
 
 -- ---------------------------------------------------------------------------
-
 GameDistrictsTypes = {
     CITY_CENTER = {
         "DISTRICT_CITY_CENTER"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!-- CUI Map Pins Hotkeys -->
-<!-- eudaimonia, 2/3/2019 -->
 <GameInfo>
   <InputCategories>
     <InsertOrIgnore CategoryId="CONCISEUI" Name="LOC_CUI_CONFIG_CATEGORY" Visible="1" SortIndex="0" />
