@@ -15,8 +15,8 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 -- =============================================================================
 -- Deal Panel
 ("de_DE", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                       "L-Klick Hinzufügen, R-Klick Abziehen"),
-("de_DE", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "Das haben sie schon"),
-("de_DE", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "Das habt Ihr schon"),
+("de_DE", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "Das hat dieser Anführer bereits"),
+("de_DE", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "Das habt Ihr bereits"),
 ("de_DE", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "Ihr habt nur 1 Einheit davon"),
 
 -- =============================================================================
@@ -29,8 +29,8 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_DB_RELATIONSHIP",                                            "Beziehung: {1_Relationship}"),
 ("de_DE", "LOC_CUI_DB_GRIEVANCES_NONE",                                         "Keine Missstände"),
 ("de_DE", "LOC_CUI_DB_GRIEVANCES",                                              "Missstände: {1_Grievances}"),
-("de_DE", "LOC_CUI_DB_THEY_CAN_OFFER",                                          "Sie können bieten:"),
-("de_DE", "LOC_CUI_DB_WE_CAN_OFFER",                                            "Ihr könnt bieten:"),
+("de_DE", "LOC_CUI_DB_THEY_CAN_OFFER",                                          "Ressourcen die dieser Anführer bietet:"),
+("de_DE", "LOC_CUI_DB_WE_CAN_OFFER",                                            "Ressourcen die Ihr bieten könnt:"),
 ("de_DE", "LOC_CUI_DB_GOLD",                                                    "Gold:"),
 ("de_DE", "LOC_CUI_DB_GOLD_AND_FAVOR",                                          "Gold und Diplomatische Gefallen:"),
 ("de_DE", "LOC_CUI_DB_SCORE_AND_YIELDS",                                        "Punkte und Erträge:"),
@@ -114,7 +114,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_GW_SORT_BY_CITY",                                            "Nach Stadt sortieren"),
 ("de_DE", "LOC_CUI_GW_SORT_BY_BUILDING",                                        "Nach Gebäude sortieren"),
 ("de_DE", "LOC_CUI_GW_THEMING_HELPER",                                          "Themamatisierungs Helfer"),
-("de_DE", "LOC_CUI_GW_THEMING_HELPER_TOOLTIP",                                  "Wähle drei Große Werke / Artefakte der gleichen Farbe und verschiedenen Nummern, um ein Thema zu vervollständigen."),
+("de_DE", "LOC_CUI_GW_THEMING_HELPER_TOOLTIP",                                  "Wähle drei Große Werke oder Artefakte der gleichen Farbe und verschiedenen Nummern, um ein Thema zu vervollständigen."),
 
 -- =============================================================================
 -- Notes
@@ -140,15 +140,15 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_OPTIONS_LOG_WORLDTRACKER",                                   "Fortschrittsanzeige"),
 ("de_DE", "LOC_CUI_OPTIONS_LOG_BOTH",                                           "Beide"),
 --
-("de_DE", "LOC_CUI_OPTIONS_POPUP_RESEARCH",                                     "Technologie/Ausrichtung abgeschlossen"),
-("de_DE", "LOC_CUI_OPTIONS_POPUP_AUDIO",                                        "Technologie/Ausrichtung akustisches Signal"),
+("de_DE", "LOC_CUI_OPTIONS_POPUP_RESEARCH",                                     "Technologie oder Ausrichtung abgeschlossen"),
+("de_DE", "LOC_CUI_OPTIONS_POPUP_AUDIO",                                        "Technologie oder Ausrichtung akustisches Signal"),
 ("de_DE", "LOC_CUI_OPTIONS_POPUP_ERA_SCORE",                                    "Zeitalterpunkte erhalten"),
 ("de_DE", "LOC_CUI_OPTIONS_POPUP_GREAT_WORK",                                   "Große Werke verfügbar"),
 ("de_DE", "LOC_CUI_OPTIONS_POPUP_RELIC",                                        "Relikte erhalten"),
 --
 ("de_DE", "LOC_CUI_OPTIONS_REMIND_TECH",                                        "Technologie durch Heureka abgeschlossen"),
 ("de_DE", "LOC_CUI_OPTIONS_REMIND_CIVIC",                                       "Ausrichtung durch Inspiration abgeschlossen"),
-("de_DE", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Möglichkeit kostenlos die Regierungsform zu wechseln"),
+("de_DE", "LOC_CUI_OPTIONS_REMIND_GOVERNMENT",                                  "Kostenlose Änderungen an der Regierung"),
 ("de_DE", "LOC_CUI_OPTIONS_REMIND_GOVERNOR",                                    "Gouverneur-Titel verfügbar"),
 --
 ("de_DE", "LOC_CUI_OPTIONS_QUICK_COMBAT",                                       "Schnellkampf"),
