@@ -37,7 +37,7 @@ RULE_SET_2  = 'RULESET_EXPANSION_2'
 
 
 def build():
-    write_version_info()
+    update_version_info()
     modinfo = _modinfo()
     try:
         _save(modinfo)
@@ -48,7 +48,7 @@ def build():
         print('[√] build complete')
 
 
-def write_version_info():
+def update_version_info():
     update_file = Path(PATH_MOD, 'lib/cui_update.lua')
     lines = []
     with open(update_file, 'r', encoding='utf-8') as f:
