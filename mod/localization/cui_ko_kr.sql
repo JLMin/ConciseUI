@@ -17,7 +17,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ko_KR", "LOC_CUI_DP_GOLD_EDIT_TOOLTIP",                                       "좌클릭으로 증가, 우클릭으로 감소"),
 ("ko_KR", "LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP",                                  "상대방이 이 물품을 이미 가지고 있습니다."),
 ("ko_KR", "LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP",                                    "우리는 이 물품을 이미 가지고 있습니다."),
-("ko_KR", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "우린 하나밖에 없다"),
+("ko_KR", "LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP",                                "하나만 가지고 있는 사치 자원입니다."),
 
 -- =============================================================================
 -- Diplomatic Banner
@@ -32,7 +32,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ko_KR", "LOC_CUI_DB_THEY_CAN_OFFER",                                          "거래요구 가능:"),
 ("ko_KR", "LOC_CUI_DB_WE_CAN_OFFER",                                            "거래제안 가능:"),
 ("ko_KR", "LOC_CUI_DB_GOLD",                                                    "금:"),
-("ko_KR", "LOC_CUI_DB_GOLD_AND_FAVOR",                                          "금과 외교적 환심:"),
+("ko_KR", "LOC_CUI_DB_GOLD_AND_FAVOR",                                          "화폐:"),
 ("ko_KR", "LOC_CUI_DB_SCORE_AND_YIELDS",                                        "점수 및 생산량:"),
 ("ko_KR", "LOC_CUI_DB_MARS_PROJECT",                                            "화성 이주지: {1_progress}  {2_progress}  {3_progress}"),
 ("ko_KR", "LOC_CUI_DB_EXOPLANET_EXPEDITION",                                    "외계 행성 탐험대: {1_progress}{2_progress}{3_progress}{4_progress}{5_progress}"),
@@ -73,8 +73,8 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
 -- SpyInfo
-("ko_KR", "LOC_CUI_SI_SPY_AVAILABLE",                                           "현재 활동 중인 [ICON_Unit]스파이: {1_num}"),
-("ko_KR", "LOC_CUI_SI_SPY_CAPACITY",                                            "활동 가능한 [ICON_Unit]스파이: {1_num}"),
+("ko_KR", "LOC_CUI_SI_SPY_AVAILABLE",                                           "현재 활동 중인 [ICON_Unit]스파이: {1_num}명"),
+("ko_KR", "LOC_CUI_SI_SPY_CAPACITY",                                            "활동 가능한 [ICON_Unit]스파이: {1_num}명"),
 
 -- =============================================================================
 -- World Tracker
@@ -85,7 +85,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ko_KR", "LOC_CUI_WT_COMBAT_LOG",                                              "전투 로그"),
 ("ko_KR", "LOC_CUI_WT_PERSIST",                                                 "지속"),
 ("ko_KR", "LOC_CUI_WT_GLOG_PERSIST_TOOLTIP",                                    "지나간 턴의 가십로그를 유지합니다."),
-("ko_KR", "LOC_CUI_WT_CLOG_PERSIST_TOOLTIP",                                    "지나간 컨의 가십로그를 유지합니다."),
+("ko_KR", "LOC_CUI_WT_CLOG_PERSIST_TOOLTIP",                                    "지나간 턴의 가십로그를 유지합니다."),
 
 -- =============================================================================
 -- Trade Panel
@@ -107,7 +107,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
 -- Production Panel
-("ko_KR", "LOC_CUI_PP_QUEUE_DEFAULT",                                           "큐를 기본설정으로 사용"),
+("ko_KR", "LOC_CUI_PP_QUEUE_DEFAULT",                                           "기본적으로 큐를 사용"),
 
 -- =============================================================================
 -- Great Works
@@ -132,7 +132,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ko_KR", "LOC_CUI_OPTIONS_DESC_VICTORY",                                       "추적할 승리 유형을 선택해주세요."),
 ("ko_KR", "LOC_CUI_OPTIONS_DESC_LOG",                                           "표시할 로그를 선택해주세요."),
 ("ko_KR", "LOC_CUI_OPTIONS_DESC_POPUP",                                         "표시할 팝업을 선택해주세요."),
-("ko_KR", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "상기가 필요한 내용을 선택해주세요."),
+("ko_KR", "LOC_CUI_OPTIONS_DESC_REMIND",                                        "리마인드가 필요한 내용을 선택해주세요."),
 ("ko_KR", "LOC_CUI_OPTIONS_DESC_SPEED",                                         "빠른전투 혹은 빠른 이동 대상을 선택해주세요."),
 --
 ("ko_KR", "LOC_CUI_OPTIONS_LOG_SHOW_NONE",                                      "비활성화"),
@@ -158,7 +158,7 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
 -- Screenshot
-("ko_KR", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "스크린샷 모드 실행[NEWLINE][NEWLINE]스크린샷 모드는 대부분의 UI 요서를 숨겨 깔끔한 스크린샷을 찍을 수 있습니다.[NEWLINE][NEWLINE]왼클릭으로 모든 UI 숨기기[NEWLINE][NEWLINE]우클릭으로 도시 배너를 제외한 모든 UI 숨기기[NEWLINE]Alt키로 화면 회전[NEWLINE]ESC키로 스크린샷 모드를 종료하세요."),
+("ko_KR", "LOC_CUI_SCREENSHOT_TOOLTIP",                                         "스크린샷 모드 실행[NEWLINE][NEWLINE]스크린샷 모드는 대부분의 UI 요소를 숨겨 깔끔한 스크린샷을 찍을 수 있습니다.[NEWLINE][NEWLINE]왼클릭으로 모든 UI 숨기기[NEWLINE][NEWLINE]우클릭으로 도시 배너를 제외한 모든 UI 숨기기[NEWLINE]Alt키로 화면 회전[NEWLINE]ESC키로 스크린샷 모드를 종료하세요."),
 
 -- =============================================================================
 ("ko_KR", "LOC_CUI_COLON", ": ");
