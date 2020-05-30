@@ -7,7 +7,7 @@ include("PlayerSupport");
 include("SupportFunctions");
 include("GameCapabilities")
 include("cui_settings")
-include("cuileadericonsupport")
+include("cui_leader_icon_support")
 
 -- ===========================================================================
 --    CONSTANTS

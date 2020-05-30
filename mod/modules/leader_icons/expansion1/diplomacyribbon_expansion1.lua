@@ -2,7 +2,7 @@
 
 -- Base File
 include("DiplomacyRibbon");
-include("cuileadericonsupport") -- CUI
+include("cui_leader_icon_support") -- CUI
 
 -- ===========================================================================
 -- Cached Base Functions
