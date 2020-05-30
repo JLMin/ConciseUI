@@ -6,11 +6,11 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- =============================================================================
 -- City Panel
-("zh_Hant_HK", "LOC_CUI_CP_MANAGE_CITIZENS_TILES",                              "市民與單元格管理"),
+("zh_Hant_HK", "LOC_CUI_CP_MANAGE_CITIZENS_TILES", "市民與單元格管理"),
 
--- =============================================================================
+-- ================================================ =============================
 -- City States Panel
-("zh_Hant_HK", "LOC_CUI_CSP_ENVOYS_SUZERAIN",                                   "派遣使者：{1_num}，宗主国：{2_num}"),
+("zh_Hant_HK", "LOC_CUI_CSP_ENVOYS_SUZERAIN", "派遣使者：{1_num}，宗主國：{2_num}"),
 
 -- ================================================ =============================
 -- Deal Panel
