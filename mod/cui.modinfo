@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Mod id="5f504949-398a-4038-a838-43c3acc4dc10" version="1.5.2">
+<Mod id="5f504949-398a-4038-a838-43c3acc4dc10" version="1.5.3">
   <Properties>
     <Name>[COLOR_Civ6LightBlue]Concise UI[ENDCOLOR]</Name>
     <Teaser>For a better gaming experience.</Teaser>
@@ -67,7 +67,7 @@
         <LoadOrder>11</LoadOrder>
       </Properties>
       <File>modules/deal_panel/support/cui_deal_support.lua</File>
-      <File>modules/leader_icons/support/cuileadericonsupport.lua</File>
+      <File>modules/leader_icons/support/cui_leader_icon_support.lua</File>
       <File>modules/popup_and_remind/support/cui_tech_civic_support.lua</File>
       <File>modules/production_panel/support/cui_production_data.lua</File>
       <File>modules/production_panel/support/cui_production_support.lua</File>
@@ -131,8 +131,6 @@
       <Properties>
         <LoadOrder>14</LoadOrder>
       </Properties>
-      <File>modules/climate_screen/expansion2/climatescreen.lua</File>
-      <File>modules/climate_screen/expansion2/climatescreen.xml</File>
       <File>modules/deal_panel/expansion2/diplomacydealview.lua</File>
       <File>modules/deal_panel/expansion2/diplomacydealview_expansion2.lua</File>
       <File>modules/espionage_panel/expansion2/espionagechooser.xml</File>
@@ -232,8 +230,6 @@
     <File>modules/city_states/base/citystates.lua</File>
     <File>modules/city_states/base/citystates.xml</File>
     <File>modules/city_states/expansion1/citystates.xml</File>
-    <File>modules/climate_screen/expansion2/climatescreen.lua</File>
-    <File>modules/climate_screen/expansion2/climatescreen.xml</File>
     <File>modules/deal_panel/base/diplomacydealview.lua</File>
     <File>modules/deal_panel/base/diplomacydealview.xml</File>
     <File>modules/deal_panel/expansion2/diplomacydealview.lua</File>
@@ -256,7 +252,7 @@
     <File>modules/leader_icons/expansion1/diplomacyribbon_expansion1.lua</File>
     <File>modules/leader_icons/expansion2/diplomacyactionview.xml</File>
     <File>modules/leader_icons/expansion2/worldcongresspopup.lua</File>
-    <File>modules/leader_icons/support/cuileadericonsupport.lua</File>
+    <File>modules/leader_icons/support/cui_leader_icon_support.lua</File>
     <File>modules/map_options/additions/cui_map_options.lua</File>
     <File>modules/map_options/additions/cui_map_options.xml</File>
     <File>modules/map_options/base/selectedunit.lua</File>
