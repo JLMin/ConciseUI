@@ -150,15 +150,15 @@ INSERT OR REPLACE INTO LocalizedText (Tag, Language, Text) VALUES
 -- ===========================================================================
 -- untranslated
 -- ===========================================================================
-("LOC_CUI_CONFIG_CATEGORY",            "zh_Hans_HK", "Concise UI"),
-("LOC_CUI_CONFIG_PLACE_MAP_PIN",       "zh_Hans_HK", "添加地图钉"),
-("LOC_CUI_CONFIG_TOGGLE_IMPROVED",     "zh_Hans_HK", "开启/关闭已改良资源图标"),
-("LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",   "zh_Hans_HK", "开启/关闭单位图标"),
-("LOC_CUI_CONFIG_TOGGLE_TRADERS",      "zh_Hans_HK", "开启/关闭商人图标"),
-("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "zh_Hans_HK", "开启/关闭宗教单位图标"),
-("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "zh_Hans_HK", "开启/关闭城市横幅"),
-("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "zh_Hans_HK", "打开单位列表"),
-("LOC_CUI_CONFIG_OPEN_NOTES",          "zh_Hans_HK", "打开备忘录");
+("LOC_CUI_CONFIG_CATEGORY",            "zh_Hant_HK", "Concise UI"),
+("LOC_CUI_CONFIG_PLACE_MAP_PIN",       "zh_Hant_HK", "添加地图钉"),
+("LOC_CUI_CONFIG_TOGGLE_IMPROVED",     "zh_Hant_HK", "开启/关闭已改良资源图标"),
+("LOC_CUI_CONFIG_TOGGLE_UNIT_FLAGS",   "zh_Hant_HK", "开启/关闭单位图标"),
+("LOC_CUI_CONFIG_TOGGLE_TRADERS",      "zh_Hant_HK", "开启/关闭商人图标"),
+("LOC_CUI_CONFIG_TOGGLE_RELIGIONS",    "zh_Hant_HK", "开启/关闭宗教单位图标"),
+("LOC_CUI_CONFIG_TOGGLE_CITY_BANNERS", "zh_Hant_HK", "开启/关闭城市横幅"),
+("LOC_CUI_CONFIG_OPEN_UNIT_LIST",      "zh_Hant_HK", "打开单位列表"),
+("LOC_CUI_CONFIG_OPEN_NOTES",          "zh_Hant_HK", "打开备忘录");
 
 -- ===========================================================================
 -- EOF
