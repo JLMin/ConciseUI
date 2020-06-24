@@ -41,6 +41,14 @@ function GetPanelData()
     m_player = player
     m_city = city
     m_queue = city:GetBuildQueue()
+    
+    -- ak begin
+    -- AddReactorProjectData in ToolTipLoader_Expansion2.lua expects a global pBuildQueue to exist even
+    -- though it doesn't use it for anything. Without it the tooltip for the Recommision Nuclear Reactor
+    -- project does not show the age of the reactor and the current failure risks
+
+    pBuildQueue = m_queue;
+    -- ak end
 
     local d = GetCityDistricts()
     local w = GetCityWonders()
