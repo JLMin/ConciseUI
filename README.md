@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-1.4.6-blue)
+![Version](https://img.shields.io/badge/version-1.5.6-blue)
 [![Steam Update](https://img.shields.io/badge/steam-up%20to%20date-green)](https://steamcommunity.com/sharedfiles/filedetails/?id=1671978687)
 [![GitHub license](https://img.shields.io/github/license/JLMin/ConciseUI)](https://github.com/JLMin/ConciseUI/blob/master/LICENSE)
 
