@@ -378,7 +378,7 @@ function AddAvailableOffensiveOperation(operation, result, targetCityPlot)
         missionInstance.MissionButton:RegisterCallback(
             Mouse.eLClick,
             function()
-                OnMissionSelected(operation, missionInstance)
+                OnMissionSelected(operation, missionInstance, targetCityPlot)
             end
         )
     end
@@ -403,8 +403,8 @@ function OnCounterspySelected(districtPlot)
 end
 
 -- ===========================================================================
-function OnMissionSelected(operation, instance)
-    LuaEvents.EspionageChooser_ShowMissionBriefing(operation.Hash, m_spy:GetID())
+function OnMissionSelected(operation, instance, targetCityPlot)
+    LuaEvents.EspionageChooser_ShowMissionBriefing(operation.Hash, m_spy:GetID(), targetCityPlot)
 
     -- Hide all selection borders before selecting another
     for i = 1, m_MissionStackIM.m_iCount, 1 do
