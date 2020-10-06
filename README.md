@@ -12,7 +12,7 @@ Concise UI greatly improves the game experience by modifying the vanilla UI and 
 
 The easiest way is to subscribe on [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1671978687).
 
-Or you can install this mod manually, [download](https://github.com/JLMin/ConciseUI/archive/master.zip).
+Or you can install this mod manually, [download](https://github.com/JLMin/ConciseUI/releases).
 
 ## Contribution
 Since I have uninstalled the game, I am unable to update the mod functionality,
