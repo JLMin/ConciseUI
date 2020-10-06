@@ -233,14 +233,15 @@ function RequestMapPin(hexX, hexY)
         UpdateIconOptionColors()
         ShowHideSendToChatButton()
 
-        -- CUI
+        -- CUI >>
         Controls.IconOptionStackDefault:CalculateSize()
         Controls.IconOptionStackDefault:ReprocessAnchoring()
         Controls.IconOptionStackDistricts:CalculateSize()
         Controls.IconOptionStackDistricts:ReprocessAnchoring()
         Controls.IconOptionStackWonders:CalculateSize()
         Controls.IconOptionStackWonders:ReprocessAnchoring()
-        --
+        -- << CUI
+
         Controls.OptionsStack:CalculateSize()
         Controls.OptionsStack:ReprocessAnchoring()
         Controls.WindowContentsStack:CalculateSize()
@@ -423,7 +424,7 @@ function OnInputHandler(pInputStruct)
     return false
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiGetDistrictIcons()
     local icons = {}
     local pPlayer = Game.GetLocalPlayer()
@@ -467,7 +468,7 @@ function CuiGetDistrictIcons()
     return icons
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiGetWonderIcons()
     local icons = {}
 
@@ -480,7 +481,7 @@ function CuiGetWonderIcons()
     return icons
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiGetIconByItem(item)
     local name = nil
     local icon = nil
@@ -502,7 +503,7 @@ function CuiGetIconByItem(item)
     return {name = name, icon = icon, tooltip = tooltip}
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiCreateIconEntry(instance, name, icon, tooltip, index)
     local controlTable = {}
     local newIconEntry = {}
@@ -525,7 +526,7 @@ function CuiCreateIconEntry(instance, name, icon, tooltip, index)
     UpdateIconOptionColor(index)
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiRefresh()
     PopulateIconOptions()
     local ShowDistricts = CuiSettings:GetBoolean(CuiSettings.SHOW_DISTRICTS)

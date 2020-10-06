@@ -1,5 +1,4 @@
 -- ===========================================================================
--- Concise UI
 -- cui_leader_icon_tt.lua
 -- ===========================================================================
 
@@ -8,9 +7,9 @@ include("SupportFunctions")
 include("CivilizationIcon")
 include("TeamSupport")
 include("Civ6Common")
-include("cui_helper")
+include("cui_utils")
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 local CuiLeaderIconTT = {}
 TTManager:GetTypeControlTable("CuiLeaderIconTT", CuiLeaderIconTT)
 local CuiRelationshipTT = {}
@@ -19,7 +18,7 @@ TTManager:GetTypeControlTable("CuiRelationshipTT", CuiRelationshipTT)
 local resourcesInstance = InstanceManager:new("ResourceInstance", "Top", Controls.ResourceInstanceContainer)
 local reasonInstance = InstanceManager:new("ReasonInstance", "Top", Controls.ReasonInstanceContainer)
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetPlayerData(playerID)
     local data = {}
     local pPlayer = Players[playerID]
@@ -67,7 +66,7 @@ function GetPlayerData(playerID)
     return data
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetRelationShip(tPlayerID, allianceData)
     local data = {}
 
@@ -148,14 +147,14 @@ function GetRelationShip(tPlayerID, allianceData)
     return data
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function LocalCmpResource(a, b)
     local resourceA = GameInfo.Resources[a.ForType]
     local resourceB = GameInfo.Resources[b.ForType]
     return resourceA.ResourceClassType < resourceB.ResourceClassType
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetResourceList(otherPlayerID)
     local localPlayerID = Game.GetLocalPlayer()
 
@@ -224,7 +223,7 @@ function GetResourceList(otherPlayerID)
     return isOther, otherOffer, localOffer
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetGSResourceList(otherPlayerID)
     local localPlayerID = Game.GetLocalPlayer()
 
@@ -301,7 +300,7 @@ function GetGSResourceList(otherPlayerID)
     return isOther, otherOffer, localOffer
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetGrievanceTooltip(otherPlayerID)
     local localPlayerID = Game.GetLocalPlayer()
     local kGameDiplomacy = Game.GetGameDiplomacy()
@@ -322,7 +321,7 @@ function GetGrievanceTooltip(otherPlayerID)
     return tooltip
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetAccessLevelTooltip(otherPlayerID)
     local tooltip = ""
     local localPlayer = Players[Game.GetLocalPlayer()]
@@ -334,7 +333,7 @@ function GetAccessLevelTooltip(otherPlayerID)
     return tooltip
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function UpdateLeaderIconTooltip(tControl, playerID)
     local pData = GetPlayerData(playerID)
     if pData.leaderTypeName ~= nil then
@@ -452,7 +451,7 @@ function UpdateLeaderIconTooltip(tControl, playerID)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function UpdateRelationShipTooltip(tControl, playerID, allianceData)
     local data = GetRelationShip(playerID, allianceData)
 
@@ -518,7 +517,7 @@ function UpdateRelationShipTooltip(tControl, playerID, allianceData)
     CuiRelationshipTT.BG:DoAutoSize()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function SetLeaderIconToolTip(tControl, playerID)
     local localPlayer = Players[Game.GetLocalPlayer()]
     if playerID == Game.GetLocalPlayer() or localPlayer:GetDiplomacy():HasMet(playerID) then
@@ -532,7 +531,7 @@ function SetLeaderIconToolTip(tControl, playerID)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function SetRelationShipToolTip(tControl, playerID, allianceData)
     local localPlayer = Players[Game.GetLocalPlayer()]
     if playerID ~= Game.GetLocalPlayer() and localPlayer:GetDiplomacy():HasMet(playerID) then
@@ -550,7 +549,7 @@ function SetRelationShipToolTip(tControl, playerID, allianceData)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function TwoColorNumber(num, color1, color2)
     if num > 0 then
         return "[COLOR_" .. color1 .. "]+" .. tostring(num) .. "[ENDCOLOR]"
@@ -561,6 +560,6 @@ function TwoColorNumber(num, color1, color2)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 LuaEvents.CuiLeaderIconToolTip.Add(SetLeaderIconToolTip)
 LuaEvents.CuiRelationshipToolTip.Add(SetRelationShipToolTip)

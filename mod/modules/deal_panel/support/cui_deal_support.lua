@@ -1,15 +1,14 @@
 -- ===========================================================================
--- Concise UI
 -- cui_deal_support.lua
 -- ===========================================================================
 
-include("cui_helper")
+include("cui_utils")
 
 -- ===========================================================================
 -- Tooltips
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 local CuiRedColor = "ModStatusRedCS"
 local CuiYellowColor = "ModStatusYellowCS"
 local CuiGreenColor = "ModStatusGreenCS"
@@ -28,7 +27,7 @@ local AINoCapTT = Locale.Lookup("LOC_DEAL_AI_HAS_NO_CAP_ROOM")
 -- Vanilla & Expansion 1
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiGetResourceData(player, localPlayer, otherPlayer, entry)
     local data = {}
 
@@ -79,7 +78,7 @@ end
 -- Expansion 2
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiGetLuxuryData(player, localPlayer, otherPlayer, entry)
     local data = {}
 
@@ -122,7 +121,7 @@ function CuiGetLuxuryData(player, localPlayer, otherPlayer, entry)
     return data
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiGetStrategicData(player, localPlayer, entry)
     local data = {}
     data.IsLocal = player == localPlayer
@@ -134,7 +133,7 @@ end
 -- UI Functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiGetButtonStyleByData(data)
     local color = CuiRedColor
     local tooltip = ""
@@ -166,7 +165,7 @@ function CuiGetButtonStyleByData(data)
     return color, tooltip
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiGetButtonStyleByDataXP2(data)
     local color = CuiRedColor
     local tooltip = ""

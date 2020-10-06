@@ -13,7 +13,7 @@ include( "LeaderIcon" );
 include( "PopupDialog" );
 include( "CivilizationIcon" );
 
-include("cui_leader_icon_support"); -- Concise UI
+include("cui_leader_icon_support"); -- CUI
 
 -- ===========================================================================
 --	GLOBALS
@@ -1716,11 +1716,11 @@ function PopulateLeader(leaderIcon : table, player : table, isUniqueLeader : boo
 				-- The selection background
 				leaderIcon.Controls.SelectedBackground:SetHide(playerID ~= ms_SelectedPlayerID);
 
-                -- Concise UI >> use advenced tooltip
+                -- CUI >> use advenced tooltip
                 local allianceData = CuiGetAllianceData(playerID);
                 LuaEvents.CuiLeaderIconToolTip(leaderIcon.Controls.Portrait, playerID);
                 LuaEvents.CuiRelationshipToolTip(leaderIcon.Controls.Relationship, playerID, allianceData);
-                -- << Concise UI
+                -- << CUI
 
 			end
 		end
@@ -1973,14 +1973,14 @@ function PopulateDiplomacyRibbon(diplomacyRibbon : table)
 		-- Add entries for everyone we know (Majors only)
 		local aPlayers = PlayerManager.GetAliveMajors();
 
-        -- Concise UI >> sort by met time
+        -- CUI >> sort by met time
         table.sort(
             aPlayers,
             function(a, b)
                 return pLocalPlayerDiplomacy:GetMetTurn(a:GetID()) < pLocalPlayerDiplomacy:GetMetTurn(b:GetID())
             end
         )
-        -- << Concise UI
+        -- << CUI
 
 		for _, pPlayer in ipairs(aPlayers) do
 			if (pPlayer:GetID() ~= ms_LocalPlayerID and pLocalPlayerDiplomacy:HasMet(pPlayer:GetID())) then

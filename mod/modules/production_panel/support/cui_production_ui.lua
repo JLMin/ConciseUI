@@ -1,14 +1,13 @@
 -- ===========================================================================
--- Concise UI
 -- cui_production_ui.lua
 -- ===========================================================================
 
 include("InstanceManager")
 
-include("cui_helper")
+include("cui_utils")
 include("cui_production_support")
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 local m_playerID
 local m_player
 local m_city
@@ -34,7 +33,7 @@ local GROUP = {
 -- Populate Functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function PupulatePanel(groupIM, itemIM, data, mode)
     m_playerID = data.Owner
     m_player = data.Player
@@ -47,7 +46,7 @@ function PupulatePanel(groupIM, itemIM, data, mode)
     PopulateGroup(groupIM, itemIM, data.Projects, GROUP.PROJECT, mode)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function PopulateGroup(groupIM, itemIM, data, group, mode)
     if isNil(data) then
         return
@@ -106,7 +105,7 @@ function PopulateGroup(groupIM, itemIM, data, group, mode)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function PopulateProduceItem(parent, itemIM, item, mode)
     local skipItem = false
     if mode == MODE.PROD then
@@ -198,7 +197,7 @@ function PopulateProduceItem(parent, itemIM, item, mode)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function PopulatePurchaseItem(parent, itemIM, item, mode)
     local isG
     if mode == MODE.GOLD or mode == MODE.FAITH then
@@ -244,7 +243,7 @@ end
 -- Instances Functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function SetupHeader(instance, title)
     instance.Header:SetText(Locale.Lookup(title))
     instance.Header:RegisterCallback(
@@ -277,7 +276,7 @@ function SetupHeader(instance, title)
     OnExpand(instance)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function SetBasicItemInstance(instance, item)
     instance.ProductionProgressArea:SetHide(true)
     instance.CompletedArea:SetHide(true)
@@ -314,7 +313,7 @@ function SetBasicItemInstance(instance, item)
     instance.Name:SetText(name)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function SetupProduceButtons(instance, item)
     local default = 320
     local small = 32
@@ -389,7 +388,7 @@ function SetupProduceButtons(instance, item)
     instance.Button:SetToolTipString(producTT)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function RegisterProduceButtons(instance, item)
     instance.Button:RegisterCallback(
         Mouse.eRClick,
@@ -493,7 +492,7 @@ function RegisterProduceButtons(instance, item)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function RegisterPurchaseButtons(instance, item, yield)
     instance.Button:RegisterCallback(
         Mouse.eRClick,
@@ -547,7 +546,7 @@ end
 -- UI Events
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnGoldCostButtonMouse(instance, action)
     local isEnter = action == "Enter"
     local dSize = isEnter and 36 or -36
@@ -562,7 +561,7 @@ function OnGoldCostButtonMouse(instance, action)
     instance.GoldCost:SetHide(not isEnter)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnFaithCostButtonMouse(instance, action)
     local isEnter = action == "Enter"
     local dSize = isEnter and 36 or -36
@@ -577,7 +576,7 @@ function OnFaithCostButtonMouse(instance, action)
     instance.FaithCost:SetHide(not isEnter)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnBuildDistrict(city, districtEntry)
     StopRepeatProject(city)
 
@@ -607,7 +606,7 @@ function OnBuildDistrict(city, districtEntry)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnPurchaseDistrict(city, districtEntry, yield)
     local bNeedsPlacement = districtEntry.RequiresPlacement
 
@@ -635,7 +634,7 @@ function OnPurchaseDistrict(city, districtEntry, yield)
     Close()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnBuildBuilding(city, buildingEntry)
     StopRepeatProject(city)
 
@@ -674,7 +673,7 @@ function OnBuildBuilding(city, buildingEntry)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnPurchaseBuilding(city, buildingEntry, yield)
     local tParameters = {}
     tParameters[CityCommandTypes.PARAM_BUILDING_TYPE] = buildingEntry.Hash
@@ -689,7 +688,7 @@ function OnPurchaseBuilding(city, buildingEntry, yield)
     Close()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnBuildUnit(city, unitEntry, formation)
     StopRepeatProject(city)
 
@@ -707,7 +706,7 @@ function OnBuildUnit(city, unitEntry, formation)
     CloseAfterNewProduction()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnPurchaseUnit(city, unitEntry, formation, yield)
     local tParameters = {}
     tParameters[CityCommandTypes.PARAM_UNIT_TYPE] = unitEntry.Hash
@@ -723,7 +722,7 @@ function OnPurchaseUnit(city, unitEntry, formation, yield)
     Close()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnBuildProject(city, projectEntry)
     StopRepeatProject(city)
 
@@ -740,7 +739,7 @@ function OnBuildProject(city, projectEntry)
     CloseAfterNewProduction()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnRepeatProject(city, projectEntry)
     AddProjectToRepeatList(city, projectEntry.Hash)
 
@@ -761,7 +760,7 @@ end
 -- Help Functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function ItemDisabledInProdu(item, queue)
     local hash = queue:GetCurrentProductionTypeHash()
     if item.IsDistrict or item.IsWonder or item.IsUnit or item.IsProject then
@@ -778,7 +777,7 @@ function ItemDisabledInProdu(item, queue)
     return false
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function ItemDisabledInQueue(item, queue)
     if item.IsDistrict then
         return IsItemInQueue(item, queue) and item.OnePerCity
@@ -803,7 +802,7 @@ function ItemDisabledInQueue(item, queue)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function IsItemInQueue(item, queue)
     if item.IsUnit then
         return false
@@ -856,12 +855,12 @@ function IsItemInQueue(item, queue)
     return false
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CanPurchaseItem(item)
     return item.GoldUnlock or item.FaithUnlock
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetPurchaseItemsByYield(data, yield)
     local items = {}
 

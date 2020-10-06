@@ -1,16 +1,17 @@
 -- ===========================================================================
--- Concise UI
 -- cui_gameinfo.lua
 -- ===========================================================================
 
-include("cui_helper")
+include("cui_utils")
 
--- Concise UI ----------------------------------------------------------------
-local RiseAndFall = "1B28771A-C749-434B-9053-D1380C553DE9"
+-- CUI -----------------------------------------------------------------------
+local RiseAndFall    = "1B28771A-C749-434B-9053-D1380C553DE9"
 local GatheringStorm = "4873eb62-8ccc-4574-b784-dda455e74e68"
-local Tutorial = "17462E0F-1EE1-4819-AAAA-052B5896B02A"
+local Tutorial       = "17462E0F-1EE1-4819-AAAA-052B5896B02A"
+
 local CuiGameInfo = {}
--- Concise UI ----------------------------------------------------------------
+
+-- CUI -----------------------------------------------------------------------
 local function GenerateModName(mod)
     local modInfo = Modding.GetModInfo(mod.Handle)
     local subID = modInfo.SubscriptionId
@@ -25,16 +26,16 @@ local function GenerateModName(mod)
     return modName
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 local function GenerateModInfo(mod)
     local modInfo = {
-        Id = mod.Id,
-        Name = GenerateModName(mod),
-        Active = false,
-        Enabled = mod.Enabled,
-        Official = mod.Official,
-        SubID = mod.SubscriptionId,
-        Update = "",
+        Id         = mod.Id,
+        Name       = GenerateModName(mod),
+        Active     = false,
+        Enabled    = mod.Enabled,
+        Official   = mod.Official,
+        SubID      = mod.SubscriptionId,
+        Update     = "",
         Compatible = Modding.IsModCompatible(mod.Handle)
     }
     if not mod.Official and mod.SubscriptionId then
@@ -46,14 +47,14 @@ local function GenerateModInfo(mod)
     return modInfo
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 local function LoadGameInfo()
     CuiGameInfo.IsMultiplayer = GameConfiguration.IsAnyMultiplayer()
-    CuiGameInfo.IsHotseat = GameConfiguration.IsHotseat()
-    CuiGameInfo.MapSeed = MapConfiguration.GetValue("RANDOM_SEED")
-    CuiGameInfo.GameSeed = GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")
-    CuiGameInfo.GameSpeed = Locale.Lookup(GameInfo.GameSpeeds[GameConfiguration.GetGameSpeedType()].Name)
-    CuiGameInfo.RuleSet = GameConfiguration.GetRuleSet()
+    CuiGameInfo.IsHotseat     = GameConfiguration.IsHotseat()
+    CuiGameInfo.MapSeed       = MapConfiguration.GetValue("RANDOM_SEED")
+    CuiGameInfo.GameSeed      = GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")
+    CuiGameInfo.GameSpeed     = Locale.Lookup(GameInfo.GameSpeeds[GameConfiguration.GetGameSpeedType()].Name)
+    CuiGameInfo.RuleSet       = GameConfiguration.GetRuleSet()
 end
 
 -- ---------------------------------------------------------------------------
@@ -76,7 +77,7 @@ local function LoadInstalledMods()
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 local function LoadActiveMods()
     local mods = Modding.GetActiveMods()
     for _, mod in ipairs(mods) do
@@ -105,7 +106,7 @@ local function LoadActiveMods()
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 local function SortMods(usMods)
     if isNil(usMods) then
         return nil
@@ -141,29 +142,29 @@ local function SortMods(usMods)
     return mods
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetCuiGameInfo()
     CuiGameInfo = {
         -- version
         Version = UI.GetAppVersion(),
         -- game
-        IsRiseAndFall = false,
+        IsRiseAndFall    = false,
         IsGatheringStorm = false,
-        IsTutorial = false,
-        IsMultiplayer = false,
-        IsHotseat = false,
-        MapSeed = nil,
-        GameSeed = nil,
-        GameSpeed = -1,
-        RuleSet = nil,
+        IsTutorial       = false,
+        IsMultiplayer    = false,
+        IsHotseat        = false,
+        MapSeed          = nil,
+        GameSeed         = nil,
+        GameSpeed        = -1,
+        RuleSet          = nil,
         -- mods
         InstalledAll = 0,
         InstalledOff = 0,
         InstalledCom = 0,
-        ActiveAll = 0,
-        ActiveOff = 0,
-        ActiveCom = 0,
-        Mods = {}
+        ActiveAll    = 0,
+        ActiveOff    = 0,
+        ActiveCom    = 0,
+        Mods         = {}
     }
 
     LoadGameInfo()

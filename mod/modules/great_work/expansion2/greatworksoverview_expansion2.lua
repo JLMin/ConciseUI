@@ -48,7 +48,7 @@ local DATA_FIELD_GREAT_WORK_IM:string = "GreatWorkIM";
 local DATA_FIELD_TOURISM_YIELD:string = "TourismYield";
 local DATA_FIELD_THEME_BONUS_IM:string = "ThemeBonusIM";
 
-local cui_ThemeHelper = false; -- Concise UI
+local cui_ThemeHelper = false; -- CUI
 
 local YIELD_FONT_ICONS:table = {
 	YIELD_FOOD				= "[ICON_FoodLarge]",
@@ -127,10 +127,10 @@ function PopulateGreatWorkSlot(instance:table, pCity:table, pCityBldgs:table, pB
 	instance.DefaultBG:RegisterCallback(Mouse.eLClick, function() end); -- clear callback
 	instance.HighlightedBG:RegisterCallback(Mouse.eLClick, function() end); -- clear callback
 
-    -- Concise UI >> reset Theme label
+    -- CUI >> reset Theme label
     instance.ThemingLabel:SetText("");
     instance.ThemingLabel:SetToolTipString("");
-    -- << Concise UI
+    -- << CUI
 
 	local buildingType:string = pBuildingInfo.BuildingType;
 	local buildingIndex:number = pBuildingInfo.Index;

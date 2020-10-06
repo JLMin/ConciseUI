@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Concise UI
     cui_screenshot.xml
 -->
 
 <Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd">
-  <Container ID="ScreenshotButtonContainer" Size="29,29">
-    <GridButton ID="ScreenshotButton" Anchor="L,C" Size="29,29" Style="ButtonControl" ToolTip="LOC_CUI_SCREENSHOT_TOOLTIP">
-      <Image Texture="screenshot.dds" Size="24,24" StretchMode="Fill" Anchor="C,C"/>
-    </GridButton>
-  </Container>
+    <Container ID="ScreenshotButtonContainer" Size="29,29">
+        <GridButton ID="ScreenshotButton" Anchor="L,C" Size="29,29" Style="ButtonControl" ToolTip="LOC_CUI_SCREENSHOT_TOOLTIP">
+            <Image Texture="screenshot.dds" Size="24,24" StretchMode="Fill" Anchor="C,C"/>
+        </GridButton>
+    </Container>
 </Context>

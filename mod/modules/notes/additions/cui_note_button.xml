@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-    Concise UI
     cui_note_button.xml
 -->
 
 <Context>
-  <Instance Name="CuiNotes">
-    <Button ID="NotesButton" Anchor="L,C" Size="49,49" Texture="LaunchBar_Hook_ReligionButton" Style="ButtonNormalText" StateOffsetIncrement="0,49">
-      <Image ID="NotesIcon" Anchor="C,C" Size="42,42"/>
-    </Button>
-  </Instance>
+    <Instance Name="CuiNotes">
+        <Button ID="NotesButton" Anchor="L,C" Size="49,49" Texture="LaunchBar_Hook_ReligionButton" Style="ButtonNormalText" StateOffsetIncrement="0,49">
+            <Image ID="NotesIcon" Anchor="C,C" Size="42,42"/>
+        </Button>
+    </Instance>
 
-  <Instance Name="Pip">
-    <Image Anchor="L,C" Offset="0,-2" Size="7,7" Texture="LaunchBar_TrackPip" Color="255,255,255,200"/>
-  </Instance>
+    <Instance Name="Pip">
+        <Image Anchor="L,C" Offset="0,-2" Size="7,7" Texture="LaunchBar_TrackPip" Color="255,255,255,200"/>
+    </Instance>
 </Context>

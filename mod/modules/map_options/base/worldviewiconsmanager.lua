@@ -6,7 +6,7 @@
 
 include( "InstanceManager" );
 include( "SupportFunctions" );
-include("cui_settings"); -- Concise UI
+include("cui_settings"); -- CUI
 
 local KEY_CURRENT_ICON_INFO		:string = "currentIcon";
 local KEY_PREVIOUS_ICON_INFO	:string = "prevIcon";
@@ -108,11 +108,11 @@ function SetResourceIcon( pInstance:table, pPlot, type, state)
 				textureOffsetY = textureOffsetY,
 				textureSheet  = textureSheet
             }
-            -- Concise UI >> disable animation
+            -- CUI >> disable animation
 			pInstance.AlphaAnim:SetHide(true);
 			-- pInstance.AlphaAnim:SetToBeginning();
 			-- pInstance.AlphaAnim:Play();
-            -- << Concise UI
+            -- << CUI
 
 			-- Add some tooltip information about the resource
 			local toolTipItems:table = {};
@@ -217,12 +217,12 @@ function SetResourceIcon( pInstance:table, pPlot, type, state)
 			pInstance.ResourceIcon:SetToolTipString(table.concat(toolTipItems, "[NEWLINE]"));
         end
 
-        -- Concise UI >> toggle improved resource icons
+        -- CUI >> toggle improved resource icons
         local cui_ShowImproved = CuiSettings:GetBoolean(CuiSettings.SHOW_IMPROVES);
         if CuiIsResourceImprovedByPlayer(resourceInfo, pPlot) then
             pInstance.ResourceIcon:SetHide(not cui_ShowImproved);
         end
-        -- << Concise UI
+        -- << CUI
 
 	end
 end
@@ -814,7 +814,7 @@ function OnInit( bHotload:boolean )
 	LateInitialize();
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiIsResourceImprovedByPlayer(resourceInfo, pPlot)
     if (pPlot:GetOwner() ~= Game.GetLocalPlayer()) then
         return false
@@ -832,7 +832,7 @@ function CuiIsResourceImprovedByPlayer(resourceInfo, pPlot)
     return false
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiInit()
     Events.LoadGameViewStateDone.Add(Rebuild)
     LuaEvents.CuiToggleImprovedIcons.Add(Rebuild)
@@ -842,7 +842,7 @@ end
 
 -- ===========================================================================
 function Initialize()
-    CuiInit(); -- Concise UI
+    CuiInit(); -- CUI
 	ContextPtr:SetInitHandler( OnInit );
 	ContextPtr:SetShutdown( OnShutdown );
 

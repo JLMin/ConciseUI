@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Concise UI
     cui_remind_panel.xml
 -->
 
 <Context Name="CuiOptions">
-  <Container ID="RemindContainer" Anchor="L,B" Offset="0,60">
-    <Grid ID="Bubble" Anchor="L,B" Texture="advisor_bubble.dds" SliceCorner="44,28" SliceTextureSize="64,72" Color="255,255,255,200">
-      <Stack ID="RemindStack" Anchor="C,T" Offset="1,16" StackGrowth="Right" Padding="10">
-        <Grid ID="TechReady" Size="45,46" Hidden="1">
-          <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
-            <Image Anchor="C,C" Size="38,38" Texture="LaunchBar_Hook_TechTree"/>
-            <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
-          </Image>
+    <Container ID="RemindContainer" Anchor="L,B" Offset="0,60">
+        <Grid ID="Bubble" Anchor="L,B" Texture="advisor_bubble.dds" SliceCorner="44,28" SliceTextureSize="64,72" Color="255,255,255,200">
+            <Stack ID="RemindStack" Anchor="C,T" Offset="1,16" StackGrowth="Right" Padding="10">
+                <Grid ID="TechReady" Size="45,46" Hidden="1">
+                    <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
+                        <Image Anchor="C,C" Size="38,38" Texture="LaunchBar_Hook_TechTree"/>
+                        <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
+                    </Image>
+                </Grid>
+                <Grid ID="CivicReady" Size="45,46" Hidden="1">
+                    <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
+                        <Image Anchor="C,C" Size="38,38" Texture="LaunchBar_Hook_CivicsTree"/>
+                        <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
+                    </Image>
+                </Grid>
+                <Grid ID="GovernmentReady" Size="45,46" Hidden="1">
+                    <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
+                        <Image Anchor="C,C" Size="38,38" Offset="-1,-2" Texture="LaunchBar_Hook_Government"/>
+                        <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
+                    </Image>
+                </Grid>
+                <Grid ID="GovernorReady" Size="45,46" Hidden="1">
+                    <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
+                        <Image Anchor="C,C" Size="38,38" Offset="-1,0" Texture="LaunchBar_Hook_Governors"/>
+                        <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
+                    </Image>
+                </Grid>
+            </Stack>
         </Grid>
-        <Grid ID="CivicReady" Size="45,46" Hidden="1">
-          <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
-            <Image Anchor="C,C" Size="38,38" Texture="LaunchBar_Hook_CivicsTree"/>
-            <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
-          </Image>
-        </Grid>
-        <Grid ID="GovernmentReady" Size="45,46" Hidden="1">
-          <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
-            <Image Anchor="C,C" Size="38,38" Offset="-1,-2" Texture="LaunchBar_Hook_Government"/>
-            <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
-          </Image>
-        </Grid>
-        <Grid ID="GovernorReady" Size="45,46" Hidden="1">
-          <Image Anchor="L,C" Size="43,43" Texture="CombatPreview_CombatStat">
-            <Image Anchor="C,C" Size="38,38" Offset="-1,0" Texture="LaunchBar_Hook_Governors"/>
-            <Image Anchor="R,B" Size="22,22" Offset="-4,-4" Texture="Espionage_OverlayFound"/>
-          </Image>
-        </Grid>
-      </Stack>
-    </Grid>
-  </Container>
+    </Container>
 </Context>

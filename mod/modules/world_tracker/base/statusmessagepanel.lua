@@ -2,7 +2,7 @@
 -- Non-interactive messages (e.g., Gossip and combat results) that appear in the upper-center of the screen.
 
 include( "InstanceManager" );
-include("cui_settings"); -- Concise UI
+include("cui_settings"); -- CUI
 
 -- ===========================================================================
 --	CONSTANTS
@@ -35,22 +35,22 @@ local m_kMessages		:table = {};
 -- ===========================================================================
 function OnStatusMessage( message:string, displayTime:number, type:number, subType:number )
 	if (type == ReportingStatusTypes.GOSSIP) then
-         -- Concise UI >>
+         -- CUI >>
          local cui_UseVanilaGossip = CuiSettings:GetBoolean(CuiSettings.DF_GOSSIP_LOG);
          if (not cui_UseVanilaGossip) then
             return;
         end
-        -- << Concise UI
+        -- << CUI
 		AddGossip( subType, message, displayTime );
 	end
 
 	if (type == ReportingStatusTypes.DEFAULT) then
-        -- Concise UI >>
+        -- CUI >>
         local cui_UseVanilaCombat = CuiSettings:GetBoolean(CuiSettings.DF_COMBAT_LOG);
         if (not cui_UseVanilaCombat) then
             return;
         end
-        -- << Concise UI
+        -- << CUI
 		AddDefault( message, displayTime );
 	end
 

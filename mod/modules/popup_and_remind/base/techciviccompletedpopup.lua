@@ -5,8 +5,8 @@
 -- ===========================================================================
 include("TechAndCivicSupport");			-- (Already includes Civ6Common and InstanceManager) PopulateUnlockablesForTech, PopulateUnlockablesForCivic, GetUnlockablesForCivic, GetUnlockablesForTech
 include("LocalPlayerActionSupport");
-include("cui_tech_civic_support"); -- Concise UI
-include("cui_settings"); -- Concise UI
+include("cui_tech_civic_support"); -- CUI
+include("cui_settings"); -- CUI
 
 
 -- ===========================================================================
@@ -242,7 +242,7 @@ function AddCompletedPopup( player:number, civic:number, tech:number, isByUser:b
 			audio		= audio
 		});
 
-        -- Concise UI >>
+        -- CUI >>
         if CuiSettings:GetBoolean(CuiSettings.POPUP_RESEARCH) then
 		    -- If its the first (or only) popup data added then queue it in Forge.
 		    if (UIManager:IsInPopupQueue(ContextPtr) == false) then
@@ -251,7 +251,7 @@ function AddCompletedPopup( player:number, civic:number, tech:number, isByUser:b
         elseif CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH) then
             UI.PlaySound(audio);
 		end
-        -- << Concise UI
+        -- << CUI
 	end
 end
 
@@ -300,11 +300,11 @@ function RealizeNextPopup()
     UI.PlaySound("Pause_Advisor_Speech");
     UI.PlaySound("Resume_TechCivic_Speech");
     if(m_kCurrentData and m_kCurrentData.audio) then
-        -- Concise UI >>
+        -- CUI >>
         if CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH) then
             UI.PlaySound(m_kCurrentData.audio);
         end
-        -- << Concise UI
+        -- << CUI
     end
 
 	RefreshSize();
@@ -451,11 +451,11 @@ end
 --	LUA Event
 -- ===========================================================================
 function OnNotificationPanel_ShowTechDiscovered(ePlayer, techIndex:number, isByUser:boolean)
-    -- Concise UI >> skip future tech
+    -- CUI >> skip future tech
     if CuiIsFutureTechAndGet(techIndex) then
         return;
     end
-    -- << Concise UI
+    -- << CUI
 	AddCompletedPopup( ePlayer, nil, techIndex, isByUser );
 end
 
@@ -463,11 +463,11 @@ end
 --	LUA Event
 -- ===========================================================================
 function OnNotificationPanel_ShowCivicDiscovered(ePlayer, civicIndex, isByUser:boolean)
-    -- Concise UI >> skip future civic
+    -- CUI >> skip future civic
     if CuiIsFutureCivicAndGet(civicIndex) then
         return;
     end
-    -- << Concise UI
+    -- << CUI
     AddCompletedPopup( ePlayer, civicIndex, nil, isByUser  );
 end
 

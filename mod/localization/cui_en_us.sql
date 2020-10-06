@@ -42,11 +42,6 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("en_US", "LOC_CUI_DB_DIPLOMATIC_POINT",                                        "Diplomatic Victory Point: {1_num} / {2_total}"),
 
 -- =============================================================================
--- Espionage Panel
-("en_US", "LOC_CUI_EP_FILTER_ALL",                                              "All"),
-("en_US", "LOC_CUI_EP_FILTER_SHOW_CITIES",                                      "Show Cities"),
-
--- =============================================================================
 -- Minimap Panel
 ("en_US", "LOC_CUI_MP_SHOW_DISTRICTS_TOOLTIP",                                  "Show Districts Icons"),
 ("en_US", "LOC_CUI_MP_SHOW_WONDERS_TOOLTIP",                                    "Show Wonders Icons"),
@@ -64,46 +59,14 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("en_US", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Toggle Religion Flags"),
 
 -- =============================================================================
--- Report Screen
-("en_US", "LOC_CUI_RS_SHOW_CITY_DETAILS",                                       "Show City Details"),
-("en_US", "LOC_CUI_RS_BUILDING_NUMBER",                                         "Number of Buildings"),
-("en_US", "LOC_CUI_RS_TOTALS",                                                  "Totals: {1_num}"),
-("en_US", "LOC_CUI_RS_DEALS_OUTGOING",                                          "Outgoing"),
-("en_US", "LOC_CUI_RS_DEALS_INCOMING",                                          "Incoming"),
-
--- =============================================================================
 -- SpyInfo
 ("en_US", "LOC_CUI_SI_SPY_AVAILABLE",                                           "{1_num} [ICON_Unit] {1_num : plural 1?Spy; other?Spies;} available"),
 ("en_US", "LOC_CUI_SI_SPY_CAPACITY",                                            "{1_num} [ICON_Unit] {1_num : plural 1?Spy; other?Spies;} capacity"),
 
 -- =============================================================================
 -- World Tracker
-("en_US", "LOC_CUI_WT_REMINDER",                                                "Reminder"),
-("en_US", "LOC_CUI_WT_TECH_REMINDER_TOOLTIP",                                   "The background color changes to green when the technology can be finished by getting an Eureka."),
-("en_US", "LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP",                                  "The background color changes to green when the civic can be finished by getting an Inspiration."),
 ("en_US", "LOC_CUI_WT_GOSSIP_LOG",                                              "Gossip Log"),
 ("en_US", "LOC_CUI_WT_COMBAT_LOG",                                              "Combat Log"),
-("en_US", "LOC_CUI_WT_PERSIST",                                                 "Persist"),
-("en_US", "LOC_CUI_WT_GLOG_PERSIST_TOOLTIP",                                    "Do not clear the gossip log between turns."),
-("en_US", "LOC_CUI_WT_CLOG_PERSIST_TOOLTIP",                                    "Do not clear the combat log between turns."),
-
--- =============================================================================
--- Trade Panel
-("en_US", "LOC_CUI_TP_SORT_BY_FOOD_TOOLTIP",                                    "Sort by [ICON_Food]Food."),
-("en_US", "LOC_CUI_TP_SORT_BY_PRODUCTION_TOOLTIP",                              "Sort by [ICON_Production]Production."),
-("en_US", "LOC_CUI_TP_SORT_BY_GOLD_TOOLTIP",                                    "Sort by [ICON_Gold]Gold."),
-("en_US", "LOC_CUI_TP_SORT_BY_SCIENCE_TOOLTIP",                                 "Sort by [ICON_Science]Science."),
-("en_US", "LOC_CUI_TP_SORT_BY_CULTURE_TOOLTIP",                                 "Sort by [ICON_Culture]Culture."),
-("en_US", "LOC_CUI_TP_SORT_BY_FAITH_TOOLTIP",                                   "Sort by [ICON_Faith]Faith."),
-("en_US", "LOC_CUI_TP_SORT_BY_TURNS_REMAINING_TOOLTIP",                         "Sort by [ICON_Turn]Turns to complete route."),
-("en_US", "LOC_CUI_TP_REPEAT",                                                  "Repeat"),
-("en_US", "LOC_CUI_TP_REPEAT_TOOLTIP",                                          "To have this trader repeat this trade route indefinitely."),
-("en_US", "LOC_CUI_TP_SELECT_A_CITY",                                           "Select a New Origin City."),
-
--- =============================================================================
--- Espionage Panel
-("en_US", "LOC_CUI_EP_SHOW_CITYS",                                              "Show Cities"),
-("en_US", "LOC_CUI_EP_SIPHON_FUNDS",                                            "Gain ({1_GoldString}) Gold yields."),
 
 -- =============================================================================
 -- Production Panel

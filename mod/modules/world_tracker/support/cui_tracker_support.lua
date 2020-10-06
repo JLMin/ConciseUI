@@ -1,5 +1,4 @@
 -- ===========================================================================
--- Concise UI
 -- cui_tracker_support.lua
 -- ===========================================================================
 
@@ -7,13 +6,13 @@ include("SupportFunctions")
 include("PlayerSupport")
 include("TeamSupport")
 include("EspionageSupport")
-include("cui_helper")
+include("cui_utils")
 
 local localPlayerID = nil
 local localPlayer = nil
 local localDiplomacy = nil
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function PlayerInit()
     localPlayerID = Game.GetLocalPlayer()
     localPlayer = Players[localPlayerID]
@@ -25,8 +24,8 @@ PlayerInit()
 -- Data Function
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
-function GetWonderData()
+-- CUI -----------------------------------------------------------------------
+function CuiGetWonderData()
     PlayerInit()
 
     local wonderData = {}
@@ -101,8 +100,8 @@ function GetWonderData()
     return wonderData
 end
 
--- Concise UI ----------------------------------------------------------------
-function GetResourceData()
+-- CUI -----------------------------------------------------------------------
+function CuiGetResourceData()
     PlayerInit()
 
     local resourceData = {}
@@ -219,8 +218,8 @@ function GetResourceData()
     return resourceData
 end
 
--- Concise UI ----------------------------------------------------------------
-function GetBorderData()
+-- CUI -----------------------------------------------------------------------
+function CuiGetBorderData()
     PlayerInit()
 
     local borderData = {}
@@ -292,8 +291,8 @@ function GetBorderData()
     return borderData
 end
 
--- Concise UI ----------------------------------------------------------------
-function GetTradeData()
+-- CUI -----------------------------------------------------------------------
+function CuiGetTradeData()
     PlayerInit()
 
     local tradeData = {}
@@ -324,7 +323,7 @@ function GetTradeData()
                     isTraded = true
                 end
             end
-            local isWar = IsAtWar(localPlayerID, playerID)
+            local isWar = CuiIsAtWar(localPlayerID, playerID)
             table.insert(leaders, {Icon = pData.leaderIcon, IsTraded = isTraded, IsWar = isWar, IsMet = pData.isMet})
         end
     end
@@ -341,8 +340,8 @@ end
 -- Help Function
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
-function IsAtWar(lPlayerID, tPlayerID)
+-- CUI -----------------------------------------------------------------------
+function CuiIsAtWar(lPlayerID, tPlayerID)
     local tPlayer = Players[tPlayerID]
     local lPlayerID = Game.GetLocalPlayer()
     local lPlayer = Players[lPlayerID]

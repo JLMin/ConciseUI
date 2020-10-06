@@ -42,11 +42,6 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("pl_PL", "LOC_CUI_DB_DIPLOMATIC_POINT",                                        "Punkty Zwycięstwa Dyplomatycznego: {1_num} / {2_total}"),
 
 -- =============================================================================
--- Espionage Panel
-("pl_PL", "LOC_CUI_EP_FILTER_ALL",                                              "Wszystkie"),
-("pl_PL", "LOC_CUI_EP_FILTER_SHOW_CITIES",                                      "Pokaż miasta"),
-
--- =============================================================================
 -- Minimap Panel
 ("pl_PL", "LOC_CUI_MP_SHOW_DISTRICTS_TOOLTIP",                                  "Pokaż Ikony Dystryktów"),
 ("pl_PL", "LOC_CUI_MP_SHOW_WONDERS_TOOLTIP",                                    "Pokaż Ikony Cudów"),
@@ -64,46 +59,14 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("pl_PL", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Włącz/wyłącz ikony jednostek religijnych"),
 
 -- =============================================================================
--- Report Screen
-("pl_PL", "LOC_CUI_RS_SHOW_CITY_DETAILS",                                       "Pokaż szczegóły miasta"),
-("pl_PL", "LOC_CUI_RS_BUILDING_NUMBER",                                         "Ilość budynków"),
-("pl_PL", "LOC_CUI_RS_TOTALS",                                                  "Ilość: {1_num}"),
-("pl_PL", "LOC_CUI_RS_DEALS_OUTGOING",                                          "Eksportowane"),
-("pl_PL", "LOC_CUI_RS_DEALS_INCOMING",                                          "Importowane"),
-
--- =============================================================================
 -- SpyInfo
 ("pl_PL", "LOC_CUI_SI_SPY_AVAILABLE",                                           "Użycie: {1_num} [ICON_Unit] {1_num : plural 1?Szpieg; other?Szpiegów;}"),
 ("pl_PL", "LOC_CUI_SI_SPY_CAPACITY",                                            "Limit: {1_num} [ICON_Unit] {1_num : plural 1?Szpieg; other?Szpiegów;}"),
 
 -- =============================================================================
 -- World Tracker
-("pl_PL", "LOC_CUI_WT_REMINDER",                                                "Przypomnienie"),
-("pl_PL", "LOC_CUI_WT_TECH_REMINDER_TOOLTIP",                                   "Tło zmienia kolor na zielony, gdy technologia może zostać ukończona przez zdobycie Eureki."),
-("pl_PL", "LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP",                                  "Tło zmienia kolor na zielony, gdy idea może zostać ukończona przez zdobycie Eureki."),
 ("pl_PL", "LOC_CUI_WT_GOSSIP_LOG",                                              "Dziennik Plotek:"),
 ("pl_PL", "LOC_CUI_WT_COMBAT_LOG",                                              "Dziennik Bitew:"),
-("pl_PL", "LOC_CUI_WT_PERSIST",                                                 "Trwanie"),
-("pl_PL", "LOC_CUI_WT_GLOG_PERSIST_TOOLTIP",                                    "Nie czyść dziennika plotek między turami."),
-("pl_PL", "LOC_CUI_WT_CLOG_PERSIST_TOOLTIP",                                    "Nie czyść dziennika walki między turami."),
-
--- =============================================================================
--- Trade Panel
-("pl_PL", "LOC_CUI_TP_SORT_BY_FOOD_TOOLTIP",                                    "Sortowanie po [ICON_Food]Żywności."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_PRODUCTION_TOOLTIP",                              "Sortowanie po [ICON_Production]Produkcji."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_GOLD_TOOLTIP",                                    "Sortowanie po [ICON_Gold]Złocie."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_SCIENCE_TOOLTIP",                                 "Sortowanie po [ICON_Science]Nauce."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_CULTURE_TOOLTIP",                                 "Sortowanie po [ICON_Culture]Kulturze."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_FAITH_TOOLTIP",                                   "Sortowanie po [ICON_Faith]Wierze."),
-("pl_PL", "LOC_CUI_TP_SORT_BY_TURNS_REMAINING_TOOLTIP",                         "Sortowanie po [ICON_Turn]Czasie ukończenia."),
-("pl_PL", "LOC_CUI_TP_REPEAT",                                                  "Powtarzaj"),
-("pl_PL", "LOC_CUI_TP_REPEAT_TOOLTIP",                                          "Jeśli chcesz, żeby kupiec wykonywał ten szlak cały czas."),
-("pl_PL", "LOC_CUI_TP_SELECT_A_CITY",                                           "Wybierz nowe miasto docelowe."),
-
--- =============================================================================
--- Espionage Panel
-("pl_PL", "LOC_CUI_EP_SHOW_CITYS",                                              "Pokaż Miasta"),
-("pl_PL", "LOC_CUI_EP_SIPHON_FUNDS",                                            "Kradnie: ({1_GoldString}) złota."),
 
 -- =============================================================================
 -- Production Panel

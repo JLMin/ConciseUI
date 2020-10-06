@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-1.6.0-blue)
+![Version](https://img.shields.io/badge/version-1.6.1-blue)
 [![Steam Update](https://img.shields.io/badge/steam-up%20to%20date-green)](https://steamcommunity.com/sharedfiles/filedetails/?id=1671978687)
 [![GitHub license](https://img.shields.io/github/license/JLMin/ConciseUI)](https://github.com/JLMin/ConciseUI/blob/master/LICENSE)
 
@@ -12,7 +12,7 @@ Concise UI greatly improves the game experience by modifying the vanilla UI and 
 
 The easiest way is to subscribe on [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1671978687).
 
-Or you can install this mod manually, [download](https://github.com/JLMin/ConciseUI/releases).
+Or you can [download](https://github.com/JLMin/ConciseUI/releases) the latest version, and install this mod manually.
 
 ## Contribution
 Since I have uninstalled the game, I am unable to update the mod functionality,

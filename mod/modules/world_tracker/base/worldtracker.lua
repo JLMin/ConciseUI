@@ -15,9 +15,9 @@ include("WorldTrackerItem_", true);
 g_ExtraIconData = {};
 include("CivicsTreeIconLoader_", true);
 
-include("cui_helper"); -- Concise UI
-include("cui_settings"); -- Concise UI
-include("cui_tracker_support"); -- Concise UI
+include("cui_utils"); -- CUI
+include("cui_settings"); -- CUI
+include("cui_tracker_support"); -- CUI
 
 -- ===========================================================================
 --	CONSTANTS
@@ -65,7 +65,7 @@ local m_isMinimapCollapsed		:boolean = false;
 local m_isChatExpanded			:boolean = false;
 local m_startingChatSize		:number = 0;
 
--- Concise UI >> tracker
+-- CUI >> tracker
 local cui_TrackBar = {};
 
 local wonderData = {};
@@ -89,9 +89,9 @@ local resourceInstance    = InstanceManager:new("ResourceInstance",    "Top", Co
 local resourceBarInstance = InstanceManager:new("ResourceBarInstance", "Top", Controls.ResourceBarInstanceContainer);
 local borderInstance      = InstanceManager:new("BorderInstance",      "Top", Controls.BorderInstanceContainer);
 local tradeInstance       = InstanceManager:new("TradeInstance",       "Top", Controls.TradeInstanceContainer);
--- << Concise UI
+-- << CUI
 
--- Concise UI >> gossip combat log
+-- CUI >> gossip combat log
 local cui_GossipPanel = {};
 local cui_GossipCount = 0;
 local cui_GossipLogs = {};
@@ -109,7 +109,7 @@ cui_LogPanelStatus[2] = {main = 82, log = 78};
 cui_LogPanelStatus[3] = {main = 282, log = 278};
 local cui_GossipState = CuiSettings:GetNumber(CuiSettings.GOSSIP_LOG_STATE);
 local cui_CombatState = CuiSettings:GetNumber(CuiSettings.COMBAT_LOG_STATE);
--- << Concise UI
+-- << CUI
 
 -- ===========================================================================
 --	FUNCTIONS
@@ -289,7 +289,7 @@ function UpdateResearchPanel( isHideResearch:boolean )
 		m_researchInstance.TitleButton:SetHide( false );
 		TruncateStringWithTooltip(m_researchInstance.TitleButton, MAX_BEFORE_TRUNC_TITLE, Locale.ToUpper(Locale.Lookup("LOC_WORLD_TRACKER_CHOOSE_RESEARCH")) );
     else
-        -- Concise UI: add tooltip for research
+        -- CUI: add tooltip for research
         m_researchInstance.IconButton:SetToolTipString(Locale.Lookup(kResearchData.ToolTip));
 	end
 	if m_isChatExpanded then
@@ -352,7 +352,7 @@ function UpdateCivicsPanel(hideCivics:boolean)
 		TruncateStringWithTooltip(m_civicsInstance.TitleButton, MAX_BEFORE_TRUNC_TITLE, Locale.ToUpper(Locale.Lookup("LOC_WORLD_TRACKER_CHOOSE_CIVIC")) );
 	else
 		TruncateStringWithTooltip(m_civicsInstance.TitleButton, MAX_BEFORE_TRUNC_TITLE, m_civicsInstance.TitleButton:GetText() );
-        -- Concise UI: add tooltip for civics
+        -- CUI: add tooltip for civics
         m_civicsInstance.IconButton:SetToolTipString(Locale.Lookup(kCivicData.ToolTip));
 	end
 	if m_isChatExpanded then
@@ -658,22 +658,22 @@ function Tutorial_ShowTrackerOptions()
 end
 
 -- ===========================================================================
---    CUI Tracker Functions
+-- CUI Tracker Functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
-function RefreshWonderToolTip(tControl)
+-- CUI -----------------------------------------------------------------------
+function CuiRefreshWonderToolTip(tControl)
     tControl:ClearToolTipCallback()
     tControl:SetToolTipType("CuiWonderTT")
     tControl:SetToolTipCallback(
         function()
-            UpdateWonderToolTip(tControl)
+            CuiUpdateWonderToolTip(tControl)
         end
     )
 end
 
--- Concise UI ----------------------------------------------------------------
-function UpdateWonderToolTip()
+-- CUI -----------------------------------------------------------------------
+function CuiUpdateWonderToolTip()
     local localPlayerID = Game.GetLocalPlayer()
     if localPlayerID == -1 then
         return
@@ -712,19 +712,19 @@ function UpdateWonderToolTip()
     CuiWonderTT.BG:DoAutoSize()
 end
 
--- Concise UI ----------------------------------------------------------------
-function RefreshResourceToolTip(tControl)
+-- CUI -----------------------------------------------------------------------
+function CuiRefreshResourceToolTip(tControl)
     tControl:ClearToolTipCallback()
     tControl:SetToolTipType("CuiResourceTT")
     tControl:SetToolTipCallback(
         function()
-            UpdateResourceToolTip(tControl)
+            CuiUpdateResourceToolTip(tControl)
         end
     )
 end
 
--- Concise UI ----------------------------------------------------------------
-function UpdateResourceToolTip()
+-- CUI -----------------------------------------------------------------------
+function CuiUpdateResourceToolTip()
     local localPlayerID = Game.GetLocalPlayer()
     if localPlayerID == -1 then
         return
@@ -795,21 +795,21 @@ function UpdateResourceToolTip()
     CuiResourceTT.BG:DoAutoSize()
 end
 
--- Concise UI ----------------------------------------------------------------
-function RefreshBorderToolTip(tControl)
+-- CUI -----------------------------------------------------------------------
+function CuiRefreshBorderToolTip(tControl)
     tControl:ClearToolTipCallback()
     if #borderData.Leaders > 0 then
         tControl:SetToolTipType("CuiBorderTT")
         tControl:SetToolTipCallback(
             function()
-                UpdateBorderToolTip(tControl)
+                CuiUpdateBorderToolTip(tControl)
             end
         )
     end
 end
 
--- Concise UI ----------------------------------------------------------------
-function UpdateBorderToolTip()
+-- CUI -----------------------------------------------------------------------
+function CuiUpdateBorderToolTip()
     local localPlayerID = Game.GetLocalPlayer()
     if localPlayerID == -1 then
         return
@@ -848,21 +848,21 @@ function UpdateBorderToolTip()
     CuiBorderTT.BG:DoAutoSize()
 end
 
--- Concise UI ----------------------------------------------------------------
-function RefreshTradeToolTip(tControl)
+-- CUI -----------------------------------------------------------------------
+function CuiRefreshTradeToolTip(tControl)
     tControl:ClearToolTipCallback()
     if tradeData.Cap > 0 then
         tControl:SetToolTipType("CuiTradeTT")
         tControl:SetToolTipCallback(
             function()
-                UpdateTradeToolTip(tControl)
+                CuiUpdateTradeToolTip(tControl)
             end
         )
     end
 end
 
--- Concise UI ----------------------------------------------------------------
-function UpdateTradeToolTip()
+-- CUI -----------------------------------------------------------------------
+function CuiUpdateTradeToolTip()
     local localPlayerID = Game.GetLocalPlayer()
     if localPlayerID == -1 then
         return
@@ -907,19 +907,19 @@ function UpdateTradeToolTip()
 end
 
 -- ===========================================================================
---    CUI City Manager Functions
+-- CUI City Manager Functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiOnCityManager()
     LuaEvents.CuiOnToggleCityManager()
 end
 
 -- ===========================================================================
---    CUI Log Functions
+-- CUI Log Functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiUpdateLog(logString, displayTime, logType)
     if logType == ReportingStatusTypes.GOSSIP then
         CuiAddGossipLog(logString)
@@ -928,14 +928,14 @@ function CuiUpdateLog(logString, displayTime, logType)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiTurnString()
     local turnLookup = Locale.Lookup("{LOC_TOP_PANEL_CURRENT_TURN:upper} ")
     turnString = "[COLOR_FLOAT_GOLD]" .. turnLookup .. Game.GetCurrentGameTurn() .. "[ENDCOLOR]"
     return turnString
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiAddGossipLog(logString)
     if cui_GossipCount == 0 then
         CuiAddLog(CuiTurnString(), cui_GossipPanel, cui_GossipLogs)
@@ -945,7 +945,7 @@ function CuiAddGossipLog(logString)
     cui_GossipPanel.NewLogNumber:SetText("[ICON_NEW] " .. cui_GossipCount)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiAddCombatLog(logString)
     if cui_CombatCount == 0 then
         CuiAddLog(CuiTurnString(), cui_CombatPanel, cui_CombatLogs)
@@ -955,7 +955,7 @@ function CuiAddCombatLog(logString)
     cui_CombatPanel.NewLogNumber:SetText("[ICON_NEW] " .. cui_CombatCount)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiAddLog(logString, logPanel, entries)
     local instance = {}
     ContextPtr:BuildInstanceForControl("LogInstance", instance, logPanel.LogStack)
@@ -974,7 +974,7 @@ function CuiAddLog(logString, logPanel, entries)
     logPanel.LogStack:ReprocessAnchoring()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiLogPanelResize(instance, state)
     local status = cui_LogPanelStatus[state]
     instance.MainPanel:SetSizeY(status.main)
@@ -983,7 +983,7 @@ function CuiLogPanelResize(instance, state)
     instance.ButtomDivider:SetHide(state == 1)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiContractGossipLog()
     cui_GossipState = cui_GossipState - 1
     if cui_GossipState == 0 then
@@ -993,7 +993,7 @@ function CuiContractGossipLog()
     CuiLogPanelResize(cui_GossipPanel, cui_GossipState)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiExpandGossipLog()
     cui_GossipState = cui_GossipState + 1
     if cui_GossipState == 4 then
@@ -1003,7 +1003,7 @@ function CuiExpandGossipLog()
     CuiLogPanelResize(cui_GossipPanel, cui_GossipState)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiContractCombatLog()
     cui_CombatState = cui_CombatState - 1
     if cui_CombatState == 0 then
@@ -1013,7 +1013,7 @@ function CuiContractCombatLog()
     CuiLogPanelResize(cui_CombatPanel, cui_CombatState)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiExpandCombatLog()
     cui_CombatState = cui_CombatState + 1
     if cui_CombatState == 4 then
@@ -1024,10 +1024,10 @@ function CuiExpandCombatLog()
 end
 
 -- ===========================================================================
---    CUI Panel Functions
+-- CUI Panel Functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiLogPanelSetup()
     CuiRegCallback(cui_GossipPanel.TitleButton, CuiExpandGossipLog, CuiContractGossipLog)
     CuiRegCallback(cui_CombatPanel.TitleButton, CuiExpandCombatLog, CuiContractCombatLog)
@@ -1035,7 +1035,7 @@ function CuiLogPanelSetup()
     Controls.CombatLogCheck:RegisterCheckHandler(CuiOnLogCheckClick)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiTrackPanelSetup()
     cui_TrackBar.WonderIcon:SetTexture(IconManager:FindIconAtlas("ICON_DISTRICT_WONDER", 32))
     cui_TrackBar.ResourceIcon:SetTexture(IconManager:FindIconAtlas("ICON_DIPLOACTION_REQUEST_ASSISTANCE", 38))
@@ -1047,12 +1047,12 @@ function CuiTrackPanelSetup()
     cui_TrackBar.CuiCityManager:RegisterCallback(Mouse.eLClick, CuiOnCityManager)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiOnPopulationChanged(isChanged)
     CuiChangeIconColor(cui_TrackBar.CityIcon, isChanged)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiChangeIconColor(icon, isActive)
     if isActive then
         icon:SetColorByName("ModStatusGreenCS")
@@ -1061,7 +1061,7 @@ function CuiChangeIconColor(icon, isActive)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiLogPanelRefresh()
     m_useGossipLog = CuiSettings:GetBoolean(CuiSettings.WT_GOSSIP_LOG)
     m_useCombatLog = CuiSettings:GetBoolean(CuiSettings.WT_COMBAT_LOG)
@@ -1076,7 +1076,7 @@ function CuiLogPanelRefresh()
     Controls.CombatLogCheck:SetCheck(m_useCombatLog)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiLogCounterReset()
     cui_GossipCount = 0
     cui_GossipPanel.NewLogNumber:SetText("")
@@ -1084,29 +1084,29 @@ function CuiLogCounterReset()
     cui_CombatPanel.NewLogNumber:SetText("")
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiTrackerRefresh()
     local localPlayer = Players[Game.GetLocalPlayer()]
     if localPlayer == nil then
         return
     end
 
-    wonderData = GetWonderData()
-    resourceData = GetResourceData()
-    borderData = GetBorderData()
-    tradeData = GetTradeData()
+    wonderData = CuiGetWonderData()
+    resourceData = CuiGetResourceData()
+    borderData = CuiGetBorderData()
+    tradeData = CuiGetTradeData()
 
-    RefreshWonderToolTip(cui_TrackBar.WonderIcon)
-    RefreshResourceToolTip(cui_TrackBar.ResourceIcon)
-    RefreshBorderToolTip(cui_TrackBar.BorderIcon)
-    RefreshTradeToolTip(cui_TrackBar.TradeIcon)
+    CuiRefreshWonderToolTip(cui_TrackBar.WonderIcon)
+    CuiRefreshResourceToolTip(cui_TrackBar.ResourceIcon)
+    CuiRefreshBorderToolTip(cui_TrackBar.BorderIcon)
+    CuiRefreshTradeToolTip(cui_TrackBar.TradeIcon)
 
     CuiChangeIconColor(cui_TrackBar.ResourceIcon, resourceData.Active)
     CuiChangeIconColor(cui_TrackBar.BorderIcon, borderData.Active)
     CuiChangeIconColor(cui_TrackBar.TradeIcon, tradeData.Active)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiOnLogCheckClick()
     m_useGossipLog = Controls.GossipLogCheck:IsChecked()
     m_useCombatLog = Controls.CombatLogCheck:IsChecked()
@@ -1117,7 +1117,7 @@ function CuiOnLogCheckClick()
     RealizeStack()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiInit()
     ContextPtr:BuildInstanceForControl("CuiTrackerInstance", cui_TrackBar, Controls.PanelStack)
     CuiTrackPanelSetup()
@@ -1365,7 +1365,7 @@ function Initialize()
 	m_researchInstance.IconButton:RegisterCallback(	Mouse.eLClick,	function() LuaEvents.WorldTracker_OpenChooseResearch(); end);
 	m_civicsInstance.IconButton:RegisterCallback(	Mouse.eLClick,	function() LuaEvents.WorldTracker_OpenChooseCivic(); end);
 
-    CuiInit(); -- Concise UI
+    CuiInit(); -- CUI
 
 	Controls.ChatPanel:ChangeParent( Controls.PanelStack );
 	Controls.TutorialGoals:ChangeParent( Controls.PanelStack );

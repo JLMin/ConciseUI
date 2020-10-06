@@ -11,8 +11,8 @@ include("DiplomacyDealView.lua")
 -- ===========================================================================
 local ms_DefaultOneTimeFavorAmount = 1
 
--- CUI
-local cuiSPC = 5 -- Strategic Per Click
+
+local cuiSPC = 5 -- CUI: Strategic Per Click
 
 -- ===========================================================================
 -- CACHE BASE FUNCTIONS

@@ -6,7 +6,7 @@
 include( "InstanceManager" );
 include( "SupportFunctions" );
 include( "Civ6Common" );
-include("cui_settings"); -- Concise UI
+include("cui_settings"); -- CUI
 
 
 -- ===========================================================================
@@ -604,14 +604,14 @@ function UnitFlag.UpdateFlagType( self )
 		textureName = TEXTURE_CIVILIAN;
 	elseif( self.m_Style == FLAGSTYLE_RELIGION ) then
 		textureName = TEXTURE_RELIGION;
-        self.m_IsForceHide = not CuiSettings:GetBoolean(CuiSettings.SHOW_RELIGIONS); -- Concise UI toggle religion flags
+        self.m_IsForceHide = not CuiSettings:GetBoolean(CuiSettings.SHOW_RELIGIONS); -- CUI: toggle religion flags
 	elseif( self.m_Style == FLAGSTYLE_NAVAL) then
 		textureName = TEXTURE_NAVAL;
 	elseif( self.m_Style == FLAGSTYLE_SUPPORT) then
 		textureName = TEXTURE_SUPPORT;
 	elseif( self.m_Style == FLAGSTYLE_TRADE) then
 		textureName = TEXTURE_TRADE;
-        self.m_IsForceHide = not CuiSettings:GetBoolean(CuiSettings.SHOW_TRADERS); -- Concise UI toggle trader flags
+        self.m_IsForceHide = not CuiSettings:GetBoolean(CuiSettings.SHOW_TRADERS); -- CUI: toggle trader flags
 	else
 		textureName = TEXTURE_BASE;
 	end
@@ -1369,17 +1369,17 @@ function UpdateIconStack( plotX:number, plotY:number )
 					flag:UpdateName();
 				end
 
-                -- Concise UI >> toggle trader flags
+                -- CUI >> toggle trader flags
                 if (flag.m_Style == FLAGSTYLE_TRADE) then
                     flag.m_Instance.Anchor:SetHide(not CuiSettings:GetBoolean(CuiSettings.SHOW_TRADERS));
                 end
-                -- << Concise UI
+                -- << CUI
 
-                -- Concise UI >> toggle religion flags
+                -- CUI >> toggle religion flags
                 if (flag.m_Style == FLAGSTYLE_RELIGION) then
                     flag.m_Instance.Anchor:SetHide(not CuiSettings:GetBoolean(CuiSettings.SHOW_RELIGIONS));
                 end
-                -- << Concise UI
+                -- << CUI
 
 			end
 		end
@@ -2085,7 +2085,7 @@ function Initialize()
 	ContextPtr:SetInitHandler( OnInit );
 	ContextPtr:SetShutdown( OnShutdown );
 
-    LuaEvents.CuiToggleTraderIcons.Add(Refresh); -- Concise UI
-    LuaEvents.CuiToggleReligionIcons.Add(Refresh); -- Concise UI
+    LuaEvents.CuiToggleTraderIcons.Add(Refresh); -- CUI
+    LuaEvents.CuiToggleReligionIcons.Add(Refresh); -- CUI
 end
 Initialize();

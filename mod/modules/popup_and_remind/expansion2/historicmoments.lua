@@ -4,7 +4,7 @@
 include("InstanceManager");
 include("GameCapabilities");
 include("ModalScreen_PlayerYieldsHelper");
-include("cui_settings"); -- Concise UI
+include("cui_settings"); -- CUI
 
 -- ===========================================================================
 --	CONSTANTS
@@ -136,11 +136,11 @@ end
 
 -- ===========================================================================
 function OnProcessNotification(playerID:number, notificationID:number, activatedByUser:boolean)
-    -- Concise UI >>
+    -- CUI >>
     if not CuiSettings:GetBoolean(CuiSettings.POPUP_HISTORIC) then
         return;
     end
-    -- << Concise UI
+    -- << CUI
 	if playerID == Game.GetLocalPlayer() then -- Was it for us?
 		local pNotification = NotificationManager.Find(playerID, notificationID);
 		if pNotification and pNotification:GetType() == HISTORIC_MOMENT_HASH then

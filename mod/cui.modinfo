@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Mod id="5f504949-398a-4038-a838-43c3acc4dc10" version="1.6.0">
+<Mod id="5f504949-398a-4038-a838-43c3acc4dc10" version="1.6.1">
   <Properties>
     <Name>[COLOR_Civ6LightBlue]Concise UI[ENDCOLOR]</Name>
     <Teaser>For a better gaming experience.</Teaser>
@@ -57,10 +57,9 @@
       <Properties>
         <LoadOrder>10</LoadOrder>
       </Properties>
-      <File>lib/cui_data.lua</File>
-      <File>lib/cui_helper.lua</File>
       <File>lib/cui_settings.lua</File>
       <File>lib/cui_update.lua</File>
+      <File>lib/cui_utils.lua</File>
     </ImportFiles>
     <ImportFiles id="Cui_Support">
       <Properties>
@@ -196,10 +195,9 @@
     <File>assets/screenshot.dds</File>
     <File>config/cui_config.sql</File>
     <File>config/cui_config.xml</File>
-    <File>lib/cui_data.lua</File>
-    <File>lib/cui_helper.lua</File>
     <File>lib/cui_settings.lua</File>
     <File>lib/cui_update.lua</File>
+    <File>lib/cui_utils.lua</File>
     <File>localization/cui_de_de.sql</File>
     <File>localization/cui_en_us.sql</File>
     <File>localization/cui_es_es.sql</File>

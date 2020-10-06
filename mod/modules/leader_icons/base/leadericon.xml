@@ -36,10 +36,10 @@
             <Image ID="YouIndicator" Hidden="1" Size="55,53" Texture="Diplomacy_YouIndicator45" Anchor="C,C"/>
             <Image ID="Portrait" Anchor="C,C" Size="45,45" Texture="Leaders45" />
             <Image ID="TeamRibbon" Anchor="C,B" Offset="0,-4" Texture="TeamRibbon53" Size="53,53"/>
-            <!-- Concise UI >> -->
+            <!-- CUI >> -->
             <Button ID="Relationship" Style="DiplomacyRelationshipPips" Anchor="L,B" Offset="-1,0" Disabled="1" ConsumeMouse="0"/>
             <Label ID="GameEras" String="[ICON_New]" Anchor="R,B" Offset="0,4" Hidden="1"/>
-            <!-- << Concise UI -->
+            <!-- << CUI -->
             <Image ID="CivIndicator" Anchor="R,T" Texture="CircleBacking22" Size="22,22" Offset="-5,-2" Hidden="1">
                 <Image ID="CivIcon" Anchor="C,C" Texture="CivSymbols22" Size="22,22"/>
             </Image>

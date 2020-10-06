@@ -12,8 +12,8 @@ include("SupportFunctions");
 include("GameCapabilities");
 include("TeamSupport");
 
-include("cui_settings"); -- Concise UI
-include("cui_helper"); -- Concise UI
+include("cui_settings"); -- CUI
+include("cui_utils"); -- CUI
 
 -- ===========================================================================
 --	CONSTANTS
@@ -66,9 +66,9 @@ local m_RelationshipsButtonIM		:table = InstanceManager:new( "RelationshipIcon",
 local m_RelationshipsCivsIM			:table = InstanceManager:new( "RelationshipIcon",	"Background",	Controls.RelationshipsCivsStack);
 local m_RelationshipsCityStatesIM	:table = InstanceManager:new( "RelationshipIcon",	"Background",	Controls.RelationshipsCityStatesStack);
 
--- Concise UI >>
+-- CUI >>
 local m_SuzerainIM = InstanceManager:new("CuiSuzerainInstance", "Top", Controls.SuzerainStack);
--- << Concise UI
+-- << CUI
 
 local m_kScreenSlideAnim		:table;				-- Controls overall look/feel of animation.
 local m_kCityStates				:table = {};		-- City states, key is player num of city state
@@ -877,7 +877,7 @@ function AddCityStateRow( kCityState:table )
 		kInst.DiplomacyPip:SetToolTipString(tooltip);
 	end
 
-    -- Concise UI >>
+    -- CUI >>
     for _, kQuest in pairs(kCityState.Quests) do
         numQuests = numQuests + 1;
         questToolTip = questToolTip .. kQuest.Callout .. kQuest.Name;
@@ -892,7 +892,7 @@ function AddCityStateRow( kCityState:table )
         kInst.CuiCityStateQuest:SetString(Locale.Lookup("LOC_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_MESSAGE"))
         kInst.CuiCityStateQuest:SetColor(COLOR_TEXT_BONUS_OFF)
     end
-    -- << Concise UI
+    -- << CUI
 
 	RealizeEnvoyToken( kCityState.Tokens, kInst.EnvoyCount);
 	kInst.EnvoyLessButton:SetDisabled( true );
@@ -974,7 +974,7 @@ function ViewList()
 	Controls.SingleCityState:SetHide( true );
 	RealizeListHeader( m_kPlayerData.EnvoyTokens );
 
-    -- Concise UI >> count envoys and suzerain
+    -- CUI >> count envoys and suzerain
     local cui_Envoys = 0;
     local cui_Suzerain = 0;
     local cui_SuzerainList = {
@@ -985,27 +985,27 @@ function ViewList()
         INDUSTRIAL   = {idx = 5, icon = "ICON_ENVOY_BONUS_PRODUCTION", color = "", num = 0},
         MILITARISTIC = {idx = 6, icon = "ICON_ENVOY_BONUS_MILITARY",   color = "", num = 0}
     };
-    -- << Concise UI
+    -- << CUI
 
 	-- Top list
 	m_CityStateRowIM:ResetInstances();
 	m_uiCityStateRows = {};
 	for iPlayer, kCityState in pairs( m_kCityStates ) do
         if kCityState.isHasMet then
-            -- Concise UI >> count envoys and suzerain
+            -- CUI >> count envoys and suzerain
             cui_Envoys = cui_Envoys + kCityState.Tokens;
             if kCityState.isBonusSuzerain then
                 cui_Suzerain = cui_Suzerain + 1;
                 cui_SuzerainList[kCityState.Type].color = kCityState.ColorSecondary;
                 cui_SuzerainList[kCityState.Type].num = cui_SuzerainList[kCityState.Type].num + 1;
             end
-            -- << Concise UI
+            -- << CUI
 			local kInst :table = AddCityStateRow( kCityState );
 			m_uiCityStateRows[iPlayer] = kInst;
 		end
     end
 
-    -- Concise UI >> ui setup
+    -- CUI >> ui setup
     m_SuzerainIM:ResetInstances()
     Controls.Totals:SetText(Locale.Lookup("LOC_CUI_CSP_ENVOYS_SUZERAIN", cui_Envoys, cui_Suzerain))
     for _, item in SortedTable(
@@ -1020,10 +1020,10 @@ function ViewList()
         cui_sInst.SuzerainNumber:SetText(item.num);
         cui_sInst.SuzerainNumber:SetColor(item.num > 0 and item.color or COLOR_ICON_BONUS_OFF);
     end
-    -- << Concise UI
+    -- << CUI
 
 	if m_mode == MODE.SendEnvoys then
-		Controls.BonusArea:SetHide(true); -- Concise UI: hide bonus area
+		Controls.BonusArea:SetHide(true); -- CUI: hide bonus area
 
 		-- Looping again, adding bonuses.
 		m_BonusCityHeaderIM:ResetInstances();
@@ -1077,18 +1077,18 @@ function ViewList()
 		Controls.BonusStack:CalculateSize();
         Controls.BonusScroll:CalculateSize();
 
-        -- Concise UI >>
+        -- CUI >>
 		-- local bonusAreaY:number = Controls.BonusArea:GetSizeY();
         local confirmAreaY = Controls.ConfirmFrame:GetSizeY();
         Controls.CityStateScroll:SetSizeY(m_height - 268 - confirmAreaY); -- 208 + 60
         Controls.TotalFrame:SetOffsetY(70);
-        -- << Concise UI
+        -- << CUI
 	else
         Controls.BonusArea:SetHide( true );
-        -- Concise UI >>
+        -- CUI >>
         Controls.CityStateScroll:SetSizeY(m_height - 268); -- 208 + 60
         Controls.TotalFrame:SetOffsetY(10);
-        -- << Concise UI
+        -- << CUI
 	end
 
 	Controls.ConfirmFrame:SetHide( m_mode ~= MODE.SendEnvoys );

@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-    Concise UI
     cui_victory_tracking.xml
 -->
 
 <Context>
-  <Container ID="CuiVictoryTracking" Size="68,68" Anchor="L,B" Offset="10,-6">
-    <Stack ID="VictoryButtonStack" Offset="72,-3" Anchor="L,T" StackGrowth="Right" />
-  </Container>
+    <Container ID="CuiVictoryTracking" Size="68,68" Anchor="L,B" Offset="10,-6">
+        <Stack ID="VictoryButtonStack" Offset="72,-3" Anchor="L,T" StackGrowth="Right" />
+    </Container>
 
-  <ToolTipType Name="CuiVictoryTT">
-    <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
-      <Label ID="Title" Anchor="C,T" Style="FontFlair16" Color="5,29,51,255" String="Victory"/>
-      <Grid ID="Divider" Anchor="C,T" Size="150,6" Offset="0,16" Style="DividerGrid" Color="5,29,51,255"/>
-      <Stack ID="VictoryLeaderStack" StackGrowth="Bottom" StackPadding="6" Offset="0,30"/>
-    </Grid>
-  </ToolTipType>
+    <ToolTipType Name="CuiVictoryTT">
+        <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
+            <Label ID="Title" Anchor="C,T" Style="FontFlair16" Color="5,29,51,255" String="Victory"/>
+            <Grid ID="Divider" Anchor="C,T" Size="150,6" Offset="0,16" Style="DividerGrid" Color="5,29,51,255"/>
+            <Stack ID="VictoryLeaderStack" StackGrowth="Bottom" StackPadding="6" Offset="0,30"/>
+        </Grid>
+    </ToolTipType>
 
-  <Container ID="VictoryIconInstanceContainer" Hidden="1"/>
-  <Instance Name="VictoryIconInstance">
-    <Grid ID="Top" Size="64,94" Anchor="L,T">
-      <Image Anchor="C,B" Size="40,30" Offset="0,9" Texture="CivicsTree_GovtUnlock">
-        <Label ID="Text" Anchor="C,C" Size="38,16" Style="FontNormal14" ColorSet="TopBarValueCS" Color="White" String="#1"/>
-      </Image>
-      <Image ID="VictoryIcon" Anchor="C,T" Size="64,64" Texture="Victories64"/>
-    </Grid>
-  </Instance>
+    <Container ID="VictoryIconInstanceContainer" Hidden="1"/>
+    <Instance Name="VictoryIconInstance">
+        <Grid ID="Top" Size="64,94" Anchor="L,T">
+            <Image Anchor="C,B" Size="40,30" Offset="0,9" Texture="CivicsTree_GovtUnlock">
+                <Label ID="Text" Anchor="C,C" Size="38,16" Style="FontNormal14" ColorSet="TopBarValueCS" Color="White" String="#1"/>
+            </Image>
+            <Image ID="VictoryIcon" Anchor="C,T" Size="64,64" Texture="Victories64"/>
+        </Grid>
+    </Instance>
 
-  <Container ID="VictoryLeaderInstanceContainer" Hidden="1"/>
-  <Instance Name="VictoryLeaderInstance">
-    <Grid ID="Top" Size="auto,auto" Anchor="L,T">
-      <Grid ID="LeaderIcon" Size="auto,auto" Anchor="L,C">
-        <Image Texture="Controls_CircleBacking45" Size="51,51" Anchor="C,C" Offset="0,1"/>
-        <Image ID="YouIndicator" Hidden="1" Size="55,53" Texture="Diplomacy_YouIndicator45" Anchor="C,C"/>
-        <Image ID="Icon" Anchor="C,C" Size="45,45" Texture="Leaders45" />
-      </Grid>
-      <Label ID="UnMet" Anchor="L,C" Offset="60,0" Style="FontNormal14" Color="Black" String="LOC_WORLD_RANKING_UNMET_PLAYER" Hidden="1"/>
-      <Label ID="State1" Anchor="L,C" Offset="60,-10" Style="FontNormal14" Color="Black"/>
-      <Label ID="State2" Anchor="L,C" Offset="60,10" Style="FontNormal14" Color="Black"/>
-    </Grid>
-  </Instance>
+    <Container ID="VictoryLeaderInstanceContainer" Hidden="1"/>
+    <Instance Name="VictoryLeaderInstance">
+        <Grid ID="Top" Size="auto,auto" Anchor="L,T">
+            <Grid ID="LeaderIcon" Size="auto,auto" Anchor="L,C">
+                <Image Texture="Controls_CircleBacking45" Size="51,51" Anchor="C,C" Offset="0,1"/>
+                <Image ID="YouIndicator" Hidden="1" Size="55,53" Texture="Diplomacy_YouIndicator45" Anchor="C,C"/>
+                <Image ID="Icon" Anchor="C,C" Size="45,45" Texture="Leaders45" />
+            </Grid>
+            <Label ID="UnMet" Anchor="L,C" Offset="60,0" Style="FontNormal14" Color="Black" String="LOC_WORLD_RANKING_UNMET_PLAYER" Hidden="1"/>
+            <Label ID="State1" Anchor="L,C" Offset="60,-10" Style="FontNormal14" Color="Black"/>
+            <Label ID="State2" Anchor="L,C" Offset="60,10" Style="FontNormal14" Color="Black"/>
+        </Grid>
+    </Instance>
 
 </Context>

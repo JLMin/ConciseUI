@@ -1,5 +1,4 @@
 -- ===========================================================================
--- Concise UI
 -- cui_city_status.lua
 -- ===========================================================================
 
@@ -9,11 +8,78 @@ include("InstanceManager")
 include("SupportFunctions")
 include("TabSupport")
 
-include("cui_data")
-include("cui_helper")
+include("cui_utils")
 include("cui_settings")
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
+local GameDistrictsTypes = {
+    CITY_CENTER = {
+        "DISTRICT_CITY_CENTER"
+    },
+    GOVERNMENT = {
+        "DISTRICT_GOVERNMENT"
+    },
+    WONDER = {
+        "DISTRICT_WONDER"
+    },
+    HOLY_SITE = {
+        "DISTRICT_HOLY_SITE",
+        "DISTRICT_LAVRA" -- Russia
+    },
+    CAMPUS = {
+        "DISTRICT_CAMPUS",
+        "DISTRICT_SEOWON" -- Korea
+    },
+    THEATER = {
+        "DISTRICT_THEATER",
+        "DISTRICT_ACROPOLIS" -- Greece
+    },
+    ENCAMPMENT = {
+        "DISTRICT_ENCAMPMENT",
+        "DISTRICT_IKANDA" -- Zulu
+    },
+    COMMERCIAL_HUB = {
+        "DISTRICT_COMMERCIAL_HUB",
+        "DISTRICT_SUGUBA" -- Mali
+    },
+    HARBOR = {
+        "DISTRICT_HARBOR",
+        "DISTRICT_COTHON", -- Phoenicia
+        "DISTRICT_ROYAL_NAVY_DOCKYARD" -- England
+    },
+    ENTERTAINMENT_COMPLEX = {
+        "DISTRICT_ENTERTAINMENT_COMPLEX",
+        "DISTRICT_STREET_CARNIVAL", -- Brazil
+        "DISTRICT_WATER_ENTERTAINMENT_COMPLEX",
+        "DISTRICT_WATER_STREET_CARNIVAL" -- Brazil
+    },
+    INDUSTRIAL_ZONE = {
+        "DISTRICT_INDUSTRIAL_ZONE",
+        "DISTRICT_HANSA" -- Germany
+    },
+    AERODROME = {
+        "DISTRICT_AERODROME"
+    },
+    SPACEPORT = {
+        "DISTRICT_SPACEPORT"
+    },
+    AQUEDUCT = {
+        "DISTRICT_AQUEDUCT",
+        "DISTRICT_BATH" -- Rome
+    },
+    CANAL = {
+        "DISTRICT_CANAL"
+    },
+    NEIGHBORHOOD = {
+        "DISTRICT_NEIGHBORHOOD",
+        "DISTRICT_MBANZA" -- Kongo
+    },
+    DAM = {
+        "DISTRICT_DAM"
+    }
+}
+
+-- CUI -----------------------------------------------------------------------
 local cui_CityIM = InstanceManager:new("CityInstance", "Top", Controls.CityListStack)
 local cui_DistrictsIM = InstanceManager:new("DistrictInstance", "Top", Controls.DistrictInstanceContainer)
 local m_tabs
@@ -35,7 +101,7 @@ local DistrictsTypes = {
 -- Support functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetPercentGrowthColor(percent)
     if percent == 0 then
         return "Error"
@@ -49,7 +115,7 @@ function GetPercentGrowthColor(percent)
     return "White"
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetHappinessColor(eHappiness)
     local happinessInfo = GameInfo.Happinesses[eHappiness]
     if (happinessInfo ~= nil) then
@@ -63,7 +129,7 @@ function GetHappinessColor(eHappiness)
     return "White"
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetLoyaltyColor(loyalty)
     if loyalty < 0 then
         return "StatBadCS"
@@ -78,7 +144,7 @@ end
 -- UI functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function PopulateTabs()
     m_tabs = CreateTabs(Controls.TabRow, 44, UI.GetColorValueFromHexLiteral(0xFF331D05))
     m_tabs.AddTab(Controls.CitizenTab, Foo)
@@ -94,7 +160,7 @@ function PopulateTabs()
     m_tabs.AddAnimDeco(Controls.TabAnim, Controls.TabArrow)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function PopulateCityStack()
     cui_CityIM:ResetInstances()
     cui_DistrictsIM:ResetInstances()
@@ -206,7 +272,60 @@ function PopulateCityStack()
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
+function CuiGetCityYield(city, round)
+    local data = GetCityData(city)
+    local n = round == nil and 1 or round
+    local yields = {}
+    yields.Food = Round(CuiGetFoodPerTurn(data), n)
+    yields.Production = Round(data.ProductionPerTurn, n)
+    yields.Gold = Round(data.GoldPerTurn, n)
+    yields.Science = Round(data.SciencePerTurn, n)
+    yields.Culture = Round(data.CulturePerTurn, n)
+    yields.Faith = Round(data.FaithPerTurn, n)
+    -- yields.Tourism = Round(CuiGetCityTourism(city), n)
+
+    return yields
+end
+
+-- CUI -----------------------------------------------------------------------
+function CuiGetFoodPerTurn(data)
+    local modifiedFood
+    local foodPerTurn
+    if data.TurnsUntilGrowth > -1 then
+        local growthModifier = math.max(1 + (data.HappinessGrowthModifier / 100) + data.OtherGrowthModifiers, 0)
+        modifiedFood = Round(data.FoodSurplus * growthModifier, 2)
+        if data.Occupied then
+            foodPerTurn = modifiedFood * data.OccupationMultiplier
+        else
+            foodPerTurn = modifiedFood * data.HousingMultiplier
+        end
+    else
+        foodPerTurn = data.FoodSurplus
+    end
+    return foodPerTurn
+end
+
+-- CUI -----------------------------------------------------------------------
+function CuiGetCityTourism(city)
+    local tourism = 0
+
+    local playerID = Game.GetLocalPlayer()
+    if playerID == PlayerTypes.NONE then
+        UI.DataError("Unable to get valid playerID for report screen.")
+        return 0
+    end
+    local player = Players[playerID]
+    local pCulture = player:GetCulture()
+    local cityPlots = Map.GetCityPlots():GetPurchasedPlots(city)
+    for _, plotID in ipairs(cityPlots) do
+        tourism = tourism + pCulture:GetTourismAt(plotID)
+    end
+
+    return tourism
+end
+
+-- CUI -----------------------------------------------------------------------
 function PopulateDistrict(instance, data)
     for _, district in ipairs(data.BuildingsAndDistricts) do
         if district.isBuilt and district.Type == "DISTRICT_GOVERNMENT" then
@@ -233,7 +352,7 @@ function PopulateDistrict(instance, data)
     instance.DistrictStack:CalculateSize()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Foo()
 end
 
@@ -241,7 +360,7 @@ end
 -- Population functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function BuildPopulationData(playerID)
     PopulationTrack[playerID] = {}
     local player = Players[playerID]
@@ -254,7 +373,7 @@ function BuildPopulationData(playerID)
     PopulationTrack[playerID] = data
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function UpdatePopulationChanged(playerID)
     local data = PopulationTrack[playerID]
     local player = Players[playerID]
@@ -279,7 +398,7 @@ end
 -- Event functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Open()
     UI.PlaySound("Production_Panel_Open")
 
@@ -294,7 +413,7 @@ function Open()
     LuaEvents.CuiCityManager_Open()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Close()
     UI.PlaySound("Production_Panel_Closed")
     Controls.SlideIn:Reverse()
@@ -304,13 +423,13 @@ function Close()
     LuaEvents.CuiCityManager_Close()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnCloseEnd()
     ContextPtr:SetHide(true)
     Controls.PauseDismissWindow:SetToBeginning()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnToggleCityManager()
     if ContextPtr:IsHidden() then
         Open()
@@ -319,7 +438,7 @@ function OnToggleCityManager()
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnPlayerTurnActivated()
     local playerID = Game.GetLocalPlayer()
     if playerID == PlayerTypes.NONE then
@@ -333,7 +452,7 @@ function OnPlayerTurnActivated()
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnPlayerTurnEnd()
     local playerID = Game.GetLocalPlayer()
     if playerID == PlayerTypes.NONE then
@@ -342,7 +461,7 @@ function OnPlayerTurnEnd()
     BuildPopulationData(playerID)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Refresh()
     local playerID = Game.GetLocalPlayer()
     local player = Players[playerID]
@@ -353,7 +472,7 @@ function Refresh()
     PopulateCityStack()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Initialize()
     Controls.CloseButton:RegisterCallback(Mouse.eLClick, Close)
     Controls.CloseButton:RegisterCallback(

@@ -247,27 +247,27 @@ function ShowHideHandler(bIsHide, bIsInit)
 end
 ContextPtr:SetShowHideHandler(ShowHideHandler)
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiOnShowDistrictsClick()
     local b = Controls.ShowDistricts:IsChecked()
     CuiSettings:SetBoolean(CuiSettings.SHOW_DISTRICTS, b)
     LuaEvents.CuiMapPinSettingChange()
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiOnShowWondersClick()
     local b = Controls.ShowWonders:IsChecked()
     CuiSettings:SetBoolean(CuiSettings.SHOW_WONDERS, b)
     LuaEvents.CuiMapPinSettingChange()
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiOnAutoNamingClick()
     local b = Controls.AutoNaming:IsChecked()
     CuiSettings:SetBoolean(CuiSettings.AUTO_NAMING, b)
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiOnToggleMapPin()
     -- map pin panel and button
     local pinListPanel = ContextPtr:LookUpControl("/InGame/MinimapPanel/MapPinListPanel")
@@ -290,7 +290,7 @@ function CuiOnToggleMapPin()
     OnAddPinButton()
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiOnIngameAction(actionId)
     if (Game.GetLocalPlayer() == -1) then
         return
@@ -301,7 +301,7 @@ function CuiOnIngameAction(actionId)
     end
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiInit()
     Events.InputActionTriggered.Add(CuiOnIngameAction)
     Controls.ShowDistricts:RegisterCallback(Mouse.eLClick, CuiOnShowDistrictsClick)

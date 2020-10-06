@@ -116,7 +116,7 @@
                 <Grid ID="YieldsArea" Anchor="R,T" Offset="0,-28" Size="parent-5,27" Texture="CityPanel_YieldBacking" SliceCorner="6,12" SliceSize="17,1" SliceTextureSize="29,25">
                     <Grid Anchor="L,B" Offset="0,-3" Size="parent,5" Texture="SelectionPanel_TopRim" SliceCorner="2,3" SliceSize="10,1" SliceTextureSize="14,5" />
                     <Stack ID="YieldStack" Anchor="C,C" Offset="3,0" StackGrowth="Right" StackPadding="2">
-                        <!-- Concise UI >> reorder yields -->
+                        <!-- CUI >> reorder yields -->
                         <Grid ID="FoodGrid" Style="CityPanelFilterGrid">
                             <CheckBox ID="FoodCheck" Style="CityPanelCBFood" String="[ICON_Food]-" />
                             <Button ID="FoodIgnore" Style="CityPanelIgnoreYieldButton" />
@@ -141,7 +141,7 @@
                             <CheckBox ID="GoldCheck" Style="CityPanelCBGold" String="[ICON_Gold]-" />
                             <Button ID="GoldIgnore" Style="CityPanelIgnoreYieldButton" />
                         </Grid>
-                        <!-- << Concise UI -->
+                        <!-- << CUI -->
                     </Stack>
                 </Grid>
 
@@ -155,7 +155,7 @@
                 </Grid>
 
                 <Stack StackGrowth="Right" Padding="3" Anchor="C,T">
-                    <!-- Concise UI >> -->
+                    <!-- CUI >> -->
                     <Grid Anchor="C,T" Offset="0,-68" Size="auto,41" Texture="UnitPanel_ActionGroupSlot" SliceCorner="5,19" SliceSize="1,1" InnerPadding="10,-16">
                         <CheckBox ID="ToggleOverviewPanel" Offset="0,-2" Size="44,53" ButtonTexture="UnitPanel_ActionButton" ButtonSize="44,53" CheckTexture="CityPanel_ActionTogglePanel" CheckTextureOffset="0,32" CheckSize="32,32" CheckOffset="6,10" UnCheckTexture="CityPanel_ActionTogglePanel" UnCheckSize="32,32" UnCheckOffset="6,10" UseSelectedTextures="1" ToolTip="LOC_HUD_CITY_TOGGLE_OVERVIEW" IsChecked="0"/>
                     </Grid>
@@ -165,8 +165,8 @@
                     <Grid Anchor="C,T" Offset="0,-68" Size="auto,41" Texture="UnitPanel_ActionGroupSlot" SliceCorner="5,19" SliceSize="1,1" InnerPadding="10,-16">
                         <!-- CITY PANEL ACTIONS -->
                         <Stack ID="ActionStack" StackGrowth="Right" Padding="3" Offset="0,-2">
-                            <!-- Concise UI <CheckBox ID="PurchaseTileCheck" Size="44,53" ButtonTexture="UnitPanel_ActionButton" ButtonSize="44,53" CheckTexture="CityPanel_ActionPurchaseTile" CheckTextureOffset="0,32" CheckSize="32,32" CheckOffset="10,10" UnCheckTexture="CityPanel_ActionPurchaseTile" UnCheckSize="32,32" UnCheckOffset="10,10" UseSelectedTextures="1" ToolTip="LOC_HUD_CITY_PURCHASE_TILE"/> -->
-                            <!-- Concise UI <CheckBox ID="ManageCitizensCheck" Size="44,53" ButtonTexture="UnitPanel_ActionButton" ButtonSize="44,53" CheckTexture="CityPanel_ActionManageCitizens" CheckTextureOffset="0,32" CheckSize="32,32" CheckOffset="5,8" UnCheckTexture="CityPanel_ActionManageCitizens" UnCheckSize="32,32" UnCheckOffset="5,8" UseSelectedTextures="1" ToolTip="LOC_HUD_CITY_MANAGE_CITIZENS" /> -->
+                            <!-- CUI <CheckBox ID="PurchaseTileCheck" Size="44,53" ButtonTexture="UnitPanel_ActionButton" ButtonSize="44,53" CheckTexture="CityPanel_ActionPurchaseTile" CheckTextureOffset="0,32" CheckSize="32,32" CheckOffset="10,10" UnCheckTexture="CityPanel_ActionPurchaseTile" UnCheckSize="32,32" UnCheckOffset="10,10" UseSelectedTextures="1" ToolTip="LOC_HUD_CITY_PURCHASE_TILE"/> -->
+                            <!-- CUI <CheckBox ID="ManageCitizensCheck" Size="44,53" ButtonTexture="UnitPanel_ActionButton" ButtonSize="44,53" CheckTexture="CityPanel_ActionManageCitizens" CheckTextureOffset="0,32" CheckSize="32,32" CheckOffset="5,8" UnCheckTexture="CityPanel_ActionManageCitizens" UnCheckSize="32,32" UnCheckOffset="5,8" UseSelectedTextures="1" ToolTip="LOC_HUD_CITY_MANAGE_CITIZENS" /> -->
                             <CheckBox ID="ProduceWithGoldCheck" Size="44,53" ButtonTexture="UnitPanel_ActionButton" ButtonSize="44,53" CheckTexture="CityPanel_ActionGoldProduction" CheckTextureOffset="0,32" CheckSize="32,32" CheckOffset="6,9" UnCheckTexture="CityPanel_ActionGoldProduction" UnCheckSize="32,32" UnCheckOffset="6,9" UseSelectedTextures="1" ToolTip="LOC_HUD_CITY_PURCHASE_WITH_GOLD" />
                             <CheckBox ID="ProduceWithFaithCheck" Size="44,53" ButtonTexture="UnitPanel_ActionButton" ButtonSize="44,53" CheckTexture="CityPanel_ActionFaithProduction" CheckTextureOffset="0,32" CheckSize="32,32" CheckOffset="6,9" UnCheckTexture="CityPanel_ActionFaithProduction" UnCheckSize="32,32" UnCheckOffset="6,9" UseSelectedTextures="1" ToolTip="LOC_HUD_CITY_PURCHASE_WITH_FAITH" />
                             <CheckBox ID="ChangeProductionCheck" Size="44,53" ButtonTexture="UnitPanel_ActionButton" ButtonSize="44,53" CheckTexture="CityPanel_ActionProduction" CheckTextureOffset="0,32" CheckSize="32,32" CheckOffset="5,9" UnCheckTexture="CityPanel_ActionProduction" UnCheckSize="32,32" UnCheckOffset="5,9" UseSelectedTextures="1" ToolTip="LOC_HUD_CITY_CHANGE_PRODUCTION">
@@ -182,7 +182,7 @@
                             </CheckBox>
                         </Stack>
                     </Grid>
-                    <!-- << Concise UI -->
+                    <!-- << CUI -->
 
                 </Stack>
 

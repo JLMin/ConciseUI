@@ -11,17 +11,17 @@ include( "SupportFunctions" );
 include( "AdjacencyBonusSupport");
 include( "ProductionHelper" );
 
-include("cui_settings"); -- Concise UI
-include("cui_helper"); -- Concise UI
-include("cui_production_data"); -- Concise UI
-include("cui_production_support"); -- Concise UI
-include("cui_production_ui"); -- Concise UI
+include("cui_settings"); -- CUI
+include("cui_utils"); -- CUI
+include("cui_production_data"); -- CUI
+include("cui_production_support"); -- CUI
+include("cui_production_ui"); -- CUI
 
 -- ===========================================================================
 --	Constants
 -- ===========================================================================
 local RELOAD_CACHE_ID	:string = "ProductionPanel";
-local COLOR_LOW_OPACITY	:number = UI.GetColorValueFromHexLiteral(0xffffffff); -- Concise UI: 0x3fffffff -> 0xffffffff
+local COLOR_LOW_OPACITY	:number = UI.GetColorValueFromHexLiteral(0xffffffff); -- CUI: 0x3fffffff -> 0xffffffff
 local HEADER_Y			:number	= 41;
 local WINDOW_HEADER_Y	:number	= 150;
 local TOPBAR_Y			:number	= 28;
@@ -43,7 +43,7 @@ local ICON_PREFIX				:string = "ICON_";
 local LISTMODE:table = {PRODUCTION = 1, PURCHASE_GOLD = 2, PURCHASE_FAITH = 3, PROD_QUEUE = 4};
 
 local EXTENDED_BUTTON_HEIGHT = 60;
-local DEFAULT_BUTTON_HEIGHT = 32; -- Concise UI: 48 -> 32
+local DEFAULT_BUTTON_HEIGHT = 32; -- CUI: 48 -> 32
 
 local FIELD_LIST_BUILDING_SIZE_Y	:string = "fieldListBuilingSizeY";
 local FIELD_LIST_WONDER_SIZE_Y		:string = "fieldListWonderSizeY";
@@ -113,7 +113,7 @@ local m_CurrentListMode:number = -1;
 -- The city whose production we're currently modifying
 local m_pCity:table = nil;
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 
 local cui_prodIM  = InstanceManager:new("CuiGroupInstance", "Top", Controls.ProductionList);
 local cui_goldIM  = InstanceManager:new("CuiGroupInstance", "Top", Controls.PurchaseList);
@@ -639,8 +639,7 @@ end
 
 -- ===========================================================================
 function UpdateQueueTabText( queueSize:number )
-     -- Concise UI
-     -- Controls.QueueTab:SetText("[ICON_ProductionQueue] " .. Locale.Lookup("LOC_PRODUCTION_PANEL_QUEUE_WITH_COUNT", queueSize));
+     -- CUI: Controls.QueueTab:SetText("[ICON_ProductionQueue] " .. Locale.Lookup("LOC_PRODUCTION_PANEL_QUEUE_WITH_COUNT", queueSize));
 end
 
 -- ===========================================================================
@@ -824,7 +823,7 @@ function PopulateWonders(data:table, listMode:number, listIM:table)
 	end
 
     for i, item in ipairs(data.BuildingItems) do
-        -- Concise UI >> fix the wonders logic
+        -- CUI >> fix the wonders logic
         local shouldShow = false;
         if item.IsWonder then
             if listMode ~= LISTMODE.PROD_QUEUE then
@@ -834,7 +833,7 @@ function PopulateWonders(data:table, listMode:number, listIM:table)
             end
         end
 		if shouldShow then
-        -- << Concise UI
+        -- << CUI
 			local wonderListing = wonderList.wonderListIM:GetInstance();
 
 			PopulateGenericBuildData(wonderListing, item);
@@ -901,7 +900,7 @@ function PopulateProjects(data:table, listMode:number, listIM:table)
 	end
 
     for i, item in ipairs(data.ProjectItems) do
-        -- Concise UI >> fix the project logic
+        -- CUI >> fix the project logic
         local shouldShow = false
         if listMode ~= LISTMODE.PROD_QUEUE then
             shouldShow = not item.IsCurrentProduction
@@ -909,7 +908,7 @@ function PopulateProjects(data:table, listMode:number, listIM:table)
             shouldShow = CuiIsProjectRepeatable(item) or not CuiIsProjectInQueue(item)
         end
         if shouldShow then
-        -- << Concise UI
+        -- << CUI
 			local projectListing = projectList.projectListIM:GetInstance();
 
 			PopulateGenericBuildData(projectListing, item);
@@ -978,9 +977,9 @@ function PopulateDistrictsWithNestedBuildings(data:table, listMode:number, listI
 		end
 	end
 
-    local CuiShouldShowChild = {}; -- Concise UI for buildings
+    local CuiShouldShowChild = {}; -- CUI: for buildings
     for i, item in ipairs(data.DistrictItems) do
-        -- Concise UI >> fix the district logic
+        -- CUI >> fix the district logic
         local shouldShow = false;
         if listMode ~= LISTMODE.PROD_QUEUE then
             shouldShow = true;
@@ -993,7 +992,7 @@ function PopulateDistrictsWithNestedBuildings(data:table, listMode:number, listI
         end
         CuiShouldShowChild[item.Type] = shouldShow;
         if shouldShow then
-        -- << Concise UI
+        -- << CUI
             local districtListing = districtList.districtListIM:GetInstance();
 
             PopulateGenericBuildData(districtListing, item);
@@ -1079,7 +1078,7 @@ function PopulateDistrictsWithNestedBuildings(data:table, listMode:number, listI
 	-- Populate Nested Buildings -----------------
 
 	for i, buildingItem in ipairs(data.BuildingItems) do
-        -- Concise UI >> fix the building logic
+        -- CUI >> fix the building logic
         local shouldShow = false;
         if not buildingItem.IsWonder then
             if listMode ~= LISTMODE.PROD_QUEUE then
@@ -1093,7 +1092,7 @@ function PopulateDistrictsWithNestedBuildings(data:table, listMode:number, listI
             end
         end
 		if shouldShow then
-        -- << Concise UI
+        -- << CUI
 			local uniqueDrawerName = BUILDING_DRAWER_PREFIX..buildingItem.PrereqDistrict;
 			local uniqueIMName = BUILDING_IM_PREFIX..buildingItem.PrereqDistrict;
 			local pDistrictBuildingIM:table = districtList[uniqueIMName];
@@ -1395,7 +1394,7 @@ function PopulateUnits(data:table, listMode:number, listIM:table)
 			unitListing.FlagBase:SetTexture( textureName );
 			unitListing.FlagBase:SetColor( primaryColor );
 			unitListing.Icon:SetColor( secondaryColor );
-            unitListing.Icon:SetColor(UI.GetColorValue("COLOR_WHITE")); -- Concise UI
+            unitListing.Icon:SetColor(UI.GetColorValue("COLOR_WHITE")); -- CUI
 
             unitListing.Button:RegisterCallback( Mouse.eMouseEnter,	function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
 			if (listMode == LISTMODE.PRODUCTION or listMode == LISTMODE.PROD_QUEUE) then
@@ -1471,11 +1470,11 @@ function PopulateUnits(data:table, listMode:number, listIM:table)
 
 
 				unitListing.CorpsLabelIcon:SetText(item.CorpsName);
-                unitListing.CorpsLabelText:SetText(""); -- Concise UI
+                unitListing.CorpsLabelText:SetText(""); -- CUI
 
 				unitListing.CorpsFlagBase:SetTexture( textureName );
 				unitListing.CorpsFlagBase:SetColor( primaryColor );
-                unitListing.CorpsIcon:SetColor(UI.GetColorValue("COLOR_WHITE")); -- Concise UI
+                unitListing.CorpsIcon:SetColor(UI.GetColorValue("COLOR_WHITE")); -- CUI
 				unitListing.CorpsIcon:SetIcon(ICON_PREFIX..item.Type);
 				unitListing.TrainCorpsButton:SetToolTipString(item.CorpsTooltip);
 				unitListing.CorpsDisabled:SetToolTipString(item.CorpsTooltip);
@@ -1528,10 +1527,10 @@ function PopulateUnits(data:table, listMode:number, listIM:table)
 				end
 
 				unitListing.ArmyLabelIcon:SetText(item.ArmyName);
-                unitListing.ArmyLabelText:SetText(""); -- Concise UI
+                unitListing.ArmyLabelText:SetText(""); -- CUI
 				unitListing.ArmyFlagBase:SetTexture( textureName );
 				unitListing.ArmyFlagBase:SetColor( primaryColor );
-                unitListing.ArmyIcon:SetColor(UI.GetColorValue("COLOR_WHITE")); -- Concise UI
+                unitListing.ArmyIcon:SetColor(UI.GetColorValue("COLOR_WHITE")); -- CUI
 				unitListing.ArmyIcon:SetIcon(ICON_PREFIX..item.Type);
 				unitListing.TrainArmyButton:SetToolTipString(item.ArmyTooltip);
 				unitListing.ArmyDisabled:SetToolTipString(item.ArmyTooltip);
@@ -1894,7 +1893,7 @@ end
 
 -- ===========================================================================
 function Refresh()
-    -- Concise UI >>
+    -- CUI >>
     local playerID = Game.GetLocalPlayer();
 
     local player = Players[playerID];
@@ -1925,7 +1924,7 @@ function Refresh()
             Close();
         end
     end
-    -- << Concise UI
+    -- << CUI
 
     --[[
 	local playerID	:number = Game.GetLocalPlayer();
@@ -2368,7 +2367,7 @@ end
 function OnNotificationPanelChooseProduction()
 	if ContextPtr:IsHidden() then
         Open();
-		-- Concise UI if GetQueueSize(m_pCity) > 1 or UserConfiguration.IsAutoProdQueueEnabled() then
+		-- CUI: if GetQueueSize(m_pCity) > 1 or UserConfiguration.IsAutoProdQueueEnabled() then
         if cui_QueueOnDetault then
 			m_tabs.SelectTab(m_queueTab);
 		else
@@ -2426,7 +2425,7 @@ end
 function OnCityBannerManagerProductionToggle()
 	if(ContextPtr:IsHidden()) then
         Open();
-        -- Concise UI if GetQueueSize(m_pCity) > 1 or UserConfiguration.IsAutoProdQueueEnabled() then
+        -- CUI: if GetQueueSize(m_pCity) > 1 or UserConfiguration.IsAutoProdQueueEnabled() then
         if cui_QueueOnDetault then
 			m_tabs.SelectTab(m_queueTab);
 		else
@@ -2443,7 +2442,7 @@ end
 -- ===========================================================================
 function OnCityPanelProductionOpen()
 	Open();
-    -- Concise UI if GetQueueSize(m_pCity) > 1 or UserConfiguration.IsAutoProdQueueEnabled() then
+    -- CUI: if GetQueueSize(m_pCity) > 1 or UserConfiguration.IsAutoProdQueueEnabled() then
     if cui_QueueOnDetault then
 		m_tabs.SelectTab(m_queueTab);
 	else
@@ -2628,7 +2627,7 @@ function CreateCorrectTabs()
 		labelWidth = labelWidth + purchaseFaithLabelX;
 	end
 	local isQueueTabSet:boolean = false;
-    -- Concise UI if(labelWidth > MAX_TAB_LABEL_WIDTH) then
+    -- CUI: if(labelWidth > MAX_TAB_LABEL_WIDTH) then
     if (false) then
 		tabSizeX = 44;
 		tabSizeY = 44;
@@ -2644,8 +2643,8 @@ function CreateCorrectTabs()
 		tabArrowControl = Controls.MiniTabArrow;
 	else
 		isQueueTabSet = true;
-		tabSizeX = 44; -- Concise UI 42 -> 44
-		tabSizeY = 44; -- Concise UI 34 -> 44
+		tabSizeX = 44; -- CUI: 42 -> 44
+		tabSizeY = 44; -- CUI: 34 -> 44
 		Controls.ProductionTab:SetHide(false);
 		Controls.PurchaseTab:SetHide(false);
 		Controls.PurchaseFaithTab:SetHide(false);
@@ -2683,7 +2682,7 @@ function CreateCorrectTabs()
 		m_tabs.AddTab( m_managerTab,	OnTabChangeManager );
 	end
 
-    -- Concise UI >>
+    -- CUI >>
 	-- m_tabs.CenterAlignTabs(0, 350, 32);
 	-- m_tabs.SelectTab( m_productionTab );
     m_tabs.CenterAlignTabs(-10, 350, 44);
@@ -2692,7 +2691,7 @@ function CreateCorrectTabs()
     else
         m_tabs.SelectTab(m_productionTab);
     end
-    -- << Concise UI
+    -- << CUI
 	m_tabs.AddAnimDeco(tabAnimControl, tabArrowControl);
 end
 
@@ -3042,7 +3041,7 @@ function OnManagerSelectedIndexChanged( newIndex:number )
 	m_SelectedManagerIndex = newIndex;
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiIsDistrictInQueue(item)
     local pSelectedCity = UI.GetHeadSelectedCity()
     if pSelectedCity then
@@ -3064,7 +3063,7 @@ function CuiIsDistrictInQueue(item)
     return false
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiIsBuildingInQueue(item)
     local pSelectedCity = UI.GetHeadSelectedCity()
     if pSelectedCity then
@@ -3086,7 +3085,7 @@ function CuiIsBuildingInQueue(item)
     return false
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiIsProjectInQueue(item)
     local pSelectedCity = UI.GetHeadSelectedCity()
     if pSelectedCity then
@@ -3108,20 +3107,20 @@ function CuiIsProjectInQueue(item)
     return false
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiOnDetaultClick()
     cui_QueueOnDetault = Controls.QueueOnDetault:IsChecked()
     CuiSettings:SetBoolean(CuiSettings.QUEUE_BY_DEFAULT, cui_QueueOnDetault)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiOnNewModeClick()
     cui_newVersion = not cui_newVersion
     CuiNewVersionToggle(cui_newVersion)
     Refresh()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiNewVersionToggle(isV2)
     local color = isV2 and "StatGoodCS" or "StatBadCS"
     local version = isV2 and "v2" or "v1"
@@ -3129,7 +3128,7 @@ function CuiNewVersionToggle(isV2)
     Controls.PanelVersion:SetText(version)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiResetAllInstances()
     -- V1
     m_listIM:ResetInstances()
@@ -3145,7 +3144,7 @@ function CuiResetAllInstances()
     cui_itemIM:ResetInstances()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiNewVersionView(data)
     Controls.PauseCollapseList:Stop()
     PopulateCurrentProduction(data)
@@ -3166,7 +3165,7 @@ function CuiNewVersionView(data)
     RefreshQueue(data.Owner, data.City:GetID())
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiInit()
     cui_QueueOnDetault = CuiSettings:GetBoolean(CuiSettings.QUEUE_BY_DEFAULT)
     Controls.QueueOnDetault:SetCheck(cui_QueueOnDetault)
@@ -3185,7 +3184,7 @@ function Initialize()
 	Controls.PauseDismissWindow:Stop();
 	CreateCorrectTabs();
 
-    CuiInit(); -- Concise UI
+    CuiInit(); -- CUI
 
 	Controls.ProductionListScroll:RegisterScrollCallback(OnProductionListScrolled);
 	Controls.PurchaseListScroll:RegisterScrollCallback(OnPurchaseListScrolled);
@@ -3207,7 +3206,7 @@ function Initialize()
 	Controls.TrashButton:RegisterCallback( Mouse.eLClick, OnTrashClicked );
 
 	UpdateQueueTabText(0);
-    -- Concise UI Controls.ManagerTab:SetText("[ICON_ProductionQueue] " .. Locale.Lookup("LOC_PRODUCTION_PANEL_MULTI_QUEUE"))
+    -- CUI Controls.ManagerTab:SetText("[ICON_ProductionQueue] " .. Locale.Lookup("LOC_PRODUCTION_PANEL_MULTI_QUEUE"))
 
 	ContextPtr:SetInitHandler( OnInit  );
 	ContextPtr:SetInputHandler( OnInputHandler, true );

@@ -1,14 +1,13 @@
 -- ===========================================================================
--- Concise UI
 -- cui_spy_info.lua
 -- ===========================================================================
 
 include("EspionageSupport")
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 local isAttached = false
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function RefreshSpyInfo()
     local localPlayer = Players[Game.GetLocalPlayer()]
     if localPlayer == nil then
@@ -75,7 +74,7 @@ function RefreshSpyInfo()
     Controls.SpyStack:ReprocessAnchoring()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function AttachToTopPanel()
     if not isAttached then
         local infoStack = ContextPtr:LookUpControl("/InGame/TopPanel/InfoStack/StaticInfoStack")
@@ -88,7 +87,7 @@ function AttachToTopPanel()
     RefreshSpyInfo()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Initialize()
     ContextPtr:SetHide(true)
     Events.LoadGameViewStateDone.Add(AttachToTopPanel)

@@ -42,11 +42,6 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("zh_Hant_HK", "LOC_CUI_DB_DIPLOMATIC_POINT",                                   "外交勝利點數：{1_num} / {2_total}"),
 
 -- =============================================================================
--- Espionage Panel
-("zh_Hant_HK", "LOC_CUI_EP_FILTER_ALL",                                         "全部"),
-("zh_Hant_HK", "LOC_CUI_EP_FILTER_SHOW_CITIES",                                 "選擇城市"),
-
--- =============================================================================
 -- Minimap Panel
 ("zh_Hant_HK", "LOC_CUI_MP_SHOW_DISTRICTS_TOOLTIP",                             "顯示區域圖標"),
 ("zh_Hant_HK", "LOC_CUI_MP_SHOW_WONDERS_TOOLTIP",                               "顯示奇觀圖標"),
@@ -64,46 +59,14 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("zh_Hant_HK", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                           "開啟/關閉宗教單位圖標"),
 
 -- =============================================================================
--- Report Screen
-("zh_Hant_HK", "LOC_CUI_RS_SHOW_CITY_DETAILS",                                  "顯示城市細節"),
-("zh_Hant_HK", "LOC_CUI_RS_BUILDING_NUMBER",                                    "建築數量"),
-("zh_Hant_HK", "LOC_CUI_RS_TOTALS",                                             "總計：{1_num}"),
-("zh_Hant_HK", "LOC_CUI_RS_DEALS_OUTGOING",                                     "支出"),
-("zh_Hant_HK", "LOC_CUI_RS_DEALS_INCOMING",                                     "收入"),
-
--- =============================================================================
 -- SpyInfo
 ("zh_Hant_HK", "LOC_CUI_SI_SPY_AVAILABLE",                                      "{1_num}名 [ICON_Unit] 間諜可用"),
 ("zh_Hant_HK", "LOC_CUI_SI_SPY_CAPACITY",                                       "{1_num}名 [ICON_Unit] 間諜上限"),
 
 -- =============================================================================
 -- World Tracker
-("zh_Hant_HK", "LOC_CUI_WT_REMINDER",                                           "觸發提示"),
-("zh_Hant_HK", "LOC_CUI_WT_TECH_REMINDER_TOOLTIP",                              "當科技可通過觸發尤里卡的方式完成時，背景色將變為綠色。"),
-("zh_Hant_HK", "LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP",                             "當市政可通過觸發天啟的方式完成時，背景色將變為綠色。"),
 ("zh_Hant_HK", "LOC_CUI_WT_GOSSIP_LOG",                                         "小道消息"),
 ("zh_Hant_HK", "LOC_CUI_WT_COMBAT_LOG",                                         "戰鬥記錄"),
-("zh_Hant_HK", "LOC_CUI_WT_PERSIST",                                            "保留記錄"),
-("zh_Hant_HK", "LOC_CUI_WT_GLOG_PERSIST_TOOLTIP",                               "回合結束時不清空小道消息。"),
-("zh_Hant_HK", "LOC_CUI_WT_CLOG_PERSIST_TOOLTIP",                               "回合結束時不清空戰鬥記錄。"),
-
--- =============================================================================
--- Trade Panel
-("zh_Hant_HK", "LOC_CUI_TP_SORT_BY_FOOD_TOOLTIP",                               "按 [ICON_Food] 食物排序"),
-("zh_Hant_HK", "LOC_CUI_TP_SORT_BY_PRODUCTION_TOOLTIP",                         "按 [ICON_Production] 生產力排序"),
-("zh_Hant_HK", "LOC_CUI_TP_SORT_BY_GOLD_TOOLTIP",                               "按 [ICON_Gold] 金幣排序"),
-("zh_Hant_HK", "LOC_CUI_TP_SORT_BY_SCIENCE_TOOLTIP",                            "按 [ICON_Science] 科技值排序"),
-("zh_Hant_HK", "LOC_CUI_TP_SORT_BY_CULTURE_TOOLTIP",                            "按 [ICON_Culture] 文化值排序"),
-("zh_Hant_HK", "LOC_CUI_TP_SORT_BY_FAITH_TOOLTIP",                              "按 [ICON_Faith] 信仰值排序"),
-("zh_Hant_HK", "LOC_CUI_TP_SORT_BY_TURNS_REMAINING_TOOLTIP",                    "按 [ICON_Turn] 剩餘回合數排序"),
-("zh_Hant_HK", "LOC_CUI_TP_REPEAT",                                             "重複"),
-("zh_Hant_HK", "LOC_CUI_TP_REPEAT_TOOLTIP",                                     "這位商人將無限重複他的貿易路線。"),
-("zh_Hant_HK", "LOC_CUI_TP_SELECT_A_CITY",                                      "選擇一個新的出發地。"),
-
--- =============================================================================
--- Espionage Panel
-("zh_Hant_HK", "LOC_CUI_EP_SHOW_CITYS",                                         "顯示城市"),
-("zh_Hant_HK", "LOC_CUI_EP_SIPHON_FUNDS",                                       "獲得（{1_GoldString}）金幣。"),
 
 -- =============================================================================
 -- Production Panel

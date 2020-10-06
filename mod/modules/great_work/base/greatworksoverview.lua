@@ -5,8 +5,8 @@ include("PopupDialog")
 include("GameCapabilities");
 include("GreatWorksSupport");
 
-include("ModalScreen_PlayerYieldsHelper"); -- Concise UI
-include("cui_settings"); -- Concise UI
+include("ModalScreen_PlayerYieldsHelper"); -- CUI
+include("cui_settings"); -- CUI
 
 -- ===========================================================================
 --	CONSTANTS
@@ -75,7 +75,7 @@ local m_kViableDropTargets:table = {};
 local m_kControlToInstanceMap:table = {};
 local m_uiSelectedDropTarget:table = nil;
 
-local m_TopPanelConsideredHeight = 0; -- Concise UI
+local m_TopPanelConsideredHeight = 0; -- CUI
 
 -- ===========================================================================
 --	PLAYER VARIABLES
@@ -88,7 +88,7 @@ local m_dest_building:number = 0;
 local m_dest_city;
 local m_isLocalPlayerTurn:boolean = true;
 
-local cui_ThemeHelper = false; -- Concise UI
+local cui_ThemeHelper = false; -- CUI
 
 -- ===========================================================================
 --	Called every time screen is shown
@@ -120,7 +120,7 @@ function UpdateGreatWorks()
 	local numGreatWorks:number = 0;
     local numDisplaySpaces:number = 0;
 
-    local cui_tmpBuildings = {}; -- Concise UI
+    local cui_tmpBuildings = {}; -- CUI
 
 	local pCities:table = m_LocalPlayer:GetCities();
 	for i, pCity in pCities:Members() do
@@ -140,7 +140,7 @@ function UpdateGreatWorks()
                         numGreatWorks = numGreatWorks + greatWorks;
                         ]]
 
-                        -- Concise UI >> sort
+                        -- CUI >> sort
                         table.insert(
                             cui_tmpBuildings,
                             {
@@ -151,14 +151,14 @@ function UpdateGreatWorks()
                                 Info = buildingInfo
                             }
                         )
-                        -- << Concise UI
+                        -- << CUI
 					end
 				end
 			end
 		end
 	end
 
-    -- Concise UI >> sort
+    -- CUI >> sort
     local IsSortByCity = CuiSettings:GetBoolean(CuiSettings.SORT_BY_CITY)
     if not IsSortByCity then
         table.sort(
@@ -182,7 +182,7 @@ function UpdateGreatWorks()
         numDisplaySpaces = numDisplaySpaces + item.CityBldgs:GetNumGreatWorkSlots(item.Index);
         numGreatWorks = numGreatWorks + greatWorks;
     end
-    -- << Concise UI
+    -- << CUI
 	Controls.NumGreatWorks:SetText(numGreatWorks);
 	Controls.NumDisplaySpaces:SetText(numDisplaySpaces);
 
@@ -214,10 +214,10 @@ function UpdateGreatWorks()
 	-- Hide "View Gallery" button if we don't have a single great work
     Controls.ViewGallery:SetHide(m_FirstGreatWork == nil);
 
-    -- Concise UI >>
+    -- CUI >>
     Controls.SortGreatWork:SetHide(m_FirstGreatWork == nil);
     Controls.ThemeHelper:SetHide(m_FirstGreatWork == nil);
-    -- << Concise UI
+    -- << CUI
 end
 
 function PopulateGreatWorkSlot(instance:table, pCity:table, pCityBldgs:table, pBuildingInfo:table)
@@ -226,10 +226,10 @@ function PopulateGreatWorkSlot(instance:table, pCity:table, pCityBldgs:table, pB
 	instance.DisabledBG:SetHide(true);
     instance.HighlightedBG:SetHide(true);
 
-    -- Concise UI >> reset Theme label
+    -- CUI >> reset Theme label
     instance.ThemingLabel:SetText("");
     instance.ThemingLabel:SetToolTipString("");
-    -- << Concise UI
+    -- << CUI
 
 	local buildingType:string = pBuildingInfo.BuildingType;
 	local buildingIndex:number = pBuildingInfo.Index;
@@ -484,11 +484,11 @@ function PopulateGreatWork(instance:table, pCityBldgs:table, pBuildingInfo:table
 		instance.SlotTypeIcon:SetTexture(textureOffsetX, textureOffsetY, textureSheet);
 	end
 
-    -- Concise UI >> reset masks
+    -- CUI >> reset masks
     instance.LockIcon:SetHide(true);
     instance.LockMask:SetHide(true);
     instance.ThemeMask:SetHide(true);
-    -- << Concise UI
+    -- << CUI
 
 	instance[DATA_FIELD_CITY_ID] = pCityBldgs:GetCity():GetID();
 	instance[DATA_FIELD_BUILDING_ID] = buildingIndex;
@@ -1014,7 +1014,7 @@ function Open()
 		return
 	end
 
-    -- Concise UI >>
+    -- CUI >>
     cui_ThemeHelper = false;
     if not UIManager:IsInPopupQueue(ContextPtr) then
         local kParameters = {};
@@ -1024,7 +1024,7 @@ function Open()
         UIManager:QueuePopup(ContextPtr, PopupPriority.Low, kParameters);
         UI.PlaySound("UI_Screen_Open");
     end
-    -- << Concise UI
+    -- << CUI
 
 	UpdateData();
 	ContextPtr:SetHide(false);
@@ -1036,7 +1036,7 @@ function Open()
 end
 
 function Close()
-    -- Concise UI >>
+    -- CUI >>
     cui_ThemeHelper = false;
     if not ContextPtr:IsHidden() then
         UI.PlaySound("UI_Screen_Close");
@@ -1045,7 +1045,7 @@ function Close()
     if UIManager:DequeuePopup(ContextPtr) then
         LuaEvents.GreatPeople_CloseGreatPeople();
     end
-    -- << Concise UI
+    -- << CUI
 
 	ContextPtr:SetHide(true);
 	ContextPtr:ClearUpdate();
@@ -1066,7 +1066,7 @@ function OnShowScreen()
 	end
 
 	Open();
-    -- UI.PlaySound("UI_Screen_Open"); -- Concise UI
+    -- UI.PlaySound("UI_Screen_Open"); -- CUI
 end
 
 -- ===========================================================================
@@ -1163,7 +1163,7 @@ function OnLocalPlayerTurnEnd()
 	end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiSetThemeMask(instance, srcBldgs, srcBuilding, srcSlot)
     local srcGreatWork = srcBldgs:GetGreatWorkInSlot(srcBuilding, srcSlot)
     local srcGreatWorkType = srcBldgs:GetGreatWorkTypeFromIndex(srcGreatWork)
@@ -1206,7 +1206,7 @@ function CuiSetThemeMask(instance, srcBldgs, srcBuilding, srcSlot)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiSetLockMask(instance, srcBldgs, srcBuilding, srcSlot)
     local srcGreatWork = srcBldgs:GetGreatWorkInSlot(srcBuilding, srcSlot)
     local srcGreatWorkType = srcBldgs:GetGreatWorkTypeFromIndex(srcGreatWork)
@@ -1248,7 +1248,7 @@ function CuiSetLockMask(instance, srcBldgs, srcBuilding, srcSlot)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiOnSortButtonClick()
     local IsSortByCity = CuiSettings:ReverseAndGetBoolean(CuiSettings.SORT_BY_CITY)
     if IsSortByCity then
@@ -1259,13 +1259,13 @@ function CuiOnSortButtonClick()
     UpdateData()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiOnThemeButtonClick()
     cui_ThemeHelper = not cui_ThemeHelper
     UpdateData()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiInit()
     local IsSortByCity = CuiSettings:GetBoolean(CuiSettings.SORT_BY_CITY)
     if IsSortByCity then
@@ -1300,7 +1300,7 @@ function Initialize()
 		return;
 	end
 
-    CuiInit(); -- Concise UI
+    CuiInit(); -- CUI
 
 	ContextPtr:SetInitHandler(OnInit);
 	ContextPtr:SetShutdown(OnShutdown);
@@ -1324,6 +1324,6 @@ function Initialize()
 	Events.LocalPlayerTurnBegin.Add(OnLocalPlayerTurnBegin);
 	Events.LocalPlayerTurnEnd.Add(OnLocalPlayerTurnEnd);
 
-    m_TopPanelConsideredHeight = Controls.Vignette:GetSizeY() - TOP_PANEL_OFFSET; -- Concise UI
+    m_TopPanelConsideredHeight = Controls.Vignette:GetSizeY() - TOP_PANEL_OFFSET; -- CUI
 end
 Initialize();

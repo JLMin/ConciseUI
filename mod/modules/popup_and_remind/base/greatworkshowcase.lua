@@ -4,7 +4,7 @@
 --	Original Authors: Sam Batista
 -- ===========================================================================
 include("InstanceManager");
-include("cui_settings"); -- Concise UI
+include("cui_settings"); -- CUI
 
 -- ===========================================================================
 --	CONSTANTS
@@ -255,18 +255,18 @@ function OnGreatWorkCreated(playerID:number, creatorID:number, cityX:number, cit
 	-- Ignore relics when responding to the GreatWorkCreated event.  Relics have a dedicated notification that will trigger this screen
 	-- Thru NotificationPanel_ShowRelicCreated
 
-    -- Concise UI >>
+    -- CUI >>
     if CuiSettings:GetBoolean(CuiSettings.POPUP_CREATWORK) then
         DisplayGreatWorkCreated(playerID, creatorID, cityX, cityY, buildingID, greatWorkIndex, false);
     end
-    -- << Concise UI
+    -- << CUI
 end
 function OnShowRelicCreated(playerID:number, creatorID:number, cityX:number, cityY:number, buildingID:number, greatWorkIndex:number)
-    -- Concise UI >>
+    -- CUI >>
     if CuiSettings:GetBoolean(CuiSettings.POPUP_RELIC) then
         DisplayGreatWorkCreated(playerID, creatorID, cityX, cityY, buildingID, greatWorkIndex, true);
     end
-    -- << Concise UI
+    -- << CUI
 end
 function DisplayGreatWorkCreated(playerID:number, creatorID:number, cityX:number, cityY:number, buildingID:number, greatWorkIndex:number, showRelics:boolean)
 	if playerID ~= Game.GetLocalPlayer() then

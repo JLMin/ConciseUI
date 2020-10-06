@@ -1,11 +1,10 @@
 -- ===========================================================================
--- Concise UI
 -- cui_leader_icon_support.lua
 -- ===========================================================================
 
-include("cui_helper")
+include("cui_utils")
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiGetAllianceData(otherPlayerID)
     local localPlayer = Players[Game.GetLocalPlayer()]
     local localPlayerDiplomacy = localPlayer:GetDiplomacy()

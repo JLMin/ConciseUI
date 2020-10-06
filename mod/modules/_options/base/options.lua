@@ -134,7 +134,7 @@ function OnCancel()
 	Controls.MinimapSizeSlider:SetValue(value);
 	UI.SetMinimapSize(value);
 
-    LuaEvents.CuiOnMinimapResize(); -- Concise UI
+    LuaEvents.CuiOnMinimapResize(); -- CUI
 	value = Options.GetUserOption("Interface", "ChatTextValue") or 12;
 	Controls.ChatTextSizeSlider:SetValue(value);
 	Options.SetUserOption("Interface", "ChatTextValue", value);

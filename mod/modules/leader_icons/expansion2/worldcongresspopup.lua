@@ -10,7 +10,7 @@ include("WorldCrisisSupport");
 include("PopupPriorityLoader_", true);
 include("InputSupport");
 include("Civ6Common"); --FormatTimeRemaining
-include("cui_leader_icon_support"); -- Concise UI
+include("cui_leader_icon_support"); -- CUI
 
 -- ===========================================================================
 -- Constants
@@ -459,7 +459,7 @@ function PopulateLeaderStack()
 				instance.FavorLabel:SetToolTipString(Locale.Lookup(playerID == localPlayerID and "LOC_WORLD_CONGRESS_TT_PLAYER_FAVOR" or "LOC_WORLD_CONGRESS_TT_LEADER_FAVOR", favor));
 				instance.FavorContainer:SetHide(false);
 
-                -- Concise UI >> use tooltip instead
+                -- CUI >> use tooltip instead
                 --[[
                 local grievanceTT:string = "";
                 local grievances:number = pDiplomacy:GetGrievancesAgainst(playerID);
@@ -472,13 +472,13 @@ function PopulateLeaderStack()
                     instance.GrievanceContainer:SetHide(true);
                 end
                 ]]
-                -- << Concise UI
+                -- << CUI
 			else
 				instance.FavorContainer:SetHide(true);
-				-- instance.GrievanceContainer:SetHide(true); -- Concise UI
+				-- instance.GrievanceContainer:SetHide(true); -- CUI
 			end
-            instance.GrievanceLabel:SetText(""); -- Concise UI
-            instance.GrievanceContainer:SetHide(true); -- Concise UI
+            instance.GrievanceLabel:SetText(""); -- CUI
+            instance.GrievanceContainer:SetHide(true); -- CUI
 
 			local icon:string = (isLocalPlayer or pDiplomacy:HasMet(playerID)) and "ICON_" .. leaderName or "ICON_LEADER_DEFAULT";
 			uiLeaderIcon:UpdateIcon(icon, playerID, kIsUniqueLeader[leaderName], grievanceTT);
@@ -490,13 +490,13 @@ function PopulateLeaderStack()
 			uiLeaderIcon:UpdateIcon("ICON_LEADER_DEFAULT", playerID);
 		end
 
-        -- Concise UI >> use advanced tooltip
+        -- CUI >> use advanced tooltip
         uiLeaderIcon.Controls.Portrait:ClearToolTipCallback();
         uiLeaderIcon.Controls.Relationship:ClearToolTipCallback();
         local allianceData = CuiGetAllianceData(playerID);
         LuaEvents.CuiLeaderIconToolTip(uiLeaderIcon.Controls.Portrait, playerID);
         LuaEvents.CuiRelationshipToolTip(uiLeaderIcon.Controls.Relationship, playerID, allianceData);
-        -- << Concise UI
+        -- << CUI
 
 	end
 end

@@ -1,5 +1,4 @@
 -- ===========================================================================
--- Concise UI
 -- cui_unitlist_screen.lua
 -- ===========================================================================
 
@@ -9,11 +8,10 @@ include("TabSupport")
 include("CombatInfo")
 include("Civ6Common")
 include("EspionageSupport")
-include("cui_helper")
+include("cui_utils")
 include("cui_settings")
 
--- Concise UI ----------------------------------------------------------------
-
+-- CUI -----------------------------------------------------------------------
 local unitGroupIM = InstanceManager:new("UnitGroupInstance", "Top", Controls.UnitGroupStack)
 local UNIT_GROUP = {
     MILITARY = {name = "LOC_FORMATION_CLASS_LAND_COMBAT_NAME"},
@@ -30,20 +28,20 @@ local m_tabs
 local windowHeight = 0
 local TOP_PANEL_OFFSET = 29
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetUnitData()
     local data = {}
     local pPlayer = Players[Game.GetLocalPlayer()]
     local pPlayerUnits = pPlayer:GetUnits()
 
     local militaryUnits = {}
-    local navalUnits = {}
-    local airUnits = {}
-    local supportUnits = {}
-    local builderUnits = {}
+    local navalUnits    = {}
+    local airUnits      = {}
+    local supportUnits  = {}
+    local builderUnits  = {}
     local civilianUnits = {}
-    local spyUnits = {}
-    local tradeUnits = {}
+    local spyUnits      = {}
+    local tradeUnits    = {}
 
     for i, pUnit in pPlayerUnits:Members() do
         local unitInfo = GameInfo.Units[pUnit:GetUnitType()]
@@ -80,24 +78,24 @@ function GetUnitData()
     end
 
     table.sort(militaryUnits, sortFunc)
-    table.sort(navalUnits, sortFunc)
-    table.sort(airUnits, sortFunc)
-    table.sort(spyUnits, sortFunc)
+    table.sort(navalUnits,    sortFunc)
+    table.sort(airUnits,      sortFunc)
+    table.sort(spyUnits,      sortFunc)
     table.sort(civilianUnits, sortFunc)
-    table.sort(tradeUnits, sortFunc)
+    table.sort(tradeUnits,    sortFunc)
 
     data.militaryUnits = militaryUnits
-    data.navalUnits = navalUnits
-    data.airUnits = airUnits
-    data.builderUnits = builderUnits
+    data.navalUnits    = navalUnits
+    data.airUnits      = airUnits
+    data.builderUnits  = builderUnits
     data.civilianUnits = civilianUnits
-    data.spyUnits = spyUnits
-    data.tradeUnits = tradeUnits
+    data.spyUnits      = spyUnits
+    data.tradeUnits    = tradeUnits
 
     return data
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetUnitExpenses()
     local player = Players[Game.GetLocalPlayer()]
     local pTreasury = player:GetTreasury()
@@ -155,7 +153,7 @@ function GetUnitExpenses()
     return totalCost
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function RefreshUnitList()
     unitGroupIM:ResetInstances()
     local unitData = GetUnitData()
@@ -175,7 +173,7 @@ function RefreshUnitList()
     Controls.UnitExpenses:SetText(GetUnitExpenses())
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function PopulateUnitList(units, group)
     if units == nil or table.count(units) == 0 then
         return
@@ -190,7 +188,7 @@ function PopulateUnitList(units, group)
     groupInstance.UnitList:ReprocessAnchoring()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function AddUnitToUnitList(pUnit, stackControl)
     local unitEntry = {}
     ContextPtr:BuildInstanceForControl("UnitEntryInstance", unitEntry, stackControl)
@@ -349,21 +347,21 @@ function AddUnitToUnitList(pUnit, stackControl)
     )
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function MoveToUnit(unit)
     UI.LookAtPlot(unit:GetX(), unit:GetY())
     UI.SelectUnit(unit)
     Close()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function SetUnitEntryStatusIcon(unitEntry, icon)
     local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(icon, 22)
     unitEntry.UnitStatusIcon:SetTexture(textureOffsetX, textureOffsetY, textureSheet)
     unitEntry.UnitStatusIcon:SetHide(false)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function AddUpgradeResourceCost(pUnit)
     if isExpansion2 then
         local toolTipString = ""
@@ -388,7 +386,7 @@ function AddUpgradeResourceCost(pUnit)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CloseOtherPanel()
     LuaEvents.LaunchBar_CloseTechTree()
     LuaEvents.LaunchBar_CloseCivicsTree()
@@ -407,7 +405,7 @@ function CloseOtherPanel()
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Open()
     if (Game.GetLocalPlayer() == -1) then
         return
@@ -431,7 +429,7 @@ function Open()
     Controls.ScreenAnimIn:Play()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Close()
     if not ContextPtr:IsHidden() then
         UI.PlaySound("UI_Screen_Close")
@@ -439,7 +437,7 @@ function Close()
     UIManager:DequeuePopup(ContextPtr)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function ToggleUnitList()
     if ContextPtr:IsHidden() then
         Open()
@@ -448,7 +446,7 @@ function ToggleUnitList()
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnNormalMode()
     showDetails = false
     Controls.NormalMode:SetSelected(true)
@@ -458,7 +456,7 @@ function OnNormalMode()
     RefreshUnitList()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnDetailMode()
     showDetails = true
     Controls.NormalMode:SetSelected(false)
@@ -468,7 +466,7 @@ function OnDetailMode()
     RefreshUnitList()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function BuildTabs()
     m_tabs = CreateTabs(Controls.TabContainer, 42, 34, UI.GetColorValueFromHexLiteral(0xFF331D05))
     m_tabs.AddTab(Controls.NormalMode, OnNormalMode)
@@ -477,7 +475,7 @@ function BuildTabs()
     m_tabs.SelectTab(Controls.NormalMode)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnInit(isReload)
     if isReload then
         if not ContextPtr:IsHidden() then
@@ -486,7 +484,7 @@ function OnInit(isReload)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnInputHandler(pInputStruct)
     local uiMsg = pInputStruct:GetMessageType()
     if uiMsg == KeyEvents.KeyUp then
@@ -501,7 +499,7 @@ function OnInputHandler(pInputStruct)
     return false
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Initialize()
     BuildTabs()
 

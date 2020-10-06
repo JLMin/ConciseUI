@@ -2,7 +2,7 @@
 
 -- Base File
 include("DiplomacyRibbon");
-include("cui_leader_icon_support"); -- Concise UI
+include("cui_leader_icon_support"); -- CUI
 
 -- ===========================================================================
 -- Cached Base Functions
@@ -18,7 +18,7 @@ function AddLeader(iconName : string, playerID : number, kProps: table)
 		return;
 	end
 
-    -- Concise UI >>
+    -- CUI >>
     local localPlayer = Players[Game.GetLocalPlayer()];
     if playerID == Game.GetLocalPlayer() or localPlayer:GetDiplomacy():HasMet(playerID) then
         oLeaderIcon.GameEras:SetHide(false);
@@ -36,7 +36,7 @@ function AddLeader(iconName : string, playerID : number, kProps: table)
     local allianceData = CuiGetAllianceData(playerID);
     LuaEvents.CuiLeaderIconToolTip(oLeaderIcon.Portrait, playerID);
     LuaEvents.CuiRelationshipToolTip(oLeaderIcon.Relationship, playerID, allianceData);
-    -- << Concise UI
+    -- << CUI
 
     --[[
 	if GameCapabilities.HasCapability("CAPABILITY_DISPLAY_HUD_RIBBON_RELATIONSHIPS") then

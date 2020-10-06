@@ -15,8 +15,7 @@ include( "ToolTipHelper" );
 include( "GameCapabilities" );
 include( "MapUtilities" );
 
-include("cui_data"); -- Concise UI
-include("cui_settings"); -- Concise UI
+include("cui_settings"); -- CUI
 
 -- ===========================================================================
 --	DEBUG
@@ -243,7 +242,7 @@ function ViewMain( data:table )
 		UI.DataError("Invalid type name returned by GetCivilizationTypeName");
 	end
 
-    -- Concise UI >>
+    -- CUI >>
 	-- Set icons and values for the yield checkboxes
 	Controls.FoodCheck      : GetTextButton(): SetText("[ICON_Food]" .. toPlusMinusString(CuiGetFoodPerTurn(data)));
 	Controls.ProductionCheck: GetTextButton(): SetText("[ICON_Production]" .. toPlusMinusString(data.ProductionPerTurn));
@@ -259,7 +258,7 @@ function ViewMain( data:table )
 	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.SCIENCE],    YieldTypes.SCIENCE,    data.SciencePerTurnToolTip);
 	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.CULTURE],    YieldTypes.CULTURE,    data.CulturePerTurnToolTip);
 	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.FAITH],      YieldTypes.FAITH,      data.FaithPerTurnToolTip);
-    -- << Concise UI
+    -- << CUI
 
 	if m_isShowingPanels then
 		Controls.LabelButtonRows:SetSizeX( SIZE_MAIN_ROW_LEFT_COLLAPSED );
@@ -558,11 +557,11 @@ end
 --	GAME Event
 -- ===========================================================================
 function OnCityProductionChanged(ownerPlayerID:number, cityID:number)
-    -- Concise UI >>
+    -- CUI >>
     if Controls.ChangeProductionCheck:IsChecked() then
         Controls.ChangeProductionCheck:SetCheck(false);
     end
-    -- << Concise UI
+    -- << CUI
 	RefreshIfMatch(ownerPlayerID, cityID);
 end
 
@@ -910,7 +909,7 @@ function RecenterCameraOnCity()
 	UI.LookAtPlot( kCity:GetX(), kCity:GetY() );
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 -- combine purchase tile and manage cityzens
 function CuiOnToggleManageTile()
     if Controls.ManageTileCheck:IsChecked() then
@@ -956,10 +955,10 @@ function OnToggleProduction()
 	if Controls.ChangeProductionCheck:IsChecked() then
 		RecenterCameraOnCity();
 		LuaEvents.CityPanel_ProductionOpen();
-        -- Concise UI >>
+        -- CUI >>
         Controls.ProduceWithFaithCheck:SetCheck(false);
         Controls.ProduceWithGoldCheck:SetCheck(false);
-        -- << Concise UI
+        -- << CUI
 	else
 		LuaEvents.CityPanel_ProductionClose();
 	end
@@ -970,10 +969,10 @@ function OnTogglePurchaseWithGold()
 	if Controls.ProduceWithGoldCheck:IsChecked() then
 		RecenterCameraOnCity();
 		LuaEvents.CityPanel_PurchaseGoldOpen();
-        -- Concise UI >>
+        -- CUI >>
         Controls.ChangeProductionCheck:SetCheck(false);
         Controls.ProduceWithFaithCheck:SetCheck(false);
-        -- << Concise UI
+        -- << CUI
 	else
 		LuaEvents.CityPanel_ProductionClose();
 	end
@@ -984,10 +983,10 @@ function OnTogglePurchaseWithFaith()
 	if Controls.ProduceWithFaithCheck:IsChecked() then
 		RecenterCameraOnCity();
 		LuaEvents.CityPanel_PurchaseFaithOpen();
-        -- Concise UI >>
+        -- CUI >>
         Controls.ChangeProductionCheck:SetCheck(false);
         Controls.ProduceWithGoldCheck:SetCheck(false);
-        -- << Concise UI
+        -- << CUI
 	else
 		LuaEvents.CityPanel_ProductionClose();
 	end
@@ -1137,13 +1136,13 @@ end
 function OnInterfaceModeChanged( eOldMode:number, eNewMode:number )
 
     if eOldMode == InterfaceModeTypes.CITY_MANAGEMENT then
-        -- Concise UI >> combine buttons.
+        -- CUI >> combine buttons.
         if Controls.ManageTileCheck:IsChecked() then
             Controls.ManageTileCheck:SetAndCall(false);
         end
 		-- if Controls.PurchaseTileCheck:IsChecked()   then Controls.PurchaseTileCheck:SetAndCall( false ); end
 		-- if Controls.ManageCitizensCheck:IsChecked() then Controls.ManageCitizensCheck:SetAndCall( false ); end
-        -- << Concise UI
+        -- << CUI
 		UI.SetFixedTiltMode( false );
 		HideGrowthTile();
 	elseif eOldMode == InterfaceModeTypes.DISTRICT_PLACEMENT or eOldMode == InterfaceModeTypes.BUILDING_PLACEMENT then
@@ -1166,21 +1165,21 @@ function OnInterfaceModeChanged( eOldMode:number, eNewMode:number )
 	end
 
     if eNewMode == InterfaceModeTypes.SELECTION or eNewMode == InterfaceModeTypes.CITY_MANAGEMENT then
-        -- Concise UI >> combine buttons.
+        -- CUI >> combine buttons.
         EnableIfNotTutorialBlocked("ManageTileCheck");
 		-- EnableIfNotTutorialBlocked("PurchaseTileCheck");
 		-- EnableIfNotTutorialBlocked("ManageCitizensCheck");
-        -- << Concise UI
+        -- << CUI
 		EnableIfNotTutorialBlocked("ProduceWithFaithCheck");
 		EnableIfNotTutorialBlocked("ProduceWithGoldCheck");
 		EnableIfNotTutorialBlocked("ChangeProductionCheck");
 
     elseif eNewMode == InterfaceModeTypes.DISTRICT_PLACEMENT then
-        -- Concise UI >> combine buttons.
+        -- CUI >> combine buttons.
         Controls.ManageTileCheck:SetDisabled(true);
 		-- Controls.PurchaseTileCheck:SetDisabled( true );
 		-- Controls.ManageCitizensCheck:SetDisabled( true );
-        -- << Concise UI
+        -- << CUI
 		Controls.ChangeProductionCheck:SetDisabled( true );
 		Controls.ProduceWithFaithCheck:SetDisabled( true );
 		Controls.ProduceWithGoldCheck:SetDisabled( true );
@@ -1283,7 +1282,7 @@ function OnTutorial_ContextDisableItems( contextName:string, kIdsToDisable:table
 	end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiGetFoodToolTip(data)
     local foodToolTip =
     -- vanila tooltip
@@ -1315,14 +1314,32 @@ function CuiGetFoodToolTip(data)
     return foodToolTip
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
+function CuiGetFoodPerTurn(data)
+    local modifiedFood
+    local foodPerTurn
+    if data.TurnsUntilGrowth > -1 then
+        local growthModifier = math.max(1 + (data.HappinessGrowthModifier / 100) + data.OtherGrowthModifiers, 0)
+        modifiedFood = Round(data.FoodSurplus * growthModifier, 2)
+        if data.Occupied then
+            foodPerTurn = modifiedFood * data.OccupationMultiplier
+        else
+            foodPerTurn = modifiedFood * data.HousingMultiplier
+        end
+    else
+        foodPerTurn = data.FoodSurplus
+    end
+    return foodPerTurn
+end
+
+-- CUI -----------------------------------------------------------------------
 function CuiForceHideCityBanner()
     CuiSettings:SetBoolean(CuiSettings.SHOW_CITYS, false)
     ContextPtr:LookUpControl("/InGame/CityBannerManager"):SetHide(true)
     LuaEvents.MinimapPanel_RefreshMinimapOptions()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiForceShowCityBanner()
     CuiSettings:SetBoolean(CuiSettings.SHOW_CITYS, true)
     ContextPtr:LookUpControl("/InGame/CityBannerManager"):SetHide(false)
@@ -1366,10 +1383,10 @@ function Initialize()
 
 
     if GameCapabilities.HasCapability("CAPABILITY_GOLD") then
-        -- Concise UI >> combine buttons.
+        -- CUI >> combine buttons.
 		-- Controls.PurchaseTileCheck:RegisterCheckHandler(OnTogglePurchaseTile );
 		-- Controls.PurchaseTileCheck:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
-        -- << Concise UI
+        -- << CUI
 		Controls.ProduceWithGoldCheck:RegisterCheckHandler( OnTogglePurchaseWithGold );
 		Controls.ProduceWithGoldCheck:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
 	else
@@ -1377,7 +1394,7 @@ function Initialize()
 		Controls.ProduceWithGoldCheck:SetHide(true);
     end
 
-    -- Concise UI >> combine buttons.
+    -- CUI >> combine buttons.
     Controls.ManageTileCheck:RegisterCheckHandler(CuiOnToggleManageTile);
     Controls.ManageTileCheck:RegisterCallback(
         Mouse.eMouseEnter,
@@ -1387,7 +1404,7 @@ function Initialize()
     );
     -- Controls.ManageCitizensCheck:RegisterCheckHandler(	OnToggleManageCitizens );
     -- Controls.ManageCitizensCheck:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
-    -- << Concise UI
+    -- << CUI
 	Controls.ChangeProductionCheck:RegisterCheckHandler( OnToggleProduction );
 	Controls.ChangeProductionCheck:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
 	Controls.ProduceWithFaithCheck:RegisterCheckHandler( OnTogglePurchaseWithFaith );
@@ -1416,14 +1433,14 @@ function Initialize()
 	LuaEvents.CityPanelOverview_CloseButton.Add(	OnCloseOverviewPanel );
 	LuaEvents.CityPanel_SetOverViewState.Add(		OnCityPanelSetOverViewState );
 
-    -- Concise UI >> combine buttons.
+    -- CUI >> combine buttons.
     -- LuaEvents.CityPanel_ToggleManageCitizens.Add(	OnCityPanelToggleManageCitizens );
     LuaEvents.CityPanel_ToggleManageCitizens.Add(
         function()
             Controls.ManageTileCheck:SetAndCall(not Controls.ManageTileCheck:IsChecked())
         end
     );
-    -- << Concise UI
+    -- << CUI
 
 	LuaEvents.GameDebug_Return.Add(					OnGameDebugReturn );
 	LuaEvents.ProductionPanel_Close.Add(			OnProductionPanelClose );

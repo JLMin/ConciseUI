@@ -21,12 +21,12 @@
                     </GridButton>
                     <Grid Texture="Controls_SeparatorAngled" TextureSize="14,6" Anchor="L,T" Size="parent,6" SliceCorner="6,4" AnchorSide="I,O" Offset="0,-2"/>
                 </Box>
-                <!-- Concise UI -->
+                <!-- CUI -->
                 <Box ID="EmptyPanel" Color="40,35,25,230" Size="296,auto" AutoSizePadding="0,5" Hidden="1" ConsumeMouseOver="1">
                     <Image Texture="Controls_GradientSmall" Size="parent,50" Color="0,0,0,200" Anchor="L,T"/>
-                    <!-- Concise UI -->
+                    <!-- CUI -->
                     <Grid Anchor="C,C" Size="parent-10,auto" InnerPadding="40,30" Texture="Controls_DecoFrame" SliceCorner="20,19" SliceSize="1,1" SliceTextureSize="40,38" Color="143,122,82,100" MinSize="40,38">
-                        <!-- Concise UI -->
+                        <!-- CUI -->
                         <Label Anchor="C,C" String="LOC_WORLD_TRACKER_EMPTY" Style="FontNormal14" Color="143,122,82,255" WrapWidth="parent-50"/>
                     </Grid>
                     <Box Color="143,122,82,200" Anchor="L,B" Size="parent-1,2">
@@ -34,7 +34,7 @@
                         <Box Color="0,0,0,200" Anchor="L,B" Size="parent,1" AnchorSide="I,O"/>
                     </Box>
                 </Box>
-                <!-- Concise UI -->
+                <!-- CUI -->
                 <Container ID="ChatPanel" Size="300,99" Offset="0,0">
                     <LuaContext FileName="ChatPanel"/>
                 </Container>
@@ -45,15 +45,15 @@
             </Stack>
         </SlideAnim>
     </AlphaAnim>
-    <!-- Concise UI -->
+    <!-- CUI -->
     <ScrollPanel ID="DropdownScroll" Offset="15,98" Size="parent,500" Vertical="1">
-        <!-- Concise UI -->
+        <!-- CUI -->
         <SlideAnim ID="DropdownAnim" Start="0,-490" EndOffset="0,480" Function="OutQuint" Speed="3" Cycle="Once" Stopped="1">
-            <!-- Concise UI -->
+            <!-- CUI -->
             <Grid ID="DropdownGrid" Offset="0,-25" Size="auto,auto" Texture="Tracker_OptionsBacking" SliceCorner="55,61" SliceSize="1,1" SliceTextureSize="121,119" ConsumeAllMouse="1" MinSize="121,119" AutoSizePadding="0,15">
-                <!-- Concise UI -->
+                <!-- CUI -->
                 <Stack Anchor="L,T" Offset="25,40" StackGrowth="Right" StackPadding="25">
-                    <!-- Concise UI -->
+                    <!-- CUI -->
                     <Stack Anchor="L,T" StackGrowth="Bottom" StackPadding="5">
                         <Container ID="ResearchCheckButton" Size="auto,auto" Anchor="R,T">
                             <CheckBox ID="ResearchCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_HIDE_RESEARCH_PANEL" WrapWidth="180" Align="Right"/>
@@ -62,7 +62,7 @@
                             <CheckBox ID="CivicsCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_HIDE_CIVICS_PANEL" WrapWidth="180" Align="Right"/>
                         </Container>
 
-                        <!-- Concise UI >> -->
+                        <!-- CUI >> -->
                         <Container ID="GossipCheckButton" Size="auto,auto" Anchor="R,T">
                             <CheckBox ID="GossipLogCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_GOSSIP_LOG" WrapWidth="180" Align="Right"/>
                         </Container>
@@ -70,7 +70,7 @@
                         <Container ID="CombatCheckButton" Size="auto,auto" Anchor="R,T">
                             <CheckBox ID="CombatLogCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_CUI_WT_COMBAT_LOG" WrapWidth="180" Align="Right"/>
                         </Container>
-                        <!-- << Concise UI -->
+                        <!-- << CUI -->
 
                         <Container ID="ChatCheckButton" Size="auto,auto" Anchor="R,T">
                             <CheckBox ID="ChatCheck" Anchor="R,T" Style="WorldTrackerCheckBox" TextOffset="-5" String="LOC_HIDE_CHAT_PANEL" WrapWidth="180" Align="Right"/>
@@ -92,10 +92,10 @@
 
 
     <!-- ================================================================== -->
-    <!--    Concise UI Start                                                -->
+    <!--    CUI Start                                                -->
     <!-- ================================================================== -->
 
-    <!-- Concise UI: Tracker Instance -->
+    <!-- CUI: Tracker Instance -->
     <Instance Name="CuiTrackerInstance">
         <Grid ID="MainPanel" Size="296,auto" ConsumeMouseOver="0">
             <Box Color="40,35,25,230" Size="296,auto" AutoSizePadding="0,2">
@@ -188,7 +188,7 @@
         </Container>
     </Instance>
 
-    <!-- Concise UI: Gossip Log Instance -->
+    <!-- CUI: Gossip Log Instance -->
     <Instance Name="GossipLogInstance">
         <Grid ID="MainPanel" Size="296,82" ConsumeMouseOver="0">
             <Box ID="LogPanel" Anchor="C,T" Offset="0,0" Size="296,78" Color="40,35,25,230">
@@ -208,7 +208,7 @@
         </Grid>
     </Instance>
 
-    <!-- Concise UI: Combat Log Instance -->
+    <!-- CUI: Combat Log Instance -->
     <Instance Name="CombatLogInstance">
         <Grid ID="MainPanel" Size="296,82" ConsumeMouseOver="0">
             <Box ID="LogPanel" Anchor="C,T" Offset="0,0" Size="296,78" Color="40,35,25,230">
@@ -228,7 +228,7 @@
         </Grid>
     </Instance>
 
-    <!-- Concise UI: Log Instance -->
+    <!-- CUI: Log Instance -->
     <Instance Name="LogInstance">
         <Container ID="LogRoot" Offset="0,9" Anchor="L,C" Size="280,28">
             <Label ID="String" Anchor="L,C" WrapWidth="250" Color1="0,0,0,150" Style="FontNormal14" WrapWidth="250"/>
@@ -236,7 +236,7 @@
         </Container>
     </Instance>
 
-    <!-- Concise UI: Wonder Tooltip -->
+    <!-- CUI: Wonder Tooltip -->
     <ToolTipType Name="CuiWonderTT">
         <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
             <Stack ID="MainStack" StackGrowth="Right" StackPadding="10">
@@ -247,7 +247,7 @@
         </Grid>
     </ToolTipType>
 
-    <!-- Concise UI: Resource Tooltip -->
+    <!-- CUI: Resource Tooltip -->
     <ToolTipType Name="CuiResourceTT">
         <Grid ID="BG" Size="auto,auto" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
             <Stack ID="MainStack" StackGrowth="Down" StackPadding="10">
@@ -258,7 +258,7 @@
         </Grid>
     </ToolTipType>
 
-    <!-- Concise UI: Open Border Tooltip -->
+    <!-- CUI: Open Border Tooltip -->
     <ToolTipType Name="CuiBorderTT">
         <Grid ID="BG" Size="auto,auto" MinSize="auto, 200" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
             <Stack ID="MainStack" StackGrowth="Right" StackPadding="4">
@@ -283,7 +283,7 @@
         </Grid>
     </ToolTipType>
 
-    <!-- Concise UI: Trade Route Tooltip -->
+    <!-- CUI: Trade Route Tooltip -->
     <ToolTipType Name="CuiTradeTT">
         <Grid ID="BG" Size="auto,auto" MinSize="auto, 200" SliceCorner="10,10" SliceTextureSize="33,32" Texture="Controls_Tooltip" InnerPadding="25,25" InnerOffset="10,10">
             <Stack ID="MainStack" StackGrowth="Right" StackPadding="4">

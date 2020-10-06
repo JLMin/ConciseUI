@@ -11,7 +11,7 @@ from xml.etree.ElementTree import Element, SubElement
 
 # Version
 GAME_VERSION = '1.0.5.11 (516180)'
-MOD_VERSION = '1.6.0'
+MOD_VERSION = '1.6.1'
 
 # Paths
 PATH_PROJECT = Path(__file__).parents[1]

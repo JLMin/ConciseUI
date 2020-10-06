@@ -42,11 +42,6 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ru_RU", "LOC_CUI_DB_DIPLOMATIC_POINT",                                        "Очки дипломатической победы: {1_num} / {2_total}"),
 
 -- =============================================================================
--- Espionage Panel
-("ru_RU", "LOC_CUI_EP_FILTER_ALL",                                              "Все"),
-("ru_RU", "LOC_CUI_EP_FILTER_SHOW_CITIES",                                      "Показать города"),
-
--- =============================================================================
 -- Minimap Panel
 ("ru_RU", "LOC_CUI_MP_SHOW_DISTRICTS_TOOLTIP",                                  "Показать значки районов"),
 ("ru_RU", "LOC_CUI_MP_SHOW_WONDERS_TOOLTIP",                                    "Показать значки чудес света"),
@@ -64,46 +59,14 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ru_RU", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Вкл./выкл значки религиозных юнитов"),
 
 -- =============================================================================
--- Report Screen
-("ru_RU", "LOC_CUI_RS_SHOW_CITY_DETAILS",                                       "Показать детали города"),
-("ru_RU", "LOC_CUI_RS_BUILDING_NUMBER",                                         "Число зданий"),
-("ru_RU", "LOC_CUI_RS_TOTALS",                                                  "Всего: {1_num}"),
-("ru_RU", "LOC_CUI_RS_DEALS_OUTGOING",                                          "Исходящие"),
-("ru_RU", "LOC_CUI_RS_DEALS_INCOMING",                                          "Входящие"),
-
--- =============================================================================
 -- SpyInfo
 ("ru_RU", "LOC_CUI_SI_SPY_AVAILABLE",                                           "{1_num} [ICON_Unit] {1_num : plural 1?Spy; other?Spies;} доступно"),
 ("ru_RU", "LOC_CUI_SI_SPY_CAPACITY",                                            "{1_num} [ICON_Unit] {1_num : plural 1?Spy; other?Spies;} всего"),
 
 -- =============================================================================
 -- World Tracker
-("ru_RU", "LOC_CUI_WT_REMINDER",                                                "Напоминание"),
-("ru_RU", "LOC_CUI_WT_TECH_REMINDER_TOOLTIP",                                   "Фоновый цвет изменяется на зеленый, если технология может быть завершена озарением."),
-("ru_RU", "LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP",                                  "Фоновый цвет изменяется на зеленый, если социальный институт может быть завершен вдохновением."),
 ("ru_RU", "LOC_CUI_WT_GOSSIP_LOG",                                              "Журнал слухов"),
 ("ru_RU", "LOC_CUI_WT_COMBAT_LOG",                                              "Журнал сражений"),
-("ru_RU", "LOC_CUI_WT_PERSIST",                                                 "Очистка"),
-("ru_RU", "LOC_CUI_WT_GLOG_PERSIST_TOOLTIP",                                    "Не очищать журнал слухов между ходами."),
-("ru_RU", "LOC_CUI_WT_CLOG_PERSIST_TOOLTIP",                                    "Не очищать журнал сражений между ходами."),
-
--- =============================================================================
--- Trade Panel
-("ru_RU", "LOC_CUI_TP_SORT_BY_FOOD_TOOLTIP",                                    "Сортировать по [ICON_Food]пище."),
-("ru_RU", "LOC_CUI_TP_SORT_BY_PRODUCTION_TOOLTIP",                              "Сортировать по [ICON_Production]производству."),
-("ru_RU", "LOC_CUI_TP_SORT_BY_GOLD_TOOLTIP",                                    "Сортировать по [ICON_Gold]золоту."),
-("ru_RU", "LOC_CUI_TP_SORT_BY_SCIENCE_TOOLTIP",                                 "Сортировать по [ICON_Science]науке."),
-("ru_RU", "LOC_CUI_TP_SORT_BY_CULTURE_TOOLTIP",                                 "Сортировать по [ICON_Culture]культуре."),
-("ru_RU", "LOC_CUI_TP_SORT_BY_FAITH_TOOLTIP",                                   "Сортировать по [ICON_Faith]религии."),
-("ru_RU", "LOC_CUI_TP_SORT_BY_TURNS_REMAINING_TOOLTIP",                         "Сортировать по [ICON_Turn]ходам до завершения."),
-("ru_RU", "LOC_CUI_TP_REPEAT",                                                  "Повторить"),
-("ru_RU", "LOC_CUI_TP_REPEAT_TOOLTIP",                                          "Повторять постоянно."),
-("ru_RU", "LOC_CUI_TP_SELECT_A_CITY",                                           "Выбрать новый исходящий город."),
-
--- =============================================================================
--- Espionage Panel
-("ru_RU", "LOC_CUI_EP_SHOW_CITYS",                                              "Показать города"),
-("ru_RU", "LOC_CUI_EP_SIPHON_FUNDS",                                            "Получить ({1_GoldString}) доходность."),
 
 -- =============================================================================
 -- Production Panel

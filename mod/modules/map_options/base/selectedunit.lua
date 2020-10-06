@@ -192,27 +192,27 @@ function OnUnitSelectionChanged( playerID:number, unitID:number, hexI:number, he
 
 			UILens.SetActive("Default");
 
-            -- Concise UI >>
+            -- CUI >>
             --[[
 			local religiousStrength :number = kUnit:GetReligiousStrength();
 			if religiousStrength > 0 and not UILens.IsLensActive("Religion") then
 				UILens.SetActive("Religion");
             else
             ]]
-            -- << Concise UI
+            -- << CUI
             if GameInfo.Units[kUnit:GetUnitType()].FoundCity and (not m_isDisableWaterAvailLens) and pPlayer:GetCities():GetCount() > 0 then
 				UILens.ToggleLayerOn(m_HexColoringWaterAvail);			-- Used on the settler lens
 			end
 		else
             if kUnit ~= nil then
-                -- Concise UI >>
+                -- CUI >>
                 --[[
 				local religiousStrength :number = kUnit:GetReligiousStrength();
 				if religiousStrength > 0 then
 					UILens.SetActive("Default");
                 else
                 ]]
-                -- << Concise UI
+                -- << CUI
                 if GameInfo.Units[kUnit:GetUnitType()].FoundCity and (not m_isDisableWaterAvailLens) then
 					UILens.ToggleLayerOff(m_HexColoringWaterAvail);
 				end

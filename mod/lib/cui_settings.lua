@@ -1,11 +1,10 @@
 -- ===========================================================================
--- Concise UI
 -- cui_settings.lua
 -- ===========================================================================
 
 local SETTING_PREFIX = "CUI_SETTING_"
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 CuiSettings = {
     -- map options
     SHOW_IMPROVES     = {field = "ShowImproveS",      default = false},
@@ -53,19 +52,19 @@ CuiSettings = {
 }
 CuiSettings.__index = CuiSettings
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 local function CuiCompleteKey(field)
     return SETTING_PREFIX .. tostring(field)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiSettings:SetBoolean(k, b)
     local key = CuiCompleteKey(k.field)
     local value = b and "true" or "false"
     PlayerConfigurations[Game.GetLocalPlayer()]:SetValue(key, value)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiSettings:GetBoolean(k)
     local key = CuiCompleteKey(k.field)
     local value = PlayerConfigurations[Game.GetLocalPlayer()]:GetValue(key)
@@ -76,7 +75,7 @@ function CuiSettings:GetBoolean(k)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiSettings:ReverseAndGetBoolean(k)
     local v = CuiSettings:GetBoolean(k)
     local value = v == false
@@ -84,14 +83,14 @@ function CuiSettings:ReverseAndGetBoolean(k)
     return value
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiSettings:SetNumber(k, v)
     local key = CuiCompleteKey(k.field)
     local value = v
     PlayerConfigurations[Game.GetLocalPlayer()]:SetValue(key, value)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiSettings:GetNumber(k)
     local key = CuiCompleteKey(k.field)
     local value = PlayerConfigurations[Game.GetLocalPlayer()]:GetValue(key)
@@ -102,14 +101,14 @@ function CuiSettings:GetNumber(k)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiSettings:SetString(k, s)
     local key = CuiCompleteKey(k.field)
     local value = tostring(s)
     PlayerConfigurations[Game.GetLocalPlayer()]:SetValue(key, value)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiSettings:GetString(k)
     local key = CuiCompleteKey(k.field)
     local value = PlayerConfigurations[Game.GetLocalPlayer()]:GetValue(key)

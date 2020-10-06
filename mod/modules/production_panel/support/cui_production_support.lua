@@ -1,15 +1,14 @@
 -- ===========================================================================
--- Concise UI
 -- cui_production_support.lua
 -- ===========================================================================
 
-include("cui_helper")
+include("cui_utils")
 
 -- ===========================================================================
 -- Help Functions
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetDistrictBaseType(district)
     local dType = district.DistrictType
     if not isNil(GameInfo.DistrictReplaces[dType]) then
@@ -18,7 +17,7 @@ function GetDistrictBaseType(district)
     return dType
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiCanProduceDistrict(city, queue, district)
     local canProduce, results = queue:CanProduce(district.Hash, false, true)
 
@@ -36,7 +35,7 @@ function CuiCanProduceDistrict(city, queue, district)
     return canProduce, results
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiDistrictReasonCheck(results)
     local suitableTxt = "LOC_DISTRICT_ZONE_NO_SUITABLE_LOCATION"
     -- local floodedTxt  = Locale.Lookup("LOC_DISTRICT_REPAIR_LOCATION_FLOODED");
@@ -57,7 +56,7 @@ function CuiDistrictReasonCheck(results)
     return notSuitable
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiIsItemInProgress(queue, item)
     if item.Progress > 0 then
         return true
@@ -65,7 +64,7 @@ function CuiIsItemInProgress(queue, item)
     return item.RequiresPlacement and queue:HasBeenPlaced(item.Hash)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetFailureToolTip(canProduce, results)
     if (not canProduce) and results then
         local failureReasons = results[CityCommandResults.FAILURE_REASONS]
@@ -84,7 +83,7 @@ function GetFailureToolTip(canProduce, results)
     return ""
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetPurchaseCostToolTip(cost, yield)
     local tooltip = ""
     if cost ~= 0 then
@@ -99,7 +98,7 @@ function GetPurchaseCostToolTip(cost, yield)
     return tooltip
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function GetProduceCostToolTip(cost, progress)
     local tooltip = ""
     if cost ~= 0 then
@@ -113,13 +112,13 @@ function GetProduceCostToolTip(cost, progress)
     return tooltip
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function TurnString(t)
     local n = (t == -1) and "999+" or t
     return t .. "[ICON_TURN]"
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function ComposeTT(...)
     local args = {...}
     if isNil(args) then
@@ -144,7 +143,7 @@ end
 -- Repeat Project
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 RepeatableProject = {
     -- base game
     "LOC_PROJECT_ENHANCE_DISTRICT_ENCAMPMENT_NAME",
@@ -169,6 +168,7 @@ RepeatableProject = {
     "LOC_PROJECT_TRAIN_ASTRONAUTS_NAME"
 }
 
+-- CUI -----------------------------------------------------------------------
 function CuiIsProjectRepeatable(project)
     for _, name in ipairs(RepeatableProject) do
         if project.Name == name then
@@ -178,11 +178,13 @@ function CuiIsProjectRepeatable(project)
     return false
 end
 
+-- CUI -----------------------------------------------------------------------
 function AddProjectToRepeatList(city, projectHash)
     local cityName = city:GetName()
     RepeatedProjectsList[cityName] = projectHash
 end
 
+-- CUI -----------------------------------------------------------------------
 function StopRepeatProject(city)
     local cityName = city:GetName()
     if RepeatedProjectsList[cityName] then
@@ -190,6 +192,7 @@ function StopRepeatProject(city)
     end
 end
 
+-- CUI -----------------------------------------------------------------------
 function RepeatProjects()
     local playerID = Game.GetLocalPlayer()
     local player = Players[playerID]
@@ -210,28 +213,10 @@ function RepeatProjects()
 end
 
 -- ===========================================================================
--- Test & Debug
--- ===========================================================================
-
--- Concise UI ----------------------------------------------------------------
-function PPD(data)
-    --
-end
-
-function isItem(item, name)
-    local locName = Locale.Lookup(item.Name)
-    return locName == name
-end
-
-function pItem(item, extraInfo)
-    print(Locale.Lookup(item.Name), extraInfo)
-end
-
--- ===========================================================================
 -- Initialize
 -- ===========================================================================
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Initialize()
     RepeatedProjectsList = {}
     Events.PlayerTurnActivated.Add(RepeatProjects)

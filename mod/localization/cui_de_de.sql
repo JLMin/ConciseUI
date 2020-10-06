@@ -42,11 +42,6 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_DB_DIPLOMATIC_POINT",                                        "Diplomatiesiegespunkte: {1_num} / {2_total}"),
 
 -- =============================================================================
--- Espionage Panel
-("de_DE", "LOC_CUI_EP_FILTER_ALL",                                              "Alle"),
-("de_DE", "LOC_CUI_EP_FILTER_SHOW_CITIES",                                      "Zeige Städte"),
-
--- =============================================================================
 -- Minimap Panel
 ("de_DE", "LOC_CUI_MP_SHOW_DISTRICTS_TOOLTIP",                                  "Bezirksymbole anzeigen"),
 ("de_DE", "LOC_CUI_MP_SHOW_WONDERS_TOOLTIP",                                    "Weltwundersymbole anzeigen"),
@@ -64,46 +59,14 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("de_DE", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Religionseinheiten ein/aus"),
 
 -- =============================================================================
--- Report Screen
-("de_DE", "LOC_CUI_RS_SHOW_CITY_DETAILS",                                       "Stadtdetails anzeigen"),
-("de_DE", "LOC_CUI_RS_BUILDING_NUMBER",                                         "Anzahl der Gebäude"),
-("de_DE", "LOC_CUI_RS_TOTALS",                                                  "Gesamt: {1_num}"),
-("de_DE", "LOC_CUI_RS_DEALS_OUTGOING",                                          "Ausgehend"),
-("de_DE", "LOC_CUI_RS_DEALS_INCOMING",                                          "Eingehend"),
-
--- =============================================================================
 -- SpyInfo
 ("de_DE", "LOC_CUI_SI_SPY_AVAILABLE",                                           "{1_num} [ICON_Unit] {1_num : plural 1?Spion; other?Spione;} verfügbar"),
 ("de_DE", "LOC_CUI_SI_SPY_CAPACITY",                                            "{1_num} [ICON_Unit] {1_num : plural 1?Spion; other?Spione;} möglich"),
 
 -- =============================================================================
 -- World Tracker
-("de_DE", "LOC_CUI_WT_REMINDER",                                                "Erinnerung"),
-("de_DE", "LOC_CUI_WT_TECH_REMINDER_TOOLTIP",                                   "Die Hintergrundfarbe wird grün, wenn die Technologie mit einem Heureka vollständig erforscht werden kann."),
-("de_DE", "LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP",                                  "Die Hintergrundfarbe wird grün, wenn die Ausrichtung durch eine Eingebung abgeschlossen werden kann."),
 ("de_DE", "LOC_CUI_WT_GOSSIP_LOG",                                              "Gerüchte"),
 ("de_DE", "LOC_CUI_WT_COMBAT_LOG",                                              "Kampfberichte"),
-("de_DE", "LOC_CUI_WT_PERSIST",                                                 "Beibehalten"),
-("de_DE", "LOC_CUI_WT_GLOG_PERSIST_TOOLTIP",                                    "Gerüchteprotokoll zwischen den Runden nicht leeren."),
-("de_DE", "LOC_CUI_WT_CLOG_PERSIST_TOOLTIP",                                    "Kampfberichte zwischen den Runden nicht leeren."),
-
--- =============================================================================
--- Trade Panel
-("de_DE", "LOC_CUI_TP_SORT_BY_FOOD_TOOLTIP",                                    "Nach [ICON_Food]Nahrung sortieren."),
-("de_DE", "LOC_CUI_TP_SORT_BY_PRODUCTION_TOOLTIP",                              "Nach [ICON_Production]Produktion sortieren."),
-("de_DE", "LOC_CUI_TP_SORT_BY_GOLD_TOOLTIP",                                    "Nach [ICON_Gold]Gold sortieren."),
-("de_DE", "LOC_CUI_TP_SORT_BY_SCIENCE_TOOLTIP",                                 "Nach [ICON_Science]Wissenschaft sortieren."),
-("de_DE", "LOC_CUI_TP_SORT_BY_CULTURE_TOOLTIP",                                 "Nach [ICON_Culture]Kultur sortieren."),
-("de_DE", "LOC_CUI_TP_SORT_BY_FAITH_TOOLTIP",                                   "Nach [ICON_Faith]Glauben sortieren."),
-("de_DE", "LOC_CUI_TP_SORT_BY_TURNS_REMAINING_TOOLTIP",                         "Nach Anzahl der [ICON_Turn]Züge zum Vervollständigen der Route sortieren."),
-("de_DE", "LOC_CUI_TP_REPEAT",                                                  "Wiederholen"),
-("de_DE", "LOC_CUI_TP_REPEAT_TOOLTIP",                                          "Händler diese Route dauerhaft wiederholen lassen."),
-("de_DE", "LOC_CUI_TP_SELECT_A_CITY",                                           "Eine neue Ausgangsstadt auswählen."),
-
--- =============================================================================
--- Espionage Panel
-("de_DE", "LOC_CUI_EP_SHOW_CITYS",                                              "Städte anzeigen"),
-("de_DE", "LOC_CUI_EP_SIPHON_FUNDS",                                            "Erhalte ({1_GoldString}) Gold."),
 
 -- =============================================================================
 -- Production Panel

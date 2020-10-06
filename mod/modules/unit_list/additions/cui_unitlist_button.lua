@@ -1,5 +1,4 @@
 -- ===========================================================================
--- Concise UI
 -- cui_unitlist_button.lua
 -- ===========================================================================
 
@@ -7,12 +6,12 @@ local isAttached = false
 local unitListButtonInstance = {}
 local pipInstance = {}
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnToggleUnitList()
     LuaEvents.CuiToggleUnitList()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function AttachToTopPanel()
     if not isAttached then
         local buttonStack = ContextPtr:LookUpControl("/InGame/LaunchBar/ButtonStack")
@@ -39,7 +38,7 @@ function AttachToTopPanel()
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiOnIngameAction(actionId)
     if Game.GetLocalPlayer() == -1 then
         return
@@ -50,7 +49,7 @@ function CuiOnIngameAction(actionId)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Initialize()
     ContextPtr:SetHide(true)
 

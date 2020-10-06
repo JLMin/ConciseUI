@@ -9,7 +9,7 @@ include("PopupDialog")
 include("ToolTipHelper_PlayerYields")
 include("CivilizationIcon")
 include("GreatWorksSupport")
-include("cui_helper") -- CUI
+include("cui_utils") -- CUI
 include("cui_deal_support") -- CUI
 
 -- ===========================================================================
@@ -242,7 +242,7 @@ function CreateVerticalGroup(rootStack, title)
     return iconList
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiCreateEditGroup(rootStack)
     local iconList = CuiGroupListIM:GetInstance(rootStack)
     iconList.List:CalculateSize()
@@ -991,9 +991,11 @@ end
 -- ===========================================================================
 -- Clip val to be within the range of min and max
 function clip(val, min, max)
+    -- CUI >>
     if min == nil then
         min = 1
-    end -- CUI
+    end
+    -- << CUI
     if min and val < min then
         val = min
     elseif max and val > max then
@@ -1694,7 +1696,7 @@ function PopulateAvailableResources(player, iconList, className)
         DealItemTypes.RESOURCES,
         pForDeal
     )
-    -- CUI overwrite - resources check
+    -- CUI: overwrite - resources check
     if possibleResources then
         for _, entry in ipairs(possibleResources) do
             local resourceDesc = GameInfo.Resources[entry.ForType]
@@ -1736,7 +1738,7 @@ function PopulateAvailableResources(player, iconList, className)
                         end
                     )
                     -- Set a tool tip
-                    -- CUI icon.SelectButton:LocalizeAndSetToolTip(resourceDesc.Name);
+                    -- CUI: icon.SelectButton:LocalizeAndSetToolTip(resourceDesc.Name);
                     icon.SelectButton:ReprocessAnchoring()
 
                     iAvailableItemCount = iAvailableItemCount + 1
@@ -2896,17 +2898,17 @@ function OnQuitYes()
     Events.UserConfirmedClose()
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiResetEditGroup()
     CuiEditGroupIM:ResetInstances()
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiGetEditGroup(iconList)
     return CuiEditGroupIM:GetInstance(iconList.ListStack)
 end
 
--- CUI =======================================================================
+-- CUI -----------------------------------------------------------------------
 function CuiEditGroupSetup(player, editGroup, groupType)
     if groupType == "ONE_TIME" then
         CuiRegCallback(

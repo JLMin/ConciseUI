@@ -42,11 +42,6 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ja_JP", "LOC_CUI_DB_DIPLOMATIC_POINT",                                        "外交勝利: {1_num} / {2_total}"),
 
 -- =============================================================================
--- Espionage Panel
-("ja_JP", "LOC_CUI_EP_FILTER_ALL",                                              "すべて"),
-("ja_JP", "LOC_CUI_EP_FILTER_SHOW_CITIES",                                      "都市を表示"),
-
--- =============================================================================
 -- Minimap Panel
 ("ja_JP", "LOC_CUI_MP_SHOW_DISTRICTS_TOOLTIP",                                  "区域のアイコンを表示"),
 ("ja_JP", "LOC_CUI_MP_SHOW_WONDERS_TOOLTIP",                                    "遺産のアイコンを表示"),
@@ -64,46 +59,17 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("ja_JP", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "宗教表示の切り替え"),
 
 -- =============================================================================
--- Report Screen
-("ja_JP", "LOC_CUI_RS_SHOW_CITY_DETAILS",                                       "都市の詳細を表示"),
-("ja_JP", "LOC_CUI_RS_BUILDING_NUMBER",                                         "建造物の数"),
-("ja_JP", "LOC_CUI_RS_TOTALS",                                                  "合計: {1_num}"),
-("ja_JP", "LOC_CUI_RS_DEALS_OUTGOING",                                          "支出"),
-("ja_JP", "LOC_CUI_RS_DEALS_INCOMING",                                          "収入"),
-
--- =============================================================================
 -- Top Panel
 ("ja_JP", "LOC_CUI_SI_SPY_AVAILABLE",                                           "[ICON_Unit]スパイ待機中: {1_num}"),
 ("ja_JP", "LOC_CUI_SI_SPY_CAPACITY",                                            "[ICON_Unit]スパイ保有枠: {1_num}"),
 
 -- =============================================================================
 -- World Tracker
-("ja_JP", "LOC_CUI_WT_REMINDER",                                                "リマインダー"),
-("ja_JP", "LOC_CUI_WT_TECH_REMINDER_TOOLTIP",                                   "ブーストで研究が完了するタイミングになったら背景が緑になる"),
-("ja_JP", "LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP",                                  "ブーストで研究が完了するタイミングになったら背景が緑になる"),
 ("ja_JP", "LOC_CUI_WT_GOSSIP_LOG",                                              "ゴシップログ"),
 ("ja_JP", "LOC_CUI_WT_COMBAT_LOG",                                              "戦闘ログ"),
 ("ja_JP", "LOC_CUI_WT_PERSIST",                                                 "ログを保存"),
 ("ja_JP", "LOC_CUI_WT_PERSIST_TOOLTIP",                                         "ターン間でゴシップログを消去しないでください。"),
 ("ja_JP", "LOC_CUI_WT_CLOG_PERSIST_TOOLTIP",                                    "ターン間の戦闘ログをクリアしないでください。"),
-
--- =============================================================================
--- Trade Panel
-("ja_JP", "LOC_CUI_TP_SORT_BY_FOOD_TOOLTIP",                                    "[ICON_Food]食料で並べ替え"),
-("ja_JP", "LOC_CUI_TP_SORT_BY_PRODUCTION_TOOLTIP",                              "[ICON_Production]生産力で並べ替え"),
-("ja_JP", "LOC_CUI_TP_SORT_BY_GOLD_TOOLTIP",                                    "[ICON_Gold]ゴールドで並べ替え"),
-("ja_JP", "LOC_CUI_TP_SORT_BY_SCIENCE_TOOLTIP",                                 "[ICON_Science]科学力で並べ替え"),
-("ja_JP", "LOC_CUI_TP_SORT_BY_CULTURE_TOOLTIP",                                 "[ICON_Culture]文化力で並べ替え"),
-("ja_JP", "LOC_CUI_TP_SORT_BY_FAITH_TOOLTIP",                                   "[ICON_Faith]信仰力で並べ替え"),
-("ja_JP", "LOC_CUI_TP_SORT_BY_TURNS_REMAINING_TOOLTIP",                         "[ICON_Turn]残りターンで並べ替え"),
-("ja_JP", "LOC_CUI_TP_REPEAT",                                                  "繰り返す"),
-("ja_JP", "LOC_CUI_TP_REPEAT_TOOLTIP",                                          "交易路を繰り返す。デフォルトでは、前回と同じ交易路を選択する。"),
-("ja_JP", "LOC_CUI_TP_SELECT_A_CITY",                                           "出発する都市を選択する。"),
-
--- =============================================================================
--- Espionage Panel
-("ja_JP", "LOC_CUI_EP_SHOW_CITYS",                                              "都市を表示"),
-("ja_JP", "LOC_CUI_EP_SIPHON_FUNDS",                                            "ゴールドを獲得する ({1_GoldString})"),
 
 -- =============================================================================
 -- Production Panel

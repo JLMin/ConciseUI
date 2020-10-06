@@ -11,18 +11,18 @@ function ViewMain( kData:table )
 		local pCulturalIdentity :table = pCity:GetCulturalIdentity();
 		local currentLoyalty	:number= pCulturalIdentity:GetLoyalty();
 
-        -- Concise UI >> loyalty
+        -- CUI >> loyalty
 		Controls.BreakdownIcon:SetIcon("ICON_STAT_CULTURAL_FLAG");
 		Controls.BreakdownLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_CULTURAL_IDENTITY_LOYALTY_SUBSECTION")));
 		Controls.BreakdownNum:SetText(Round(currentLoyalty, 1));
 		-- Controls.BreakdownNum:SetOffsetX(19);
-        -- << Concise UI
+        -- << CUI
 
-        -- Concise UI >> districts numbers
+        -- CUI >> districts numbers
         Controls.ReligionIcon:SetIcon("ICON_BUILDINGS");
         Controls.ReligionLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_HUD_DISTRICTS")));
         Controls.ReligionNum:SetText(kData.DistrictsNum .. "/" .. kData.DistrictsPossibleNum);
-        -- << Concise UI
+        -- << CUI
 	end
 end
 

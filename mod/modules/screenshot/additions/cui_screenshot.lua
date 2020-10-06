@@ -1,7 +1,6 @@
--- Concise UI ----------------------------------------------------------------
--- Concise UI
+-- ===========================================================================
 -- cui_screenshot.lua
--- Concise UI ----------------------------------------------------------------
+-- ===========================================================================
 
 local isAttached = false
 
@@ -48,7 +47,7 @@ local ScreenshotMode = {
 
 local ScreenshotInputHandler = {}
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 ScreenshotInputHandler[KeyEvents.KeyDown] = function(uiKey)
     if uiKey == Keys.VK_ALT then
         isAltDown = true
@@ -57,7 +56,7 @@ ScreenshotInputHandler[KeyEvents.KeyDown] = function(uiKey)
     return false
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 ScreenshotInputHandler[KeyEvents.KeyUp] = function(uiKey)
     if uiKey == Keys.VK_ALT then
         isAltDown = false
@@ -73,7 +72,7 @@ ScreenshotInputHandler[KeyEvents.KeyUp] = function(uiKey)
     return false
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 ScreenshotInputHandler[MouseEvents.LButtonDown] = function(uiKey)
     isMouseDown = true
     if isAltDown then
@@ -82,7 +81,7 @@ ScreenshotInputHandler[MouseEvents.LButtonDown] = function(uiKey)
     return true
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 ScreenshotInputHandler[MouseEvents.LButtonUp] = function(uiKey)
     isMouseDown = false
     currentX = currentX + deltaX
@@ -91,17 +90,17 @@ ScreenshotInputHandler[MouseEvents.LButtonUp] = function(uiKey)
     return true
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 ScreenshotInputHandler[MouseEvents.RButtonDown] = function(uiKey)
     return true
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 ScreenshotInputHandler[MouseEvents.RButtonUp] = function(uiKey)
     return true
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 ScreenshotInputHandler[MouseEvents.MouseMove] = function(uiKey)
     if isAltDown and isMouseDown then
         local newX, newY = UIManager:GetNormalizedMousePos()
@@ -113,7 +112,7 @@ ScreenshotInputHandler[MouseEvents.MouseMove] = function(uiKey)
     return false
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function EnterScreenshotMode(mode)
     UIStatus = {}
     for i, sName in ipairs(mode) do
@@ -124,7 +123,7 @@ function EnterScreenshotMode(mode)
     UI.DeselectAllUnits()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function ExitScreenshotMode()
     for sName, bHidden in pairs(UIStatus) do
         ContextPtr:LookUpControl(sName):SetHide(bHidden)
@@ -144,7 +143,7 @@ function ExitScreenshotMode()
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function OnInputHandler(pInputStruct)
     local uiMsg = pInputStruct:GetMessageType()
     if isEnterMode and ScreenshotInputHandler[uiMsg] then
@@ -154,7 +153,7 @@ function OnInputHandler(pInputStruct)
     return false
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function AttachToMinimap()
     if not isAttached then
         local topPanelRight = ContextPtr:LookUpControl("/InGame/TopPanel/RightContents")
@@ -166,7 +165,7 @@ function AttachToMinimap()
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Initialize()
     ContextPtr:SetHide(false)
     ContextPtr:SetInputHandler(OnInputHandler, true)

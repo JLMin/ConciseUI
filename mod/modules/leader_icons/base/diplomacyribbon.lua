@@ -6,9 +6,9 @@ include("LeaderIcon");
 include("PlayerSupport");
 include("SupportFunctions");
 
-include("GameCapabilities"); -- Concise UI
-include("cui_settings"); -- Concise UI
-include("cui_leader_icon_support"); -- Concise UI
+include("GameCapabilities"); -- CUI
+include("cui_settings"); -- CUI
+include("cui_leader_icon_support"); -- CUI
 
 
 -- ===========================================================================
@@ -141,7 +141,7 @@ function AddLeader(iconName : string, playerID : number, kProps: table)
 	oLeaderIcon:UpdateIcon(iconName, playerID, isUnqiue);
 	oLeaderIcon:RegisterCallback(Mouse.eLClick, function() OnLeaderClicked(playerID); end);
 
-    -- Concise UI >> use advenced tooltip
+    -- CUI >> use advenced tooltip
     --[[
 	-- If using focus, setup mouse in/out callbacks... otherwise clear them.
 	if 	m_ribbonStats == RibbonHUDStats.FOCUS then
@@ -164,7 +164,7 @@ function AddLeader(iconName : string, playerID : number, kProps: table)
     local allianceData = CuiGetAllianceData(playerID);
     LuaEvents.CuiLeaderIconToolTip(oLeaderIcon.Controls.Portrait, playerID);
     LuaEvents.CuiRelationshipToolTip(oLeaderIcon.Controls.Relationship, playerID, allianceData);
-    -- << Concise UI
+    -- << CUI
 
 	oLeaderIcon.LeaderContainer:RegisterSizeChanged(
 		function( uiControl )

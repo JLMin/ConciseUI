@@ -13,7 +13,7 @@ include("TechAndCivicSupport"); -- Already includes Civ6Common and InstanceManag
 include("AnimSidePanelSupport");
 include("SupportFunctions");
 include("Civ6Common");
-include("cui_tech_civic_support"); -- Concise UI
+include("cui_tech_civic_support"); -- CUI
 
 -- ===========================================================================
 --	CONSTANTS
@@ -358,12 +358,12 @@ function OnCivicCompleted( ePlayer:number, eCivic:number )
 		m_lastCompletedID	= eCivic;
 		m_currentID			= -1;
 
-        -- Concise UI >> repeat
+        -- CUI >> repeat
         local futureCivic = CuiIsFutureCivicAndGet(eCivic);
         if futureCivic then
             CuiRepeatCivic(futureCivic.Hash);
         end
-        -- << Concise UI
+        -- << CUI
 
 		m_needsRefresh = true;
 	end
@@ -438,7 +438,7 @@ function OnGameDebugReturn(context:string, contextTable:table)
 	end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiRepeatCivic(civicHash)
     if civicHash == nil then
         UI.DataError("Attempt to choose a civic but a NIL hash!")

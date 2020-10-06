@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Concise UI
     cui_map_options.xml
 -->
 
 <Context Name="AdditionalOptions">
 
-  <!-- 3 -->
-  <CheckBox ID="ToggleImproved" IsChecked="0" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MO_SHOW_IMPROVED_RESOURCES" ToolTip="LOC_CUI_MO_TOGGLE_IMPROVED_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
+    <!-- 3 -->
+    <CheckBox ID="ToggleImproved" IsChecked="0" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MO_SHOW_IMPROVED_RESOURCES" ToolTip="LOC_CUI_MO_TOGGLE_IMPROVED_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
 
-  <!-- 5 -->
-  <CheckBox ID="ToggleUnitFlags" IsChecked="1" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MO_SHOW_UNIT_FLAGS" ToolTip="LOC_CUI_MP_TOGGLE_UNIT_FLAGS_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
+    <!-- 5 -->
+    <CheckBox ID="ToggleUnitFlags" IsChecked="1" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MO_SHOW_UNIT_FLAGS" ToolTip="LOC_CUI_MP_TOGGLE_UNIT_FLAGS_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
 
-  <!-- 6 -->
-  <CheckBox ID="ToggleTraderIcons" IsChecked="0" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MO_SHOW_TRADERS" ToolTip="LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
+    <!-- 6 -->
+    <CheckBox ID="ToggleTraderIcons" IsChecked="0" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MO_SHOW_TRADERS" ToolTip="LOC_CUI_MP_TOGGLE_TRADERS_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
 
-  <!-- 7 -->
-  <CheckBox ID="ToggleReligionIcons" IsChecked="0" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MO_SHOW_RELIGIONS" ToolTip="LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
+    <!-- 7 -->
+    <CheckBox ID="ToggleReligionIcons" IsChecked="0" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MO_SHOW_RELIGIONS" ToolTip="LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
 
-  <!-- 8 -->
-  <CheckBox ID="ToggleCityBanners" IsChecked="1" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MO_SHOW_CITY_BANNERS" ToolTip="LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
+    <!-- 8 -->
+    <CheckBox ID="ToggleCityBanners" IsChecked="1" Offset="10,4" TextOffset="-5,0" String="LOC_CUI_MO_SHOW_CITY_BANNERS" ToolTip="LOC_CUI_MP_TOGGLE_CITY_BANNERS_TOOLTIP" Style="WhiteSemiBold14" ButtonTexture="Controls_Checkbox.dds" ButtonSize="17,17" CheckTexture="Controls_Checkbox.dds" CheckSize="17,17" CheckTextureOffset="0,17" Anchor="R,T"/>
 
 </Context>

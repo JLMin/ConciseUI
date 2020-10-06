@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd">
 
-    <!-- Concise UI -->
+    <!-- CUI -->
     <Container ID="Vignette" Style="FullScreenVignetteConsumer" />
 
-    <!-- Concise UI >> -->
+    <!-- CUI >> -->
     <Container ID="PopupContainer" Anchor="C,C" Size="1276,768">
 
         <Image ID="ModalBG" Size="1276,768" Texture="Religion_BG" StretchMode="Tile" ConsumeMouseButton="1" ConsumeMouseWheel="1"/>
@@ -20,39 +20,39 @@
 
         <Label ID="ProvidingLabel" Anchor="R,T" Offset="30,57" Style="GreatWorksSubHeader" String="LOC_GREAT_WORKS_PROVIDING"/>
         <Stack ID="TotalResources" Anchor="R,T" Offset="30,57" Padding="10" StackGrowth="right"/>
-        <!-- << Concise UI -->
+        <!-- << CUI -->
 
-        <!-- Concise UI -->
+        <!-- CUI -->
         <Grid Offset="7,80" Size="1260,54" Texture="GreatWorks_Header" SliceCorner="18,18" SliceSize="18,18" SliceTextureSize="60,54">
-            <!-- Concise UI -->
+            <!-- CUI -->
             <Label ID="PlacingTitle" Offset="27,18" Style="GreatWorksHeader" String="LOC_GREAT_WORKS_ORGANIZE_GREAT_WORKS"/>
 
             <Container ID="PlacingContainer" Size="parent,parent">
-                <!-- Concise UI >> -->
+                <!-- CUI >> -->
                 <Image ID="PlacingIcon" Offset="0,-6" Texture="GreatWorks64" Size="64,64"/>
                 <Label ID="PlacingName" Offset="0,20" Style="GreatWorksSubHeader"/>
                 <GridButton ID="ViewGreatWork" Anchor="R,T" Offset="0,8" Texture="Controls_ButtonControl_Tan" SliceCorner="7,7" SliceSize="9,9" SliceTextureSize="24,24" StateOffsetIncrement="0,24" String="LOC_GREAT_WORKS_VIEW_GREAT_WORK"/>
-                <!-- << Concise UI -->
+                <!-- << CUI -->
             </Container>
             <Container ID="HeaderStatsContainer">
-                <!-- Concise UI >> -->
+                <!-- CUI >> -->
                 <Label Offset="-1202,10" Align="right" Anchor="R,T" Style="GreatWorksSubHeader" String="LOC_GREAT_WORKS_SCREEN_TITLE"/>
                 <Label Offset="-1202,30" Align="right" Anchor="R,T" Style="GreatWorksSubHeader" String="LOC_GREAT_WORKS_DISPLAY_SPACES"/>
                 <Label ID="NumGreatWorks" Offset="1212,10" Align="left" Anchor="L,T" Style="GreatWorksSubHeader" String="999"/>
                 <Label ID="NumDisplaySpaces" Offset="1212,30" Align="left" Anchor="L,T" Style="GreatWorksSubHeader" String="999"/>
-                <!-- << Concise UI -->
+                <!-- << CUI -->
             </Container>
         </Grid>
-        <!-- Concise UI -->
+        <!-- CUI -->
         <ScrollPanel ID="GreatWorksScrollPanel" Size="1259,620" Offset="7,140" Vertical="false" AutoScrollBar="1">
             <Stack ID="GreatWorksStack" Padding="5" StackGrowth="down" WrapWidth="620" WrapGrowth="right"/>
             <ScrollBar ID="GreatWorksScrollbar" Offset="0,-2" Anchor="C,B" Style="ScrollHorizontalBar"/>
         </ScrollPanel>
-        <!-- Concise UI >> -->
+        <!-- CUI >> -->
         <Container ID="MovingOverlay" Hidden="1">
             <Image ID="MovingIcon" Texture="GreatWorks64" Size="64,64"/>
         </Container>
-        <!-- << Concise UI -->
+        <!-- << CUI -->
     </Container>
 
     <!-- ==================================================================	-->
@@ -80,7 +80,7 @@
             <Drag ID="GreatWorkDraggable" Size="parent,parent" Buttons="L" SnapBackSpeed="0" DragThreshold="8">
                 <Image ID="GreatWorkIcon" Offset="-13,-2" Texture="GreatWorks64" Size="64,64"/>
             </Drag>
-            <!-- Concise UI >> -->
+            <!-- CUI >> -->
             <Grid ID="LockMask" Anchor="C,C" Hidden="1">
                 <Grid ID="LockColor" Anchor="C,C" Size="38,60" Color="Clear" Alpha="0.7" Texture="Controls_SubContainerFill" SliceCorner="10,10" SliceTextureSize="18,18" SliceStart="2,2"/>
                 <Label ID="LockText" Anchor="C,C" Offset="2,14" Size="38,14" Style="FontFlair12" Color="White" String="10[ICON_TURN]"/>
@@ -92,7 +92,7 @@
                 </Grid>
             </Grid>
             <Image ID="LockIcon" Anchor="C,C" Hidden="1" Offset="0,-10" Size="32,32" Alpha="1" Texture="Padlock"/>
-            <!-- << Concise UI -->
+            <!-- << CUI -->
         </Container>
     </Instance>
 

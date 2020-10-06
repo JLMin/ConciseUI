@@ -64,7 +64,7 @@
 
             <Grid Anchor="C,B" Offset="1,-4" Size="parent+5,32" Texture="Controls_BannerBottom" SliceCorner="18,2" SliceTextureSize="37,32" />
 
-            <!-- Concise UI >> add total envoys sent -->
+            <!-- CUI >> add total envoys sent -->
             <Grid ID="TotalFrame" Anchor="C,B" Offset="0,10" Size="parent,60" Texture="Controls_TitleBarDark" SliceCorner="21,17" SliceTextureSize="42,34">
                 <Image Size="parent,parent" Texture="Controls_Gradient_HalfRadial" Color="170,176,180,35"/>
                 <Label ID="Totals" Anchor="C,T" Offset="0,10" Size="parent,parent" Style="FontFlair16" Color0="170,176,180" String="Envoys Sent: n, Suzerain: m" />
@@ -74,7 +74,7 @@
             <Grid ID="ConfirmFrame" Anchor="C,B" Offset="0,10" Size="parent-30,60" Texture="Controls_ConfirmFrame" SliceCorner="38,30" SliceTextureSize="76,60" Hidden="1">
                 <GridButton ID="ConfirmButton" Anchor="C,C" Offset="0,-1" Size="parent-70,41" Texture="Controls_Confirm" SliceCorner="40,20" SliceTextureSize="80,41" StateOffsetIncrement="0,41" String="LOC_CITY_STATES_CONFIRM_PLACEMENT" Style="FontNormal16" />
             </Grid>
-            <!-- << Concise UI -->
+            <!-- << CUI -->
         </Container>
 
         <!-- Individual CityState View -->
@@ -195,7 +195,7 @@
     <!--	Instances																													-->
     <!-- ==================================================================	-->
 
-    <!-- Concise UI >> -->
+    <!-- CUI >> -->
     <Instance Name="CuiSuzerainInstance">
         <Container ID="Top" Anchor="L,T" Size="30,26">
             <Image ID="SuzerainImage" Size="26,26" Texture="EnvoyBonuses26" TextureOffset="104,0">
@@ -203,44 +203,44 @@
             </Image>
         </Container>
     </Instance>
-    <!-- << Concise UI -->
+    <!-- << CUI -->
 
     <Instance Name="CityStateRowInstance">
-        <!-- Concise UI >> -->
+        <!-- CUI >> -->
         <GridButton ID="CityStateBase" Size="parent,66" Style="SubContainer4" Color="99,102,103,255">
             <BoxButton ID="Button" Anchor="L,T" Offset="8,0" Size="40,40" Color="0,0,0,0">
                 <Image ID="Icon" Anchor="L,C" Size="36,36" Offset="0,2" Texture="CivSymbols36" />
                 <Image ID="DiplomacyPip" Anchor="L,B" Offset="-8,-6" Size="23,23" Texture="Diplomacy_RelationshipPips" />
                 <Label ID="QuestIcon" Hidden="1" Anchor="L,T" Offset="-9,0" String="[ICON_CityStateQuest]" Size="28,28"/>
-                <!-- << Concise UI -->
+                <!-- << CUI -->
             </BoxButton>
 
             <GridButton ID="NameButton" Offset="42,9" Size="126,33" Texture="Controls_CityBannerSmall" SliceCorner="14,9" SliceSize="5,4" SliceTextureSize="33,28" Color="50,50,50,255">
-                <!-- Concise UI -->
+                <!-- CUI -->
                 <Label ID="NameLabel" Anchor="C,C" Offset="0,-2" Style="FontFlair12" SmallCaps="16" SmallCapsStyle="EveryWord" String="Name"/>
             </GridButton>
-            <!-- Concise UI -->
+            <!-- CUI -->
             <Image ID="Envoy" Anchor="L,T" Offset="190,3" Size="40,40" Texture="Controls_CircleRim40">
                 <Button ID="EnvoyLessButton" Anchor="L,C" Offset="-6,0" Size="34,34" Texture="Controls_Stepper" AnchorSide="O,I" FlipX="1" />
                 <Button ID="EnvoyMoreButton" Anchor="R,C" Offset="-6,0" Size="34,34" Texture="Controls_Stepper" AnchorSide="O,I" />
                 <Label ID="EnvoyCount" Anchor="C,C" Offset="-1,1" String="0" Style="FontFlairLua" Color="160,160,160,240" />
             </Image>
-            <!-- Concise UI -->
+            <!-- CUI -->
             <Image ID="BonusImage1" Anchor="L,T" Offset="256,2" Size="29,42" Texture="CityState_BonusSlotOff">
                 <Label ID="BonusText1" Anchor="R,T" Offset="3,2" Style="FontNormal12" String="1" />
                 <Image ID="BonusIcon1" Anchor="C,B" Size="26,26" Texture="EnvoyBonuses26" TextureOffset="104,0" />
             </Image>
-            <!-- Concise UI -->
+            <!-- CUI -->
             <Image ID="BonusImage3" Anchor="L,T" Offset="286,2" Size="29,42" Texture="CityState_BonusSlotOn">
                 <Label ID="BonusText3" Anchor="R,T" Offset="3,2" Style="FontNormal12" String="3" />
                 <Image ID="BonusIcon3" Anchor="C,B" Size="26,26" Texture="EnvoyBonuses26" TextureOffset="104,0" />
             </Image>
-            <!-- Concise UI -->
+            <!-- CUI -->
             <Image ID="BonusImage6" Anchor="L,T" Offset="316,2" Size="29,42" Texture="CityState_BonusSlotOn">
                 <Label ID="BonusText6" Anchor="R,T" Offset="3,2" Style="FontNormal12" String="6" />
                 <Image ID="BonusIcon6" Anchor="C,B" Size="26,26" Texture="EnvoyBonuses26" TextureOffset="104,0" />
             </Image>
-            <!-- Concise UI -->
+            <!-- CUI -->
             <Container Anchor="L,T" Offset="346,2" Size="108,42">
                 <Grid ID="BonusImageSuzerainOff" Size="parent,parent" Texture="CityState_BonusSlotBigOff" SliceCorner="31,21" SliceTextureSize="34,42" />
                 <Grid ID="BonusImageSuzerainOn" Size="parent,parent" Texture="CityState_BonusSlotBigOn" SliceCorner="31,21" SliceTextureSize="34,42" />
@@ -250,7 +250,7 @@
                 <Label ID="Suzerain" Anchor="L,B" Offset="32,2" Style="FontNormal12" String="LOC_CITY_STATES_NONE" />
             </Container>
 
-            <!-- Concise UI -->
+            <!-- CUI -->
             <Button ID="LookAtButton" Anchor="R,T" Offset="10,8" Size="23,31" Texture="Controls_ShowMe" StateOffsetIncrement="0,0" ToolTip="LOC_CITY_STATES_LOOK_AT" />
 
             <Label ID="TypeLabel" Anchor="L,C" Offset="125,0" Style="FontNormal16" Hidden="1" String="[ICON_Faith]Religious" Note="DEPRECATED" />
@@ -264,12 +264,12 @@
 			<GridButton ID="ChangeWarStateButton" Anchor="R,C" Offset="0,0" Size="140,32" Style="MainButton" Hidden="1" String="Declare War!"/>
 			-->
 
-            <!-- Concise UI >> -->
+            <!-- CUI >> -->
             <Grid ID="CuiQuestGrid" Size="parent,20" Anchor="C,B" Offset="0,1">
                 <Line Start="3,0" End="parent-3,0" Color="59,62,63,255"/>
                 <Label ID="CuiCityStateQuest" Anchor="L,C" Offset="15,0" String="$Quest$" Style="FontNormal12"/>
             </Grid>
-            <!-- << Concise UI -->
+            <!-- << CUI -->
         </GridButton>
     </Instance>
 

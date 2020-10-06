@@ -11,7 +11,7 @@ include("AnimSidePanelSupport");
 include("SupportFunctions");
 include("Civ6Common");
 include("GameCapabilities");
-include("cui_tech_civic_support"); -- Concise UI
+include("cui_tech_civic_support"); -- CUI
 
 
 -- ===========================================================================
@@ -381,12 +381,12 @@ function OnResearchCompleted( ePlayer:number, eTech:number )
 		m_lastCompletedID	= eTech;
 		m_currentID			= -1;
 
-        -- Concise UI >> repeat
+        -- CUI >> repeat
         local futureTech = CuiIsFutureTechAndGet(eTech);
         if futureTech then
             CuiRepeatTech(futureTech.Hash);
         end
-        -- << Concise UI
+        -- << CUI
 
 		m_needsRefresh = true;
 	end
@@ -461,7 +461,7 @@ function OnGameDebugReturn(context:string, contextTable:table)
 	end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function CuiRepeatTech(techHash)
     if techHash == nil then
         UI.DataError("Attempt to choose a research but a NIL hash!")

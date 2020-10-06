@@ -41,10 +41,6 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("fr_FR", "LOC_CUI_DB_CIVS_CONVERTED",                                          "Civilisations converties : {1_num} / {2_total}"),
 ("fr_FR", "LOC_CUI_DB_DIPLOMATIC_POINT",                                        "Points de victoire diplomatique : {1_num} / {2_total}"),
 
--- =============================================================================
--- Espionage Panel
-("fr_FR", "LOC_CUI_EP_FILTER_ALL",                                              "Toutes"),
-("fr_FR", "LOC_CUI_EP_FILTER_SHOW_CITIES",                                      "Montrer les villes"),
 
 -- =============================================================================
 -- Minimap Panel
@@ -64,46 +60,14 @@ INSERT OR REPLACE INTO LocalizedText (Language, Tag, Text) VALUES
 ("fr_FR", "LOC_CUI_MP_TOGGLE_RELIGIONS_TOOLTIP",                                "Toggle Religion Flags"),
 
 -- =============================================================================
--- Report Screen
-("fr_FR", "LOC_CUI_RS_SHOW_CITY_DETAILS",                                       "Afficher les détails de la ville"),
-("fr_FR", "LOC_CUI_RS_BUILDING_NUMBER",                                         "Nombre de bâtiments"),
-("fr_FR", "LOC_CUI_RS_TOTALS",                                                  "Total : {1_num}"),
-("fr_FR", "LOC_CUI_RS_DEALS_OUTGOING",                                          "Sortant"),
-("fr_FR", "LOC_CUI_RS_DEALS_INCOMING",                                          "Entrant"),
-
--- =============================================================================
 -- Top Panel
 ("fr_FR", "LOC_CUI_SI_SPY_AVAILABLE",                                           "{1_num} [ICON_Unit] {1_num : plural 1?Espion disponible; other?Espions disponibles;}"),
 ("fr_FR", "LOC_CUI_SI_SPY_CAPACITY",                                            "{1_num} [ICON_Unit] {1_num : plural 1?Espion possible; other?Espions possibles;}"),
 
 -- =============================================================================
 -- World Tracker
-("fr_FR", "LOC_CUI_WT_REMINDER",                                                "Rappel"),
-("fr_FR", "LOC_CUI_WT_TECH_REMINDER_TOOLTIP",                                   "La couleur de fond passe au vert lorsque la technologie peut être terminée en obtenant un eureka."),
-("fr_FR", "LOC_CUI_WT_CIVIC_REMINDER_TOOLTIP",                                  "La couleur d'arrière-plan passe au vert lorsque le dogme peut être terminé en obtenant une inspiration."),
 ("fr_FR", "LOC_CUI_WT_GOSSIP_LOG",                                              "Registre des rumeurs"),
 ("fr_FR", "LOC_CUI_WT_COMBAT_LOG",                                              "Registre des combats"),
-("fr_FR", "LOC_CUI_WT_PERSIST",                                                 "Laisser"),
-("fr_FR", "LOC_CUI_WT_GLOG_PERSIST_TOOLTIP",                                    "N'effacez pas le journal des rumeurs entre les tours."),
-("fr_FR", "LOC_CUI_WT_CLOG_PERSIST_TOOLTIP",                                    "N'effacez pas le journal des combats entre les tours."),
-
--- =============================================================================
--- Trade Panel
-("fr_FR", "LOC_CUI_TP_SORT_BY_FOOD_TOOLTIP",                                    "Trier par [ICON_Food]Nourriture."),
-("fr_FR", "LOC_CUI_TP_SORT_BY_PRODUCTION_TOOLTIP",                              "Trier par [ICON_Production]Production."),
-("fr_FR", "LOC_CUI_TP_SORT_BY_GOLD_TOOLTIP",                                    "Trier par [ICON_Gold]Or."),
-("fr_FR", "LOC_CUI_TP_SORT_BY_SCIENCE_TOOLTIP",                                 "Trier par [ICON_Science]Science."),
-("fr_FR", "LOC_CUI_TP_SORT_BY_CULTURE_TOOLTIP",                                 "Trier par [ICON_Culture]Culture."),
-("fr_FR", "LOC_CUI_TP_SORT_BY_FAITH_TOOLTIP",                                   "Trier par [ICON_Faith]Foi."),
-("fr_FR", "LOC_CUI_TP_SORT_BY_TURNS_REMAINING_TOOLTIP",                         "Trier par [ICON_Turn]Tours nécessaires pour compléter la route."),
-("fr_FR", "LOC_CUI_TP_REPEAT",                                                  "Répéter"),
-("fr_FR", "LOC_CUI_TP_REPEAT_TOOLTIP",                                          "Répéter la route commerciale indéfiniment."),
-("fr_FR", "LOC_CUI_TP_SELECT_A_CITY",                                           "Choisir une nouvelle ville d'origine."),
-
--- =============================================================================
--- Espionage Panel
-("fr_FR", "LOC_CUI_EP_SHOW_CITYS",                                              "Montrer les villes"),
-("fr_FR", "LOC_CUI_EP_SIPHON_FUNDS",                                            "Gain de ({1_GoldString}) de rendement en Or."),
 
 -- =============================================================================
 -- Production Panel

@@ -1,21 +1,20 @@
 -- ===========================================================================
--- Concise UI
 -- cui_log.lua
 -- ===========================================================================
 
-include("cui_helper")
+include("cui_utils")
 include("cui_gameinfo")
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 local ShowModsList = true
 local ShowActiveOnly = true
 local ShowOfficial = false
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 LogC = {}
 LogC.__index = LogC
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function LogC:createLog(sL, cL)
     o = o or {}
     setmetatable(o, self)
@@ -24,7 +23,7 @@ function LogC:createLog(sL, cL)
     return o
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function LogC:line(l)
     if l == "=" or l == "-" then
         print(string.rep(l, self.cL))
@@ -35,7 +34,7 @@ function LogC:line(l)
     end
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function LogC:property(p, v)
     if isNil(v) then
         v = "."
@@ -47,7 +46,7 @@ function LogC:property(p, v)
     print(line)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function LogC:value3(p, v1, v2, v3)
     local s1, s2, s3 = string.len(v1), string.len(v2), string.len(v3)
     local vL = math.max(s1, s2, s3)
@@ -58,7 +57,7 @@ function LogC:value3(p, v1, v2, v3)
     LogC:property(p, v)
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function LogC:mod(mod)
     if ShowActiveOnly and not mod.Active then
         return
@@ -109,7 +108,7 @@ function LogC:mod(mod)
     LogC:line()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function LogGameInfo()
     local CuiGameInfo = GetCuiGameInfo()
     local Log = LogC:createLog()
@@ -120,14 +119,15 @@ function LogGameInfo()
     Log:line("Game Information:")
     Log:line("Version: " .. CuiGameInfo.Version)
     Log:line("-")
-    Log:property("Rise and Fall", CuiGameInfo.IsRiseAndFall)
+
+    Log:property("Rise and Fall",   CuiGameInfo.IsRiseAndFall)
     Log:property("Gathering Storm", CuiGameInfo.IsGatheringStorm)
-    Log:property("Tutorial", CuiGameInfo.IsTutorial)
-    Log:property("Multiplayer", CuiGameInfo.IsMultiplayer)
-    Log:property("Hotseat", CuiGameInfo.IsHotseat)
-    Log:property("Map Seed", CuiGameInfo.MapSeed)
-    Log:property("Game Seed", CuiGameInfo.GameSeed)
-    Log:property("Game Speed", CuiGameInfo.GameSpeed)
+    Log:property("Tutorial",        CuiGameInfo.IsTutorial)
+    Log:property("Multiplayer",     CuiGameInfo.IsMultiplayer)
+    Log:property("Hotseat",         CuiGameInfo.IsHotseat)
+    Log:property("Map Seed",        CuiGameInfo.MapSeed)
+    Log:property("Game Seed",       CuiGameInfo.GameSeed)
+    Log:property("Game Speed",      CuiGameInfo.GameSpeed)
     -- Log:property("Rule Set",        CuiGameInfo.RuleSet)
     local i1, i2, i3 = CuiGameInfo.InstalledAll, CuiGameInfo.InstalledOff, CuiGameInfo.InstalledCom
     Log:value3("Mods Installed", i1, i2, i3)
@@ -156,7 +156,7 @@ function LogGameInfo()
     Log:line()
 end
 
--- Concise UI ----------------------------------------------------------------
+-- CUI -----------------------------------------------------------------------
 function Initialize()
     Events.LoadGameViewStateDone.Add(LogGameInfo)
 end
