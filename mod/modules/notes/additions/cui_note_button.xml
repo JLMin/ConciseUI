@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Cui In Game Note Button -->
+<!--
+    Concise UI
+    cui_note_button.xml
+-->
 
 <Context>
   <Instance Name="CuiNotes">

@@ -4,7 +4,7 @@
 --	Original Authors: Sam Batista
 -- ===========================================================================
 include("InstanceManager");
-include("cui_settings") -- CUI
+include("cui_settings"); -- Concise UI
 
 -- ===========================================================================
 --	CONSTANTS
@@ -23,7 +23,6 @@ local DETAILS_OFFSET_DEFAULT:number = -26;
 local DETAILS_OFFSET_WRITING:number = -90;
 local DETAILS_OFFSET_MUSIC:number = -277;
 local NUM_ARIFACT_TEXTURES:number = 25;
-local NUM_RELIC_TEXTURES:number = 24;
 local SIZE_MAX_IMAGE_HEIGHT:number = 467;
 local SIZE_BANNER_MIN:number = 506;
 local PADDING_BANNER:number = 120;
@@ -165,9 +164,9 @@ function UpdateGreatWork()
 		elseif greatWorkObjectType == GREAT_WORK_RELIC_TYPE then
 			greatWorkType = greatWorkType:gsub("GREATWORK_RELIC_", "");
 			local greatWorkID:number = tonumber(greatWorkType);
-			greatWorkID =  ((greatWorkID - 1) % NUM_RELIC_TEXTURES) + 1;
+			local icon:string = "ICON_GREATWORK_RELIC_" .. greatWorkID;
 			Controls.GreatWorkImage:SetOffsetY(0);
-			Controls.GreatWorkImage:SetTexture("RELIC_" .. greatWorkID);
+			Controls.GreatWorkImage:SetIcon(icon, 256);
 		end
 		Controls.GreatWorkName:SetText(Locale.ToUpper(Locale.Lookup(greatWorkInfo.Name)));
 		local nameSize:number = Controls.GreatWorkName:GetSizeX() + PADDING_BANNER;
@@ -256,16 +255,18 @@ function OnGreatWorkCreated(playerID:number, creatorID:number, cityX:number, cit
 	-- Ignore relics when responding to the GreatWorkCreated event.  Relics have a dedicated notification that will trigger this screen
 	-- Thru NotificationPanel_ShowRelicCreated
 
-    -- CUI
+    -- Concise UI >>
     if CuiSettings:GetBoolean(CuiSettings.POPUP_CREATWORK) then
-        DisplayGreatWorkCreated(playerID, creatorID, cityX, cityY, buildingID, greatWorkIndex, false)
+        DisplayGreatWorkCreated(playerID, creatorID, cityX, cityY, buildingID, greatWorkIndex, false);
     end
+    -- << Concise UI
 end
 function OnShowRelicCreated(playerID:number, creatorID:number, cityX:number, cityY:number, buildingID:number, greatWorkIndex:number)
-    -- CUI
+    -- Concise UI >>
     if CuiSettings:GetBoolean(CuiSettings.POPUP_RELIC) then
-        DisplayGreatWorkCreated(playerID, creatorID, cityX, cityY, buildingID, greatWorkIndex, true)
+        DisplayGreatWorkCreated(playerID, creatorID, cityX, cityY, buildingID, greatWorkIndex, true);
     end
+    -- << Concise UI
 end
 function DisplayGreatWorkCreated(playerID:number, creatorID:number, cityX:number, cityY:number, buildingID:number, greatWorkIndex:number, showRelics:boolean)
 	if playerID ~= Game.GetLocalPlayer() then
@@ -302,7 +303,7 @@ end
 function OnPreviousGreatWork()
 	local numGreatWorks:number = table.count(m_GreatWorks);
 	if numGreatWorks > 1 then
-        
+
 		UI.PlaySound("Stop_Great_Music");
 		UI.PlaySound("Stop_Speech_GreatWriting");
         UI.PlaySound("UI_Click_Sweetener_Metal_Button_Small");
@@ -377,7 +378,7 @@ end
 --	INIT
 -- ===========================================================================
 function Initialize()
-	
+
 	ContextPtr:SetInitHandler(OnInit);
 	ContextPtr:SetShutdown(OnShutdown);
 	ContextPtr:SetInputHandler(OnInputHandler, true);

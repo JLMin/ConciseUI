@@ -1,7 +1,12 @@
+-- ===========================================================================
+-- Concise UI
+-- cui_helper.lua
+-- ===========================================================================
+
 isExpansion1 = Modding.IsModActive("1B28771A-C749-434B-9053-D1380C553DE9")
 isExpansion2 = Modding.IsModActive("4873eb62-8ccc-4574-b784-dda455e74e68")
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function printc(t, i)
     local n = i or ""
     if isNil(t) then
@@ -20,7 +25,7 @@ function printc(t, i)
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function isNil(v)
     if type(v) == "table" then
         return v == nil or next(v) == nil
@@ -31,7 +36,7 @@ function isNil(v)
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function SortedTable(t, f)
     local a = {}
 
@@ -62,7 +67,7 @@ function SortedTable(t, f)
     return iter
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiRegCallback(control, callbackLClick, callbackRClick, sound)
     if callbackLClick then
         control:RegisterCallback(Mouse.eLClick, callbackLClick)
@@ -94,7 +99,7 @@ function CuiRegCallback(control, callbackLClick, callbackRClick, sound)
     )
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiLeaderTexture(icon, size, shouldShow)
     local x, y, sheet
     x, y, sheet = IconManager:FindIconAtlas(icon, size)
@@ -104,7 +109,7 @@ function CuiLeaderTexture(icon, size, shouldShow)
     return x, y, sheet
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiSetIconToSize(iconControl, iconName, iconSize)
     if iconSize == nil then
         iconSize = 36
@@ -114,7 +119,7 @@ function CuiSetIconToSize(iconControl, iconName, iconSize)
     iconControl:SetSizeVal(iconSize, iconSize)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiGetPlayerBasicData()
     local localPlayerID = Game.GetLocalPlayer()
     local localPlayer = Players[localPlayerID]

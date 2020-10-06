@@ -1,7 +1,7 @@
 -- ===========================================================================
 --
---    CivicsChooser
---    Slideout panel containing available civic options.
+--	CivicsChooser
+--	Slideout panel containing available civic options.
 --
 -- ===========================================================================
 -- Include self contained additional tabs
@@ -13,7 +13,7 @@ include("TechAndCivicSupport"); -- Already includes Civ6Common and InstanceManag
 include("AnimSidePanelSupport");
 include("SupportFunctions");
 include("Civ6Common");
-include("cui_tech_civic_support") -- CUI
+include("cui_tech_civic_support"); -- Concise UI
 
 -- ===========================================================================
 --	CONSTANTS
@@ -59,13 +59,13 @@ function GetData()
 		end
 
 		pResearchQueue = pPlayerCulture:GetCivicQueue(pResearchQueue);
-	
+
 		-- Fill in the "other" (not-current) items
 		for kCivic in GameInfo.Civics() do
-		
+
 			local iCivic	:number = kCivic.Index;
-			if	iCivic == m_currentID or 
-				iCivic == m_lastCompletedID or 
+			if	iCivic == m_currentID or
+				iCivic == m_lastCompletedID or
 				(iCivic ~= m_currentID and pPlayerCulture:CanProgress(iCivic)) then
 
 				local kCivicData :table = GetCivicData( ePlayer, pPlayerCulture, kCivic );
@@ -89,7 +89,7 @@ function GetData()
 					end
 				end
 
-				table.insert( kData, kCivicData ); 
+				table.insert( kData, kCivicData );
 			end
 		end
 	end
@@ -100,8 +100,8 @@ end
 -- ===========================================================================
 --	Populate the list of research options.
 -- ===========================================================================
-function View( playerID:number, kData:table )	
-	
+function View( playerID:number, kData:table )
+
 	m_civicsIM:ResetInstances();
 
 	for _,iconData in pairs(g_ExtraIconData) do
@@ -113,13 +113,13 @@ function View( playerID:number, kData:table )
 		RealizeCurrentCivic( nil );	-- No research done yet
 	end
 
-	table.sort(kData, function(a, b) return Locale.Compare(a.Name, b.Name) == -1; end);	
+	table.sort(kData, function(a, b) return Locale.Compare(a.Name, b.Name) == -1; end);
 	for i, data in ipairs(kData) do
 		if data.IsCurrent or data.IsLastCompleted then
 			RealizeCurrentCivic( playerID, data, nil, m_CachedModifiers );
 			if (data.Repeatable) then
 				AddAvailableCivic( playerID, data );
-			end	
+			end
 		else
 			AddAvailableCivic( playerID, data );
 		end
@@ -135,7 +135,7 @@ end
 function Refresh()
 	local player:number = Game.GetLocalPlayer();
 	if (player >= 0) then
-		local kData :table	= GetData();	
+		local kData :table	= GetData();
 		View( player, kData );
 	end
 	m_needsRefresh = false;
@@ -157,13 +157,13 @@ end
 -- ===========================================================================
 function AddAvailableCivic( playerID:number, kData:table )
 	local numUnlockables	:number;
-	
+
 	local isDisabled:boolean = CanPlayerCivicAnything(playerID);
 
 	-- Create main instance and the Instance Manager for any unlocks.
 	local kItemInstance	:table = m_civicsIM:GetInstance();
-	local unlockIM	:table = GetUnlockIM(kItemInstance);		
-	
+	local unlockIM	:table = GetUnlockIM(kItemInstance);
+
 	kItemInstance.TechName:SetText(Locale.ToUpper(kData.Name));
 	kItemInstance.Top:LocalizeAndSetToolTip(kData.ToolTip);
 	kItemInstance.Top:SetTag( UITutorialManager:GetHash(kData.CivicType) );	-- Mark for tutorial dynamic element
@@ -175,7 +175,7 @@ function AddAvailableCivic( playerID:number, kData:table )
 	local callback:ifunction = nil;
 	if not isDisabled then
 		callback = function() ResetOverflowArrow( kItemInstance ); OnChooseCivic(kData.Hash); end;
-	end 
+	end
 
 	-- Include extra icons in total unlocks
 	local extraUnlocks:table = {};
@@ -216,17 +216,17 @@ function AddAvailableCivic( playerID:number, kData:table )
 	else
 		kItemInstance.QueueBadge:SetHide(true);
 		kItemInstance.NodeNumber:SetHide(true);
-	end 
+	end
 
-	-- Set up callback that changes the current research	
-	kItemInstance.Top:RegisterCallback(Mouse.eLClick, function() ResetOverflowArrow( kItemInstance ); OnChooseCivic(kData.Hash); end);	
+	-- Set up callback that changes the current research
+	kItemInstance.Top:RegisterCallback(Mouse.eLClick, function() ResetOverflowArrow( kItemInstance ); OnChooseCivic(kData.Hash); end);
 	kItemInstance.Top:SetDisabled( isDisabled );
 
 	-- Only wire up Civilopedia handlers if not in a on-rails tutorial
 	if IsTutorialRunning()==false then
 		kItemInstance.Top:RegisterCallback(Mouse.eRClick, function() LuaEvents.OpenCivilopedia(kData.CivicType); end);
 	end
-		
+
 	-- Hide/Show Recommendation Icon
 	if kData.IsRecommended and kData.AdvisorType ~= nil then
 		kItemInstance.RecommendedIcon:SetIcon(kData.AdvisorType);
@@ -255,7 +255,7 @@ function OnChooseCivic( civicHash:number )
 
 	if m_isExpanded then
 		OnClosePanel();
-	end	
+	end
 end
 
 -- ===========================================================================
@@ -266,7 +266,7 @@ function RealizeSize()
 
 	Controls.CivicStack:CalculateSize();
 	Controls.CivicStack:ReprocessAnchoring();
-	
+
 	if(Controls.ChooseCivicList:GetScrollBar():IsHidden()) then
 		Controls.ChooseCivicList:SetOffsetX(10);
 	else
@@ -275,7 +275,7 @@ function RealizeSize()
 end
 
 -- ===========================================================================
-function OnOpenPanel()	
+function OnOpenPanel()
 	LuaEvents.ResearchChooser_ForceHideWorldTracker();
     UI.PlaySound("Tech_Tray_Slide_Open");
 	m_isExpanded = true;
@@ -298,7 +298,7 @@ end
 
 -- ===========================================================================
 function OnUpdateUI(type)
-	m_kSlideAnimator.OnUpdateUI();	
+	m_kSlideAnimator.OnUpdateUI();
 	if type == SystemUpdateUI.ScreenResize then
 		RealizeSize();
 	end
@@ -343,11 +343,11 @@ end
 -- ===========================================================================
 function OnCivicChanged( ePlayer:number, eCivic:number )
 	local localPlayer = Game.GetLocalPlayer();
-	if localPlayer ~= -1 and localPlayer == ePlayer then			
+	if localPlayer ~= -1 and localPlayer == ePlayer then
 		local pPlayerCulture:table = Players[localPlayer]:GetCulture();
 		m_currentID			= pPlayerCulture:GetProgressingCivic();
-		m_lastCompletedID	= -1;		
-		
+		m_lastCompletedID	= -1;
+
 		m_needsRefresh = true;
 	end
 end
@@ -358,12 +358,12 @@ function OnCivicCompleted( ePlayer:number, eCivic:number )
 		m_lastCompletedID	= eCivic;
 		m_currentID			= -1;
 
-        -- CUI: repeat
-        local futureCivic = CuiIsFutureCivicAndGet(eCivic)
+        -- Concise UI >> repeat
+        local futureCivic = CuiIsFutureCivicAndGet(eCivic);
         if futureCivic then
-            CuiRepeatCivic(futureCivic.Hash)
+            CuiRepeatCivic(futureCivic.Hash);
         end
-        --
+        -- << Concise UI
 
 		m_needsRefresh = true;
 	end
@@ -382,7 +382,7 @@ end
 -- ===========================================================================
 function FlushChanges()
 	if m_needsRefresh and ContextPtr:IsVisible() then
-		Refresh();	
+		Refresh();
 	end
 end
 
@@ -398,7 +398,7 @@ end
 -- ===========================================================================
 --
 --	Init/Uninit/Hot-Loading Events
---    
+--
 -- ===========================================================================
 function OnInit( isReload:boolean )
 	if isReload then
@@ -425,20 +425,20 @@ function OnShutdown()
 	LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "m_lastCompletedID", m_lastCompletedID);
 end
 -- ===========================================================================
-function OnGameDebugReturn(context:string, contextTable:table)	
+function OnGameDebugReturn(context:string, contextTable:table)
 	if context == RELOAD_CACHE_ID then
 		m_currentID			= contextTable["m_currentID"];
 		m_lastCompletedID	= contextTable["m_lastCompletedID"];
 		Refresh();
 		if contextTable["m_isExpanded"] ~= nil and contextTable["m_isExpanded"] then
-			OnOpenPanel();			
+			OnOpenPanel();
 		else
 			LuaEvents.ResearchChooser_RestoreWorldTracker();
-		end	
+		end
 	end
 end
 
--- CUI =======================================================================
+-- Concise UI ----------------------------------------------------------------
 function CuiRepeatCivic(civicHash)
     if civicHash == nil then
         UI.DataError("Attempt to choose a civic but a NIL hash!")
@@ -475,7 +475,7 @@ function Initialize()
 	LuaEvents.ActionPanel_OpenChooseCivic.Add(OnOpenPanel);
 	LuaEvents.WorldTracker_OpenChooseCivic.Add(OnOpenPanel);
 	LuaEvents.LaunchBar_CloseChoosers.Add(OnClosePanel);
-	
+
 	-- Game events
 	Events.CityInitialized.Add(			OnCityInitialized );
 	Events.CivicChanged.Add(			OnCivicChanged );
@@ -483,7 +483,7 @@ function Initialize()
 	Events.CultureYieldChanged.Add(		OnCultureYieldChanged );
 	Events.LocalPlayerTurnBegin.Add(	OnLocalPlayerTurnBegin );
 	Events.LocalPlayerChanged.Add(		OnLocalPlayerTurnBegin);
-	Events.PhaseBegin.Add(				OnPhaseBegin );	
+	Events.PhaseBegin.Add(				OnPhaseBegin );
 	Events.SystemUpdateUI.Add(			OnUpdateUI );
 	Events.GameCoreEventPublishComplete.Add( FlushChanges ); --This event is raised directly after a series of gamecore events.
 

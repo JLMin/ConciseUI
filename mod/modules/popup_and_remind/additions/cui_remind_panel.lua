@@ -1,19 +1,19 @@
 -- ===========================================================================
--- Cui Remind Panel
--- eudaimonia, 11/11/2019
+-- Concise UI
+-- cui_remind_panel.lua
 -- ===========================================================================
+
 include("InstanceManager")
 include("cui_helper")
 include("cui_settings")
 include("cui_tech_civic_support")
 
--- ---------------------------------------------------------------------------
-
+-- Concise UI ----------------------------------------------------------------
 local isAttached = false
 local isAnyRemind = false
 local testMode = false
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function RefreshTech(localPlayer, eTech)
     if CuiSettings:GetBoolean(CuiSettings.REMIND_TECH) then
         local isReady = CuiIsTechReady(localPlayer)
@@ -24,7 +24,7 @@ function RefreshTech(localPlayer, eTech)
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function RefreshCivic(localPlayer, eCivic)
     if CuiSettings:GetBoolean(CuiSettings.REMIND_CIVIC) then
         local isReady = CuiIsCivicReady(localPlayer)
@@ -35,7 +35,7 @@ function RefreshCivic(localPlayer, eCivic)
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function RefreshGovernment(localPlayer)
     if CuiSettings:GetBoolean(CuiSettings.REMIND_GOVERNMENT) then
         local isReady = CuiIsGovernmentReady(localPlayer)
@@ -46,7 +46,7 @@ function RefreshGovernment(localPlayer)
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function RefreshGovernor(localPlayer)
     if not isExpansion1 or not isExpansion2 then
         return
@@ -61,7 +61,7 @@ function RefreshGovernor(localPlayer)
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function RefreshAll()
     if testMode then
         ReminderTest()
@@ -80,7 +80,7 @@ function RefreshAll()
     ResizeBubble()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function ResizeBubble()
     Controls.RemindStack:CalculateSize()
     Controls.Bubble:SetHide(not isAnyRemind)
@@ -92,7 +92,7 @@ function ResizeBubble()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function ReminderTest()
     isAnyRemind = true
     Controls.TechReady:SetHide(false)
@@ -103,7 +103,7 @@ function ReminderTest()
     ResizeBubble()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnMinimapResize()
     if isAttached then
         local minimap = ContextPtr:LookUpControl("/InGame/MinimapPanel/MiniMap/MinimapContainer")
@@ -111,7 +111,7 @@ function OnMinimapResize()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function AttachToMinimap()
     if not isAttached then
         local minimap = ContextPtr:LookUpControl("/InGame/MinimapPanel/MiniMap/MinimapContainer")
@@ -123,7 +123,7 @@ function AttachToMinimap()
     RefreshAll()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function Initialize()
     ContextPtr:SetHide(true)
     --

@@ -1,11 +1,13 @@
 -- ===========================================================================
--- Cui Options Menu
+-- Concise UI
+-- cui_options_menu.lua
 -- ===========================================================================
+
 include("InstanceManager")
 include("cui_helper")
 include("cui_settings")
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 
 local boolean_text = {"LOC_OPTIONS_ENABLED", "LOC_OPTIONS_DISABLED"}
 
@@ -23,9 +25,11 @@ local aiMovementSpeed = 1
 local playerCombatSpeed = 1
 local playerMovementSpeed = 1
 
--- ---------------------------------------------------------------------------
+-- ===========================================================================
 -- UI Functions
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function PopulateCheckBox(control, k, handler, enabled)
     local key = CuiSettings[k]
     local value = CuiSettings:GetBoolean(key)
@@ -50,7 +54,7 @@ function PopulateCheckBox(control, k, handler, enabled)
     )
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function PopulatePullDown(control, options, selected_value, handler, enabled)
     control:ClearEntries()
     local button = control:GetButton()
@@ -88,7 +92,7 @@ function PopulatePullDown(control, options, selected_value, handler, enabled)
     control:CalculateInternals()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function SelectTab(tab)
     local button = tab[1]
     local panel = tab[2]
@@ -102,7 +106,7 @@ function SelectTab(tab)
     panel:SetHide(false)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function RegisterClickFunctions()
     -- tabs
     for _, tab in ipairs(tabs) do
@@ -125,9 +129,11 @@ function RegisterClickFunctions()
     )
 end
 
--- ---------------------------------------------------------------------------
+-- ===========================================================================
 -- Tab Functions
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function LoadVictorySettings()
     local options = {{"LOC_OPTIONS_ENABLED", true}, {"LOC_OPTIONS_DISABLED", false}}
 
@@ -202,12 +208,12 @@ function LoadVictorySettings()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function UpdateVictory()
     LuaEvents.CuiVictorySettingChange()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function LoadLogSettings()
     local options = {
         {"LOC_CUI_OPTIONS_LOG_SHOW_NONE", 0},
@@ -247,12 +253,12 @@ function LoadLogSettings()
     PopulatePullDown(Controls.SetCombatLog, options, combat_value, CombatHandler, true)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function UpdateLog()
     LuaEvents.CuiLogSettingChange()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function LoadPopupSettings()
     local options = {{"LOC_OPTIONS_ENABLED", true}, {"LOC_OPTIONS_DISABLED", false}}
 
@@ -311,12 +317,12 @@ function LoadPopupSettings()
     PopulatePullDown(Controls.SetRelic, options, CuiSettings:GetBoolean(CuiSettings.POPUP_RELIC), RelicHandler, true)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function UpdatePopup()
     -- LuaEvents.CuiPopupSettingChange()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function LoadRemindSettings()
     local options = {{"LOC_OPTIONS_ENABLED", true}, {"LOC_OPTIONS_DISABLED", false}}
 
@@ -378,12 +384,12 @@ function LoadRemindSettings()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function UpdateRemind()
     LuaEvents.CuiRemindSettingChange()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function LoadSpeedSettings()
     local options = {
         {"LOC_MODS_ENABLE_ALL", 3},
@@ -423,7 +429,7 @@ function LoadSpeedSettings()
     PopulatePullDown(Controls.SetMovementSpeed, options, movement_value, MovementHandler, true)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function UpdateSpeed()
     aiCombatSpeed = CuiSettings:GetBoolean(CuiSettings.AI_COMBAT) and 1 or 0
     aiMovementSpeed = CuiSettings:GetBoolean(CuiSettings.AI_MOVEMENT) and 1 or 0
@@ -435,23 +441,27 @@ function UpdateSpeed()
     UserConfiguration.SetValue("QuickMovement", playerMovementSpeed)
 end
 
--- ---------------------------------------------------------------------------
+-- ===========================================================================
 -- Config Functions
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function OnAiTurn()
     UserConfiguration.SetValue("QuickCombat", aiCombatSpeed)
     UserConfiguration.SetValue("QuickMovement", aiMovementSpeed)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnPlayerTurn()
     UserConfiguration.SetValue("QuickCombat", playerCombatSpeed)
     UserConfiguration.SetValue("QuickMovement", playerMovementSpeed)
 end
 
--- ---------------------------------------------------------------------------
+-- ===========================================================================
 -- Data Functions
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function LoadSettings()
     LoadVictorySettings()
     LoadLogSettings()
@@ -460,13 +470,15 @@ function LoadSettings()
     LoadSpeedSettings()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function SaveSettings()
 end
 
--- ---------------------------------------------------------------------------
+-- ===========================================================================
 -- Screen Functions
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function Open()
     if ContextPtr:IsHidden() then
         UI.PlaySound("UI_Screen_Open")
@@ -474,7 +486,7 @@ function Open()
     UIManager:QueuePopup(ContextPtr, PopupPriority.Current)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function Close()
     if not ContextPtr:IsHidden() then
         UI.PlaySound("UI_Screen_Close")
@@ -482,7 +494,7 @@ function Close()
     UIManager:DequeuePopup(ContextPtr)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnShow()
     LoadSettings()
     Open()
@@ -490,13 +502,13 @@ function OnShow()
     Controls.ScreenAnimIn:Play()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnConfirm()
     SaveSettings()
     Close()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnInit(isReload)
     if isReload then
         if not ContextPtr:IsHidden() then
@@ -505,7 +517,7 @@ function OnInit(isReload)
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnInputHandler(pInputStruct)
     local uiMsg = pInputStruct:GetMessageType()
     if uiMsg == KeyEvents.KeyUp then
@@ -520,7 +532,7 @@ function OnInputHandler(pInputStruct)
     return false
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function Initialize()
     ContextPtr:SetHide(true)
     ContextPtr:SetInitHandler(OnInit)

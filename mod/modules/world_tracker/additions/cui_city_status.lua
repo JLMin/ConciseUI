@@ -1,7 +1,8 @@
 -- ===========================================================================
--- Cui City Manager
--- eudaimonia, 2019/11/17
--- ---------------------------------------------------------------------------
+-- Concise UI
+-- cui_city_status.lua
+-- ===========================================================================
+
 include("CitySupport")
 include("Civ6Common")
 include("InstanceManager")
@@ -12,8 +13,7 @@ include("cui_data")
 include("cui_helper")
 include("cui_settings")
 
--- ---------------------------------------------------------------------------
-
+-- Concise UI ----------------------------------------------------------------
 local cui_CityIM = InstanceManager:new("CityInstance", "Top", Controls.CityListStack)
 local cui_DistrictsIM = InstanceManager:new("DistrictInstance", "Top", Controls.DistrictInstanceContainer)
 local m_tabs
@@ -33,7 +33,9 @@ local DistrictsTypes = {
 
 -- ===========================================================================
 -- Support functions
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetPercentGrowthColor(percent)
     if percent == 0 then
         return "Error"
@@ -47,7 +49,7 @@ function GetPercentGrowthColor(percent)
     return "White"
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetHappinessColor(eHappiness)
     local happinessInfo = GameInfo.Happinesses[eHappiness]
     if (happinessInfo ~= nil) then
@@ -61,7 +63,7 @@ function GetHappinessColor(eHappiness)
     return "White"
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetLoyaltyColor(loyalty)
     if loyalty < 0 then
         return "StatBadCS"
@@ -74,7 +76,9 @@ end
 
 -- ===========================================================================
 -- UI functions
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function PopulateTabs()
     m_tabs = CreateTabs(Controls.TabRow, 44, UI.GetColorValueFromHexLiteral(0xFF331D05))
     m_tabs.AddTab(Controls.CitizenTab, Foo)
@@ -90,7 +94,7 @@ function PopulateTabs()
     m_tabs.AddAnimDeco(Controls.TabAnim, Controls.TabArrow)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function PopulateCityStack()
     cui_CityIM:ResetInstances()
     cui_DistrictsIM:ResetInstances()
@@ -202,7 +206,7 @@ function PopulateCityStack()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function PopulateDistrict(instance, data)
     for _, district in ipairs(data.BuildingsAndDistricts) do
         if district.isBuilt and district.Type == "DISTRICT_GOVERNMENT" then
@@ -229,13 +233,15 @@ function PopulateDistrict(instance, data)
     instance.DistrictStack:CalculateSize()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function Foo()
 end
 
 -- ===========================================================================
 -- Population functions
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function BuildPopulationData(playerID)
     PopulationTrack[playerID] = {}
     local player = Players[playerID]
@@ -248,7 +254,7 @@ function BuildPopulationData(playerID)
     PopulationTrack[playerID] = data
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function UpdatePopulationChanged(playerID)
     local data = PopulationTrack[playerID]
     local player = Players[playerID]
@@ -271,7 +277,9 @@ end
 
 -- ===========================================================================
 -- Event functions
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function Open()
     UI.PlaySound("Production_Panel_Open")
 
@@ -286,7 +294,7 @@ function Open()
     LuaEvents.CuiCityManager_Open()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function Close()
     UI.PlaySound("Production_Panel_Closed")
     Controls.SlideIn:Reverse()
@@ -296,13 +304,13 @@ function Close()
     LuaEvents.CuiCityManager_Close()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnCloseEnd()
     ContextPtr:SetHide(true)
     Controls.PauseDismissWindow:SetToBeginning()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnToggleCityManager()
     if ContextPtr:IsHidden() then
         Open()
@@ -311,7 +319,7 @@ function OnToggleCityManager()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnPlayerTurnActivated()
     local playerID = Game.GetLocalPlayer()
     if playerID == PlayerTypes.NONE then
@@ -325,7 +333,7 @@ function OnPlayerTurnActivated()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnPlayerTurnEnd()
     local playerID = Game.GetLocalPlayer()
     if playerID == PlayerTypes.NONE then
@@ -334,7 +342,7 @@ function OnPlayerTurnEnd()
     BuildPopulationData(playerID)
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function Refresh()
     local playerID = Game.GetLocalPlayer()
     local player = Players[playerID]
@@ -345,7 +353,7 @@ function Refresh()
     PopulateCityStack()
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function Initialize()
     Controls.CloseButton:RegisterCallback(Mouse.eLClick, Close)
     Controls.CloseButton:RegisterCallback(

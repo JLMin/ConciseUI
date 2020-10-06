@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- Map Options - Additional Options -->
+<!--
+    Concise UI
+    cui_map_options.xml
+-->
 
 <Context Name="AdditionalOptions">
 

@@ -6,7 +6,7 @@
 include( "InstanceManager" );
 include( "SupportFunctions" );
 include( "Civ6Common" );
-include("cui_settings") -- CUI
+include("cui_settings"); -- Concise UI
 
 
 -- ===========================================================================
@@ -69,11 +69,6 @@ m_LinkOffsets = {};
 	m_LinkOffsets[1] = {0,0};
 	m_LinkOffsets[2] = {0,-20};
 	m_LinkOffsets[3] = {16,22};
-
-m_UnitFlagHeightOverrides = {
-	["UNIT_GIANT_DEATH_ROBOT"] = 20,
-};
-
 
 
 -- ===========================================================================
@@ -600,7 +595,7 @@ function UnitFlag.UpdateFlagType( self )
 
 	local textureName:string;
 
-    -- Make this more data driven.  It would be nice to have it so any state the unit could be in could have its own look.
+	-- Make this more data driven.  It would be nice to have it so any state the unit could be in could have its own look.
 	if( pUnit:IsEmbarked() ) then
 		textureName = TEXTURE_EMBARK;
 	elseif( pUnit:GetFortifyTurns() > 0 ) then
@@ -609,14 +604,14 @@ function UnitFlag.UpdateFlagType( self )
 		textureName = TEXTURE_CIVILIAN;
 	elseif( self.m_Style == FLAGSTYLE_RELIGION ) then
 		textureName = TEXTURE_RELIGION;
-        self.m_IsForceHide = not CuiSettings:GetBoolean(CuiSettings.SHOW_RELIGIONS) -- CUI: toggle religion flags
+        self.m_IsForceHide = not CuiSettings:GetBoolean(CuiSettings.SHOW_RELIGIONS); -- Concise UI toggle religion flags
 	elseif( self.m_Style == FLAGSTYLE_NAVAL) then
 		textureName = TEXTURE_NAVAL;
 	elseif( self.m_Style == FLAGSTYLE_SUPPORT) then
 		textureName = TEXTURE_SUPPORT;
 	elseif( self.m_Style == FLAGSTYLE_TRADE) then
 		textureName = TEXTURE_TRADE;
-        self.m_IsForceHide = not CuiSettings:GetBoolean(CuiSettings.SHOW_TRADERS) -- CUI: toggle trader flags
+        self.m_IsForceHide = not CuiSettings:GetBoolean(CuiSettings.SHOW_TRADERS); -- Concise UI toggle trader flags
 	else
 		textureName = TEXTURE_BASE;
 	end
@@ -1004,13 +999,15 @@ function UnitFlag.SetPosition( self, worldX : number, worldY : number, worldZ : 
 			self.m_Instance.Anchor:SetZoomOffsetNearVal( 0, 0, 0 );
 			if (cityBannerZOffset == 0) then
 				local pUnitType = GameInfo.Units[pUnit:GetUnitType()].UnitType;
-				local pHeightOverride = m_UnitFlagHeightOverrides[pUnitType];
-				if (pHeightOverride ~= nil) then
-					-- Only offset when fully zoomed in, when zoomed out the flag will move down onto the hex
-					self.m_Instance.Anchor:SetZoomOffsetNearVal( 0, 0, pHeightOverride );
+				local kUnitPresentationDef:table = GameInfo.Units_Presentation[pUnitType];
+				if kUnitPresentationDef ~= nil then
+					local flagOffset:number = kUnitPresentationDef.UIFlagOffset;
+					if flagOffset ~= 0 then
+						-- Only offset when fully zoomed in, when zoomed out the flag will move down onto the hex
+						self.m_Instance.Anchor:SetZoomOffsetNearVal( 0, 0, flagOffset );
+					end
 				end
 			end
-
 		end
 	end
 
@@ -1372,18 +1369,21 @@ function UpdateIconStack( plotX:number, plotY:number )
 					flag:UpdateName();
 				end
 
-                -- CUI: toggle trader flags
+                -- Concise UI >> toggle trader flags
                 if (flag.m_Style == FLAGSTYLE_TRADE) then
-                    flag.m_Instance.Anchor:SetHide(not CuiSettings:GetBoolean(CuiSettings.SHOW_TRADERS))
+                    flag.m_Instance.Anchor:SetHide(not CuiSettings:GetBoolean(CuiSettings.SHOW_TRADERS));
                 end
+                -- << Concise UI
 
-                -- CUI: toggle religion flags
+                -- Concise UI >> toggle religion flags
                 if (flag.m_Style == FLAGSTYLE_RELIGION) then
-                    flag.m_Instance.Anchor:SetHide(not CuiSettings:GetBoolean(CuiSettings.SHOW_RELIGIONS))
+                    flag.m_Instance.Anchor:SetHide(not CuiSettings:GetBoolean(CuiSettings.SHOW_RELIGIONS));
                 end
-            end
-        end
-    end
+                -- << Concise UI
+
+			end
+		end
+	end
 end
 
 ---========================================
@@ -2085,7 +2085,7 @@ function Initialize()
 	ContextPtr:SetInitHandler( OnInit );
 	ContextPtr:SetShutdown( OnShutdown );
 
-    LuaEvents.CuiToggleTraderIcons.Add(Refresh) -- CUI
-    LuaEvents.CuiToggleReligionIcons.Add(Refresh) -- CUI
+    LuaEvents.CuiToggleTraderIcons.Add(Refresh); -- Concise UI
+    LuaEvents.CuiToggleReligionIcons.Add(Refresh); -- Concise UI
 end
 Initialize();

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Cui Spy Info -->
+<!--
+    Concise UI
+    cui_spy_info.xml
+-->
 
 <Context>
   <Grid ID="CuiSpyInfo" Style="SubContainerSmall2" Size="48,24">

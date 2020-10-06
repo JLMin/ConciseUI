@@ -1,6 +1,8 @@
 -- ===========================================================================
--- Cui Tracker Support Functions
--- ---------------------------------------------------------------------------
+-- Concise UI
+-- cui_tracker_support.lua
+-- ===========================================================================
+
 include("SupportFunctions")
 include("PlayerSupport")
 include("TeamSupport")
@@ -11,7 +13,7 @@ local localPlayerID = nil
 local localPlayer = nil
 local localDiplomacy = nil
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function PlayerInit()
     localPlayerID = Game.GetLocalPlayer()
     localPlayer = Players[localPlayerID]
@@ -21,7 +23,9 @@ PlayerInit()
 
 -- ===========================================================================
 -- Data Function
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetWonderData()
     PlayerInit()
 
@@ -97,7 +101,7 @@ function GetWonderData()
     return wonderData
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetResourceData()
     PlayerInit()
 
@@ -215,7 +219,7 @@ function GetResourceData()
     return resourceData
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetBorderData()
     PlayerInit()
 
@@ -288,7 +292,7 @@ function GetBorderData()
     return borderData
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetTradeData()
     PlayerInit()
 
@@ -335,7 +339,9 @@ end
 
 -- ===========================================================================
 -- Help Function
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function IsAtWar(lPlayerID, tPlayerID)
     local tPlayer = Players[tPlayerID]
     local lPlayerID = Game.GetLocalPlayer()

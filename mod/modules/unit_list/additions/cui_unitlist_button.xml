@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Cui Unit List Button -->
+<!--
+    Concise UI
+    cui_unitlist_button.xml
+-->
 
 <Context>
-  <Instance Name="CuiUnitList">
-    <Button ID="UnitListButton" Anchor="L,C" Size="49,49" Texture="LaunchBar_Hook_ReligionButton" Style="ButtonNormalText" StateOffsetIncrement="0,49">
-      <Image ID="UnitListIcon" Anchor="C,C" Size="42,42"/>
-    </Button>
-  </Instance>
+    <Instance Name="CuiUnitList">
+        <Button ID="UnitListButton" Anchor="L,C" Size="49,49" Texture="LaunchBar_Hook_ReligionButton" Style="ButtonNormalText" StateOffsetIncrement="0,49">
+            <Image ID="UnitListIcon" Anchor="C,C" Size="42,42"/>
+        </Button>
+    </Instance>
 
-  <Instance Name="Pip">
-    <Image Anchor="L,C" Offset="0,-2" Size="7,7" Texture="LaunchBar_TrackPip" Color="255,255,255,200"/>
-  </Instance>
+    <Instance Name="Pip">
+        <Image Anchor="L,C" Offset="0,-2" Size="7,7" Texture="LaunchBar_TrackPip" Color="255,255,255,200"/>
+    </Instance>
 </Context>

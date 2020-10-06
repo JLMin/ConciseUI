@@ -12,10 +12,11 @@ include( "GameCapabilities" );
 include( "LeaderIcon" );
 include( "PopupDialog" );
 include( "CivilizationIcon" );
-include("cui_leader_icon_support") -- CUI
+
+include("cui_leader_icon_support"); -- Concise UI
 
 -- ===========================================================================
---    GLOBALS
+--	GLOBALS
 -- ===========================================================================
 g_ActionListIM		= InstanceManager:new( "ActionButton",  "Button" );
 g_SubActionListIM	= InstanceManager:new( "ActionButton",  "Button" );
@@ -1715,15 +1716,15 @@ function PopulateLeader(leaderIcon : table, player : table, isUniqueLeader : boo
 				-- The selection background
 				leaderIcon.Controls.SelectedBackground:SetHide(playerID ~= ms_SelectedPlayerID);
 
-                -- CUI: use advenced tooltip
-                local allianceData = CuiGetAllianceData(playerID)
-                LuaEvents.CuiLeaderIconToolTip(leaderIcon.Controls.Portrait, playerID)
-                LuaEvents.CuiRelationshipToolTip(leaderIcon.Controls.Relationship, playerID, allianceData)
-                --
+                -- Concise UI >> use advenced tooltip
+                local allianceData = CuiGetAllianceData(playerID);
+                LuaEvents.CuiLeaderIconToolTip(leaderIcon.Controls.Portrait, playerID);
+                LuaEvents.CuiRelationshipToolTip(leaderIcon.Controls.Relationship, playerID, allianceData);
+                -- << Concise UI
 
-            end
-        end
-    end
+			end
+		end
+	end
 end
 
 -- ===========================================================================
@@ -1972,14 +1973,14 @@ function PopulateDiplomacyRibbon(diplomacyRibbon : table)
 		-- Add entries for everyone we know (Majors only)
 		local aPlayers = PlayerManager.GetAliveMajors();
 
-        -- CUI sort by met time
+        -- Concise UI >> sort by met time
         table.sort(
             aPlayers,
             function(a, b)
                 return pLocalPlayerDiplomacy:GetMetTurn(a:GetID()) < pLocalPlayerDiplomacy:GetMetTurn(b:GetID())
             end
         )
-        --
+        -- << Concise UI
 
 		for _, pPlayer in ipairs(aPlayers) do
 			if (pPlayer:GetID() ~= ms_LocalPlayerID and pLocalPlayerDiplomacy:HasMet(pPlayer:GetID())) then
@@ -2351,6 +2352,7 @@ function OnLeaderLoaded()
         bDoAudio = true;
 		local ePlayerMood = DiplomacySupport_GetPlayerMood(ms_SelectedPlayer, ms_LocalPlayerID);
 		-- What do they think of us?
+		ePlayerMood = GetModifiedMood(ePlayerMood)
 		if (ePlayerMood == DiplomacyMoodTypes.HAPPY) then
 			LeaderSupport_QueueAnimationSequence( ms_SelectedPlayerLeaderTypeName, "HAPPY_IDLE" );
 		elseif (ePlayerMood == DiplomacyMoodTypes.NEUTRAL) then
@@ -2410,7 +2412,25 @@ function OnLeaderLoaded()
         end
     end
 end
+-- ===========================================================================
+-- This is a little injection point to add additional logic when picking the
+-- visual mood for a leader when loading them up
+-- ===========================================================================
+function GetModifiedMood( inMood  )
 
+	-- TODO: Replace this with a proper solution for function overriding in DLCs
+	-- Make Alt-Catherine look happy when you're playing as her
+	if (ms_LocalPlayerID == ms_SelectedPlayerID) then
+		local localPlayer = Game.GetLocalPlayer()
+		local playerConfig:table = PlayerConfigurations[localPlayer]
+		local leaderTypeName:string = playerConfig:GetLeaderTypeName()
+		if (leaderTypeName == "LEADER_CATHERINE_DE_MEDICI_ALT" ) then
+			inMood = DiplomacyMoodTypes.HAPPY
+		end
+	end
+
+	return inMood
+end
 -- ===========================================================================
 function GetStatementHandler(statementTypeName : string)
 	local handler = StatementHandlers[statementTypeName];

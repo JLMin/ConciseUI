@@ -1,26 +1,28 @@
 -- ===========================================================================
--- Cui Options Button
+-- Concise UI
+-- cui_options_button.lua
 -- ===========================================================================
+
 include("cui_helper")
 include("cui_settings")
 include("cui_update")
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 local isAttached = false
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OpenOptionMenu()
     LuaEvents.CuiToggleOptions()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function SetupUI()
     Controls.Version:SetText(CuiVersion)
     Controls.Version:SetToolTipString(VersionDetail)
     CuiRegCallback(Controls.CuiOptionButton, OpenOptionMenu, OpenOptionMenu)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnMinimapResize()
     if isAttached then
         local minimap = ContextPtr:LookUpControl("/InGame/MinimapPanel/MiniMap/MinimapContainer")
@@ -28,7 +30,7 @@ function OnMinimapResize()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function AttachToMinimap()
     if not isAttached then
         local minimap = ContextPtr:LookUpControl("/InGame/MinimapPanel/MiniMap/MinimapContainer")
@@ -39,7 +41,7 @@ function AttachToMinimap()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function Initialize()
     ContextPtr:SetHide(true)
     SetupUI()

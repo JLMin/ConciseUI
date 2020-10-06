@@ -10,7 +10,7 @@ include("WorldCrisisSupport");
 include("PopupPriorityLoader_", true);
 include("InputSupport");
 include("Civ6Common"); --FormatTimeRemaining
-include("cui_leader_icon_support") -- CUI
+include("cui_leader_icon_support"); -- Concise UI
 
 -- ===========================================================================
 -- Constants
@@ -77,11 +77,14 @@ local m_kActivePulldown:table;
 --	Checks the current turn segment and opens World Congress if necessary
 -- ===========================================================================
 function CheckShouldOpen()
-	local turnSegment = Game.GetCurrentTurnSegment();
-	if turnSegment == WORLD_CONGRESS_STAGE_1 then
-		SetupWorldCongress(1);
-	elseif turnSegment == WORLD_CONGRESS_STAGE_2 then
-		SetupWorldCongress(2);
+	local pPlayer = PlayerConfigurations[Game.GetLocalPlayer()];
+	if(pPlayer and pPlayer:IsAlive())then
+		local turnSegment = Game.GetCurrentTurnSegment();
+		if turnSegment == WORLD_CONGRESS_STAGE_1 then
+			SetupWorldCongress(1);
+		elseif turnSegment == WORLD_CONGRESS_STAGE_2 then
+			SetupWorldCongress(2);
+		end
 	end
 end
 
@@ -90,12 +93,17 @@ end
 -- ===========================================================================
 function SetupWorldCongress(stageNum:number, beginCongress:boolean)
 	-- Account for AutoPlay
-	if Game.GetLocalPlayer() < 0 then return; end;
+	local localPlayerID = Game.GetLocalPlayer();
+	if localPlayerID == PlayerTypes.NONE then return; end;
 
-	if SetStage(stageNum, beginCongress) then
-		ShowPopup();
-	else
-		ClosePopup();
+	--Account for Observer Mode
+	local pPlayer : table = PlayerConfigurations[localPlayerID];
+	if(pPlayer and pPlayer:IsAlive())then
+		if SetStage(stageNum, beginCongress) then
+			ShowPopup();
+		else
+			ClosePopup();
+		end
 	end
 end
 
@@ -417,6 +425,8 @@ function PopulateLeaderStack()
 	local localPlayerID:number = Game.GetLocalPlayer();
 	local aPlayers:table = PlayerManager.GetAliveMajors();
 	local pDiplomacy:table = Players[localPlayerID]:GetDiplomacy();
+	local pLocalPlayer:table = PlayerConfigurations[localPlayerID];
+	local isLocalPlayerAlive:boolean = pPlayer and pPlayer:IsAlive();
 
 	m_kLeaderButtonIM:ResetInstances();
 
@@ -424,7 +434,7 @@ function PopulateLeaderStack()
 		local playerID:number = pPlayer:GetID();
 		local pPlayerConfig:table = PlayerConfigurations[playerID];
 		local isLocalPlayer:boolean = playerID == localPlayerID;
-		local hasMetPlayer:boolean = isLocalPlayer or pDiplomacy:HasMet(playerID);
+		local hasMetPlayer:boolean = isLocalPlayer or pDiplomacy:HasMet(playerID) or not isLocalPlayerAlive; -- If local player is dead (and observing), show all leaders
 		local instance:table = m_kLeaderButtonIM:GetInstance();
 		local uiLeaderIcon:table = LeaderIcon:AttachInstance(instance.Icon);
 
@@ -444,40 +454,35 @@ function PopulateLeaderStack()
 			end);
 
 			if hasMetPlayer then
+				local favor:number = m_CurrentStage == 4 and pPlayer:GetFavor() or pPlayer:GetFavorEnteringCongress();
+				instance.FavorLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_FAVOR", favor));
+				instance.FavorLabel:SetToolTipString(Locale.Lookup(playerID == localPlayerID and "LOC_WORLD_CONGRESS_TT_PLAYER_FAVOR" or "LOC_WORLD_CONGRESS_TT_LEADER_FAVOR", favor));
+				instance.FavorContainer:SetHide(false);
 
-                --[[ CUI: use tooltip instead
-                local grievanceTT = "";
-                local grievances = pDiplomacy:GetGrievancesAgainst(playerID);
+                -- Concise UI >> use tooltip instead
+                --[[
+                local grievanceTT:string = "";
+                local grievances:number = pDiplomacy:GetGrievancesAgainst(playerID);
                 if grievances > 0 then
-                instance.GrievanceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_GRIEVANCE_VALUE", grievances));
-                instance.GrievanceLabel:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_GRIEVANCE_DEFINITION", grievances));
-                instance.GrievanceContainer:SetHide(false);
+                    instance.GrievanceLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_GRIEVANCE_VALUE", grievances));
+                    instance.GrievanceLabel:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_GRIEVANCE_DEFINITION", grievances));
+                    instance.GrievanceContainer:SetHide(false);
                 else
-                instance.GrievanceLabel:SetText("");
-                instance.GrievanceContainer:SetHide(true);
+                    instance.GrievanceLabel:SetText("");
+                    instance.GrievanceContainer:SetHide(true);
                 end
                 ]]
-
-                local favor = m_CurrentStage == 4 and pPlayer:GetFavor() or pPlayer:GetFavorEnteringCongress()
-                instance.FavorLabel:SetText(Locale.Lookup("LOC_WORLD_CONGRESS_FAVOR", favor))
-                instance.FavorLabel:SetToolTipString(
-                    Locale.Lookup(
-                        playerID == localPlayerID and "LOC_WORLD_CONGRESS_TT_PLAYER_FAVOR" or
-                            "LOC_WORLD_CONGRESS_TT_LEADER_FAVOR",
-                        favor
-                    )
-                )
-                instance.FavorContainer:SetHide(false)
-            else
+                -- << Concise UI
+			else
 				instance.FavorContainer:SetHide(true);
-                -- instance.GrievanceContainer:SetHide(true); -- CUI
+				-- instance.GrievanceContainer:SetHide(true); -- Concise UI
 			end
-            instance.GrievanceLabel:SetText("") -- CUI
-            instance.GrievanceContainer:SetHide(true) -- CUI
+            instance.GrievanceLabel:SetText(""); -- Concise UI
+            instance.GrievanceContainer:SetHide(true); -- Concise UI
 
 			local icon:string = (isLocalPlayer or pDiplomacy:HasMet(playerID)) and "ICON_" .. leaderName or "ICON_LEADER_DEFAULT";
 			uiLeaderIcon:UpdateIcon(icon, playerID, kIsUniqueLeader[leaderName], grievanceTT);
-        else
+		else
 			instance.FavorLabel:SetText("");
 			instance.GrievanceLabel:SetText("");
 			instance.FavorContainer:SetHide(true);
@@ -485,15 +490,15 @@ function PopulateLeaderStack()
 			uiLeaderIcon:UpdateIcon("ICON_LEADER_DEFAULT", playerID);
 		end
 
-        -- CUI: use advanced tooltip
-        uiLeaderIcon.Controls.Portrait:ClearToolTipCallback()
-        uiLeaderIcon.Controls.Relationship:ClearToolTipCallback()
-        local allianceData = CuiGetAllianceData(playerID)
-        LuaEvents.CuiLeaderIconToolTip(uiLeaderIcon.Controls.Portrait, playerID)
-        LuaEvents.CuiRelationshipToolTip(uiLeaderIcon.Controls.Relationship, playerID, allianceData)
-        --
+        -- Concise UI >> use advanced tooltip
+        uiLeaderIcon.Controls.Portrait:ClearToolTipCallback();
+        uiLeaderIcon.Controls.Relationship:ClearToolTipCallback();
+        local allianceData = CuiGetAllianceData(playerID);
+        LuaEvents.CuiLeaderIconToolTip(uiLeaderIcon.Controls.Portrait, playerID);
+        LuaEvents.CuiRelationshipToolTip(uiLeaderIcon.Controls.Relationship, playerID, allianceData);
+        -- << Concise UI
 
-    end
+	end
 end
 
 function PopulateBG()

@@ -1,16 +1,18 @@
 -- ===========================================================================
--- Cui In Game Note Button
+-- Concise UI
+-- cui_note_button.lua
 -- ===========================================================================
+
 local isAttached = false
 local notesButtonInstance = {}
 local pipInstance = {}
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function OnToggleNoteScreen()
     LuaEvents.Cui_ToggleNoteScreen()
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function AttachToTopPanel()
     if not isAttached then
         local buttonStack = ContextPtr:LookUpControl("/InGame/LaunchBar/ButtonStack")
@@ -37,7 +39,7 @@ function AttachToTopPanel()
     end
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function CuiOnIngameAction(actionId)
     if Game.GetLocalPlayer() == -1 then
         return
@@ -48,7 +50,7 @@ function CuiOnIngameAction(actionId)
     end
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function Initialize()
     ContextPtr:SetHide(true)
 

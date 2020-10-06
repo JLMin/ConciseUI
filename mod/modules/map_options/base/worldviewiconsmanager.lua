@@ -6,7 +6,7 @@
 
 include( "InstanceManager" );
 include( "SupportFunctions" );
-include("cui_settings") -- CUI
+include("cui_settings"); -- Concise UI
 
 local KEY_CURRENT_ICON_INFO		:string = "currentIcon";
 local KEY_PREVIOUS_ICON_INFO	:string = "prevIcon";
@@ -53,7 +53,7 @@ end
 
 -- ===========================================================================
 --	Animation Callback
---	The new icon state is done fading in, set the texture it on the 
+--	The new icon state is done fading in, set the texture it on the
 --	non-animating control and clear out the animating control.
 -- ===========================================================================
 function OnEndFade( pInstance:table )
@@ -93,25 +93,27 @@ function SetResourceIcon( pInstance:table, pPlot, type, state)
 			iconName = iconName .. "_FOW";
 		end
 		local textureOffsetX, textureOffsetY, textureSheet = IconManager:FindIconAtlas(iconName, 256);
-		if (textureSheet ~= nil) then						
+		if (textureSheet ~= nil) then
 			pInstance[KEY_PREVIOUS_ICON_INFO] = DeepCopy( pInstance[KEY_CURRENT_ICON_INFO] );
 			if pInstance[KEY_PREVIOUS_ICON_INFO] ~= nil then
 				pInstance.ResourceIcon:SetTexture( pInstance[KEY_PREVIOUS_ICON_INFO].textureOffsetX, pInstance[KEY_PREVIOUS_ICON_INFO].textureOffsetY, pInstance[KEY_PREVIOUS_ICON_INFO].textureSheet );
 				pInstance.ResourceIcon:SetHide( not m_isShowResources );
 			else
 				pInstance.ResourceIcon:SetHide( true );
-			end			
+			end
 			pInstance.NextResourceIcon:SetTexture( textureOffsetX, textureOffsetY, textureSheet );
 			pInstance.NextResourceIcon:SetHide( false );
 			pInstance[KEY_CURRENT_ICON_INFO] = {
-				textureOffsetX = textureOffsetX, 
+				textureOffsetX = textureOffsetX,
 				textureOffsetY = textureOffsetY,
 				textureSheet  = textureSheet
-			}
-            -- CUI: disable animation
-            pInstance.AlphaAnim:SetHide(true)
-            -- pInstance.AlphaAnim:SetToBeginning();
-            -- pInstance.AlphaAnim:Play();
+            }
+            -- Concise UI >> disable animation
+			pInstance.AlphaAnim:SetHide(true);
+			-- pInstance.AlphaAnim:SetToBeginning();
+			-- pInstance.AlphaAnim:Play();
+            -- << Concise UI
+
 			-- Add some tooltip information about the resource
 			local toolTipItems:table = {};
 			table.insert(toolTipItems, Locale.Lookup(resourceInfo.Name));
@@ -213,16 +215,16 @@ function SetResourceIcon( pInstance:table, pPlot, type, state)
 
 			table.insert(toolTipItems, resourceString)
 			pInstance.ResourceIcon:SetToolTipString(table.concat(toolTipItems, "[NEWLINE]"));
-		end
-
-        -- CUI: toggle improved resource icons
-        local cui_ShowImproved = CuiSettings:GetBoolean(CuiSettings.SHOW_IMPROVES)
-        if CuiIsResourceImprovedByPlayer(resourceInfo, pPlot) then
-            pInstance.ResourceIcon:SetHide(not cui_ShowImproved)
         end
-        --
 
-    end
+        -- Concise UI >> toggle improved resource icons
+        local cui_ShowImproved = CuiSettings:GetBoolean(CuiSettings.SHOW_IMPROVES);
+        if CuiIsResourceImprovedByPlayer(resourceInfo, pPlot) then
+            pInstance.ResourceIcon:SetHide(not cui_ShowImproved);
+        end
+        -- << Concise UI
+
+	end
 end
 
 -------------------------------------------------------------------------------
@@ -330,7 +332,7 @@ end
 function RemoveAll(plotIndex)
 	ReleaseInstanceAt(plotIndex);
 end
-	
+
 -------------------------------------------------------------------------------
 function ChangeToMidFog(plotIndex)
 	local pIconSet = GetNonEmptyAt(plotIndex, RevealedState.REVEALED);
@@ -345,7 +347,7 @@ end
 
 -------------------------------------------------------------------------------
 function ChangeToVisible(plotIndex)
-	
+
 	local pIconSet = GetNonEmptyAt(plotIndex, RevealedState.VISIBLE);
 
 	if (pIconSet ~= nil) then
@@ -374,7 +376,7 @@ function Rebuild()
 			local visibilityType = pLocalPlayerVis:GetState(plotIndex);
 			if (visibilityType == RevealedState.HIDDEN) then
 				RemoveAll(plotIndex);
-			else		
+			else
 				if (visibilityType == RevealedState.REVEALED) then
 					ChangeToMidFog(plotIndex);
 				else
@@ -425,7 +427,7 @@ function OnResourceVisibilityChanged(x, y, resourceType, visibilityType)
 
 	if (visibilityType == RevealedState.HIDDEN) then
 		UnloadResourceIconAt(plotIndex);
-	else		
+	else
 		if (visibilityType == RevealedState.REVEALED) then
 			ChangeToMidFog(plotIndex);
 		else
@@ -457,7 +459,7 @@ function OnResourceChanged(x, y, resourceType)
 
 		if (visibilityType == RevealedState.HIDDEN) then
 			UnloadResourceIconAt(plotIndex);
-		else		
+		else
 			if (visibilityType == RevealedState.REVEALED) then
 				ChangeToMidFog(plotIndex);
 			else
@@ -481,7 +483,7 @@ function OnPlotVisibilityChanged(x, y, visibilityType)
 
 	if (visibilityType == RevealedState.HIDDEN) then
 		RemoveAll(plotIndex);
-	else		
+	else
 		if (visibilityType == RevealedState.REVEALED) then
 			ChangeToMidFog(plotIndex);
 		else
@@ -516,7 +518,7 @@ function OnPlotMarkersChanged(x, y)
 	local eObserverID = Game.GetLocalObserver();
 	local pLocalPlayerVis = PlayerVisibilityManager.GetPlayerVisibility(eObserverID);
 	if (pLocalPlayerVis ~= nil) then
-		
+
 		local visibilityType	= pLocalPlayerVis:GetState(x, y);
 		local plotIndex	:number	= GetUntouchPlotIndex(x, y);
 		if plotIndex == -1 then
@@ -662,28 +664,28 @@ end
 --	Create icons for recommended plot locations to settle.
 -- ===========================================================================
 function AddSettlementRecommendations()
-	
+
 	local localPlayerID:number = Game.GetLocalPlayer();
-	if localPlayerID == -1 or localPlayerID == 1000 then 
+	if localPlayerID == -1 or localPlayerID == 1000 then
 		return;
 	end
 	local pLocalPlayer:table = Players[localPlayerID];
 	if pLocalPlayer == nil then
-		UI.DataAssert("Could not obtain a player object to make settler recommendations for player id: ",localPlayerID);
+		UI.DataError("Could not obtain a player object to make settler recommendations for player id: ",localPlayerID);
 		return;
 	end
-	
+
 	local pGrandAI:table = pLocalPlayer:GetGrandStrategicAI();
 	if pGrandAI == nil then
 		-- Would there be a case where the grand strategic AI does not exist? (If so TODO: add assert).
 		return;
 	end
-		
+
 	local NUM_RECOMMENDATIONS :number = 5;
 	local pSettlementRecommendations :table = pGrandAI:GetSettlementRecommendations( NUM_RECOMMENDATIONS );
-	for _,kRecommendation in pairs(pSettlementRecommendations) do		
+	for _,kRecommendation in pairs(pSettlementRecommendations) do
 
-		local uiInstance :table = GetInstanceAt(kRecommendation.SettlingLocation);		
+		local uiInstance :table = GetInstanceAt(kRecommendation.SettlingLocation);
 		uiInstance.ImprovementRecommendationIcon:TrySetIcon( "ICON_UNITOPERATION_FOUND_CITY", 256 );		-- Update icon
 
 		local numReasons :number = kRecommendation.NumReasons;
@@ -696,29 +698,29 @@ function AddSettlementRecommendations()
 				uiInstance.ImprovementRecommendationIcon:SetToolTipString(kRecommendation.SettlingTooltip);
 			else
 				uiInstance.ImprovementRecommendationIcon:SetToolTipString(Locale.Lookup("LOC_TOOLTIP_SETTLEMENT_RECOMMENDATION"));
-			
+
 			end
 		else
 			-- Update custom tooltip
 			uiInstance.ImprovementRecommendationIcon:SetToolTipType("SettlerRecommendationTooltip");
 			uiInstance.ImprovementRecommendationIcon:SetToolTipCallback(
-				function( pControl:object ) 
-				
+				function( pControl:object )
+
 					-- Don't rebuild tooltip everyframe, only if it's for a different plot.
 					if m_kSettlerTooltip["SettlingLocation"] == kRecommendation.SettlingLocation then
 						return;
 					end
-					
+
 					m_kSettlerTooltip["SettlingLocation"] = kRecommendation.SettlingLocation;	-- Save last plot shown.
 					m_kSettlerTooltip.RecommendationStack:DestroyAllChildren();
-				
-					-- Obtain info and sort so good items show first.					
+
+					-- Obtain info and sort so good items show first.
 					local kTips	:table = {};
 					for i=0,numReasons-1,1 do		-- C++ style 0 to n-1
 						local title		:string = kRecommendation["SettleTitle"..tostring(i)];
 						local details	:string = kRecommendation["SettleExplanation"..tostring(i)];
 						local isPositive:boolean = kRecommendation["SettlePositive"..tostring(i)];
-					
+
 						local insertAt	:number = 0;
 						if isPositive == false then
 							insertAt = table.count(kTips);
@@ -729,12 +731,12 @@ function AddSettlementRecommendations()
 							isPositive=isPositive
 						});
 					end
-				
+
 					-- Build actual UI elements.
 					for _,kTip in ipairs(kTips)	do
 						local uiRow	 :table = {};
 						ContextPtr:BuildInstanceForControl( "RecommendationInstance", uiRow, m_kSettlerTooltip.RecommendationStack );
-					
+
 						uiRow.Title:SetText( Locale.Lookup(kTip.title) );
 						uiRow.Explanation:SetText( Locale.Lookup(kTip.details) );
 						uiRow.Icon:SetIcon( kTip.isPositive and "ICON_THUMBS_UP" or "ICON_THUMBS_DOWN");
@@ -756,7 +758,7 @@ function OnUnitSelectionChanged(player, unitId, locationX, locationY, locationZ,
 
 	-- Are we a builder?
 	local pSelectedUnit:table = UI.GetHeadSelectedUnit();
-	if pSelectedUnit then 
+	if pSelectedUnit then
 		if pSelectedUnit:GetBuildCharges() > 0 then
 			-- If we're within a city then look for any recommended improvements
 			local pPlot = Map.GetPlotIndex(pSelectedUnit:GetX(), pSelectedUnit:GetY());
@@ -805,14 +807,14 @@ end
 -- ===========================================================================
 --	UI Callback
 -- ===========================================================================
-function OnInit( bHotload:boolean )	
-	if bHotload then		
+function OnInit( bHotload:boolean )
+	if bHotload then
 		Rebuild();
 	end
-	LateInitialize();	
+	LateInitialize();
 end
 
--- CUI =======================================================================
+-- Concise UI ----------------------------------------------------------------
 function CuiIsResourceImprovedByPlayer(resourceInfo, pPlot)
     if (pPlot:GetOwner() ~= Game.GetLocalPlayer()) then
         return false
@@ -830,7 +832,7 @@ function CuiIsResourceImprovedByPlayer(resourceInfo, pPlot)
     return false
 end
 
--- CUI =======================================================================
+-- Concise UI ----------------------------------------------------------------
 function CuiInit()
     Events.LoadGameViewStateDone.Add(Rebuild)
     LuaEvents.CuiToggleImprovedIcons.Add(Rebuild)
@@ -840,11 +842,10 @@ end
 
 -- ===========================================================================
 function Initialize()
-    CuiInit() -- CUI
-
+    CuiInit(); -- Concise UI
 	ContextPtr:SetInitHandler( OnInit );
 	ContextPtr:SetShutdown( OnShutdown );
-	
+
 	Events.BeginWonderReveal.Add( OnBeginWonderReveal );
 	Events.CityAddedToMap.Add(OnCityAddedToMap);
 	Events.CivicCompleted.Add(OnCivicCompleted);

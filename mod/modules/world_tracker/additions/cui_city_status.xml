@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Concise UI
+    cui_city_status.xml
+-->
+
 <Context>
 
   <!-- PauseAnim - The amount of time that the window should wait before hiding. -->

@@ -1,7 +1,12 @@
+-- ===========================================================================
+-- Concise UI
+-- cui_data.lua
+-- ===========================================================================
+
 include("CitySupport")
 include("SupportFunctions")
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 GameDistrictsTypes = {
     CITY_CENTER = {
         "DISTRICT_CITY_CENTER"
@@ -69,7 +74,7 @@ GameDistrictsTypes = {
     }
 }
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiGetCityYield(city, round)
     local data = GetCityData(city)
     local n = round == nil and 1 or round
@@ -85,7 +90,7 @@ function CuiGetCityYield(city, round)
     return yields
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiGetFoodPerTurn(data)
     local modifiedFood
     local foodPerTurn
@@ -103,7 +108,7 @@ function CuiGetFoodPerTurn(data)
     return foodPerTurn
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiGetCityTourism(city)
     local tourism = 0
 
@@ -122,6 +127,6 @@ function CuiGetCityTourism(city)
     return tourism
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiGetDistrictIcon(dType)
 end

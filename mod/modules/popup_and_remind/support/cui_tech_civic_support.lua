@@ -1,6 +1,9 @@
 -- ===========================================================================
--- Cui Tech and Civic Help Functions
--- ---------------------------------------------------------------------------
+-- Concise UI
+-- cui_tech_civic_support.lua
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function CuiIsFutureTechAndGet(eTech)
     for tech in GameInfo.Technologies() do
         if tech.Index == eTech and tech.TechnologyType == "TECH_FUTURE_TECH" and tech.Repeatable then
@@ -10,7 +13,7 @@ function CuiIsFutureTechAndGet(eTech)
     return nil
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiIsFutureCivicAndGet(eCivic)
     for civic in GameInfo.Civics() do
         if civic.Index == eCivic and civic.CivicType == "CIVIC_FUTURE_CIVIC" and civic.Repeatable then
@@ -20,7 +23,7 @@ function CuiIsFutureCivicAndGet(eCivic)
     return nil
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiIsTechReady(playerID)
     local player = Players[playerID]
     local playerTechs = player:GetTechs()
@@ -36,7 +39,7 @@ function CuiIsTechReady(playerID)
     return false
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiIsCivicReady(playerID)
     local player = Players[playerID]
     local playerCulture = player:GetCulture()
@@ -52,7 +55,7 @@ function CuiIsCivicReady(playerID)
     return false
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetResearchData(localPlayer, pPlayerTechs, kTech)
     if kTech == nil then -- Immediate return if there is no tech to inspect; likely first turn.
         return nil
@@ -95,7 +98,7 @@ function GetResearchData(localPlayer, pPlayerTechs, kTech)
     return kData
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetCivicData(localPlayer, pPlayerCulture, kCivic)
     if kCivic == nil then -- Immediate return if there is no tech to inspect; likely first turn.
         return nil
@@ -138,7 +141,7 @@ function GetCivicData(localPlayer, pPlayerCulture, kCivic)
     return kData
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiIsGovernmentReady(playerID)
     local player = Players[playerID]
     local pCulture = player:GetCulture()
@@ -151,7 +154,7 @@ function CuiIsGovernmentReady(playerID)
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function CuiIsGovernorReady(playerID)
     local player = Players[playerID]
     local governors = player:GetGovernors()

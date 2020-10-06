@@ -1,11 +1,13 @@
 -- ===========================================================================
--- Cui In Game Note Screen
+-- Concise UI
+-- cui_note_screen.lua
 -- ===========================================================================
+
 include("InstanceManager")
 include("cui_helper")
 include("cui_settings")
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 local cui_NoteEnter = InstanceManager:new("NoteEnter", "Top", Controls.NoteStack)
 local EMPTY_NOTE = Locale.Lookup("LOC_CUI_NOTE_EMPTY")
 local windowHeight = 0
@@ -37,7 +39,7 @@ local NOTE_TURN = {
     NOTE9 = {field = "NoteTurn9", default = 0}
 }
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function PopulateNoteList()
     cui_NoteEnter:ResetInstances()
     for i = 1, 10, 1 do
@@ -87,7 +89,7 @@ function PopulateNoteList()
     Controls.NoteStack:ReprocessAnchoring()
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function SaveNote(index, text, turn)
     if IsEmpty(text) then
         CuiSettings:SetString(NOTE[index], EMPTY_NOTE)
@@ -98,7 +100,7 @@ function SaveNote(index, text, turn)
     end
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function IsEmpty(text)
     if text == nil then
         return true
@@ -112,7 +114,7 @@ function IsEmpty(text)
     return false
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function SetNote(note, text, turn)
     note.EditNote:SetHide(true)
     if IsEmpty(text) then
@@ -132,7 +134,7 @@ function SetNote(note, text, turn)
     end
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function CloseOtherPanel()
     LuaEvents.LaunchBar_CloseTechTree()
     LuaEvents.LaunchBar_CloseCivicsTree()
@@ -151,7 +153,7 @@ function CloseOtherPanel()
     end
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function Open()
     if (Game.GetLocalPlayer() == -1) then
         return
@@ -175,7 +177,7 @@ function Open()
     Controls.ScreenAnimIn:Play()
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function Close()
     if not ContextPtr:IsHidden() then
         UI.PlaySound("UI_Screen_Close")
@@ -183,7 +185,7 @@ function Close()
     UIManager:DequeuePopup(ContextPtr)
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function ToggleNoteScreen()
     if ContextPtr:IsHidden() then
         Open()
@@ -192,7 +194,7 @@ function ToggleNoteScreen()
     end
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function OnInit(isReload)
     if isReload then
         if not ContextPtr:IsHidden() then
@@ -201,7 +203,7 @@ function OnInit(isReload)
     end
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function OnInputHandler(pInputStruct)
     local uiMsg = pInputStruct:GetMessageType()
     if uiMsg == KeyEvents.KeyUp then
@@ -216,7 +218,7 @@ function OnInputHandler(pInputStruct)
     return false
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function Initialize()
     ContextPtr:SetHide(true)
     ContextPtr:SetInitHandler(OnInit)

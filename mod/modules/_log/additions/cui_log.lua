@@ -1,15 +1,21 @@
+-- ===========================================================================
+-- Concise UI
+-- cui_log.lua
+-- ===========================================================================
+
 include("cui_helper")
 include("cui_gameinfo")
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 local ShowModsList = true
 local ShowActiveOnly = true
 local ShowOfficial = false
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 LogC = {}
 LogC.__index = LogC
 
+-- Concise UI ----------------------------------------------------------------
 function LogC:createLog(sL, cL)
     o = o or {}
     setmetatable(o, self)
@@ -18,6 +24,7 @@ function LogC:createLog(sL, cL)
     return o
 end
 
+-- Concise UI ----------------------------------------------------------------
 function LogC:line(l)
     if l == "=" or l == "-" then
         print(string.rep(l, self.cL))
@@ -28,6 +35,7 @@ function LogC:line(l)
     end
 end
 
+-- Concise UI ----------------------------------------------------------------
 function LogC:property(p, v)
     if isNil(v) then
         v = "."
@@ -39,6 +47,7 @@ function LogC:property(p, v)
     print(line)
 end
 
+-- Concise UI ----------------------------------------------------------------
 function LogC:value3(p, v1, v2, v3)
     local s1, s2, s3 = string.len(v1), string.len(v2), string.len(v3)
     local vL = math.max(s1, s2, s3)
@@ -49,6 +58,7 @@ function LogC:value3(p, v1, v2, v3)
     LogC:property(p, v)
 end
 
+-- Concise UI ----------------------------------------------------------------
 function LogC:mod(mod)
     if ShowActiveOnly and not mod.Active then
         return
@@ -99,7 +109,7 @@ function LogC:mod(mod)
     LogC:line()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function LogGameInfo()
     local CuiGameInfo = GetCuiGameInfo()
     local Log = LogC:createLog()
@@ -146,7 +156,7 @@ function LogGameInfo()
     Log:line()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function Initialize()
     Events.LoadGameViewStateDone.Add(LogGameInfo)
 end

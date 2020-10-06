@@ -1,12 +1,16 @@
+-- ===========================================================================
+-- Concise UI
+-- cui_gameinfo.lua
+-- ===========================================================================
+
 include("cui_helper")
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 local RiseAndFall = "1B28771A-C749-434B-9053-D1380C553DE9"
 local GatheringStorm = "4873eb62-8ccc-4574-b784-dda455e74e68"
 local Tutorial = "17462E0F-1EE1-4819-AAAA-052B5896B02A"
 local CuiGameInfo = {}
-
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 local function GenerateModName(mod)
     local modInfo = Modding.GetModInfo(mod.Handle)
     local subID = modInfo.SubscriptionId
@@ -21,7 +25,7 @@ local function GenerateModName(mod)
     return modName
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 local function GenerateModInfo(mod)
     local modInfo = {
         Id = mod.Id,
@@ -42,7 +46,7 @@ local function GenerateModInfo(mod)
     return modInfo
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 local function LoadGameInfo()
     CuiGameInfo.IsMultiplayer = GameConfiguration.IsAnyMultiplayer()
     CuiGameInfo.IsHotseat = GameConfiguration.IsHotseat()
@@ -72,7 +76,7 @@ local function LoadInstalledMods()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 local function LoadActiveMods()
     local mods = Modding.GetActiveMods()
     for _, mod in ipairs(mods) do
@@ -101,7 +105,7 @@ local function LoadActiveMods()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 local function SortMods(usMods)
     if isNil(usMods) then
         return nil
@@ -137,7 +141,7 @@ local function SortMods(usMods)
     return mods
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetCuiGameInfo()
     CuiGameInfo = {
         -- version

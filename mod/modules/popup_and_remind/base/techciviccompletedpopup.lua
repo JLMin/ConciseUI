@@ -5,8 +5,9 @@
 -- ===========================================================================
 include("TechAndCivicSupport");			-- (Already includes Civ6Common and InstanceManager) PopulateUnlockablesForTech, PopulateUnlockablesForCivic, GetUnlockablesForCivic, GetUnlockablesForTech
 include("LocalPlayerActionSupport");
-include("cui_tech_civic_support") -- CUI
-include("cui_settings") -- CUI
+include("cui_tech_civic_support"); -- Concise UI
+include("cui_settings"); -- Concise UI
+
 
 -- ===========================================================================
 --	CONSTANTS / MEMBERS
@@ -31,7 +32,7 @@ function ShowCivicCompletedPopup( player:number, civic:number, quote:string, aud
 		UI.DataError("Cannot show civic popup because GameInfo.Civics["..tostring(civic).."] doesn't have data.");
 		return;
 	end
-		
+
 	local civicType = civicInfo.CivicType;
 
 	local isCivicUnlockGovernmentType:boolean = false;
@@ -64,19 +65,19 @@ function ShowCivicCompletedPopup( player:number, civic:number, quote:string, aud
 	m_unlockIM:ResetInstances();
 
 	local unlockableTypes = GetUnlockablesForCivic(civicType, player);
-		
+
 	PopulateUnlockablesForCivic( player, civic, m_unlockIM );
 	Controls.UnlockCountLabel:SetText(Locale.Lookup("LOC_RESEARCH_COMPLETE_UNLOCKED_BY_CIVIC", m_unlockIM.m_iAllocatedInstances));
-	
+
 	Controls.UnlockStack:CalculateSize();
-		
+
 	-- If there is a quote, display it.
 	if quote then
 		Controls.QuoteLabel:LocalizeAndSetText(quote);
-		
+
 		if audio then
 			Controls.QuoteAudio:SetHide(false);
-			Controls.QuoteButton:RegisterCallback(Mouse.eLClick, function() 
+			Controls.QuoteButton:RegisterCallback(Mouse.eLClick, function()
 				UI.PlaySound(audio);
 			end);
 		else
@@ -88,7 +89,7 @@ function ShowCivicCompletedPopup( player:number, civic:number, quote:string, aud
 	else
 		Controls.QuoteButton:SetHide(true);
 	end
-		
+
 	-- Determine if we've unlocked a new government type
 	for _,unlockItem in ipairs(unlockableTypes) do
 		local typeInfo = GameInfo.Types[unlockItem[1]];
@@ -109,8 +110,8 @@ function ShowCivicCompletedPopup( player:number, civic:number, quote:string, aud
 		Controls.ChangeGovernmentButton:RegisterCallback( Mouse.eLClick, OnChangePolicy );
 		Controls.ChangeGovernmentButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
 	end
-	
-	Controls.ChangeGovernmentButton:SetHide(false);		-- Show Change Government Button	
+
+	Controls.ChangeGovernmentButton:SetHide(false);		-- Show Change Government Button
 end
 
 
@@ -151,16 +152,16 @@ function ShowTechCompletedPopup( player:number, tech:number, quote:string, audio
 	m_unlockIM:ResetInstances();
 	PopulateUnlockablesForTech(player, tech, m_unlockIM);
 	Controls.UnlockCountLabel:SetText(Locale.Lookup("LOC_RESEARCH_COMPLETE_UNLOCKED_BY_TECH", m_unlockIM.m_iAllocatedInstances));
-		
+
 	Controls.UnlockStack:CalculateSize();
 
-	-- If we have a quote, display it.  
+	-- If we have a quote, display it.
 	if quote then
 		Controls.QuoteLabel:LocalizeAndSetText(quote);
-		
+
 		if audio then
 			Controls.QuoteAudio:SetHide(false);
-			Controls.QuoteButton:RegisterCallback(Mouse.eLClick, function() 
+			Controls.QuoteButton:RegisterCallback(Mouse.eLClick, function()
 				UI.PlaySound(audio);
 			end);
 		else
@@ -172,7 +173,7 @@ function ShowTechCompletedPopup( player:number, tech:number, quote:string, audio
 	else
 		Controls.QuoteButton:SetHide(true);
 	end
-		
+
 	Controls.ChangeGovernmentButton:SetHide(true);		-- Hide Change Government Button
 end
 
@@ -193,14 +194,14 @@ end
 -- ===========================================================================
 function AddCompletedPopup( player:number, civic:number, tech:number, isByUser:boolean )
 	local isNotBlockedByTutorial:boolean = (not m_isDisabledByTutorial);
-	
-	if player == Game.GetLocalPlayer() and isNotBlockedByTutorial and (not GameConfiguration.IsNetworkMultiplayer()) then
+
+	if player == Game.GetLocalPlayer() and isNotBlockedByTutorial then
 
 		local results	:table;
 		local civicType	:string;
 		local techType	:string;
 
-		-- Grab quote from appropriate DB table.		
+		-- Grab quote from appropriate DB table.
 		if civic then
 			local civicInfo:table = GameInfo.Civics[civic];
 			if civicInfo == nil then
@@ -230,36 +231,43 @@ function AddCompletedPopup( player:number, civic:number, tech:number, isByUser:b
 			end
 		end
 
-		table.insert(m_kPopupData, { 
-			player		= player, 
+		table.insert(m_kPopupData, {
+			player		= player,
 			civic		= civic,
-			civicType	= civicType, 
+			civicType	= civicType,
 			tech		= tech,
-			techType	= techType, 
+			techType	= techType,
 			isByUser	= isByUser,
 			quote		= quote,
 			audio		= audio
 		});
 
-        -- CUI
+        -- Concise UI >>
         if CuiSettings:GetBoolean(CuiSettings.POPUP_RESEARCH) then
-            -- If its the first (or only) popup data added then queue it in Forge.
-            if (UIManager:IsInPopupQueue(ContextPtr) == false) then
-                UIManager:QueuePopup(ContextPtr, PopupPriority.Low, {DelayShow = true})
+		    -- If its the first (or only) popup data added then queue it in Forge.
+		    if (UIManager:IsInPopupQueue(ContextPtr) == false) then
+                UIManager:QueuePopup( ContextPtr, PopupPriority.Low, { DelayShow = true });
             end
         elseif CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH) then
-            UI.PlaySound(audio)
-        end
-        --
-    end
+            UI.PlaySound(audio);
+		end
+        -- << Concise UI
+	end
 end
 
+
 -- ===========================================================================
---    UI Callback
---    Because this is such a low priority popup, wait until it's triggered to
---    show in the queue before displaying.
+--	UI Callback
+--  Wait one frame via RequestRefresh() to avoid conflicts with other screens.
 -- ===========================================================================
 function OnShow()
+	ContextPtr:RequestRefresh();
+end
+
+
+-- ===========================================================================
+function OnRefresh()
+	ContextPtr:ClearRequestRefresh();
 	RealizeNextPopup();
 end
 
@@ -277,25 +285,26 @@ function RealizeNextPopup()
 
 		for i, v in ipairs(m_kPopupData) do
 			m_kCurrentData = v;
-			table.remove(m_kPopupData, i);		
+			table.remove(m_kPopupData, i);
 			break;
 		end
 	end
 
 	m_isCivicData = (m_kCurrentData.tech == nil);
-	if m_isCivicData then		
+	if m_isCivicData then
 		ShowCivicCompletedPopup(m_kCurrentData.player, m_kCurrentData.civic, m_kCurrentData.quote, m_kCurrentData.audio );
 	else
-		ShowTechCompletedPopup(m_kCurrentData.player, m_kCurrentData.tech, m_kCurrentData.quote, m_kCurrentData.audio );        
+		ShowTechCompletedPopup(m_kCurrentData.player, m_kCurrentData.tech, m_kCurrentData.quote, m_kCurrentData.audio );
 	end
 
     UI.PlaySound("Pause_Advisor_Speech");
     UI.PlaySound("Resume_TechCivic_Speech");
     if(m_kCurrentData and m_kCurrentData.audio) then
-        -- CUI
+        -- Concise UI >>
         if CuiSettings:GetBoolean(CuiSettings.AUDIO_RESEARCH) then
-            UI.PlaySound(m_kCurrentData.audio)
+            UI.PlaySound(m_kCurrentData.audio);
         end
+        -- << Concise UI
     end
 
 	RefreshSize();
@@ -322,19 +331,19 @@ end
 --	Will attempt to close but will show more popups if there are more.
 -- ===========================================================================
 function TryClose()
-		
+
 	if m_kCurrentData==nil then
 		UI.DataError("Attempting to TryClosing the techcivic completed popup but it appears to have no data in it.");
 		Close();
 		return;
 	end
-	
+
 	if m_kCurrentData.civicType and string.len(m_kCurrentData.civicType)>0 then
 		LuaEvents.TechCivicCompletedPopup_CivicShown(m_kCurrentData.player, m_kCurrentData.civicType);
 	else
 		LuaEvents.TechCivicCompletedPopup_TechShown(m_kCurrentData.player, m_kCurrentData.techType );
 	end
-	
+
 	m_kCurrentData = nil;
 	-- If more left, continue...
 	if table.count(m_kPopupData) > 0 then
@@ -366,14 +375,14 @@ function OnInputHandler( input )
 end
 
 -- ===========================================================================
-function OnChangeGovernment()	
+function OnChangeGovernment()
 	LuaEvents.TechCivicCompletedPopup_GovernmentOpenGovernments(); -- Open Government Screen	before closing this popup, otherwise a popup in the queue will be shown and immediately hidden
 	Close();
 	UI.PlaySound("Stop_Speech_Civics");
 end
 
 -- ===========================================================================
-function OnChangePolicy()	
+function OnChangePolicy()
 	LuaEvents.TechCivicCompletedPopup_GovernmentOpenPolicies();	-- Open Government Screen	before closing this popup, otherwise a popup in the queue will be shown and immediately hidden
 	Close();
 	UI.PlaySound("Stop_Speech_Civics");
@@ -383,9 +392,10 @@ end
 --	UI Event
 -- ===========================================================================
 function OnInit( isReload:boolean )
-	if isReload then		
-		LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID);		
+	if isReload then
+		LuaEvents.GameDebug_GetValues(RELOAD_CACHE_ID);
 	end
+	LateInitialize();
 end
 
 -- ===========================================================================
@@ -395,7 +405,9 @@ function OnShutdown()
 	-- Cache values for hotloading...
 	LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "isHidden",			ContextPtr:IsHidden() );
 	LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "m_kPopupData",		m_kPopupData );
-	LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "m_kCurrentData",m_kCurrentData );	
+	LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "m_kCurrentData",m_kCurrentData );
+
+	ContextPtr:ClearRefreshHandler();
 end
 
 -- ===========================================================================
@@ -413,7 +425,7 @@ function OnGameDebugReturn( context:string, contextTable:table )
 	if context ~= RELOAD_CACHE_ID then
 		return;
 	end
-	
+
 	m_kCurrentData = contextTable["m_kCurrentData"];
 	if m_kCurrentData ~= nil then
 		AddCompletedPopup( m_kCurrentData.player, m_kCurrentData.civic, m_kCurrentData.tech, m_kCurrentData.isByUser );
@@ -439,9 +451,11 @@ end
 --	LUA Event
 -- ===========================================================================
 function OnNotificationPanel_ShowTechDiscovered(ePlayer, techIndex:number, isByUser:boolean)
+    -- Concise UI >> skip future tech
     if CuiIsFutureTechAndGet(techIndex) then
-        return
-    end -- CUI: skip future tech
+        return;
+    end
+    -- << Concise UI
 	AddCompletedPopup( ePlayer, nil, techIndex, isByUser );
 end
 
@@ -449,19 +463,29 @@ end
 --	LUA Event
 -- ===========================================================================
 function OnNotificationPanel_ShowCivicDiscovered(ePlayer, civicIndex, isByUser:boolean)
+    -- Concise UI >> skip future civic
     if CuiIsFutureCivicAndGet(civicIndex) then
-        return
-    end -- CUI: skip future civic
-    AddCompletedPopup(ePlayer, civicIndex, nil, isByUser)
+        return;
+    end
+    -- << Concise UI
+    AddCompletedPopup( ePlayer, civicIndex, nil, isByUser  );
 end
 
 -- ===========================================================================
-function Initialize()	
+-- FOR OVERRIDE
+-- ===========================================================================
+function LateInitialize()
+
+end
+
+-- ===========================================================================
+function Initialize()
 	-- Controls Events
 	ContextPtr:SetInitHandler( OnInit );
 	ContextPtr:SetInputHandler( OnInputHandler, true );
 	ContextPtr:SetShutdown( OnShutdown );
     ContextPtr:SetShowHandler( OnShow );
+	ContextPtr:SetRefreshHandler( OnRefresh );
 
 	Controls.CloseButton:RegisterCallback( Mouse.eLClick, OnClose );
 	Controls.CloseButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);

@@ -1,6 +1,8 @@
 -- ===========================================================================
--- Cui Production Panel Data Functions
--- ---------------------------------------------------------------------------
+-- Concise UI
+-- cui_production_data.lua
+-- ===========================================================================
+
 include("ToolTipHelper")
 include("AdjacencyBonusSupport")
 
@@ -9,7 +11,9 @@ include("cui_production_support")
 
 -- ===========================================================================
 -- Variables
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 local m_playerID
 local m_player
 local m_city
@@ -23,7 +27,9 @@ local UNIT_ARMY = MilitaryFormationTypes.ARMY_MILITARY_FORMATION
 
 -- ===========================================================================
 -- Panel Functions
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetPanelData()
     local playerID = Game.GetLocalPlayer()
 
@@ -41,13 +47,13 @@ function GetPanelData()
     m_player = player
     m_city = city
     m_queue = city:GetBuildQueue()
-    
+
     -- ak begin
     -- AddReactorProjectData in ToolTipLoader_Expansion2.lua expects a global pBuildQueue to exist even
     -- though it doesn't use it for anything. Without it the tooltip for the Recommision Nuclear Reactor
     -- project does not show the age of the reactor and the current failure risks
 
-    pBuildQueue = m_queue;
+    pBuildQueue = m_queue
     -- ak end
 
     local d = GetCityDistricts()
@@ -75,7 +81,9 @@ end
 
 -- ===========================================================================
 -- Districts Data
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetCityDistricts()
     local districts = {}
     for district in GameInfo.Districts() do
@@ -87,7 +95,7 @@ function GetCityDistricts()
     return districts
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function IsDistrictUnlocked(district)
     local canProduce = m_queue:CanProduce(district.Hash, true)
     local cityDistricts = m_city:GetDistricts()
@@ -97,7 +105,7 @@ function IsDistrictUnlocked(district)
     return (canProduce or hasDistrict) and (not isWonderD)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetDistrictData(district)
     local data = {}
     data.IsDistrict = true
@@ -172,7 +180,7 @@ function GetDistrictData(district)
     return data
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetDistrictPurchaseData(district, city, yield, source, key)
     local data = {}
 
@@ -210,7 +218,9 @@ end
 
 -- ===========================================================================
 -- Buildings Data
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetDistrictBuildings(district)
     local buildings = {}
     for building in GameInfo.Buildings() do
@@ -222,7 +232,7 @@ function GetDistrictBuildings(district)
     return buildings
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function IsBuildingUnlocked(district, building)
     local dType = GetDistrictBaseType(district)
     local inThisDistrict = dType == building.PrereqDistrict
@@ -231,7 +241,7 @@ function IsBuildingUnlocked(district, building)
     return inThisDistrict and canProduce
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetBuildingData(building, district)
     local data = {}
     data.IsBuilding = true
@@ -293,7 +303,7 @@ function GetBuildingData(building, district)
     return data
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetBuildingPurchaseData(building, city, yield, source, key)
     local data = {}
 
@@ -330,7 +340,9 @@ end
 
 -- ===========================================================================
 -- Wonders Data
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetCityWonders()
     local wonders = {}
     for wonder in GameInfo.Buildings() do
@@ -342,14 +354,14 @@ function GetCityWonders()
     return wonders
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function IsWonderUnlocked(wonder)
     local canProduce = m_queue:CanProduce(wonder.Hash, true)
 
     return canProduce
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetWonderData(wonder)
     local data = {}
     data.IsWonder = true
@@ -394,7 +406,9 @@ end
 
 -- ===========================================================================
 -- Units Data
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetCityUnits()
     local units = {}
     for unit in GameInfo.Units() do
@@ -415,7 +429,7 @@ function GetCityUnits()
     return units
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function IsUnitUnlocked(unit)
     local param = {}
     param.UnitType = unit.Hash
@@ -425,7 +439,7 @@ function IsUnitUnlocked(unit)
     return canProduce
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetUnitData(unit, formation)
     local isStandard = formation == UNIT_STANDARD
 
@@ -504,7 +518,7 @@ function GetUnitData(unit, formation)
     return data
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetUnitPurchaseData(unit, city, yield, source, key, formation)
     local data = {}
 
@@ -555,7 +569,9 @@ end
 
 -- ===========================================================================
 -- Projects Data
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetCityProjects()
     local projects = {}
     local sortedProjects = {}
@@ -580,14 +596,14 @@ function GetCityProjects()
     return sortedProjects
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function IsProjectUnlocked(project)
     local canProduce = m_queue:CanProduce(project.Hash, true)
 
     return canProduce
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetProjectData(project)
     local data = {}
     data.IsProject = true

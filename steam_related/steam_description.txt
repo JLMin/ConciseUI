@@ -1,5 +1,5 @@
 Concise UI greatly improves the game experience by modifying the vanilla UI and adding new UI elements to the game.
-Game Versions: [i]1.0.1.501 (504666)[/i]
+Game Versions: [i]1.0.5.11 (516180)[/i]
 [list]
 [*][url=https://steamcommunity.com/workshop/filedetails/discussion/1671978687/1841314700720486548/]Features List[/url].
 [*][url=https://steamcommunity.com/workshop/filedetails/discussion/1671978687/1836811737969706024/]Bug Report[/url].
@@ -8,7 +8,6 @@ Game Versions: [i]1.0.1.501 (504666)[/i]
 [i]If you feel generous, you can buy me a cup of coffee through [url=https://www.paypal.me/eudaimonia6]PayPal[/url].
 have fun gaming :)[/i]
 
-Since I have uninstalled the game, I am unable to update the mod functionality,
 If anyone would like to continue to maintain the mod, I am more than willing to accept PRs.
-CUI repo: [url=https://github.com/JLMin/ConciseUI]GitHub[/url].
+Repo: [url=https://github.com/JLMin/ConciseUI]GitHub[/url].
 If you need help in the maintenance process, please feel free to contact me.

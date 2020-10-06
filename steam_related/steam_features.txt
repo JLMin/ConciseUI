@@ -28,12 +28,6 @@ Languages: [i]Chinese, English, Japanese, Italiano, French, Spanish, Deutsch[/i]
  [*]Strategic resources +5 per click (GS only).
 [/list]
 
-[b]Espionage Panel[/b]
-[list]
- [*]Adds a filter.
- [*]When choosing a city the panel now stays open, with possible missions showing as an additional panel.
-[/list]
-
 [b]Great Works Screen[/b]
 [list]
  [*]Screen size increased.
@@ -85,13 +79,6 @@ Languages: [i]Chinese, English, Japanese, Italiano, French, Spanish, Deutsch[/i]
 [b]Spy Info[/b]
 [list]
  [*]Adds Spies information on top bar.
-[/list]
-
-[b]Trade Panel[/b]
-[list]
- [*]UI reworked; sortable by yields.
- [*]"Choose City" panel now shows city yields.
- [*]Panel now shows the correct number of turns to complete, not distance.
 [/list]
 
 [b]Unit List[/b]

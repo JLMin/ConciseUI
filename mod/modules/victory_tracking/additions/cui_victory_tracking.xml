@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Cui Victory Tracking, eudaimonia, 11/10/2019 -->
+<!--
+    Concise UI
+    cui_victory_tracking.xml
+-->
 
 <Context>
   <Container ID="CuiVictoryTracking" Size="68,68" Anchor="L,B" Offset="10,-6">

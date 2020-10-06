@@ -1,13 +1,13 @@
 -- ===========================================================================
--- Cui Victory Support Functions
--- ---------------------------------------------------------------------------
+-- Concise UI
+-- cui_victory_support.lua
+-- ===========================================================================
+
 include("SupportFunctions")
 include("TeamSupport")
 include("cui_helper")
 
--- ===========================================================================
--- Victory Conditions
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetVictoryTypes()
     local victoryTypes = {}
 
@@ -34,7 +34,11 @@ function GetVictoryTypes()
     return victoryTypes
 end
 
--- Science ===================================================================
+-- ===========================================================================
+-- Science
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetScienceData()
     local playerData = CuiGetPlayerBasicData()
 
@@ -68,7 +72,7 @@ function GetScienceData()
     return GetVictoryLeader(playerData, comparator)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetBGScienceCustomData(playerID) -- science victory Base Game
     local EARTH_SATELLITE_PROJECT_INFOS = {GameInfo.Projects["PROJECT_LAUNCH_EARTH_SATELLITE"]}
     local MOON_LANDING_PROJECT_INFOS = {GameInfo.Projects["PROJECT_LAUNCH_MOON_LANDING"]}
@@ -135,7 +139,7 @@ function GetBGScienceCustomData(playerID) -- science victory Base Game
     return progresses, pValue
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetGSScienceCustomData(playerID) -- science victory Gathering Storm
     local EARTH_SATELLITE_EXP2_PROJECT_INFOS = {GameInfo.Projects["PROJECT_LAUNCH_EARTH_SATELLITE"]}
     local MOON_LANDING_EXP2_PROJECT_INFOS = {GameInfo.Projects["PROJECT_LAUNCH_MOON_LANDING"]}
@@ -238,7 +242,11 @@ function GetGSScienceCustomData(playerID) -- science victory Gathering Storm
     return progresses, pValue
 end
 
--- Culture ===================================================================
+-- ===========================================================================
+-- Culture
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetCultureData()
     local playerData = CuiGetPlayerBasicData()
 
@@ -269,7 +277,7 @@ function GetCultureData()
     return GetVictoryLeader(playerData, comparator)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetCultureCustomData(playerID)
     local data = {}
     local pPlayer = Players[playerID]
@@ -287,7 +295,11 @@ function GetCultureCustomData(playerID)
     return data
 end
 
--- Domination ================================================================
+-- ===========================================================================
+-- Domination
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetDominationData()
     local playerData = CuiGetPlayerBasicData()
 
@@ -312,7 +324,7 @@ function GetDominationData()
     return GetVictoryLeader(playerData, comparator)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetMilitaryCustomData(playerID)
     local data = {}
     local pPlayer = Players[playerID]
@@ -331,7 +343,11 @@ function GetMilitaryCustomData(playerID)
     return data
 end
 
--- Religion ==================================================================
+-- ===========================================================================
+-- Religion
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetReligionData()
     local playerData = CuiGetPlayerBasicData()
 
@@ -356,7 +372,7 @@ function GetReligionData()
     return GetVictoryLeader(playerData, comparator)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetReligionCustomData(playerID)
     local data = {}
     local pPlayer = Players[playerID]
@@ -382,7 +398,11 @@ function GetReligionCustomData(playerID)
     return data
 end
 
--- Diplomatic ================================================================
+-- ===========================================================================
+-- Diplomatic
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetDiplomaticData()
     local playerData = CuiGetPlayerBasicData()
 
@@ -411,7 +431,7 @@ function GetDiplomaticData()
     return GetVictoryLeader(playerData, comparator)
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetDiplomaticCustomData(playerID)
     local data = {}
     local pPlayer = Players[playerID]
@@ -424,7 +444,9 @@ end
 
 -- ===========================================================================
 -- Help Function
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+
+-- Concise UI ----------------------------------------------------------------
 function GetVictoryLeader(playerData, comparator)
     local sortedLeader = {}
     local rank = 0

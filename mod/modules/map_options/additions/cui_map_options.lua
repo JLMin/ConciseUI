@@ -1,11 +1,13 @@
 -- ===========================================================================
--- Cui More Map Options
+-- Concise UI
+-- cui_map_options.lua
 -- ===========================================================================
-include("cui_settings") -- CUI
+
+include("cui_settings")
 
 local isAttached = false
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function AttachToTopOptionStack()
     if not isAttached then
         local optionPanel = ContextPtr:LookUpControl("/InGame/MinimapPanel/MapOptionsPanel")
@@ -32,42 +34,42 @@ function AttachToTopOptionStack()
     CuiRefreshMinimapOptions()
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function CuiOnToggleImproved()
     local b = CuiSettings:ReverseAndGetBoolean(CuiSettings.SHOW_IMPROVES)
     LuaEvents.CuiToggleImprovedIcons()
     CuiRefreshMinimapOptions()
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function CuiOnToggleCityBanners()
     local b = CuiSettings:ReverseAndGetBoolean(CuiSettings.SHOW_CITYS)
     ContextPtr:LookUpControl("/InGame/CityBannerManager"):SetHide(not b)
     CuiRefreshMinimapOptions()
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function CuiOnToggleTrader()
     local b = CuiSettings:ReverseAndGetBoolean(CuiSettings.SHOW_TRADERS)
     LuaEvents.CuiToggleTraderIcons()
     CuiRefreshMinimapOptions()
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function CuiOnToggleReligion()
     local b = CuiSettings:ReverseAndGetBoolean(CuiSettings.SHOW_RELIGIONS)
     LuaEvents.CuiToggleReligionIcons()
     CuiRefreshMinimapOptions()
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function CuiOnToggleUnitFlags()
     local b = CuiSettings:ReverseAndGetBoolean(CuiSettings.SHOW_UNITS)
     ContextPtr:LookUpControl("/InGame/UnitFlagManager"):SetHide(not b)
     CuiRefreshMinimapOptions()
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function CuiRefreshMinimapOptions()
     Controls.ToggleImproved:SetCheck(CuiSettings:GetBoolean(CuiSettings.SHOW_IMPROVES))
     Controls.ToggleCityBanners:SetCheck(CuiSettings:GetBoolean(CuiSettings.SHOW_CITYS))
@@ -77,7 +79,7 @@ function CuiRefreshMinimapOptions()
     LuaEvents.MinimapPanel_RefreshMinimapOptions()
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function CuiOnIngameAction(actionId)
     if (Game.GetLocalPlayer() == -1) then
         return
@@ -104,7 +106,7 @@ function CuiOnIngameAction(actionId)
     end
 end
 
--- ===========================================================================
+-- Concise UI ----------------------------------------------------------------
 function Initialize()
     ContextPtr:SetHide(true)
     Events.InputActionTriggered.Add(CuiOnIngameAction)

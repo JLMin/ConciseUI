@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Cui In Game Note Screen -->
+<!--
+    Concise UI
+    cui_note_screen.xml
+-->
 
 <Context xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\..\..\..\CivTech\Libs\ForgeUI\ForgeUI_Assets\Controls.xsd" Style="FontNormal16" FontStyle="Shadow">
 
@@ -23,9 +26,7 @@
     </Container>
   </Container>
 
-  <!-- ==================================================================    -->
-  <!--    Instances                                                          -->
-  <!-- ==================================================================    -->
+  <!-- Instances -->
   <Instance Name="NoteEnter">
     <Container ID="Top" Anchor="C,T" Size="parent-40,62">
       <Image Size="171,30" Anchor="R,T" Offset="0,-12" Texture="bg_note_turn.dds">

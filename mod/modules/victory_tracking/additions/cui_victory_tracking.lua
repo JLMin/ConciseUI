@@ -1,14 +1,15 @@
 -- ===========================================================================
--- Cui Victory Tracking
--- eudaimonia, 11/10/2019
+-- Concise UI
+-- cui_victory_tracking.lua
 -- ===========================================================================
+
 include("InstanceManager")
 include("PlayerSupport")
 include("cui_helper")
 include("cui_settings")
 include("cui_victory_support")
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 local isAttached = false
 
 local CuiVictoryTT = {}
@@ -25,7 +26,7 @@ local dominationData = {}
 local religionData = {}
 local diplomaticData = {}
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function GetData()
     local victoryTypes = GetVictoryTypes()
     for _, vType in ipairs(victoryTypes) do
@@ -43,7 +44,7 @@ function GetData()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function PopulateVictoryIcons()
     victoryIconInstance:ResetInstances()
     local victoryTypes = GetVictoryTypes()
@@ -78,7 +79,7 @@ function PopulateVictoryIcons()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function UpdateVictoryToolTip(vType)
     local localPlayerID = Game.GetLocalPlayer()
     if localPlayerID == -1 then
@@ -117,7 +118,7 @@ function UpdateVictoryToolTip(vType)
     CuiVictoryTT.BG:DoAutoSize()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function SetVictoryLeaderInstance(vType, leader, instance)
     local shouldShowIcon = leader.isLocalPlayer or leader.isMet
 
@@ -172,13 +173,13 @@ function SetVictoryLeaderInstance(vType, leader, instance)
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function RefreshAll()
     GetData()
     PopulateVictoryIcons()
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function OnMinimapResize()
     if isAttached then
         local minimap = ContextPtr:LookUpControl("/InGame/MinimapPanel/MiniMap/MinimapContainer")
@@ -186,7 +187,7 @@ function OnMinimapResize()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function AttachToMinimap()
     if not isAttached then
         local minimap = ContextPtr:LookUpControl("/InGame/MinimapPanel/MiniMap/MinimapContainer")
@@ -197,7 +198,7 @@ function AttachToMinimap()
     end
 end
 
--- ---------------------------------------------------------------------------
+-- Concise UI ----------------------------------------------------------------
 function Initialize()
     ContextPtr:SetHide(true)
     Events.LoadGameViewStateDone.Add(AttachToMinimap)
