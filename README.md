@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-1.5.6-blue)
+![Version](https://img.shields.io/badge/version-1.6.0-blue)
 [![Steam Update](https://img.shields.io/badge/steam-up%20to%20date-green)](https://steamcommunity.com/sharedfiles/filedetails/?id=1671978687)
 [![GitHub license](https://img.shields.io/github/license/JLMin/ConciseUI)](https://github.com/JLMin/ConciseUI/blob/master/LICENSE)
 
@@ -6,7 +6,7 @@
 
 Concise UI greatly improves the game experience by modifying the vanilla UI and adding new UI elements to the game.
 
-> Supported game versions: _1.0.1.501 (504666)_
+> Supported game versions: _1.0.5.11 (516180)_
 
 ## How to Install
 
