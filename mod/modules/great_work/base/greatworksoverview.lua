@@ -514,6 +514,13 @@ function PopulateGreatWork(instance:table, pCityBldgs:table, pBuildingInfo:table
 	else
 		instance.GreatWorkIcon:SetHide(false);
 
+        -- CUI >> setup masks
+        CuiSetLockMask(instance, pCityBldgs, buildingIndex, slotIndex)
+        CuiSetThemeMask(instance, pCityBldgs, buildingIndex, slotIndex)
+        instance.LockMask:SetHide(cui_ThemeHelper)
+        instance.ThemeMask:SetHide(not cui_ThemeHelper)
+        -- << CUI
+
 		local srcGreatWork:number = pCityBldgs:GetGreatWorkInSlot(buildingIndex, slotIndex);
 		local srcGreatWorkType:number = pCityBldgs:GetGreatWorkTypeFromIndex(srcGreatWork);
 		local srcGreatWorkObjectType:string = GameInfo.GreatWorks[srcGreatWorkType].GreatWorkObjectType;
