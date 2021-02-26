@@ -1,4 +1,4 @@
--- Copyright 2018-2019, Firaxis Games
+-- Copyright 2018-2020, Firaxis Games
 
 include("InstanceManager");
 include("PopupDialog")
@@ -51,14 +51,14 @@ local YIELD_FONT_ICONS:table = {
 	TourismYield			= "[ICON_TourismLarge]"
 };
 
-local DEFAULT_GREAT_WORKS_ICONS:table = {
+g_DEFAULT_GREAT_WORKS_ICONS = {
 	GREATWORKSLOT_WRITING	= "ICON_GREATWORKOBJECT_WRITING",
 	GREATWORKSLOT_PALACE	= "ICON_GREATWORKOBJECT_SCULPTURE",
 	GREATWORKSLOT_ART		= "ICON_GREATWORKOBJECT_PORTRAIT",
 	GREATWORKSLOT_CATHEDRAL	= "ICON_GREATWORKOBJECT_RELIGIOUS",
 	GREATWORKSLOT_ARTIFACT	= "ICON_GREATWORKOBJECT_ARTIFACT_ERA_ANCIENT",
 	GREATWORKSLOT_MUSIC		= "ICON_GREATWORKOBJECT_MUSIC",
-	GREATWORKSLOT_RELIC		= "ICON_GREATWORKOBJECT_RELIC"
+	GREATWORKSLOT_RELIC		= "ICON_GREATWORKOBJECT_RELIC",
 };
 
 -- ===========================================================================
@@ -431,7 +431,6 @@ end
 function GetGreatWorkIcon(greatWorkInfo:table)
 
 	local greatWorkIcon:string;
-
 	if greatWorkInfo.GreatWorkObjectType == GREAT_WORK_ARTIFACT_TYPE then
 		local greatWorkType:string = greatWorkInfo.GreatWorkType;
 		greatWorkType = greatWorkType:gsub("GREATWORK_ARTIFACT_", "");
@@ -447,7 +446,7 @@ function GetGreatWorkIcon(greatWorkInfo:table)
 	else
 		greatWorkIcon = "ICON_" .. greatWorkInfo.GreatWorkType;
 	end
-
+	
 	local textureOffsetX:number, textureOffsetY:number, textureSheet:string = IconManager:FindIconAtlas(greatWorkIcon, SIZE_GREAT_WORK_ICON);
 	if(textureSheet == nil or textureSheet == "") then
 		UI.DataError("Could not find slot type icon in GetGreatWorkIcon: icon=\""..greatWorkIcon.."\", iconSize="..tostring(SIZE_GREAT_WORK_ICON));
@@ -472,10 +471,15 @@ function GetThemeDescription(buildingType:string)
 	return nil;
 end
 
+-- Override this if you add more great works slot types
+function GetGreatWorkSlotTypeIcon(slotType:string)
+	return g_DEFAULT_GREAT_WORKS_ICONS[slotType];
+end
+
 function PopulateGreatWork(instance:table, pCityBldgs:table, pBuildingInfo:table, slotIndex:number, greatWorkIndex:number, slotType:string)
 
 	local buildingIndex:number = pBuildingInfo.Index;
-	local slotTypeIcon:string = DEFAULT_GREAT_WORKS_ICONS[slotType];
+	local slotTypeIcon:string = GetGreatWorkSlotTypeIcon(slotType);
 
 	local textureOffsetX:number, textureOffsetY:number, textureSheet:string = IconManager:FindIconAtlas(slotTypeIcon, SIZE_SLOT_TYPE_ICON);
 	if(textureSheet == nil or textureSheet == "") then
@@ -670,28 +674,31 @@ function GetGreatWorkTooltip(pCityBldgs:table, greatWorkIndex:number, greatWorkT
 				if firstGreatWork == greatWorkIndex then
 					strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_ART_THEME_SINGLE", artifactEraName);
 				else
-					local firstArtifactEraName:string = Locale.Lookup("LOC_" .. firstGreatWorkObjectType .. "_" .. GameInfo.GreatWorks[firstGreatWorkObjectTypeID].EraType .. "_PLURAL");
+					-- Adriaman: engine bug here? Add nil check.
+					if GameInfo.GreatWorks[firstGreatWorkObjectTypeID].EraType ~= nil then
+						local firstArtifactEraName:string = Locale.Lookup("LOC_" .. firstGreatWorkObjectType .. "_" .. GameInfo.GreatWorks[firstGreatWorkObjectTypeID].EraType .. "_PLURAL");
+					
+						if greatWorkInfo.EraType ~= GameInfo.GreatWorks[firstGreatWorkObjectTypeID].EraType then
+							strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_MISMATCHED_ERA",  artifactEraName, firstArtifactEraName);
+						else
+							local greatWorkPlayer:number = Game.GetGreatWorkPlayer(greatWorkIndex);
+							local greatWorks:table = GetGreatWorksInBuilding(pCityBldgs, pBuildingInfo);
 
-					if greatWorkInfo.EraType ~= GameInfo.GreatWorks[firstGreatWorkObjectTypeID].EraType then
-						strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_MISMATCHED_ERA",  artifactEraName, firstArtifactEraName);
-					else
-						local greatWorkPlayer:number = Game.GetGreatWorkPlayer(greatWorkIndex);
-						local greatWorks:table = GetGreatWorksInBuilding(pCityBldgs, pBuildingInfo);
-
-						-- Find duplicates for theming description
-						local hash:table = {}
-						local duplicates:table = {}
-						for _,index in ipairs(greatWorks) do
-							local gwPlayer:number = Game.GetGreatWorkPlayer(index);
-							if (not hash[gwPlayer]) then
-								hash[gwPlayer] = true;
-							else
-								table.insert(duplicates, gwPlayer);
+							-- Find duplicates for theming description
+							local hash:table = {}
+							local duplicates:table = {}
+							for _,index in ipairs(greatWorks) do
+								local gwPlayer:number = Game.GetGreatWorkPlayer(index);
+								if (not hash[gwPlayer]) then
+									hash[gwPlayer] = true;
+								else
+									table.insert(duplicates, gwPlayer);
+								end
 							end
-						end
 
-						if table.count(duplicates) > 0 then
-							strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_DUPLICATE_ARTIFACT_CIVS", PlayerConfigurations[duplicates[1]]:GetCivilizationShortDescription(), firstArtifactEraName);
+							if table.count(duplicates) > 0 then
+								strThemeTooltip = Locale.Lookup("LOC_GREAT_WORKS_DUPLICATE_ARTIFACT_CIVS", PlayerConfigurations[duplicates[1]]:GetCivilizationShortDescription(), firstArtifactEraName);
+							end
 						end
 					end
 				end
@@ -987,6 +994,16 @@ function MoveGreatWork( kSrcInstance:table, kDestInstance:table )
 end
 
 -- ===========================================================================
+function GetDestBuilding()
+	return m_dest_building;
+end
+
+-- ===========================================================================
+function GetDestCity()
+	return m_dest_city;
+end
+
+-- ===========================================================================
 function ClearGreatWorkTransfer()
 	m_GreatWorkSelected = nil;
 	m_kViableDropTargets = {};
@@ -1129,6 +1146,11 @@ function OnGreatWorkMoved(fromCityOwner, fromCityID, toCityOwner, toCityID, buil
 		UpdateData();
         m_during_move = false;
 	end
+end
+
+-- ===========================================================================
+function IsDuringMove()
+	return m_during_move;
 end
 
 -- ===========================================================================
@@ -1333,4 +1355,10 @@ function Initialize()
 
     m_TopPanelConsideredHeight = Controls.Vignette:GetSizeY() - TOP_PANEL_OFFSET; -- CUI
 end
+
+-- This wildcard include will include all loaded files beginning with "GreatWorksOverview_"
+-- This method replaces the uses of include("GreatWorksOverview") in files that want to override 
+-- functions from this file. If you're implementing a new "GreatWorksOverview_" file DO NOT include this file.
+include("GreatWorksOverview_", true);
+
 Initialize();

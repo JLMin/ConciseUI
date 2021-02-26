@@ -393,7 +393,9 @@ function RegisterProduceButtons(instance, item)
     instance.Button:RegisterCallback(
         Mouse.eRClick,
         function()
-            LuaEvents.OpenCivilopedia(item.Type)
+			-- Adriaman: use RightClickProductionItem to have DLC-compatibility (e.g. Heroes)
+			RightClickProductionItem(item.Type)
+            -- LuaEvents.OpenCivilopedia(item.Type)
         end
     )
     --

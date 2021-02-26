@@ -26,29 +26,29 @@ m_HexColoringGreatPeople = UILens.CreateLensLayerHash("Hex_Coloring_Great_People
 
 -- ===========================================================================
 function RealizeMoveRadius( kUnit:table )
-
+	
 	UILens.ClearLayerHexes( m_MovementRange );
 	UILens.ClearLayerHexes( m_MovementZoneOfControl );
 
 	if kUnit ~= nil and ( not GameInfo.Units[kUnit:GetUnitType()].IgnoreMoves ) and ( not UI.IsGameCoreBusy() ) then
-
+		
 		if not ( kUnit:GetMovesRemaining() > 0 )then
 			return;
 		end
-
+		
 		local eLocalPlayer	:number = Game.GetLocalPlayer();
 		local kUnitInfo		:table = GameInfo.Units[kUnit:GetUnitType()];
 
 		if kUnitInfo ~= nil and (kUnitInfo.Spy or kUnitInfo.MakeTradeRoute) then
 			-- Spies and Traders don't move like normal units so these lens layers can be ignored
 			return;
-
+			
 		else
 			local kAttackPlots			:table = UnitManager.GetReachableTargets( kUnit );
 			local kMovePlots			:table = nil;
 			local kZOCPlots				:table = nil;
 			local kAttackIndicators		:table = {};
-
+			
 			if not kUnit:HasMovedIntoZOC() then
 				kMovePlots	 = UnitManager.GetReachableMovement( kUnit );
 				kZOCPlots	 = UnitManager.GetReachableZonesOfControl( kUnit, true );	-- Only plots visible to the unit.
@@ -58,7 +58,7 @@ function RealizeMoveRadius( kUnit:table )
 				kZOCPlots = {};
 				table.insert( kMovePlots, Map.GetPlot( kUnit:GetX(), kUnit:GetY() ):GetIndex() );
 			end
-
+						
 			local isShowingTarget :boolean = kUnit:GetAttacksRemaining() > 0;
 
 			-- Extract attack indicator locations and extensions to movement range
@@ -133,14 +133,14 @@ function RealizeGreatPersonLens( kUnit:table )
 				end
 				UILens.SetLayerHexesArea(m_HexColoringGreatPeople, playerID, areaHighlightPlots, activationPlots);
 				UILens.ToggleLayerOn(m_HexColoringGreatPeople);
-			elseif( kUnitArchaeology ~= nil and GameInfo.Units[kUnit:GetUnitType()].ExtractsArtifacts == true) then
+			elseif( kUnitArchaeology ~= nil and GameInfo.Units[kUnit:GetUnitType()].ExtractsArtifacts == true) then 
 				-- Highlight plots that can activated by Archaeologists
 				local activationPlots:table = {};
 				local rawActivationPlots:table = kUnitArchaeology:GetActivationHighlightPlots();
 				for _,plotIndex:number in ipairs(rawActivationPlots) do
 					table.insert(activationPlots, {"Great_People", plotIndex});
 				end
-
+					
 				UILens.SetLayerHexesArea(m_HexColoringGreatPeople, playerID, {}, activationPlots);
 				UILens.ToggleLayerOn(m_HexColoringGreatPeople);
 			elseif GameInfo.Units[kUnit:GetUnitType()].ParkCharges > 0 then -- Highlight plots that can activated by Naturalists
@@ -184,7 +184,7 @@ function OnUnitSelectionChanged( playerID:number, unitID:number, hexI:number, he
 			if UI.GetInterfaceMode() == InterfaceModeTypes.VIEW_MODAL_LENS then
 				UI.SetInterfaceMode(InterfaceModeTypes.SELECTION);
 			end
-
+			
 			-- If a selection is occuring and the city attack interface mode is up, take it down.
 			if UI.GetInterfaceMode() == InterfaceModeTypes.CITY_RANGE_ATTACK then
 				UI.SetInterfaceMode(InterfaceModeTypes.SELECTION);
@@ -340,7 +340,7 @@ end
 function OnLocalPlayerTurnBegin()
 	local idLocalPlayer	:number = Game.GetLocalPlayer();
 	local pPlayer		:table = Players[ idLocalPlayer ];
-
+	
 	if UI.GetInterfaceMode() == InterfaceModeTypes.VIEW_MODAL_LENS then
 		UI.SetInterfaceMode(InterfaceModeTypes.SELECTION);
 	end
@@ -387,6 +387,30 @@ function OnUnitTeleported(playerID: number, unitID : number, x : number, y : num
 end
 
 -- ===========================================================================
+--	Game Engine Event
+-- ===========================================================================
+function OnUnitMovementPointsChanged(playerID :number, unitID :number)
+	if(playerID == Game.GetLocalPlayer())then
+		local pUnit : table = UI.GetHeadSelectedUnit();
+		if(pUnit ~= nil and pUnit:GetID() == unitID)then
+			RealizeMoveRadius( pUnit );
+			RealizeGreatPersonLens( pUnit );
+		end
+	end
+end
+
+-- ===========================================================================
+--	Game Engine Event
+-- ===========================================================================
+function OnUnitRemovedFromMap()
+	local pUnit : table = UI.GetHeadSelectedUnit();
+	if(pUnit ~= nil)then
+		RealizeMoveRadius( pUnit );
+		RealizeGreatPersonLens( pUnit );
+	end
+end
+
+-- ===========================================================================
 --	Engine EVENT
 --	Local player changed; likely a hotseat game
 -- ===========================================================================
@@ -401,7 +425,7 @@ function OnLocalPlayerChanged( eLocalPlayer:number , ePrevLocalPlayer:number )
 	if UILens.IsLensActive("Religion") then
 		UILens.ClearLayerHexes( m_HexColoringReligion );
 	end
-
+	
 	if UI.GetInterfaceMode() == InterfaceModeTypes.VIEW_MODAL_LENS then
 		UI.SetInterfaceMode(InterfaceModeTypes.SELECTION);
 	end
@@ -447,6 +471,8 @@ end
 --	Handle the UI shutting down.
 function OnShutdown()
 	Events.LocalPlayerTurnBegin.Remove( OnLocalPlayerTurnBegin );
+	Events.UnitMovementPointsChanged.Remove( OnUnitMovementPointsChanged );
+	Events.UnitRemovedFromMap.Remove( OnUnitRemovedFromMap );
 	Events.UnitSelectionChanged.Remove( OnUnitSelectionChanged );
 	Events.UnitSimPositionChanged.Remove( UnitSimPositionChanged );
 	Events.UnitVisibilityChanged.Remove( OnUnitVisibilityChanged );
@@ -468,6 +494,8 @@ function Initialize()
 	Events.LensLayerOn.Add( OnLensLayerOn );
 	Events.LocalPlayerTurnBegin.Add( OnLocalPlayerTurnBegin );
 	Events.PlayerTurnActivated.Add( OnPlayerTurnActivated );
+	Events.UnitMovementPointsChanged.Add( OnUnitMovementPointsChanged );
+	Events.UnitRemovedFromMap.Add( OnUnitRemovedFromMap );
 	Events.UnitTeleported.Add( OnUnitTeleported );
 	Events.UnitPromoted.Add( OnUnitPromotionChanged );
 	Events.UnitSelectionChanged.Add( OnUnitSelectionChanged );
