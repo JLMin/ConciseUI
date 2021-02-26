@@ -244,20 +244,20 @@ function ViewMain( data:table )
 
     -- CUI >>
 	-- Set icons and values for the yield checkboxes
+	Controls.CultureCheck   : GetTextButton(): SetText("[ICON_Culture]" .. toPlusMinusString(data.CulturePerTurn));
 	Controls.FoodCheck      : GetTextButton(): SetText("[ICON_Food]" .. toPlusMinusString(CuiGetFoodPerTurn(data)));
 	Controls.ProductionCheck: GetTextButton(): SetText("[ICON_Production]" .. toPlusMinusString(data.ProductionPerTurn));
-	Controls.GoldCheck      : GetTextButton(): SetText("[ICON_Gold]" .. toPlusMinusString(data.GoldPerTurn));
 	Controls.ScienceCheck   : GetTextButton(): SetText("[ICON_Science]" .. toPlusMinusString(data.SciencePerTurn));
-	Controls.CultureCheck   : GetTextButton(): SetText("[ICON_Culture]" .. toPlusMinusString(data.CulturePerTurn));
 	Controls.FaithCheck     : GetTextButton(): SetText("[ICON_Faith]" .. toPlusMinusString(data.FaithPerTurn));
+	Controls.GoldCheck      : GetTextButton(): SetText("[ICON_Gold]" .. toPlusMinusString(data.GoldPerTurn));
 
 	-- Set the Yield checkboxes based on the game state
-	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.FOOD],       YieldTypes.FOOD,       CuiGetFoodToolTip(data));
-	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.PRODUCTION], YieldTypes.PRODUCTION, data.ProductionPerTurnToolTip);
-	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.GOLD],       YieldTypes.GOLD,       data.GoldPerTurnToolTip);
-	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.SCIENCE],    YieldTypes.SCIENCE,    data.SciencePerTurnToolTip);
 	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.CULTURE],    YieldTypes.CULTURE,    data.CulturePerTurnToolTip);
 	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.FAITH],      YieldTypes.FAITH,      data.FaithPerTurnToolTip);
+	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.FOOD],       YieldTypes.FOOD,       CuiGetFoodToolTip(data));
+	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.GOLD],       YieldTypes.GOLD,       data.GoldPerTurnToolTip);
+	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.PRODUCTION], YieldTypes.PRODUCTION, data.ProductionPerTurnToolTip);
+	RealizeYield3WayCheck(data.YieldFilters[YieldTypes.SCIENCE],    YieldTypes.SCIENCE,    data.SciencePerTurnToolTip);
     -- << CUI
 
 	if m_isShowingPanels then
@@ -586,6 +586,15 @@ function OnPlayerResourceChanged( ownerPlayerID:number, resourceTypeID:number)
 	if (Game.GetLocalPlayer() ~= nil and ownerPlayerID == Game.GetLocalPlayer()) then
 		Refresh();
 	end
+end
+
+-- ===========================================================================
+--	GAME Event
+-- ===========================================================================
+function OnGreatWorkChanged(destCityOwner:number, destCityID: number, sourceCityOwner:number, sourceCityID:number, iDestGreatWork:number, eSourceBuilding:number)
+	if (Game.GetLocalPlayer() == destCityOwner or Game.GetLocalPlayer() == sourceCityOwner) then
+		Refresh();
+	end;
 end
 
 -- ===========================================================================
@@ -1428,6 +1437,8 @@ function Initialize()
 	Events.LocalPlayerChanged.Add(		OnLocalPlayerChanged );
 	Events.PlayerResourceChanged.Add(	OnPlayerResourceChanged );
 	Events.UnitSelectionChanged.Add(	OnUnitSelectionChanged );
+	Events.GreatWorkCreated.Add(		OnGreatWorkChanged);
+	Events.GreatWorkMoved.Add(			OnGreatWorkChanged);
 
 	-- LUA Events
 	LuaEvents.CityPanelOverview_CloseButton.Add(	OnCloseOverviewPanel );

@@ -252,6 +252,10 @@ function SetPhase(phaseNum:number)
 		return false;
 	end
 
+	if(GameConfiguration.IsPaused())then
+		UI.DataError("Phase is being set to '" .. phaseNum .. "' while game is paused.");
+	end
+
 	m_VerticalPaddingSmallIM:ResetInstances();
 	m_CurrentPhase = phaseNum;
 
@@ -412,6 +416,12 @@ function UpdateNavButtons()
 		Controls.AcceptButton:SetDisabled(not CanSubmit());
 		Controls.AcceptButton:SetToolTipString(Controls.AcceptButton:IsDisabled() and Locale.Lookup("LOC_WORLD_CONGRESS_TT_SELECT_ONE") or "");
 		Controls.AcceptButton:SetText(Locale.Lookup(m_HasSpecialSessionNotification and "LOC_WORLD_CONGRESS_ADD_PROPOSALS" or "LOC_WORLD_CONGRESS_SUBMIT"));
+		if(GameConfiguration.IsPaused()) then
+			Controls.AcceptButton:SetDisabled(true);
+			Controls.AcceptButton:SetToolTipString(Locale.Lookup("LOC_WORLD_CONGRESS_TT_GAME_PAUSED"));
+		else
+			Controls.AcceptButton:SetToolTipString(Locale.Lookup(""));
+		end
 	end
 end
 
@@ -2226,6 +2236,8 @@ end
 -- Accept the voting setup as presented
 -- ===========================================================================
 function OnAccept()
+
+	if(GameConfiguration.IsPaused())then return; end
 
 	local kParameters:table = {};
 	local playerID:number = Game.GetLocalPlayer();

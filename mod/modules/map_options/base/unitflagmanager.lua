@@ -70,7 +70,6 @@ m_LinkOffsets = {};
 	m_LinkOffsets[2] = {0,-20};
 	m_LinkOffsets[3] = {16,22};
 
-
 -- ===========================================================================
 --	VARIABLES
 -- ===========================================================================
@@ -85,6 +84,7 @@ local m_SupportInstanceManager		:table = InstanceManager:new( "UnitFlag",	"Ancho
 local m_TradeInstanceManager		:table = InstanceManager:new( "UnitFlag",	"Anchor", Controls.TradeFlags );
 local m_NavalInstanceManager		:table = InstanceManager:new( "UnitFlag",	"Anchor", Controls.NavalFlags );
 local m_AttentionMarkerIM			:table = InstanceManager:new( "AttentionMarkerInstance", "Root" );
+local m_HeroGlowIM					:table = InstanceManager:new( "HeroGlowInstance", "Root" );
 
 local m_DirtyComponents				:table  = nil;
 local m_UnitFlagInstances			:table  = {};
@@ -199,6 +199,10 @@ function UnitFlag.destroy( self )
 				self.m_Instance.AirUnitInstance = nil;
 			end
 
+			if(self.m_Instance.HeroGlowInstance) then
+				m_HeroGlowIM:ReleaseInstance(self.m_Instance.HeroGlowInstance);
+			end
+
 			-- Release any attention markers
 			if ( self.bHasAttentionMarker == true ) then
 				m_AttentionMarkerIM:ReleaseInstanceByParent(self.m_Instance.FlagRoot);
@@ -257,6 +261,7 @@ function UnitFlag.Initialize( self, playerID: number, unitID : number, flagType 
 		if( playerID == Game.GetLocalPlayer() ) then
 			self:UpdateReadyState();
 		end
+		self:UpdateHeroGlow();
 		self:UpdateDimmedState();
 		self:SetColor(); -- Ensure this happens near the end in case we need to color addon instances like AirUnitInstance
 
@@ -671,6 +676,23 @@ function UnitFlag.UpdateHealth( self )
 	end
 
 	self.m_Instance.HealthBar:SetPercent( healthPercent );
+end
+
+------------------------------------------------------------------	 	 
+-- Update the hero glow.	 	 
+function UnitFlag.UpdateHeroGlow( self )
+	local pUnit:table = self:GetUnit();
+	if pUnit ~= nil then
+		local unitType:string = GameInfo.Units[pUnit:GetUnitType()].UnitType;
+		if GameInfo.HeroClasses ~= nil then
+			for row in GameInfo.HeroClasses() do
+				if row.UnitType == unitType then
+					self.m_Instance.HeroGlowInstance = m_HeroGlowIM:GetInstance(self.m_Instance.HeroGlowAnchor);
+					return;
+				end
+			end
+		end
+	end
 end
 
 ------------------------------------------------------------------

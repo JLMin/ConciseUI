@@ -155,7 +155,7 @@ function SetResourceIcon( pInstance:table, pPlot, type, state)
 						local improvementType = improvement;
 
 						local has_feature = false;
-						valid_feature = false;
+						local valid_feature = false;
 						for inner_row in GameInfo.Improvement_ValidFeatures() do
 							if(inner_row.ImprovementType == improvementType) then
 								has_feature = true;
@@ -167,7 +167,7 @@ function SetResourceIcon( pInstance:table, pPlot, type, state)
 						valid_feature = not has_feature or valid_feature;
 
 						local has_terrain = false;
-						valid_terrain = false;
+						local valid_terrain = false;
 						for inner_row in GameInfo.Improvement_ValidTerrains() do
 							if(inner_row.ImprovementType == improvementType) then
 								has_terrain = true;
@@ -178,7 +178,18 @@ function SetResourceIcon( pInstance:table, pPlot, type, state)
 						end
 						valid_terrain = not has_terrain or valid_terrain;
 
-						if(valid_feature == true and valid_terrain == true) then
+						-- if we match the resource in Improvement_ValidResources it's a get-out-of-jail-free card for feature and terrain checks
+						local valid_resources = false;
+						for inner_row in GameInfo.Improvement_ValidResources() do
+							if(inner_row.ImprovementType == improvementType) then
+								if(inner_row.ResourceType == resourceType) then
+									valid_resources = true;
+									break;
+								end
+							end
+						end
+
+						if ((valid_feature == true and valid_terrain == true) or (valid_resources == true)) then
 							resourceTechType = GameInfo.Improvements[improvementType].PrereqTech;
 							resourceCivicType = GameInfo.Improvements[improvementType].PrereqCivic;
 							break;
@@ -300,7 +311,7 @@ function GetNonEmptyAt(plotIndex, state)
 		-- Have a Resource?
 		local eResource = pLocalPlayerVis:GetLayerValue(VisibilityLayerTypes.RESOURCES, plotIndex);
 		local bHideResource = ( pPlot ~= nil and ( pPlot:GetDistrictType() > 0 or pPlot:IsCity() ) );
-		if (eResource ~= nil and eResource ~= -1 and not bHideResource ) then
+		if (eResource ~= nil and eResource ~= -1 and not bHideResource and GameCapabilities.HasCapability("CAPABILITY_DISPLAY_MINIMAP_RESOURCES")) then
 			pInstance = GetInstanceAt(plotIndex);
 			SetResourceIcon(pInstance, pPlot, eResource, state);
 		else

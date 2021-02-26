@@ -876,21 +876,25 @@ function AddCityStateRow( kCityState:table )
 	if GameCapabilities.HasCapability("CAPABILITY_MILITARY") then
 		kInst.DiplomacyPip:SetToolTipString(tooltip);
 	end
+	
+	-- Adriaman: reset text before and shorten the text.
+		kInst.CuiCityStateQuest:SetString("")
 
     -- CUI >>
     for _, kQuest in pairs(kCityState.Quests) do
         numQuests = numQuests + 1;
-        questToolTip = questToolTip .. kQuest.Callout .. kQuest.Name;
-    end
-	-- kInst.QuestIcon:SetHide(numQuests <= 0);
-	-- kInst.QuestIcon:SetToolTipString(questToolTip);
+		--questToolTip = questToolTip .. "[NEWLINE]" .. kQuest.Callout .. kQuest.Name;
+		questToolTip = kQuest.Callout .. kQuest.Name;
+		-- kInst.QuestIcon:SetHide(numQuests <= 0);
+		-- kInst.QuestIcon:SetToolTipString(questToolTip);
 
-    if numQuests > 0 then
-        kInst.CuiCityStateQuest:SetString(questToolTip)
-        kInst.CuiCityStateQuest:SetColor(kCityState.ColorSecondary)
-    else
-        kInst.CuiCityStateQuest:SetString(Locale.Lookup("LOC_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_MESSAGE"))
-        kInst.CuiCityStateQuest:SetColor(COLOR_TEXT_BONUS_OFF)
+		if numQuests > 0 then
+			kInst.CuiCityStateQuest:SetString(questToolTip)
+			kInst.CuiCityStateQuest:SetColor(kCityState.ColorSecondary)
+		else
+			kInst.CuiCityStateQuest:SetString(Locale.Lookup("LOC_NOTIFICATION_CITYSTATE_QUEST_COMPLETED_MESSAGE"))
+			kInst.CuiCityStateQuest:SetColor(COLOR_TEXT_BONUS_OFF)
+		end
     end
     -- << CUI
 
@@ -1676,7 +1680,7 @@ end
 -- ===========================================================================
 function OnInputHandler( input:table )
 	--if m_mode == MODE.EnvoySent or m_mode == MODE.InfluencedBy or m_mode == MODE.Quests then
-	return m_kScreenSlideAnim.OnInputHandler( input );
+	return m_kScreenSlideAnim.OnInputHandler( input, OnClose );	
 end
 
 -- ===========================================================================

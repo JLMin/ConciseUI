@@ -12,8 +12,8 @@ function ViewMain( kData:table )
 		local currentLoyalty	:number= pCulturalIdentity:GetLoyalty();
 
         -- CUI >> loyalty
-		Controls.BreakdownIcon:SetIcon("ICON_STAT_CULTURAL_FLAG");
 		Controls.BreakdownLabel:SetText(Locale.ToUpper(Locale.Lookup("LOC_CULTURAL_IDENTITY_LOYALTY_SUBSECTION")));
+		Controls.BreakdownIcon:SetIcon("ICON_STAT_CULTURAL_FLAG");
 		Controls.BreakdownNum:SetText(Round(currentLoyalty, 1));
 		-- Controls.BreakdownNum:SetOffsetX(19);
         -- << CUI

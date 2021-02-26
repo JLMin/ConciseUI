@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Mod id="5f504949-398a-4038-a838-43c3acc4dc10" version="1.6.2">
+<Mod id="5f504949-398a-4038-a838-43c3acc4dc10" version="1.7">
   <Properties>
     <Name>[COLOR_Civ6LightBlue]Concise UI[ENDCOLOR]</Name>
     <Teaser>For a better gaming experience.</Teaser>
@@ -15,6 +15,13 @@
     <Criteria id="Expansion2AndBeyond" any="1">
       <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
     </Criteria>
+	<Criteria id="Heroes_Mode">
+		<ConfigurationValueMatches>
+			<Group>Game</Group>
+			<ConfigurationId>GAMEMODE_HEROES</ConfigurationId>
+			<Value>1</Value>
+		</ConfigurationValueMatches>
+	</Criteria>
   </ActionCriteria>
   <FrontEndActions>
     <UpdateText id="Cui_Front_End_Text">
@@ -65,7 +72,7 @@
       <Properties>
         <LoadOrder>11</LoadOrder>
       </Properties>
-      <File>modules/deal_panel/support/cui_deal_support.lua</File>
+      <!-- <File>modules/deal_panel/support/cui_deal_support.lua</File> -->
       <File>modules/leader_icons/support/cui_leader_icon_support.lua</File>
       <File>modules/popup_and_remind/support/cui_tech_civic_support.lua</File>
       <File>modules/production_panel/support/cui_production_data.lua</File>
@@ -82,8 +89,8 @@
       <File>modules/city_panel/base/citypanel.xml</File>
       <File>modules/city_states/base/citystates.lua</File>
       <File>modules/city_states/base/citystates.xml</File>
-      <File>modules/deal_panel/base/diplomacydealview.lua</File>
-      <File>modules/deal_panel/base/diplomacydealview.xml</File>
+      <!-- <File>modules/deal_panel/base/diplomacydealview.lua</File>
+      <File>modules/deal_panel/base/diplomacydealview.xml</File> -->
       <File>modules/great_work/base/greatworksoverview.lua</File>
       <File>modules/great_work/base/greatworksoverview.xml</File>
       <File>modules/leader_icons/base/diplomacyactionview.lua</File>
@@ -94,8 +101,12 @@
       <File>modules/map_options/base/worldviewiconsmanager.lua</File>
       <File>modules/map_tacks/base/mappinlistpanel.lua</File>
       <File>modules/map_tacks/base/mappinlistpanel.xml</File>
+	  <!-- Do not replace original game files -->
+	  <!-- CUI files need to be recoded -->
+	  <!--
       <File>modules/map_tacks/base/mappinpopup.lua</File>
       <File>modules/map_tacks/base/mappinpopup.xml</File>
+	  -->
       <File>modules/popup_and_remind/base/civicschooser.lua</File>
       <File>modules/popup_and_remind/base/greatworkshowcase.lua</File>
       <File>modules/popup_and_remind/base/researchchooser.lua</File>
@@ -120,16 +131,23 @@
       <Properties>
         <LoadOrder>14</LoadOrder>
       </Properties>
-      <File>modules/deal_panel/expansion2/diplomacydealview.lua</File>
-      <File>modules/deal_panel/expansion2/diplomacydealview_expansion2.lua</File>
+      <File>modules/city_states/expansion2/citystates.xml</File>
+      <!-- <File>modules/deal_panel/expansion2/diplomacydealview.lua</File>
+      <File>modules/deal_panel/expansion2/diplomacydealview_expansion2.lua</File> -->
       <File>modules/great_work/expansion2/greatworksoverview_expansion2.lua</File>
       <File>modules/leader_icons/expansion2/diplomacyactionview.xml</File>
       <File>modules/leader_icons/expansion2/worldcongresspopup.lua</File>
       <File>modules/popup_and_remind/expansion2/historicmoments.lua</File>
     </ImportFiles>
-    <ImportFiles id="Cui_Additions">
+    <ImportFiles id="Cui_Heroes" criteria="Heroes_Mode">
       <Properties>
         <LoadOrder>15</LoadOrder>
+      </Properties>
+	  <File>modules/production_panel/heroes/productionpanel_babylon_heroes.lua</File>
+    </ImportFiles>
+    <ImportFiles id="Cui_Additions">
+      <Properties>
+        <LoadOrder>16</LoadOrder>
       </Properties>
       <File>modules/leader_icons/additions/cui_leader_icon_tt.lua</File>
       <File>modules/leader_icons/additions/cui_leader_icon_tt.xml</File>
@@ -216,11 +234,12 @@
     <File>modules/city_states/base/citystates.lua</File>
     <File>modules/city_states/base/citystates.xml</File>
     <File>modules/city_states/expansion1/citystates.xml</File>
-    <File>modules/deal_panel/base/diplomacydealview.lua</File>
+    <File>modules/city_states/expansion2/citystates.xml</File>
+    <!-- <File>modules/deal_panel/base/diplomacydealview.lua</File>
     <File>modules/deal_panel/base/diplomacydealview.xml</File>
     <File>modules/deal_panel/expansion2/diplomacydealview.lua</File>
     <File>modules/deal_panel/expansion2/diplomacydealview_expansion2.lua</File>
-    <File>modules/deal_panel/support/cui_deal_support.lua</File>
+    <File>modules/deal_panel/support/cui_deal_support.lua</File> -->
     <File>modules/great_work/base/greatworksoverview.lua</File>
     <File>modules/great_work/base/greatworksoverview.xml</File>
     <File>modules/great_work/expansion2/greatworksoverview_expansion2.lua</File>
@@ -240,8 +259,9 @@
     <File>modules/map_options/base/worldviewiconsmanager.lua</File>
     <File>modules/map_tacks/base/mappinlistpanel.lua</File>
     <File>modules/map_tacks/base/mappinlistpanel.xml</File>
-    <File>modules/map_tacks/base/mappinpopup.lua</File>
-    <File>modules/map_tacks/base/mappinpopup.xml</File>
+	<!-- Keep original game files -->
+    <!-- <File>modules/map_tacks/base/mappinpopup.lua</File>
+    <File>modules/map_tacks/base/mappinpopup.xml</File> -->
     <File>modules/notes/additions/cui_note_button.lua</File>
     <File>modules/notes/additions/cui_note_button.xml</File>
     <File>modules/notes/additions/cui_note_screen.lua</File>
@@ -257,6 +277,7 @@
     <File>modules/popup_and_remind/support/cui_tech_civic_support.lua</File>
     <File>modules/production_panel/base/productionpanel.lua</File>
     <File>modules/production_panel/base/productionpanel.xml</File>
+    <File>modules/production_panel/heroes/productionpanel_babylon_heroes.lua</File>
     <File>modules/production_panel/support/cui_production_data.lua</File>
     <File>modules/production_panel/support/cui_production_support.lua</File>
     <File>modules/production_panel/support/cui_production_ui.lua</File>
